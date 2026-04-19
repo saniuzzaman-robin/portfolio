@@ -1,7 +1,6 @@
 {
   "name": "portfolio",
   "version": "0.1.0",
-  "packageManager": "pnpm@9.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,10 +11,11 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css,md}\"",
     "type-check": "tsc --noEmit",
-    "pre-build": "pnpm lint && pnpm type-check",
-    "build:prod": "pnpm pre-build && pnpm build",
+    "pre-build": "npm run lint && npm run type-check",
+    "build:prod": "npm run pre-build && npm run build",
     "start:prod": "NODE_ENV=production next start",
-    "analyze": "ANALYZE=true pnpm build"
+    "analyze": "ANALYZE=true npm run build",
+    "prepare": "husky install"
   },
   "dependencies": {
     "lucide-react": "^1.8.0",
