@@ -8,7 +8,7 @@ export const siteConfig = {
   title: 'Full-Stack Software Engineer',
   description:
     'Full-stack software engineer with 5+ years of experience building production-grade web applications.',
-  url: 'https://saniuzzaman.com',
+  url: 'https://saniuzzaman.dev',
   email: 'saniuzzamanrobin07@gmail.com',
   phone: '+880 1811 685 391',
   location: 'Dhaka, Bangladesh',

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     'B.Sc. Computer Science',
   ],
   openGraph: {
-    url: 'https://saniuzzaman.com/about',
+    url: 'https://saniuzzaman.dev/about',
     title: 'About Me | Saniuzzaman Robin',
     description:
       'Software engineer with deep expertise in system architecture and competitive programming.',
@@ -34,7 +34,7 @@ export default function About() {
           title: 'About Me | Md. Saniuzzaman Robin',
           description:
             'Software engineer with 5+ years of experience and competitive programming expertise',
-          url: 'https://saniuzzaman.com/about',
+          url: 'https://saniuzzaman.dev/about',
         })}
       />
       <main className="bg-neutral-5 text-neutral-90">
