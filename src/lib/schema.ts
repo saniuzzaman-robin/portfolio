@@ -3,12 +3,15 @@
  * Helps with SEO and search engine understanding
  */
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+const getSiteUrl = () => process.env.NEXT_PUBLIC_SITE_URL || 'https://saniuzzaman.dev';
+
 export const siteConfig = {
   name: 'Md. Saniuzzaman Robin',
   title: 'Full-Stack Software Engineer',
   description:
     'Full-stack software engineer with 5+ years of experience building production-grade web applications.',
-  url: 'https://saniuzzaman.dev',
+  url: getSiteUrl(),
   email: 'saniuzzamanrobin07@gmail.com',
   phone: '+880 1811 685 391',
   location: 'Dhaka, Bangladesh',

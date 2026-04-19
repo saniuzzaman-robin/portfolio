@@ -147,7 +147,6 @@ Edit `.env.local`:
 
 ```
 NEXT_PUBLIC_SITE_URL=https://yourdomain.com
-NEXT_PUBLIC_SITE_NAME="Your Name - Portfolio"
 ```
 
 ## Pre-Deployment Checklist
