@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# pnpm config (use .pnpmrc instead of .npmrc)
+.npmrc
