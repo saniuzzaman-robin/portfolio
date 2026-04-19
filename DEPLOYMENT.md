@@ -5,23 +5,23 @@ This document provides step-by-step instructions for deploying the portfolio to 
 ## Prerequisites
 
 - Node.js 18+ installed
-- pnpm 9.0.0+ installed
+- npm 9.0.0+ (comes with Node.js)
 - Git repository initialized and pushed to GitHub
 
 ## Available Deployment Scripts
 
 ```bash
 # Run pre-build checks (linting + type-checking)
-pnpm pre-build
+npm run pre-build
 
 # Build production bundle with pre-build checks
-pnpm build:prod
+npm run build:prod
 
 # Start the production server (requires .next build directory)
-pnpm start:prod
+npm run start:prod
 
 # Analyze bundle size
-ANALYZE=true pnpm build
+ANALYZE=true npm run build
 ```
 
 ## Deployment Platforms
@@ -31,7 +31,7 @@ ANALYZE=true pnpm build
 **Automatic Deployment:**
 
 1. Connect repository: https://github.com/saniuzzaman-robin/portfolio
-2. Vercel automatically detects Next.js and uses `vercel.json` configuration
+2. Vercel automatically detects Next.js and uses auto-configuration
 3. Set environment variables in Vercel dashboard:
    - `NEXT_PUBLIC_SITE_URL`: Your production domain
 
@@ -72,7 +72,7 @@ Create `netlify.toml` in root:
 
 ```toml
 [build]
-  command = "pnpm build:prod"
+  command = "npm run build:prod"
   publish = ".next"
 
 [functions]
@@ -90,13 +90,13 @@ Create `netlify.toml` in root:
 
 ```bash
 # Install dependencies
-pnpm install
+npm install
 
 # Build for production
-pnpm build:prod
+npm run build:prod
 
 # Start production server
-pnpm start:prod
+npm run start:prod
 ```
 
 **Docker Deployment:**
@@ -109,23 +109,20 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copy package files
-COPY pnpm-lock.yaml package.json ./
-
-# Install pnpm
-RUN npm install -g pnpm
+COPY package-lock.json package.json ./
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN npm ci
 
 # Copy source
 COPY . .
 
 # Build
-RUN pnpm build:prod
+RUN npm run build:prod
 
 EXPOSE 3000
 
-CMD ["pnpm", "start:prod"]
+CMD ["npm", "run", "start:prod"]
 ```
 
 Build and run:
@@ -147,15 +144,14 @@ Edit `.env.local`:
 
 ```
 NEXT_PUBLIC_SITE_URL=https://yourdomain.com
-NEXT_PUBLIC_SITE_NAME="Your Name - Portfolio"
 ```
 
 ## Pre-Deployment Checklist
 
 - [ ] All tests passing (if applicable)
-- [ ] ESLint checks passing: `pnpm lint`
-- [ ] TypeScript type-checking passing: `pnpm type-check`
-- [ ] Production build successful: `pnpm build:prod`
+- [ ] ESLint checks passing: `npm run lint`
+- [ ] TypeScript type-checking passing: `npm run type-check`
+- [ ] Production build successful: `npm run build:prod`
 - [ ] Environment variables configured
 - [ ] Git changes committed and pushed
 - [ ] .env.local is in .gitignore (not committed)
@@ -176,7 +172,7 @@ NEXT_PUBLIC_SITE_NAME="Your Name - Portfolio"
 ### Bundle Analysis
 
 ```bash
-ANALYZE=true pnpm build
+ANALYZE=true npm run build
 ```
 
 ### Core Web Vitals
@@ -205,7 +201,7 @@ git push origin main
 **Build fails locally but succeeds in deployment:**
 
 - Check Node.js version: `node --version`
-- Clear cache: `rm -rf node_modules .next && pnpm install`
+- Clear cache: `rm -rf node_modules .next && npm install`
 - Verify environment variables are set
 
 **Production site shows outdated content:**

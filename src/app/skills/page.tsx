@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     'frontend',
   ],
   openGraph: {
-    url: 'https://saniuzzaman.com/skills',
+    url: 'https://saniuzzaman.dev/skills',
     title: 'Technical Skills | Saniuzzaman Robin',
     description: 'Frontend, backend, and tools expertise with proficiency levels.',
   },
@@ -34,7 +34,7 @@ export default function Skills() {
         schema={generateWebPageSchema({
           title: 'Skills | Md. Saniuzzaman Robin',
           description: 'Technical skills in frontend, backend, and testing technologies',
-          url: 'https://saniuzzaman.com/skills',
+          url: 'https://saniuzzaman.dev/skills',
         })}
       />
       <main className="bg-neutral-5 text-neutral-90">

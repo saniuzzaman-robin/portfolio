@@ -29,10 +29,10 @@ export const metadata: Metadata = {
     'competitive programming',
     'dhaka',
   ],
-  authors: [{ name: 'Md. Saniuzzaman Robin', url: 'https://saniuzzaman.com' }],
+  authors: [{ name: 'Md. Saniuzzaman Robin', url: 'https://saniuzzaman.dev' }],
   openGraph: {
     type: 'website',
-    url: 'https://saniuzzaman.com',
+    url: 'https://saniuzzaman.dev',
     title: 'Md. Saniuzzaman Robin | Software Engineer',
     description:
       'Full-stack software engineer with 5+ years of experience. Building scalable solutions with NestJS & Next.js.',

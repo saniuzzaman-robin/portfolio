@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     'full-stack',
   ],
   openGraph: {
-    url: 'https://saniuzzaman.com/projects',
+    url: 'https://saniuzzaman.dev/projects',
     title: 'Projects | Saniuzzaman Robin',
     description: 'Showcase of production-grade web applications and full-stack projects.',
   },
@@ -50,7 +50,7 @@ export default function Projects() {
         schema={generateCollectionSchema({
           name: 'Projects',
           description: 'Collection of projects showcasing my expertise',
-          url: 'https://saniuzzaman.com/projects',
+          url: 'https://saniuzzaman.dev/projects',
           items: projectItems,
         })}
       />

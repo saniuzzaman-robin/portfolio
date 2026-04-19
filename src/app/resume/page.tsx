@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     'employment',
   ],
   openGraph: {
-    url: 'https://saniuzzaman.com/resume',
+    url: 'https://saniuzzaman.dev/resume',
     title: 'Resume | Saniuzzaman Robin',
     description: 'Complete professional resume with experience, education, and technical skills.',
   },
@@ -33,7 +33,7 @@ export default function Resume() {
         schema={generateWebPageSchema({
           title: 'Resume | Md. Saniuzzaman Robin',
           description: 'Complete resume with experience, skills, and education',
-          url: 'https://saniuzzaman.com/resume',
+          url: 'https://saniuzzaman.dev/resume',
         })}
       />
       <main className="bg-neutral-5 text-neutral-90">

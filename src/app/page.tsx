@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     'Explore my portfolio showcasing 5+ years of software engineering expertise. Specialized in building scalable applications with NestJS, Next.js, Angular, and competitive programming.',
   openGraph: {
-    url: 'https://saniuzzaman.com',
+    url: 'https://saniuzzaman.dev',
     title: 'Home | Md. Saniuzzaman Robin',
     description:
       'Full-stack software engineer with expertise in Next.js, NestJS, Angular, and system architecture.',
@@ -30,7 +30,7 @@ export default function Home() {
         schema={generateWebPageSchema({
           title: 'Home | Md. Saniuzzaman Robin',
           description: 'Full-stack software engineer showcasing 5+ years of expertise',
-          url: 'https://saniuzzaman.com',
+          url: 'https://saniuzzaman.dev',
         })}
       />
       <main className="bg-neutral-5 text-neutral-90">

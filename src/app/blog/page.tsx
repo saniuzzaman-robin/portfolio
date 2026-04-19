@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     'nestjs',
   ],
   openGraph: {
-    url: 'https://saniuzzaman.com/blog',
+    url: 'https://saniuzzaman.dev/blog',
     title: 'Blog | Saniuzzaman Robin',
     description: 'Insights on web development, software architecture, and programming.',
   },
@@ -31,12 +31,12 @@ export default function Blog() {
     {
       name: 'Building Scalable APIs with NestJS',
       description: 'Guide to creating production-grade APIs',
-      url: 'https://saniuzzaman.com/blog',
+      url: 'https://saniuzzaman.dev/blog',
     },
     {
       name: 'Next.js Performance Optimization',
       description: 'Tips and tricks for optimizing Next.js applications',
-      url: 'https://saniuzzaman.com/blog',
+      url: 'https://saniuzzaman.dev/blog',
     },
   ];
 
@@ -46,7 +46,7 @@ export default function Blog() {
         schema={generateCollectionSchema({
           name: 'Blog',
           description: 'Articles and insights on software engineering',
-          url: 'https://saniuzzaman.com/blog',
+          url: 'https://saniuzzaman.dev/blog',
           items: blogItems,
         })}
       />
