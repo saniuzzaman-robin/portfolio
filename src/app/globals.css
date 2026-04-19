@@ -1,26 +1,58 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-primary-0: #000000;
+  --color-primary-5: #002114;
+  --color-primary-10: #003825;
+  --color-primary-20: #005137;
+  --color-primary-30: #006c4a;
+  --color-primary-40: #00885f;
+  --color-primary-50: #25a475;
+  --color-primary-60: #49bf8f;
+  --color-primary-70: #68dba9;
+  --color-primary-80: #85f8c4;
+  --color-primary-90: #beffdc;
+  --color-primary-100: #ffffff;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Secondary palette */
+  --color-secondary-0: #000000;
+  --color-secondary-5: #241a00;
+  --color-secondary-10: #3c2f00;
+  --color-secondary-20: #574500;
+  --color-secondary-30: #735c00;
+  --color-secondary-40: #917400;
+  --color-secondary-50: #af8d11;
+  --color-secondary-60: #cca730;
+  --color-secondary-70: #e9c349;
+  --color-secondary-80: #ffe088;
+  --color-secondary-90: #ffefcc;
+  --color-secondary-100: #ffffff;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Tertiary palette */
+  --color-tertiary-0: #000000;
+  --color-tertiary-5: #25005a;
+  --color-tertiary-10: #3f008e;
+  --color-tertiary-20: #5a00c6;
+  --color-tertiary-30: #732ee4;
+  --color-tertiary-40: #8d4fff;
+  --color-tertiary-50: #a476ff;
+  --color-tertiary-60: #bb9aff;
+  --color-tertiary-70: #d2bbff;
+  --color-tertiary-80: #eaddff;
+  --color-tertiary-90: #f7edff;
+  --color-tertiary-100: #ffffff;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Neutral palette */
+  --color-neutral-0: #000000;
+  --color-neutral-5: #131b2e;
+  --color-neutral-10: #131b2e;
+  --color-neutral-20: #3f465c;
+  --color-neutral-30: #565e74;
+  --color-neutral-40: #6f778e;
+  --color-neutral-50: #8990a8;
+  --color-neutral-60: #a3abc4;
+  --color-neutral-70: #bec6e0;
+  --color-neutral-80: #dae2fd;
+  --color-neutral-90: #eef0ff;
+  --color-neutral-100: #ffffff;
 }
