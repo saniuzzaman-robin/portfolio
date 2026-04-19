@@ -3,7 +3,6 @@
  * Helps with SEO and search engine understanding
  */
 
-const isDevelopment = process.env.NODE_ENV === 'development';
 const getSiteUrl = () => process.env.NEXT_PUBLIC_SITE_URL || 'https://saniuzzaman.dev';
 
 export const siteConfig = {
