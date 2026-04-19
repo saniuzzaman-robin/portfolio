@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Space_Grotesk, Manrope } from 'next/font/google';
 import { SkipLink } from '@/components/reusable/skip-link';
 import { SchemaScript } from '@/components/reusable/schema-script';
+import { GoogleAnalytics } from '@/components/reusable/google-analytics';
 import { generateOrganizationSchema } from '@/lib/schema';
 import './globals.css';
 
@@ -57,6 +58,7 @@ export default function RootLayout({
     <html lang="en" className={`${spaceGrotesk.variable} ${manrope.variable} h-full antialiased`}>
       <head>
         <SchemaScript schema={generateOrganizationSchema()} />
+        <GoogleAnalytics />
       </head>
       <body className="min-h-full flex flex-col">
         <SkipLink />
