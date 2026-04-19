@@ -18,10 +18,9 @@ export function Hero() {
           {/* Description Box with Left Border */}
           <div className="border-l-4 border-primary-50 pl-8 bg-neutral-10 p-8 rounded-lg mb-8 animate-scale-in [animation-delay:300ms] hover:shadow-lg hover:shadow-primary-50/20 transition-shadow duration-500">
             <p className="text-neutral-70 leading-relaxed text-sm">
-              Software engineer with 5 years of experience building
-              production-grade web applications and backend systems. Specialized
-              in NestJS for scalable APIs, and Next.js & Angular for performant
-              frontends. Passionate about creating elegant solutions that
+              Software engineer with 5 years of experience building production-grade web
+              applications and backend systems. Specialized in NestJS for scalable APIs, and Next.js
+              & Angular for performant frontends. Passionate about creating elegant solutions that
               support millions of users globally.
             </p>
           </div>
@@ -58,25 +57,13 @@ export function Hero() {
                 stroke="rgba(37,164,117,0.3)"
                 strokeWidth="2"
               />
-              <polygon
-                points="150,50 250,150 200,120 100,80"
-                fill="rgba(37,164,117,0.4)"
-              />
-              <polygon
-                points="250,150 250,300 200,280 200,150"
-                fill="rgba(37,164,117,0.2)"
-              />
+              <polygon points="150,50 250,150 200,120 100,80" fill="rgba(37,164,117,0.4)" />
+              <polygon points="250,150 250,300 200,280 200,150" fill="rgba(37,164,117,0.2)" />
             </g>
             <defs>
               <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop
-                  offset="0%"
-                  style={{ stopColor: '#25a475', stopOpacity: 0.3 }}
-                />
-                <stop
-                  offset="100%"
-                  style={{ stopColor: '#af8d11', stopOpacity: 0.2 }}
-                />
+                <stop offset="0%" style={{ stopColor: '#25a475', stopOpacity: 0.3 }} />
+                <stop offset="100%" style={{ stopColor: '#af8d11', stopOpacity: 0.2 }} />
               </linearGradient>
             </defs>
           </svg>

@@ -6,8 +6,8 @@ export function CTA() {
           Ready to build something great?
         </h2>
         <p className="text-neutral-70 mb-12 text-sm leading-relaxed animate-fade-in [animation-delay:200ms]">
-          I'm always interested in hearing about new projects and opportunities.
-          Get in touch to discuss how we can collaborate.
+          I'm always interested in hearing about new projects and opportunities. Get in touch to
+          discuss how we can collaborate.
         </p>
         <a
           href="mailto:saniuzzamanrobin07@gmail.com"

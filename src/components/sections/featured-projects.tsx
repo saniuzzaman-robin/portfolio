@@ -54,10 +54,9 @@ export function FeaturedProjects() {
             MuslimPro Web Platform
           </h2>
           <p className="text-neutral-70 max-w-2xl animate-slide-up [animation-delay:200ms]">
-            Engineered verified prayer times engine serving 180M+ downloads with
-            9.7M daily users. Built comprehensive Islamic tools and charitable
-            giving platform recognized as the most accurate Muslim lifestyle app
-            worldwide.
+            Engineered verified prayer times engine serving 180M+ downloads with 9.7M daily users.
+            Built comprehensive Islamic tools and charitable giving platform recognized as the most
+            accurate Muslim lifestyle app worldwide.
           </p>
         </div>
 
@@ -77,10 +76,7 @@ export function FeaturedProjects() {
                   style={{ animationDelay: feature.delay }}
                 >
                   <div className="mb-4 group-hover:scale-110 transition-transform duration-300 will-change-transform">
-                    <IconComponent
-                      className="w-10 h-10 text-primary-50"
-                      strokeWidth={1.5}
-                    />
+                    <IconComponent className="w-10 h-10 text-primary-50" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-space-grotesk font-bold text-lg mb-3 text-neutral-90 group-hover:text-primary-50 transition-colors duration-300">
                     {feature.title}

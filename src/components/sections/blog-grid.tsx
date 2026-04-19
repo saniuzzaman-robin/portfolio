@@ -67,8 +67,7 @@ export function BlogGrid() {
     {
       id: 6,
       title: 'Docker and Containerization',
-      excerpt:
-        'Getting started with Docker for development and deployment of applications.',
+      excerpt: 'Getting started with Docker for development and deployment of applications.',
       category: 'DevOps',
       date: 'Feb 15, 2024',
       readTime: '11 min read',
@@ -86,8 +85,8 @@ export function BlogGrid() {
             Blog & Articles
           </h1>
           <p className="text-neutral-70 text-lg max-w-2xl">
-            Technical insights, tutorials, and thoughts on software engineering,
-            system design, and competitive programming.
+            Technical insights, tutorials, and thoughts on software engineering, system design, and
+            competitive programming.
           </p>
         </div>
 

@@ -21,8 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     url: 'https://saniuzzaman.com/projects',
     title: 'Projects | Saniuzzaman Robin',
-    description:
-      'Showcase of production-grade web applications and full-stack projects.',
+    description: 'Showcase of production-grade web applications and full-stack projects.',
   },
 };
 

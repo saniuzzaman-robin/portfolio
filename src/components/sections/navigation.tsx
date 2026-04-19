@@ -25,8 +25,7 @@ export function Navigation() {
   };
 
   const getLinkClass = (href: string) => {
-    const baseClass =
-      'text-xs uppercase tracking-wider transition hover:scale-110 duration-300';
+    const baseClass = 'text-xs uppercase tracking-wider transition hover:scale-110 duration-300';
     const isCurrentActive = isActive(href);
     if (isCurrentActive) {
       return `${baseClass} text-primary-50 font-space-grotesk font-bold border-b-2 border-primary-50`;
@@ -47,11 +46,7 @@ export function Navigation() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex gap-8">
           {navLinks.map((link, index) => (
-            <Link
-              key={index}
-              href={link.href}
-              className={getLinkClass(link.href)}
-            >
+            <Link key={index} href={link.href} className={getLinkClass(link.href)}>
               {link.label}
             </Link>
           ))}

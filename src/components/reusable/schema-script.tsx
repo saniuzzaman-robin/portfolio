@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * SchemaScript Component
  * Renders JSON-LD structured data as a script tag

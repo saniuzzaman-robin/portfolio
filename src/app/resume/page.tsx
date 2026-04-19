@@ -21,8 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     url: 'https://saniuzzaman.com/resume',
     title: 'Resume | Saniuzzaman Robin',
-    description:
-      'Complete professional resume with experience, education, and technical skills.',
+    description: 'Complete professional resume with experience, education, and technical skills.',
   },
 };
 

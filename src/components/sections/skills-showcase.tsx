@@ -49,8 +49,8 @@ export function SkillsShowcase() {
             Skills & Expertise
           </h1>
           <p className="text-neutral-70 text-lg max-w-2xl">
-            A comprehensive overview of technical skills and proficiencies
-            developed through years of hands-on experience.
+            A comprehensive overview of technical skills and proficiencies developed through years
+            of hands-on experience.
           </p>
         </div>
 
@@ -63,9 +63,7 @@ export function SkillsShowcase() {
             >
               <div className="flex items-center gap-4 mb-8">
                 <span className="text-3xl">{category.icon}</span>
-                <h2
-                  className={`font-space-grotesk text-3xl font-bold text-${category.color}-50`}
-                >
+                <h2 className={`font-space-grotesk text-3xl font-bold text-${category.color}-50`}>
                   {category.category}
                 </h2>
               </div>
@@ -77,12 +75,8 @@ export function SkillsShowcase() {
                     className="bg-neutral-5 rounded-xl p-6 border border-neutral-20 hover:border-neutral-30 transition-all duration-300 hover:shadow-lg"
                   >
                     <div className="flex justify-between items-center mb-3">
-                      <h3 className="font-space-grotesk font-bold text-lg">
-                        {skill.name}
-                      </h3>
-                      <span
-                        className={`text-${category.color}-50 font-space-grotesk font-bold`}
-                      >
+                      <h3 className="font-space-grotesk font-bold text-lg">{skill.name}</h3>
+                      <span className={`text-${category.color}-50 font-space-grotesk font-bold`}>
                         {skill.level}%
                       </span>
                     </div>
@@ -109,8 +103,7 @@ export function SkillsShowcase() {
               � Competitive Programming
             </h3>
             <p className="text-neutral-70 mb-4">
-              Strong foundation in algorithms and data structures from
-              competitive programming.
+              Strong foundation in algorithms and data structures from competitive programming.
             </p>
             <ul className="space-y-2 text-neutral-70 text-sm">
               <li>✓ Solved 1700+ problems across multiple judges</li>
@@ -125,8 +118,7 @@ export function SkillsShowcase() {
               🎯 Core Expertise
             </h3>
             <p className="text-neutral-70 mb-4">
-              Full-stack development with focus on scalability, performance, and
-              code quality.
+              Full-stack development with focus on scalability, performance, and code quality.
             </p>
             <ul className="space-y-2 text-neutral-70 text-sm">
               <li>✓ System Architecture & Design</li>

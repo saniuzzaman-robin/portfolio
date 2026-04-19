@@ -22,8 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     url: 'https://saniuzzaman.com/blog',
     title: 'Blog | Saniuzzaman Robin',
-    description:
-      'Insights on web development, software architecture, and programming.',
+    description: 'Insights on web development, software architecture, and programming.',
   },
 };
 

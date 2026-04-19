@@ -20,8 +20,7 @@ export function ComputationalArtifacts() {
       emoji: '⚖️',
       title: 'Problem Setter',
       label: 'Judge & Organizer',
-      description:
-        'Organized and judged several Intra and Inter-University programming contests.',
+      description: 'Organized and judged several Intra and Inter-University programming contests.',
       borderColor: 'border-tertiary-50',
     },
   ];
@@ -46,17 +45,13 @@ export function ComputationalArtifacts() {
             <div className="text-3xl mb-6 hover:scale-125 transition duration-300">
               {artifact.emoji}
             </div>
-            <h3 className="font-space-grotesk font-bold text-lg mb-2">
-              {artifact.title}
-            </h3>
+            <h3 className="font-space-grotesk font-bold text-lg mb-2">{artifact.title}</h3>
             {artifact.label && (
               <p className="text-neutral-70 text-xs uppercase tracking-wider mb-4">
                 {artifact.label}
               </p>
             )}
-            <p className="text-neutral-70 text-sm leading-relaxed mb-6">
-              {artifact.description}
-            </p>
+            <p className="text-neutral-70 text-sm leading-relaxed mb-6">{artifact.description}</p>
           </div>
         ))}
       </div>

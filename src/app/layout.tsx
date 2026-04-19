@@ -54,10 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${spaceGrotesk.variable} ${manrope.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${spaceGrotesk.variable} ${manrope.variable} h-full antialiased`}>
       <head>
         <SchemaScript schema={generateOrganizationSchema()} />
       </head>

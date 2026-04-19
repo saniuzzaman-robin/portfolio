@@ -16,10 +16,7 @@ interface ProjectCardProps {
   delay?: number;
 }
 
-const colorMap: Record<
-  ColorType,
-  { text: string; border: string; hover: string }
-> = {
+const colorMap: Record<ColorType, { text: string; border: string; hover: string }> = {
   primary: {
     text: 'text-primary-50',
     border: 'border-primary-50',
@@ -69,9 +66,7 @@ export function ProjectCard({
         <h3 className="font-space-grotesk text-xl font-bold mb-3 group-hover:text-primary-50 transition duration-300">
           {title}
         </h3>
-        <p className="text-neutral-70 text-sm mb-6 leading-relaxed">
-          {description}
-        </p>
+        <p className="text-neutral-70 text-sm mb-6 leading-relaxed">{description}</p>
         <div className="flex flex-wrap gap-2 mb-6">
           {technologies.map((tech) => (
             <span

@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  Book,
-  Clock,
-  Play,
-  Settings,
-  TestTube2,
-  Smartphone,
-} from 'lucide-react';
+import { Book, Clock, Play, Settings, TestTube2, Smartphone } from 'lucide-react';
 import { ProjectCard } from '../reusable/project-card';
 
 export function ProjectsGrid() {
@@ -40,12 +33,7 @@ export function ProjectsGrid() {
       category: 'Full Stack',
       description:
         'Built dedicated video streaming platform for Quranic content with subscription management and gift premium system. Implemented dynamic feature toggles and analytics.',
-      technologies: [
-        'Next.js',
-        'Video Streaming',
-        'Payment Integration',
-        'Analytics',
-      ],
+      technologies: ['Next.js', 'Video Streaming', 'Payment Integration', 'Analytics'],
       link: 'https://app.muslimpro.com/qalbox',
       color: 'tertiary' as const,
       icon: Play,
@@ -78,12 +66,7 @@ export function ProjectsGrid() {
       category: 'Full Stack',
       description:
         'Developed responsive web applications using Angular and Angular Material. Focused on performance optimization, accessibility, and seamless user experiences across devices.',
-      technologies: [
-        'Angular',
-        'Angular Material',
-        'Responsive Design',
-        'TypeScript',
-      ],
+      technologies: ['Angular', 'Angular Material', 'Responsive Design', 'TypeScript'],
       link: '#',
       color: 'tertiary' as const,
       icon: Smartphone,
@@ -98,8 +81,8 @@ export function ProjectsGrid() {
             Projects & Work
           </h1>
           <p className="text-neutral-70 text-lg max-w-2xl">
-            A collection of projects showcasing my expertise across full-stack
-            development, system design, and problem-solving.
+            A collection of projects showcasing my expertise across full-stack development, system
+            design, and problem-solving.
           </p>
         </div>
 

@@ -29,8 +29,7 @@ export default function Home() {
       <SchemaScript
         schema={generateWebPageSchema({
           title: 'Home | Md. Saniuzzaman Robin',
-          description:
-            'Full-stack software engineer showcasing 5+ years of expertise',
+          description: 'Full-stack software engineer showcasing 5+ years of expertise',
           url: 'https://saniuzzaman.com',
         })}
       />

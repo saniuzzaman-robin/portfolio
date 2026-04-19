@@ -25,12 +25,11 @@ export function ResumeContent() {
             </a>
           </div>
           <p className="text-neutral-70 text-base max-w-3xl leading-relaxed mb-6">
-            Software engineer with 5 years of experience building
-            production-grade web applications and backend systems. Specialized
-            in NestJS for scalable APIs and microservices, Next.js and Angular
-            for performant frontend experiences. Proven expertise in system
-            architecture, performance optimization, and competitive programming
-            with 1700+ problems solved.
+            Software engineer with 5 years of experience building production-grade web applications
+            and backend systems. Specialized in NestJS for scalable APIs and microservices, Next.js
+            and Angular for performant frontend experiences. Proven expertise in system
+            architecture, performance optimization, and competitive programming with 1700+ problems
+            solved.
           </p>
           <div className="flex gap-6 text-neutral-70 text-sm flex-wrap">
             <span>📧 saniuzzamanrobin07@gmail.com</span>
@@ -41,9 +40,7 @@ export function ResumeContent() {
 
         {/* Experience */}
         <div className="mb-16 animate-slide-up [animation-delay:100ms]">
-          <h2 className="font-space-grotesk text-3xl font-bold text-primary-50 mb-8">
-            Experience
-          </h2>
+          <h2 className="font-space-grotesk text-3xl font-bold text-primary-50 mb-8">Experience</h2>
           <div className="space-y-8">
             {[
               {
@@ -96,9 +93,7 @@ export function ResumeContent() {
                     </h3>
                     <p className="text-neutral-70">{exp.company}</p>
                   </div>
-                  <span className="text-neutral-60 text-sm font-space-grotesk">
-                    {exp.period}
-                  </span>
+                  <span className="text-neutral-60 text-sm font-space-grotesk">{exp.period}</span>
                 </div>
                 <ul className="space-y-2 text-neutral-70 text-sm">
                   {exp.achievements.map((achievement, i) => (
@@ -124,25 +119,16 @@ export function ResumeContent() {
               },
               {
                 title: 'Backend',
-                skills:
-                  'NestJS, .NET (C#), GCP, RabbitMQ, Redis, MongoDB, REST, TDD, SOLID',
+                skills: 'NestJS, .NET (C#), GCP, RabbitMQ, Redis, MongoDB, REST, TDD, SOLID',
               },
               {
                 title: 'Others',
-                skills:
-                  'Git, Postman, Selenium, JMeter, Jest, SEO, Agile, Scrum',
+                skills: 'Git, Postman, Selenium, JMeter, Jest, SEO, Agile, Scrum',
               },
             ].map((skillSet, index) => (
-              <div
-                key={index}
-                className="bg-neutral-5 rounded-xl p-6 border border-neutral-20"
-              >
-                <h3 className="font-space-grotesk font-bold mb-3">
-                  {skillSet.title}
-                </h3>
-                <p className="text-neutral-70 text-sm leading-relaxed">
-                  {skillSet.skills}
-                </p>
+              <div key={index} className="bg-neutral-5 rounded-xl p-6 border border-neutral-20">
+                <h3 className="font-space-grotesk font-bold mb-3">{skillSet.title}</h3>
+                <p className="text-neutral-70 text-sm leading-relaxed">{skillSet.skills}</p>
               </div>
             ))}
           </div>
@@ -158,9 +144,7 @@ export function ResumeContent() {
               <h3 className="font-space-grotesk text-lg font-bold mb-2">
                 B.Sc. in Computer Science & Engineering
               </h3>
-              <p className="text-neutral-70 mb-2">
-                Cumilla University • 01/2016 - 12/2020
-              </p>
+              <p className="text-neutral-70 mb-2">Cumilla University • 01/2016 - 12/2020</p>
               <p className="text-neutral-70 text-sm">Cumilla, Bangladesh</p>
             </div>
             <div className="bg-neutral-5 rounded-xl p-8 border border-neutral-20">
@@ -175,9 +159,7 @@ export function ResumeContent() {
               </p>
             </div>
             <div className="bg-neutral-5 rounded-xl p-8 border border-neutral-20">
-              <h3 className="font-space-grotesk text-lg font-bold mb-2">
-                Problem Setter & Judge
-              </h3>
+              <h3 className="font-space-grotesk text-lg font-bold mb-2">Problem Setter & Judge</h3>
               <p className="text-neutral-70 text-sm">
                 Organized and judged several Intra and Inter-University
                 <br />
@@ -189,9 +171,7 @@ export function ResumeContent() {
 
         {/* CTA */}
         <div className="bg-neutral-10 rounded-2xl p-12 border border-primary-50/30 text-center animate-scale-in [animation-delay:400ms]">
-          <h3 className="font-space-grotesk text-2xl font-bold mb-4">
-            Ready to work together?
-          </h3>
+          <h3 className="font-space-grotesk text-2xl font-bold mb-4">Ready to work together?</h3>
           <p className="text-neutral-70 mb-6">
             Let's connect and discuss how I can contribute to your next project.
           </p>

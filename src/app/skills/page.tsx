@@ -23,8 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     url: 'https://saniuzzaman.com/skills',
     title: 'Technical Skills | Saniuzzaman Robin',
-    description:
-      'Frontend, backend, and tools expertise with proficiency levels.',
+    description: 'Frontend, backend, and tools expertise with proficiency levels.',
   },
 };
 
@@ -34,8 +33,7 @@ export default function Skills() {
       <SchemaScript
         schema={generateWebPageSchema({
           title: 'Skills | Md. Saniuzzaman Robin',
-          description:
-            'Technical skills in frontend, backend, and testing technologies',
+          description: 'Technical skills in frontend, backend, and testing technologies',
           url: 'https://saniuzzaman.com/skills',
         })}
       />

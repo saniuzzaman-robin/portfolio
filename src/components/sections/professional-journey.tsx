@@ -156,9 +156,7 @@ export function ProfessionalJourney() {
             <div
               key={index}
               className={`grid lg:grid-cols-2 gap-8 items-center animate-slide-up ${
-                index % 2 === 0
-                  ? 'lg:odd:flex-row-reverse'
-                  : 'lg:flex-row-reverse'
+                index % 2 === 0 ? 'lg:odd:flex-row-reverse' : 'lg:flex-row-reverse'
               }`}
               style={{ animationDelay: `${index * 150}ms` }}
             >
@@ -214,9 +212,7 @@ export function ProfessionalJourney() {
                       <div className="text-neutral-70 mb-2 flex items-center gap-2">
                         {highlight.icon}
                       </div>
-                      <p className="text-xs text-neutral-60 mb-1">
-                        {highlight.label}
-                      </p>
+                      <p className="text-xs text-neutral-60 mb-1">{highlight.label}</p>
                       <p className="text-sm font-space-grotesk font-bold text-neutral-80">
                         {highlight.value}
                       </p>

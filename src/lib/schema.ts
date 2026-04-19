@@ -89,9 +89,7 @@ export function generatePersonSchema() {
 /**
  * Generate BreadcrumbList schema for page navigation
  */
-export function generateBreadcrumbSchema(
-  items: { name: string; url: string }[],
-) {
+export function generateBreadcrumbSchema(items: { name: string; url: string }[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -128,9 +126,7 @@ export function generateProjectSchema(project: {
 /**
  * Generate FAQPage schema for FAQ sections
  */
-export function generateFAQSchema(
-  faqs: { question: string; answer: string }[],
-) {
+export function generateFAQSchema(faqs: { question: string; answer: string }[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
