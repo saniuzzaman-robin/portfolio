@@ -1,6 +1,3 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 # Run linter and build to ensure code quality before push
 echo "Running linter and build checks before push..."
 pnpm lint && pnpm build
