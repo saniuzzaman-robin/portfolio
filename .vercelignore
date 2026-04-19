@@ -1,0 +1,17 @@
+.git
+.gitignore
+.eslintignore
+.prettierignore
+node_modules
+pnpm-lock.yaml
+.next
+.vercel
+build
+dist
+coverage
+_.log
+.env_.local
+.DS_Store
+README.md
+CLAUDE.md
+AGENTS.md
