@@ -1,8 +1,65 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
+function useInView(threshold = 0.2) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) setInView(true);
+      },
+      { threshold }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [threshold]);
+  return { ref, inView };
+}
+
+interface SkillBarProps {
+  name: string;
+  level: number;
+  accent: string;
+  delay: number;
+}
+
+function SkillBar({ name, level, accent, delay }: SkillBarProps) {
+  const { ref, inView } = useInView(0.3);
+  return (
+    <div ref={ref} className="group">
+      <div className="flex justify-between items-center mb-2">
+        <span className="font-space-grotesk font-bold text-sm text-neutral-80 group-hover:text-neutral-100 transition-colors">
+          {name}
+        </span>
+        <span
+          className="font-space-grotesk font-bold text-xs tabular-nums"
+          style={{ color: accent }}
+        >
+          {level}%
+        </span>
+      </div>
+      <div className="h-1.5 bg-neutral-10 rounded-full overflow-hidden">
+        <div
+          className="h-full rounded-full transition-all duration-1000 ease-out"
+          style={{
+            width: inView ? `${level}%` : '0%',
+            transitionDelay: `${delay}ms`,
+            background: `linear-gradient(to right, ${accent}, ${accent}80)`,
+            boxShadow: `0 0 8px ${accent}60`,
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 export function SkillsShowcase() {
   const skillCategories = [
     {
       category: 'Frontend Development',
-      color: 'primary',
+      accent: '#00ff87',
       icon: '⚡',
       skills: [
         { name: 'Next.js', level: 95 },
@@ -15,7 +72,7 @@ export function SkillsShowcase() {
     },
     {
       category: 'Backend Development',
-      color: 'secondary',
+      accent: '#00d4ff',
       icon: '🚀',
       skills: [
         { name: 'NestJS', level: 95 },
@@ -28,7 +85,7 @@ export function SkillsShowcase() {
     },
     {
       category: 'Tools & Others',
-      color: 'tertiary',
+      accent: '#a476ff',
       icon: '🔧',
       skills: [
         { name: 'Git', level: 95 },
@@ -42,89 +99,102 @@ export function SkillsShowcase() {
   ];
 
   return (
-    <section className="px-6 py-24 md:px-12 lg:px-20 bg-linear-to-br from-neutral-10 to-neutral-5">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-20 animate-slide-right">
-          <h1 className="font-space-grotesk text-5xl md:text-6xl font-bold mb-6">
-            Skills & Expertise
+    <section className="px-6 py-24 md:px-12 lg:px-20 relative">
+      <div className="absolute inset-0 cyber-grid-dense opacity-20 pointer-events-none" />
+      <div className="max-w-6xl mx-auto relative z-10">
+        {/* Header */}
+        <div className="mb-16 animate-slide-right">
+          <p className="section-label mb-3">Technical Stack</p>
+          <h1 className="font-space-grotesk text-5xl md:text-6xl font-bold mb-4">
+            Skills &amp; <span className="neon-cyan">Expertise</span>
           </h1>
-          <p className="text-neutral-70 text-lg max-w-2xl">
-            A comprehensive overview of technical skills and proficiencies developed through years
-            of hands-on experience.
+          <p className="text-neutral-70 text-sm leading-relaxed max-w-xl">
+            A comprehensive view of technologies mastered through 5+ years of production
+            engineering.
           </p>
         </div>
 
-        <div className="space-y-16">
-          {skillCategories.map((category, catIndex) => (
+        {/* Skill categories */}
+        <div className="space-y-12">
+          {skillCategories.map((cat, catIdx) => (
             <div
-              key={catIndex}
-              className="animate-slide-up"
-              style={{ animationDelay: `${catIndex * 150}ms` }}
+              key={catIdx}
+              className="glass rounded-sm border p-8 transition-all duration-500 animate-slide-up hover:scale-[1.01]"
+              style={{
+                borderColor: `${cat.accent}25`,
+                animationDelay: `${catIdx * 120}ms`,
+                animationFillMode: 'both',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = `${cat.accent}50`)}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = `${cat.accent}25`)}
             >
-              <div className="flex items-center gap-4 mb-8">
-                <span className="text-3xl">{category.icon}</span>
-                <h2 className={`font-space-grotesk text-3xl font-bold text-${category.color}-50`}>
-                  {category.category}
+              {/* Category header */}
+              <div className="flex items-center gap-3 mb-8">
+                <div
+                  className="w-10 h-10 rounded-sm flex items-center justify-center text-xl"
+                  style={{ background: `${cat.accent}15`, border: `1px solid ${cat.accent}40` }}
+                >
+                  {cat.icon}
+                </div>
+                <h2 className="font-space-grotesk font-bold text-xl" style={{ color: cat.accent }}>
+                  {cat.category}
                 </h2>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {category.skills.map((skill, index) => (
-                  <div
-                    key={index}
-                    className="bg-neutral-5 rounded-xl p-6 border border-neutral-20 hover:border-neutral-30 transition-all duration-300 hover:shadow-lg"
-                  >
-                    <div className="flex justify-between items-center mb-3">
-                      <h3 className="font-space-grotesk font-bold text-lg">{skill.name}</h3>
-                      <span className={`text-${category.color}-50 font-space-grotesk font-bold`}>
-                        {skill.level}%
-                      </span>
-                    </div>
-                    <div className="w-full bg-neutral-20 rounded-full h-2 overflow-hidden">
-                      <div
-                        className={`h-full bg-linear-to-r from-${category.color}-50 to-${category.color}-60 rounded-full transition-all duration-1000`}
-                        style={{
-                          width: `${skill.level}%`,
-                          animation: `slideRight 1s ease-out ${index * 100}ms forwards`,
-                          animationFillMode: 'both',
-                        }}
-                      ></div>
-                    </div>
-                  </div>
+              {/* Skill bars */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {cat.skills.map((skill, i) => (
+                  <SkillBar
+                    key={i}
+                    name={skill.name}
+                    level={skill.level}
+                    accent={cat.accent}
+                    delay={catIdx * 100 + i * 80}
+                  />
                 ))}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mt-20">
-          <div className="bg-neutral-5 rounded-2xl p-8 border border-primary-50/30 hover:border-primary-50 transition duration-300 animate-scale-in [animation-delay:600ms]">
-            <h3 className="font-space-grotesk text-2xl font-bold text-primary-50 mb-4">
-              � Competitive Programming
+        {/* Bottom cards */}
+        <div className="grid md:grid-cols-2 gap-6 mt-16">
+          <div className="glass rounded-sm border border-primary-50/20 hover:border-primary-50/50 p-8 transition-all duration-300 animate-scale-in [animation-delay:600ms] group relative overflow-hidden">
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
+            <h3 className="font-space-grotesk text-xl font-bold neon-green mb-4 relative z-10">
+              ⚡ Competitive Programming
             </h3>
-            <p className="text-neutral-70 mb-4">
-              Strong foundation in algorithms and data structures from competitive programming.
-            </p>
-            <ul className="space-y-2 text-neutral-70 text-sm">
-              <li>✓ Solved 1700+ problems across multiple judges</li>
-              <li>✓ Participated in 10+ national level contests</li>
-              <li>✓ ICPC Regional Finalist</li>
-              <li>✓ Problem setter & judge for university contests</li>
+            <ul className="space-y-2 text-neutral-70 text-sm relative z-10">
+              {[
+                '1700+ problems solved across major judges',
+                'ICPC Regional Finalist',
+                '10+ national level contests',
+                'Problem setter & judge for university contests',
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <span className="text-primary-50 text-xs">▸</span>
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
-
-          <div className="bg-neutral-5 rounded-2xl p-8 border border-secondary-50/30 hover:border-secondary-50 transition duration-300 animate-scale-in [animation-delay:700ms]">
-            <h3 className="font-space-grotesk text-2xl font-bold text-secondary-50 mb-4">
+          <div className="glass rounded-sm border border-secondary-50/20 hover:border-secondary-50/50 p-8 transition-all duration-300 animate-scale-in [animation-delay:700ms] group relative overflow-hidden">
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
+            <h3 className="font-space-grotesk text-xl font-bold neon-cyan mb-4 relative z-10">
               🎯 Core Expertise
             </h3>
-            <p className="text-neutral-70 mb-4">
-              Full-stack development with focus on scalability, performance, and code quality.
-            </p>
-            <ul className="space-y-2 text-neutral-70 text-sm">
-              <li>✓ System Architecture & Design</li>
-              <li>✓ Performance Optimization (Redis, Caching)</li>
-              <li>✓ Testing & Quality Assurance (Jest, Selenium)</li>
-              <li>✓ Team Leadership & Code Reviews</li>
+            <ul className="space-y-2 text-neutral-70 text-sm relative z-10">
+              {[
+                'System Architecture & Design Patterns',
+                'Performance Optimization (Redis, Caching)',
+                'Testing & QA (Jest, Selenium, JMeter)',
+                'Team Leadership & Code Reviews',
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <span className="text-secondary-50 text-xs">▸</span>
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
         </div>

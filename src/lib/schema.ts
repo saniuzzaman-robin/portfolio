@@ -210,3 +210,34 @@ export function generateCollectionSchema(options: {
     },
   };
 }
+
+/**
+ * Generate SoftwareApplication schema for browser game pages
+ */
+export function generateGameSchema(options: {
+  name: string;
+  description: string;
+  url: string;
+  genre: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: options.name,
+    description: options.description,
+    url: options.url,
+    applicationCategory: 'Game',
+    applicationSubCategory: options.genre,
+    operatingSystem: 'Web Browser',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    author: {
+      '@type': 'Person',
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
+  };
+}

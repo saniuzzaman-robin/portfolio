@@ -1,0 +1,213 @@
+'use client';
+
+import Link from 'next/link';
+import { Gamepad2, Zap, Brain, Grid3X3, type LucideIcon } from 'lucide-react';
+
+interface Game {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  href: string;
+  icon: LucideIcon;
+  accent: string;
+  controls: string[];
+  difficulty: string;
+  tech: string[];
+}
+
+const games: Game[] = [
+  {
+    id: 'snake',
+    title: 'Snake',
+    subtitle: 'Classic Arcade',
+    description:
+      'Navigate the neon serpent, collect data packets, avoid collisions. How long can your chain grow?',
+    href: '/games/snake',
+    icon: Zap,
+    accent: '#00ff87',
+    controls: ['Arrow Keys', 'WASD', 'Swipe'],
+    difficulty: 'Easy → Hard',
+    tech: ['Canvas API', 'requestAnimationFrame', 'Keyboard Events'],
+  },
+  {
+    id: 'tetris',
+    title: 'Tetris',
+    subtitle: 'Block Stacker',
+    description:
+      'Drop tetrominos, clear lines, survive the cascade. A classic reimagined with neon aesthetics.',
+    href: '/games/tetris',
+    icon: Grid3X3,
+    accent: '#00d4ff',
+    controls: ['Arrow Keys', 'Space to Drop', 'Z to Rotate'],
+    difficulty: 'Medium → Expert',
+    tech: ['Canvas API', 'State Machine', 'Collision Detection'],
+  },
+  {
+    id: 'memory',
+    title: 'Memory Match',
+    subtitle: 'Card Flip Game',
+    description:
+      'Flip holographic cards, find matching pairs, beat the clock. Tests your pattern recognition.',
+    href: '/games/memory',
+    icon: Brain,
+    accent: '#a476ff',
+    controls: ['Click / Tap'],
+    difficulty: 'Medium',
+    tech: ['CSS 3D Transforms', 'React State', 'Timer Hook'],
+  },
+];
+
+export { games };
+
+export function GameCardGrid() {
+  return (
+    <>
+      {/* Header */}
+      <div className="mb-16 animate-slide-up">
+        <div className="flex items-center gap-3 mb-4">
+          <Gamepad2 className="w-6 h-6 text-primary-50" />
+          <p className="section-label">Interactive Lab</p>
+        </div>
+        <h1 className="font-space-grotesk font-bold text-5xl md:text-7xl mb-4">
+          <span className="neon-green">GAME</span> <span className="neon-cyan">LAB</span>
+        </h1>
+        <p className="text-neutral-70 text-sm max-w-xl leading-relaxed">
+          Browser-native games built with vanilla Canvas API and React — zero game engines, zero
+          dependencies. Pure JavaScript mastery on display.
+        </p>
+      </div>
+
+      {/* Game cards */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {games.map((game, index) => {
+          const Icon = game.icon;
+          return (
+            <Link key={game.id} href={game.href} className="group block">
+              <div
+                className="relative glass rounded-sm border h-full transition-all duration-500 overflow-hidden animate-scale-in hover:scale-[1.03]"
+                style={{
+                  borderColor: `${game.accent}30`,
+                  animationDelay: `${index * 120}ms`,
+                  animationFillMode: 'both',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = `${game.accent}70`;
+                  e.currentTarget.style.boxShadow = `0 0 30px ${game.accent}20`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = `${game.accent}30`;
+                  e.currentTarget.style.boxShadow = '';
+                }}
+              >
+                {/* Holographic hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
+
+                {/* Top bar */}
+                <div
+                  className="h-px"
+                  style={{ background: `linear-gradient(to right, ${game.accent}, transparent)` }}
+                />
+
+                <div className="relative z-10 p-6">
+                  {/* Icon + subtitle */}
+                  <div className="flex items-start justify-between mb-6">
+                    <div
+                      className="w-12 h-12 rounded-sm flex items-center justify-center"
+                      style={{
+                        background: `${game.accent}15`,
+                        border: `1px solid ${game.accent}40`,
+                      }}
+                    >
+                      <Icon className="w-6 h-6" style={{ color: game.accent }} />
+                    </div>
+                    <span
+                      className="terminal-text text-xs"
+                      style={{
+                        color: game.accent,
+                        borderColor: `${game.accent}40`,
+                        background: `${game.accent}10`,
+                      }}
+                    >
+                      {game.difficulty}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <p className="text-xs font-space-grotesk uppercase tracking-widest mb-1 text-neutral-60">
+                    {game.subtitle}
+                  </p>
+                  <h2 className="font-space-grotesk font-bold text-2xl mb-3 text-neutral-90 group-hover:text-neutral-100 transition-colors">
+                    {game.title}
+                  </h2>
+
+                  <p className="text-neutral-70 text-sm leading-relaxed mb-6">{game.description}</p>
+
+                  {/* Controls */}
+                  <div className="mb-5">
+                    <p className="text-xs text-neutral-60 uppercase tracking-wider mb-2">
+                      Controls
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {game.controls.map((c) => (
+                        <span
+                          key={c}
+                          className="text-xs px-2 py-1 rounded-sm glass border border-white/10 text-neutral-70"
+                        >
+                          {c}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tech */}
+                  <div className="mb-6">
+                    <p className="text-xs text-neutral-60 uppercase tracking-wider mb-2">
+                      Built With
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {game.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="text-xs px-2 py-1 rounded-sm"
+                          style={{
+                            color: game.accent,
+                            border: `1px solid ${game.accent}30`,
+                            background: `${game.accent}08`,
+                          }}
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Play CTA */}
+                  <div
+                    className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest group-hover:translate-x-1 transition-transform duration-300"
+                    style={{ color: game.accent }}
+                  >
+                    <span>&gt; Play Now</span>
+                  </div>
+                </div>
+
+                {/* Bottom line */}
+                <div
+                  className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-500"
+                  style={{ background: `linear-gradient(to right, ${game.accent}, transparent)` }}
+                />
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* Footer note */}
+      <div className="mt-12 text-center animate-fade-in [animation-delay:600ms]">
+        <p className="text-neutral-60 text-xs font-space-grotesk uppercase tracking-widest">
+          All games built with zero game engines — pure web APIs &amp; React
+        </p>
+      </div>
+    </>
+  );
+}
