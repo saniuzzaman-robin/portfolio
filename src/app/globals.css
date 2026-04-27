@@ -7,34 +7,34 @@
   --color-primary-20: #005137;
   --color-primary-30: #006c4a;
   --color-primary-40: #00885f;
-  --color-primary-50: #25a475;
-  --color-primary-60: #49bf8f;
-  --color-primary-70: #68dba9;
-  --color-primary-80: #85f8c4;
-  --color-primary-90: #beffdc;
+  --color-primary-50: #00ff87;
+  --color-primary-60: #33ffaa;
+  --color-primary-70: #66ffc3;
+  --color-primary-80: #99ffd9;
+  --color-primary-90: #ccffec;
   --color-primary-100: #ffffff;
 
-  /* Secondary palette */
+  /* Secondary palette - cyan neon */
   --color-secondary-0: #000000;
-  --color-secondary-5: #241a00;
-  --color-secondary-10: #3c2f00;
-  --color-secondary-20: #574500;
-  --color-secondary-30: #735c00;
-  --color-secondary-40: #917400;
-  --color-secondary-50: #af8d11;
-  --color-secondary-60: #cca730;
-  --color-secondary-70: #e9c349;
-  --color-secondary-80: #ffe088;
-  --color-secondary-90: #ffefcc;
+  --color-secondary-5: #001a33;
+  --color-secondary-10: #002a52;
+  --color-secondary-20: #003d75;
+  --color-secondary-30: #005299;
+  --color-secondary-40: #0069c0;
+  --color-secondary-50: #00d4ff;
+  --color-secondary-60: #33ddff;
+  --color-secondary-70: #66e8ff;
+  --color-secondary-80: #99f0ff;
+  --color-secondary-90: #ccf8ff;
   --color-secondary-100: #ffffff;
 
-  /* Tertiary palette */
+  /* Tertiary palette - purple neon */
   --color-tertiary-0: #000000;
-  --color-tertiary-5: #25005a;
-  --color-tertiary-10: #3f008e;
-  --color-tertiary-20: #5a00c6;
-  --color-tertiary-30: #732ee4;
-  --color-tertiary-40: #8d4fff;
+  --color-tertiary-5: #1a0040;
+  --color-tertiary-10: #2d0070;
+  --color-tertiary-20: #4200a3;
+  --color-tertiary-30: #5c00d6;
+  --color-tertiary-40: #7b2fff;
   --color-tertiary-50: #a476ff;
   --color-tertiary-60: #bb9aff;
   --color-tertiary-70: #d2bbff;
@@ -44,15 +44,435 @@
 
   /* Neutral palette */
   --color-neutral-0: #000000;
-  --color-neutral-5: #131b2e;
-  --color-neutral-10: #131b2e;
-  --color-neutral-20: #3f465c;
-  --color-neutral-30: #565e74;
-  --color-neutral-40: #6f778e;
-  --color-neutral-50: #8990a8;
-  --color-neutral-60: #a3abc4;
-  --color-neutral-70: #bec6e0;
-  --color-neutral-80: #dae2fd;
-  --color-neutral-90: #eef0ff;
+  --color-neutral-5: #080d1a;
+  --color-neutral-10: #0f1629;
+  --color-neutral-20: #1e2d4a;
+  --color-neutral-30: #2d4266;
+  --color-neutral-40: #4a6080;
+  --color-neutral-50: #6b8299;
+  --color-neutral-60: #8da3b3;
+  --color-neutral-70: #b0c4d4;
+  --color-neutral-80: #d0e0ed;
+  --color-neutral-90: #e8f0f7;
   --color-neutral-100: #ffffff;
+}
+
+/* ============================================================
+   FUTURISTIC GLOBAL STYLES
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #080d1a;
+  color: #e8f0f7;
+  font-family: var(--font-manrope), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom cyberpunk scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0f1629;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00ff87, #00d4ff);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #33ffaa, #33ddff);
+}
+
+/* ============================================================
+   GLASSMORPHISM UTILITY
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ============================================================
+   NEON GLOW EFFECTS
+   ============================================================ */
+.neon-green {
+  text-shadow:
+    0 0 7px #00ff87,
+    0 0 20px #00ff87,
+    0 0 45px #00ff87;
+  color: #00ff87;
+}
+
+.neon-cyan {
+  text-shadow:
+    0 0 7px #00d4ff,
+    0 0 20px #00d4ff,
+    0 0 45px #00d4ff;
+  color: #00d4ff;
+}
+
+.neon-purple {
+  text-shadow:
+    0 0 7px #a476ff,
+    0 0 20px #a476ff,
+    0 0 45px #a476ff;
+  color: #a476ff;
+}
+
+.neon-box-green {
+  box-shadow:
+    0 0 5px #00ff87,
+    0 0 20px rgba(0, 255, 135, 0.3),
+    inset 0 0 20px rgba(0, 255, 135, 0.05);
+}
+
+.neon-box-cyan {
+  box-shadow:
+    0 0 5px #00d4ff,
+    0 0 20px rgba(0, 212, 255, 0.3),
+    inset 0 0 20px rgba(0, 212, 255, 0.05);
+}
+
+.neon-box-purple {
+  box-shadow:
+    0 0 5px #a476ff,
+    0 0 20px rgba(164, 118, 255, 0.3),
+    inset 0 0 20px rgba(164, 118, 255, 0.05);
+}
+
+/* ============================================================
+   GLITCH TEXT EFFECT
+   ============================================================ */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  animation: glitch-1 3s infinite linear alternate-reverse;
+  color: #00d4ff;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+  transform: translate(-2px, 0);
+}
+
+.glitch::after {
+  animation: glitch-2 2s infinite linear alternate-reverse;
+  color: #00ff87;
+  clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+  transform: translate(2px, 0);
+}
+
+@keyframes glitch-1 {
+  0%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-3px, 1px);
+    opacity: 0.8;
+    clip-path: polygon(0 20%, 100% 20%, 100% 50%, 0 50%);
+  }
+  40% {
+    transform: translate(3px, -1px);
+    opacity: 0;
+  }
+  60% {
+    transform: translate(-1px, 2px);
+    opacity: 0.6;
+    clip-path: polygon(0 10%, 100% 10%, 100% 35%, 0 35%);
+  }
+  80% {
+    transform: translate(1px, -2px);
+    opacity: 0;
+  }
+}
+
+@keyframes glitch-2 {
+  0%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  25% {
+    transform: translate(2px, -1px);
+    opacity: 0.7;
+    clip-path: polygon(0 55%, 100% 55%, 100% 80%, 0 80%);
+  }
+  50% {
+    transform: translate(-2px, 1px);
+    opacity: 0;
+  }
+  75% {
+    transform: translate(1px, 2px);
+    opacity: 0.5;
+    clip-path: polygon(0 70%, 100% 70%, 100% 90%, 0 90%);
+  }
+}
+
+/* ============================================================
+   ANIMATED GRADIENT BORDER
+   ============================================================ */
+.gradient-border {
+  position: relative;
+  background: #0f1629;
+  border-radius: 12px;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 13px;
+  background: linear-gradient(90deg, #00ff87, #00d4ff, #a476ff, #00ff87);
+  background-size: 300% 100%;
+  animation: border-gradient 4s linear infinite;
+  z-index: -1;
+}
+
+@keyframes border-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+/* ============================================================
+   GRID/MESH BACKGROUND
+   ============================================================ */
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.cyber-grid-dense {
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* ============================================================
+   CARD 3D TILT EFFECT
+   ============================================================ */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.card-3d:hover {
+  transform: perspective(800px) rotateX(-5deg) rotateY(5deg) translateZ(10px);
+}
+
+/* ============================================================
+   SHIMMER / HOLOGRAPHIC EFFECT
+   ============================================================ */
+.holographic {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 135, 0.15) 0%,
+    rgba(0, 212, 255, 0.15) 25%,
+    rgba(164, 118, 255, 0.15) 50%,
+    rgba(0, 212, 255, 0.15) 75%,
+    rgba(0, 255, 135, 0.15) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ============================================================
+   TYPEWRITER CURSOR
+   ============================================================ */
+.typewriter-cursor::after {
+  content: '|';
+  animation: blink 1s step-end infinite;
+  color: #00d4ff;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   SCAN LINE OVERLAY
+   ============================================================ */
+.scanlines {
+  position: relative;
+}
+.scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.08) 3px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================================
+   BUTTON NEON STYLES
+   ============================================================ */
+.btn-neon-green {
+  background: transparent;
+  border: 1px solid #00ff87;
+  color: #00ff87;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-neon-green::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #00ff87;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.btn-neon-green:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-neon-green:hover {
+  color: #080d1a;
+  box-shadow: 0 0 20px rgba(0, 255, 135, 0.5);
+}
+
+.btn-neon-cyan {
+  background: transparent;
+  border: 1px solid #00d4ff;
+  color: #00d4ff;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-neon-cyan::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #00d4ff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.btn-neon-cyan:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-neon-cyan:hover {
+  color: #080d1a;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+.btn-neon-purple {
+  background: transparent;
+  border: 1px solid #a476ff;
+  color: #a476ff;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-neon-purple::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #a476ff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.btn-neon-purple:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-neon-purple:hover {
+  color: #080d1a;
+  box-shadow: 0 0 20px rgba(164, 118, 255, 0.5);
+}
+
+/* ============================================================
+   SECTION LABEL
+   ============================================================ */
+.section-label {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #00d4ff;
+}
+
+/* ============================================================
+   TERMINAL TEXT
+   ============================================================ */
+.terminal-text {
+  font-family: 'Courier New', monospace;
+  color: #00ff87;
+  background: rgba(0, 255, 135, 0.05);
+  border: 1px solid rgba(0, 255, 135, 0.2);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.8em;
 }

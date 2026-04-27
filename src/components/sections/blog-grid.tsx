@@ -127,7 +127,7 @@ export function BlogGrid() {
                 </div>
 
                 <div className="flex justify-between items-center pt-6 border-t border-neutral-20">
-                  <div className="text-xs text-neutral-60">
+                  <div className="text-xs text-neutral-70">
                     <span>{article.date}</span>
                     <span className="mx-2">•</span>
                     <span>{article.readTime}</span>
