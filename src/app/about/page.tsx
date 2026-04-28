@@ -4,11 +4,11 @@ import { AboutHero } from '@/components/sections/about-hero';
 import { Footer } from '@/components/sections/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generatePersonSchema, generateWebPageSchema } from '@/lib/schema';
+import { CV_DATA } from '@/lib/cv-data';
 
 export const metadata: Metadata = {
   title: 'About Me | Md. Saniuzzaman Robin',
-  description:
-    'Learn about my background as a software engineer with 5+ years of experience. Competitive programming enthusiast with 1700+ problems solved. Passionate about building scalable, production-grade applications.',
+  description: CV_DATA.summary,
   keywords: [
     'about',
     'software engineer',
@@ -20,8 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     url: 'https://saniuzzaman.dev/about',
     title: 'About Me | Saniuzzaman Robin',
-    description:
-      'Software engineer with deep expertise in system architecture and competitive programming.',
+    description: CV_DATA.aboutMeDesc,
   },
 };
 
@@ -32,8 +31,7 @@ export default function About() {
       <SchemaScript
         schema={generateWebPageSchema({
           title: 'About Me | Md. Saniuzzaman Robin',
-          description:
-            'Software engineer with 5+ years of experience and competitive programming expertise',
+          description: CV_DATA.aboutMeDesc,
           url: 'https://saniuzzaman.dev/about',
         })}
       />

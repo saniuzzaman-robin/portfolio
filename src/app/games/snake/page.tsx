@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, RefreshCw } from 'lucide-react';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateGameSchema } from '@/lib/schema';
+import { sounds } from '@/lib/sounds';
 
 const CELL = 26;
 const COLS = 25;
@@ -30,9 +31,9 @@ function rndFood(snake: Point[]): Point {
 
 function initState() {
   const snake: Point[] = [
-    { x: 12, y: 10 },
-    { x: 11, y: 10 },
     { x: 10, y: 10 },
+    { x: 9, y: 10 },
+    { x: 8, y: 10 },
   ];
   return { snake, dir: 'RIGHT' as Dir, food: rndFood(snake), score: 0, dead: false };
 }
@@ -91,28 +92,26 @@ export default function SnakePage() {
     ctx.fillStyle = '#00d4ff';
     ctx.fillRect(food.x * CELL + 6, food.y * CELL + 6, CELL - 12, CELL - 12);
 
-    // Snake
+    // Snake body - simple blocks
     snake.forEach((seg, i) => {
-      const alpha = 1 - (i / snake.length) * 0.5;
-      const gs = ctx.createLinearGradient(
-        seg.x * CELL,
-        seg.y * CELL,
-        seg.x * CELL + CELL,
-        seg.y * CELL + CELL
-      );
-      gs.addColorStop(0, `rgba(0,255,135,${alpha})`);
-      gs.addColorStop(1, `rgba(0,200,100,${alpha * 0.7})`);
-      ctx.fillStyle = gs;
-      const pad = i === 0 ? 1 : 2;
-      ctx.fillRect(seg.x * CELL + pad, seg.y * CELL + pad, CELL - pad * 2, CELL - pad * 2);
+      const alpha = 1 - (i / snake.length) * 0.4;
+      const x = seg.x * CELL;
+      const y = seg.y * CELL;
 
-      // Head glow
       if (i === 0) {
-        ctx.shadowColor = '#00ff87';
-        ctx.shadowBlur = 15;
-        ctx.fillRect(seg.x * CELL + 2, seg.y * CELL + 2, CELL - 4, CELL - 4);
-        ctx.shadowBlur = 0;
+        // Head
+        ctx.fillStyle = `rgba(0,255,135,${alpha})`;
+        ctx.fillRect(x + 2, y + 2, CELL - 4, CELL - 4);
+      } else {
+        // Body
+        ctx.fillStyle = `rgba(0,200,100,${alpha * 0.8})`;
+        ctx.fillRect(x + 3, y + 3, CELL - 6, CELL - 6);
       }
+
+      // Simple border
+      ctx.strokeStyle = `rgba(0,255,135,${alpha * 0.5})`;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x + 2, y + 2, CELL - 4, CELL - 4);
     });
   }, []);
 
@@ -134,16 +133,17 @@ export default function SnakePage() {
       y: head.y + (s.dir === 'DOWN' ? 1 : s.dir === 'UP' ? -1 : 0),
     };
 
-    // Wall collision
-    if (next.x < 0 || next.x >= COLS || next.y < 0 || next.y >= ROWS) {
-      s.dead = true;
-      setDead(true);
-      return;
-    }
+    // Wall collision - wrap around
+    if (next.x < 0) next.x = COLS - 1;
+    if (next.x >= COLS) next.x = 0;
+    if (next.y < 0) next.y = ROWS - 1;
+    if (next.y >= ROWS) next.y = 0;
+
     // Self collision
     if (s.snake.some((seg) => seg.x === next.x && seg.y === next.y)) {
       s.dead = true;
       setDead(true);
+      sounds.gameOver();
       return;
     }
 
@@ -153,6 +153,7 @@ export default function SnakePage() {
 
     s.snake = newSnake;
     if (ate) {
+      sounds.eat();
       s.score += 10 * DIFFICULTIES[difficultyRef.current].multiplier;
       s.food = rndFood(newSnake);
       setScore(s.score);
@@ -167,6 +168,7 @@ export default function SnakePage() {
     setScore(0);
     setDead(false);
     setStarted(true);
+    sounds.start();
     draw();
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(tick, DIFFICULTIES[difficultyRef.current].tickMs);
@@ -241,40 +243,35 @@ export default function SnakePage() {
       <SchemaScript schema={schema} />
       <div className="min-h-screen bg-neutral-5 text-neutral-90 flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 glass-strong">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-30 bg-neutral-10/50">
           <Link
             href="/games"
-            className="flex items-center gap-2 text-neutral-50 hover:text-primary-50 transition-colors text-sm font-space-grotesk uppercase tracking-widest"
+            className="flex items-center gap-2 text-neutral-50 hover:text-primary-50 transition-colors text-xs font-space-grotesk uppercase tracking-wider"
           >
             <ArrowLeft className="w-4 h-4" />
             Games
           </Link>
-          <div className="flex items-center gap-4 md:gap-6">
-            <div className="text-center">
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Score</p>
-              <p className="font-space-grotesk font-bold text-xl neon-green tabular-nums">
-                {score}
-              </p>
+          <div className="flex items-center gap-4 text-center">
+            <div>
+              <p className="text-xs text-neutral-60 uppercase tracking-wider">Score</p>
+              <p className="text-lg font-bold neon-green">{score}</p>
             </div>
-            <div className="text-center">
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Best</p>
-              <p className="font-space-grotesk font-bold text-xl neon-cyan tabular-nums">{best}</p>
+            <div>
+              <p className="text-xs text-neutral-60 uppercase tracking-wider">Best</p>
+              <p className="text-lg font-bold neon-cyan">{best}</p>
             </div>
-            <div className="hidden sm:block text-center">
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Mode</p>
-              <p
-                className="font-space-grotesk font-bold text-sm uppercase tracking-wider"
-                style={{ color: DIFFICULTIES[difficulty].color }}
-              >
+            <div className="hidden sm:block">
+              <p className="text-xs text-neutral-60 uppercase tracking-wider">Mode</p>
+              <p className="text-lg font-bold" style={{ color: DIFFICULTIES[difficulty].color }}>
                 {difficulty}
               </p>
             </div>
           </div>
           <button
             onClick={start}
-            className="flex items-center gap-2 btn-neon-green px-4 py-2 rounded-sm text-xs font-space-grotesk font-bold uppercase tracking-widest"
+            className="px-4 py-2 border border-primary-50 rounded text-primary-50 hover:bg-primary-50/10 transition-colors text-xs font-space-grotesk uppercase tracking-wider flex items-center gap-2"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className="w-4 h-4" />
             {started ? 'Restart' : 'Start'}
           </button>
         </div>
@@ -366,11 +363,8 @@ export default function SnakePage() {
                     </div>
                   </div>
 
-                  <button
-                    onClick={start}
-                    className="btn-neon-green px-8 py-3 rounded-sm font-space-grotesk font-bold text-sm uppercase tracking-widest"
-                  >
-                    {dead ? '> Play Again' : '> Start Game'}
+                  <button onClick={start} className="btn-game px-8 py-3 font-space-grotesk text-sm">
+                    {dead ? '▶ Play Again' : '▶ Start Game'}
                   </button>
                   <p className="text-neutral-60 text-xs mt-4 font-space-grotesk">
                     Arrow Keys / WASD / Swipe

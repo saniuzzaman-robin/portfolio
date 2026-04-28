@@ -8,16 +8,15 @@ import { CTA } from '@/components/sections/cta';
 import { Footer } from '@/components/sections/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generatePersonSchema, generateWebPageSchema } from '@/lib/schema';
+import { CV_DATA } from '@/lib/cv-data';
 
 export const metadata: Metadata = {
-  title: 'Home | Md. Saniuzzaman Robin - Full-Stack Software Engineer',
-  description:
-    'Explore my portfolio showcasing 5+ years of software engineering expertise. Specialized in building scalable applications with NestJS, Next.js, Angular, and competitive programming.',
+  title: `Home | ${CV_DATA.name} - ${CV_DATA.title}`,
+  description: `Explore my portfolio showcasing ${CV_DATA.yearsOfExperience} years of software engineering expertise. Specialized in building scalable applications with NestJS, Next.js, Angular, and competitive programming.`,
   openGraph: {
     url: 'https://saniuzzaman.dev',
-    title: 'Home | Md. Saniuzzaman Robin',
-    description:
-      'Full-stack software engineer with expertise in Next.js, NestJS, Angular, and system architecture.',
+    title: `Home | ${CV_DATA.name}`,
+    description: `${CV_DATA.title} with expertise in Next.js, NestJS, Angular, and system architecture.`,
   },
 };
 
@@ -27,8 +26,8 @@ export default function Home() {
       <SchemaScript schema={generatePersonSchema()} />
       <SchemaScript
         schema={generateWebPageSchema({
-          title: 'Home | Md. Saniuzzaman Robin',
-          description: 'Full-stack software engineer showcasing 5+ years of expertise',
+          title: `Home | ${CV_DATA.name}`,
+          description: `${CV_DATA.title} showcasing ${CV_DATA.yearsOfExperience} years of expertise`,
           url: 'https://saniuzzaman.dev',
         })}
       />

@@ -1,47 +1,11 @@
 'use client';
 
-export function AboutHero() {
-  const highlights = [
-    {
-      icon: '🎯',
-      title: 'Problem Solver',
-      desc: 'Tackling complex challenges with creative algorithmic solutions',
-      accent: '#00ff87',
-      borderClass: 'border-primary-50/30 hover:border-primary-50/70',
-    },
-    {
-      icon: '🚀',
-      title: 'Performance Driven',
-      desc: 'Building fast, responsive, scalable systems that serve millions',
-      accent: '#00d4ff',
-      borderClass: 'border-secondary-50/30 hover:border-secondary-50/70',
-    },
-    {
-      icon: '💡',
-      title: 'Innovator',
-      desc: 'Exploring emerging technologies and modern best practices',
-      accent: '#a476ff',
-      borderClass: 'border-tertiary-50/30 hover:border-tertiary-50/70',
-    },
-  ];
+import { CV_DATA } from '@/lib/cv-data';
 
-  const sections = [
-    {
-      title: 'Software Engineer · 5+ Years',
-      accent: '#00ff87',
-      body: 'I specialize in building production-grade web applications and backend systems. My expertise spans full-stack development with NestJS for scalable APIs and Next.js & Angular for performant frontends. Passionate about clean code, system architecture, and solving complex problems.',
-    },
-    {
-      title: 'Competitive Programming Background',
-      accent: '#00d4ff',
-      body: 'Solved 1700+ problems across Codeforces, Codechef, LightOJ, UVA. Led teams at 10+ national contests including ICPC Dhaka Regional and NCPC. Judge and problem setter for university programming contests.',
-    },
-    {
-      title: 'Beyond Development',
-      accent: '#a476ff',
-      body: 'Passionate about mentoring developers, conducting code reviews, and architectural planning. Experienced with Agile methodologies, Git workflows, testing frameworks, and DevOps practices. Continuous learner exploring emerging technologies.',
-    },
-  ];
+export function AboutHero() {
+  const highlights = CV_DATA.highlights;
+
+  const sections = CV_DATA.aboutSections;
 
   return (
     <section className="px-6 py-24 md:px-12 lg:px-20 relative">
@@ -84,22 +48,33 @@ export function AboutHero() {
 
         {/* Highlight cards */}
         <div className="grid md:grid-cols-3 gap-6">
-          {highlights.map((h, i) => (
-            <div
-              key={i}
-              className={`glass rounded-sm border ${h.borderClass} p-8 transition-all duration-500 group hover:scale-105 animate-scale-in overflow-hidden relative`}
-              style={{ animationDelay: `${400 + i * 120}ms`, animationFillMode: 'both' }}
-            >
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
-              <div className="text-3xl mb-4 relative z-10">{h.icon}</div>
-              <h3 className="font-space-grotesk font-bold text-lg mb-2 relative z-10">{h.title}</h3>
-              <p className="text-neutral-70 text-sm relative z-10">{h.desc}</p>
+          {highlights.map((h, i) => {
+            const borderClasses: Record<string, string> = {
+              '#00ff87': 'border-primary-50/30 hover:border-primary-50/70',
+              '#00d4ff': 'border-secondary-50/30 hover:border-secondary-50/70',
+              '#a476ff': 'border-tertiary-50/30 hover:border-tertiary-50/70',
+            };
+            const borderClass =
+              borderClasses[h.accent] || 'border-primary-50/30 hover:border-primary-50/70';
+            return (
               <div
-                className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-700"
-                style={{ background: `linear-gradient(to right, ${h.accent}, transparent)` }}
-              />
-            </div>
-          ))}
+                key={i}
+                className={`glass rounded-sm border ${borderClass} p-8 transition-all duration-500 group hover:scale-105 animate-scale-in overflow-hidden relative`}
+                style={{ animationDelay: `${400 + i * 120}ms`, animationFillMode: 'both' }}
+              >
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
+                <div className="text-3xl mb-4 relative z-10">{h.icon}</div>
+                <h3 className="font-space-grotesk font-bold text-lg mb-2 relative z-10">
+                  {h.title}
+                </h3>
+                <p className="text-neutral-70 text-sm relative z-10">{h.desc}</p>
+                <div
+                  className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-700"
+                  style={{ background: `linear-gradient(to right, ${h.accent}, transparent)` }}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
