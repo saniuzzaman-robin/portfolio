@@ -41,7 +41,10 @@ function useTimer(running: boolean) {
 }
 
 export default function MemoryPage() {
-  const [cards, setCards] = useState<Card[]>(() => initCards(8));
+  const [cards, setCards] = useState<Card[]>(() => {
+    if (typeof window === 'undefined') return [];
+    return initCards(8);
+  });
   const [selected, setSelected] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [matched, setMatched] = useState(0);
@@ -129,7 +132,7 @@ export default function MemoryPage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="min-h-screen bg-neutral-5 text-neutral-90 flex flex-col">
+      <div className="h-screen bg-neutral-5 text-neutral-90 flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 glass-strong flex-wrap gap-4">
           <Link
@@ -190,7 +193,7 @@ export default function MemoryPage() {
         </div>
 
         {/* Game grid */}
-        <div className="flex-1 flex items-center justify-center p-6 cyber-grid relative">
+        <div className="flex-1 flex items-center justify-center p-4 cyber-grid relative overflow-hidden min-h-0">
           {/* Win screen */}
           {won && (
             <div
@@ -220,7 +223,14 @@ export default function MemoryPage() {
             </div>
           )}
 
-          <div className="grid grid-cols-4 gap-4 max-w-2xl w-full">
+          <div
+            className="grid grid-cols-4 gap-2 sm:gap-3"
+            style={{
+              height: 'min(100%, 42rem)',
+              aspectRatio: '1 / 1',
+              maxWidth: '100%',
+            }}
+          >
             {cards.map((card) => (
               <button
                 key={card.id}

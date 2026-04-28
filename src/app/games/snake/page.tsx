@@ -283,8 +283,8 @@ export default function SnakePage() {
         <div className="flex-1 cyber-grid relative overflow-hidden">
           <div className="absolute inset-0 flex items-center justify-center p-2 md:p-4">
             <div
-              className="relative h-full"
-              style={{ aspectRatio: `${COLS}/${ROWS}`, maxWidth: '100%' }}
+              className="relative w-full"
+              style={{ aspectRatio: `${COLS}/${ROWS}`, maxWidth: '100%', maxHeight: '100%' }}
             >
               {/* Outer glow frame */}
               <div
@@ -300,7 +300,7 @@ export default function SnakePage() {
                 width={COLS * CELL}
                 height={ROWS * CELL}
                 className="relative block w-full h-full rounded-sm"
-                style={{ imageRendering: 'pixelated' }}
+                style={{ imageRendering: 'pixelated', objectFit: 'contain' }}
               />
 
               {/* Overlay for start/game over */}
