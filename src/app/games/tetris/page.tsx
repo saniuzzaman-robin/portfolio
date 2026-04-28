@@ -384,6 +384,57 @@ export default function TetrisPage() {
     return () => window.removeEventListener('keydown', onKey);
   }, [started, gameOver, drop, lock, draw, startGame]);
 
+  // Touch swipe for mobile
+  useEffect(() => {
+    let tx = 0,
+      ty = 0;
+    const onStart = (e: TouchEvent) => {
+      tx = e.touches[0].clientX;
+      ty = e.touches[0].clientY;
+    };
+    const onEnd = (e: TouchEvent) => {
+      if (!started || gameOver) return;
+      const dx = e.changedTouches[0].clientX - tx;
+      const dy = e.changedTouches[0].clientY - ty;
+      const p = pieceRef.current;
+
+      // Swipe left/right for movement
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30) {
+        if (dx > 0) {
+          // Swipe right
+          if (fits(gridRef.current, p, 1, 0)) {
+            p.x += 1;
+            draw();
+          }
+        } else {
+          // Swipe left
+          if (fits(gridRef.current, p, -1, 0)) {
+            p.x -= 1;
+            draw();
+          }
+        }
+      }
+      // Swipe up for rotation
+      else if (dy < -30) {
+        const rotated = rotatePiece(p.shape);
+        if (fits(gridRef.current, p, 0, 0, rotated)) {
+          p.shape = rotated;
+          draw();
+        }
+      }
+      // Swipe down for soft drop
+      else if (dy > 30) {
+        drop();
+      }
+    };
+    window.addEventListener('touchstart', onStart);
+    window.addEventListener('touchend', onEnd);
+    return () => {
+      window.removeEventListener('touchstart', onStart);
+      window.removeEventListener('touchend', onEnd);
+    };
+  }, [started, gameOver, drop, draw]);
+
   const schema = generateGameSchema({
     name: 'Tetris — Block Stacker',
     description:
@@ -395,33 +446,41 @@ export default function TetrisPage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="h-screen bg-neutral-5 text-neutral-90 flex flex-col overflow-hidden">
+      <div className="min-h-screen md:h-screen bg-neutral-5 text-neutral-90 flex flex-col md:overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 glass-strong">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-3 md:px-6 py-2 md:py-4 border-b border-white/5 glass-strong gap-2 md:gap-0">
           <Link
             href="/games"
-            className="flex items-center gap-2 text-neutral-50 hover:text-secondary-50 transition-colors text-sm font-space-grotesk uppercase tracking-widest"
+            className="flex items-center gap-2 text-neutral-50 hover:text-secondary-50 transition-colors text-xs md:text-sm font-space-grotesk uppercase tracking-widest"
           >
             <ArrowLeft className="w-4 h-4" /> Games
           </Link>
-          <div className="flex items-center gap-6 text-center">
+          <div className="flex items-center gap-2 md:gap-6 text-center flex-wrap justify-between md:justify-center w-full md:w-auto">
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Score</p>
-              <p className="font-space-grotesk font-bold text-xl neon-cyan tabular-nums">{score}</p>
+              <p className="text-[10px] md:text-xs text-neutral-60 uppercase tracking-widest">
+                Score
+              </p>
+              <p className="font-space-grotesk font-bold text-sm md:text-xl neon-cyan tabular-nums">
+                {score}
+              </p>
             </div>
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Lines</p>
-              <p className="font-space-grotesk font-bold text-xl neon-green tabular-nums">
+              <p className="text-[10px] md:text-xs text-neutral-60 uppercase tracking-widest">
+                Lines
+              </p>
+              <p className="font-space-grotesk font-bold text-sm md:text-xl neon-green tabular-nums">
                 {lines}
               </p>
             </div>
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Level</p>
-              <p className="font-space-grotesk font-bold text-xl neon-purple tabular-nums">
+              <p className="text-[10px] md:text-xs text-neutral-60 uppercase tracking-widest">
+                Level
+              </p>
+              <p className="font-space-grotesk font-bold text-sm md:text-xl neon-purple tabular-nums">
                 {level}
               </p>
             </div>
-            <div>
+            <div className="hidden md:block">
               <p className="text-xs text-neutral-60 uppercase tracking-widest">Best</p>
               <p className="font-space-grotesk font-bold text-xl text-neutral-70 tabular-nums">
                 {best}
@@ -430,16 +489,16 @@ export default function TetrisPage() {
           </div>
           <button
             onClick={startGame}
-            className="flex items-center gap-2 btn-neon-cyan px-4 py-2 rounded-sm text-xs font-space-grotesk font-bold uppercase tracking-widest"
+            className="flex items-center gap-2 btn-neon-cyan px-3 md:px-4 py-1.5 md:py-2 rounded-sm text-[10px] md:text-xs font-space-grotesk font-bold uppercase tracking-widest whitespace-nowrap"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className="w-3 h-3 md:w-3.5 md:h-3.5" />
             {started ? 'Restart' : 'Start'}
           </button>
         </div>
 
-        <div className="flex-1 flex items-center justify-center p-2 md:p-4 cyber-grid relative gap-6 overflow-hidden min-h-0">
+        <div className="flex-1 flex items-center justify-center p-2 md:p-4 cyber-grid relative gap-6 md:overflow-hidden min-h-0">
           {/* Canvas */}
-          <div className="relative h-full flex items-center justify-center min-h-0">
+          <div className="relative w-full md:h-full md:flex md:items-center md:justify-center min-h-0 md:min-w-0">
             <div
               className="relative"
               style={{
@@ -530,7 +589,7 @@ export default function TetrisPage() {
 
           {/* Side panel */}
           <div
-            className="hidden lg:flex flex-col gap-4 w-32 h-full max-h-96"
+            className="hidden lg:flex flex-col gap-4 w-32 h-full max-h-96 mr-6"
             style={{ minWidth: '8rem' }}
           >
             <div className="glass border border-secondary-50/20 rounded-sm p-3">
@@ -574,6 +633,80 @@ export default function TetrisPage() {
                 <span className="text-secondary-50">SPC</span> Hard drop
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Mobile controls */}
+        <div className="md:hidden flex flex-col gap-2 p-3 border-t border-white/5 bg-neutral-10/50">
+          {/* Top row: Rotate and Hard Drop */}
+          <div className="flex justify-between gap-2">
+            <button
+              onClick={() => {
+                if (!started || gameOver) return;
+                const p = pieceRef.current;
+                const rotated = rotatePiece(p.shape);
+                if (fits(gridRef.current, p, 0, 0, rotated)) {
+                  p.shape = rotated;
+                  draw();
+                }
+              }}
+              className="flex-1 py-2 glass border border-white/10 rounded-sm flex items-center justify-center text-secondary-50 hover:border-secondary-50/50 active:bg-secondary-50/10 font-space-grotesk font-bold text-sm"
+            >
+              ↻ Rotate
+            </button>
+            <button
+              onClick={() => {
+                if (!started || gameOver) return;
+                const p = pieceRef.current;
+                let dy = 0;
+                while (fits(gridRef.current, p, 0, dy + 1)) dy++;
+                p.y += dy;
+                draw();
+                lock();
+              }}
+              className="flex-1 py-2 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 font-space-grotesk font-bold text-sm"
+            >
+              ⬇ Drop
+            </button>
+          </div>
+
+          {/* Bottom row: Left, Soft Drop, Right */}
+          <div className="flex gap-2 justify-center">
+            <button
+              onClick={() => {
+                if (!started || gameOver) return;
+                const p = pieceRef.current;
+                if (fits(gridRef.current, p, -1, 0)) {
+                  p.x -= 1;
+                  draw();
+                }
+              }}
+              className="w-16 py-2 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 text-xl"
+            >
+              ◄
+            </button>
+            <button
+              onClick={() => {
+                if (!started || gameOver) return;
+                drop();
+              }}
+              className="flex-1 py-2 glass border border-white/10 rounded-sm flex items-center justify-center text-secondary-50 hover:border-secondary-50/50 active:bg-secondary-50/10 font-space-grotesk font-bold text-sm"
+            >
+              Soft ↓
+            </button>
+            <button
+              onClick={() => {
+                if (!started || gameOver) return;
+                const p = pieceRef.current;
+                if (fits(gridRef.current, p, 1, 0)) {
+                  p.x += 1;
+                  draw();
+                }
+              }}
+              className="w-16 py-2 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 text-xl"
+            >
+              ►
+            </button>
           </div>
         </div>
       </div>
