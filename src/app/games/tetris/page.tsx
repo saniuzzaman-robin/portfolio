@@ -359,7 +359,7 @@ export default function TetrisPage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="min-h-screen bg-neutral-5 text-neutral-90 flex flex-col">
+      <div className="h-screen bg-neutral-5 text-neutral-90 flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 glass-strong">
           <Link
@@ -401,90 +401,102 @@ export default function TetrisPage() {
           </button>
         </div>
 
-        <div className="flex-1 flex items-center justify-center p-6 cyber-grid relative gap-6">
+        <div className="flex-1 flex items-center justify-center p-2 md:p-4 cyber-grid relative gap-6 overflow-hidden min-h-0">
           {/* Canvas */}
-          <div className="relative">
+          <div className="relative h-full flex items-center justify-center min-h-0">
             <div
-              className="absolute -inset-1 rounded-sm opacity-40"
+              className="relative"
               style={{
-                background: 'linear-gradient(45deg, #00d4ff, #a476ff, #00ff87, #00d4ff)',
-                filter: 'blur(4px)',
+                aspectRatio: `${COLS}/${ROWS}`,
+                height: '100%',
+                maxWidth: '100%',
               }}
-            />
-            <canvas
-              ref={canvasRef}
-              width={COLS * CELL}
-              height={ROWS * CELL}
-              className="relative block rounded-sm"
-            />
-
-            {/* Overlay */}
-            {(!started || gameOver) && (
+            >
               <div
-                className="absolute inset-0 flex flex-col items-center justify-center rounded-sm"
-                style={{ background: 'rgba(8,13,26,0.88)', backdropFilter: 'blur(4px)' }}
-              >
-                <p className="font-space-grotesk font-bold text-3xl neon-cyan mb-2">
-                  {gameOver ? 'GAME OVER' : 'TETRIS'}
-                </p>
-                {gameOver && (
-                  <p className="text-neutral-70 text-sm mb-2">
-                    Score: <span className="neon-cyan font-bold">{score}</span>
-                  </p>
-                )}
-                <p className="text-neutral-60 text-xs mb-5 text-center px-4">
-                  ↑ Rotate ←→ Move ↓ Soft drop Space = Hard drop
-                </p>
+                className="absolute -inset-1 rounded-sm opacity-40"
+                style={{
+                  background: 'linear-gradient(45deg, #00d4ff, #a476ff, #00ff87, #00d4ff)',
+                  filter: 'blur(4px)',
+                }}
+              />
+              <canvas
+                ref={canvasRef}
+                width={COLS * CELL}
+                height={ROWS * CELL}
+                className="relative block rounded-sm w-full h-full"
+              />
 
-                {/* Starting level picker */}
-                {!gameOver && (
-                  <div className="mb-6 w-full px-4">
-                    <p className="text-neutral-60 text-xs uppercase tracking-widest text-center mb-3 font-space-grotesk">
-                      Starting Level
-                    </p>
-                    <div className="flex gap-2 justify-center">
-                      {[1, 3, 5, 8, 10].map((lvl) => {
-                        const active = startLevel === lvl;
-                        return (
-                          <button
-                            key={lvl}
-                            onClick={() => {
-                              setStartLevel(lvl);
-                              startLevelRef.current = lvl;
-                            }}
-                            className="w-10 h-10 rounded-sm border font-space-grotesk font-bold text-sm transition-all duration-200"
-                            style={{
-                              borderColor: active ? '#00d4ff' : 'rgba(255,255,255,0.1)',
-                              background: active
-                                ? 'rgba(0,212,255,0.15)'
-                                : 'rgba(255,255,255,0.03)',
-                              color: active ? '#00d4ff' : '#6b8299',
-                              boxShadow: active ? '0 0 12px rgba(0,212,255,0.4)' : 'none',
-                            }}
-                          >
-                            {lvl}
-                          </button>
-                        );
-                      })}
-                    </div>
-                    <p className="text-neutral-50 text-[10px] text-center mt-2 font-space-grotesk">
-                      Higher level = faster drops &amp; more score
-                    </p>
-                  </div>
-                )}
-
-                <button
-                  onClick={startGame}
-                  className="btn-neon-cyan px-8 py-3 rounded-sm font-space-grotesk font-bold text-sm uppercase tracking-widest"
+              {/* Overlay */}
+              {(!started || gameOver) && (
+                <div
+                  className="absolute inset-0 flex flex-col items-center justify-center rounded-sm"
+                  style={{ background: 'rgba(8,13,26,0.88)', backdropFilter: 'blur(4px)' }}
                 >
-                  {gameOver ? '> Play Again' : '> Start Game'}
-                </button>
-              </div>
-            )}
+                  <p className="font-space-grotesk font-bold text-3xl neon-cyan mb-2">
+                    {gameOver ? 'GAME OVER' : 'TETRIS'}
+                  </p>
+                  {gameOver && (
+                    <p className="text-neutral-70 text-sm mb-2">
+                      Score: <span className="neon-cyan font-bold">{score}</span>
+                    </p>
+                  )}
+                  <p className="text-neutral-60 text-xs mb-5 text-center px-4">
+                    ↑ Rotate ←→ Move ↓ Soft drop Space = Hard drop
+                  </p>
+
+                  {/* Starting level picker */}
+                  {!gameOver && (
+                    <div className="mb-6 w-full px-4">
+                      <p className="text-neutral-60 text-xs uppercase tracking-widest text-center mb-3 font-space-grotesk">
+                        Starting Level
+                      </p>
+                      <div className="flex gap-2 justify-center">
+                        {[1, 3, 5, 8, 10].map((lvl) => {
+                          const active = startLevel === lvl;
+                          return (
+                            <button
+                              key={lvl}
+                              onClick={() => {
+                                setStartLevel(lvl);
+                                startLevelRef.current = lvl;
+                              }}
+                              className="w-10 h-10 rounded-sm border font-space-grotesk font-bold text-sm transition-all duration-200"
+                              style={{
+                                borderColor: active ? '#00d4ff' : 'rgba(255,255,255,0.1)',
+                                background: active
+                                  ? 'rgba(0,212,255,0.15)'
+                                  : 'rgba(255,255,255,0.03)',
+                                color: active ? '#00d4ff' : '#6b8299',
+                                boxShadow: active ? '0 0 12px rgba(0,212,255,0.4)' : 'none',
+                              }}
+                            >
+                              {lvl}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <p className="text-neutral-50 text-[10px] text-center mt-2 font-space-grotesk">
+                        Higher level = faster drops &amp; more score
+                      </p>
+                    </div>
+                  )}
+
+                  <button
+                    onClick={startGame}
+                    className="btn-neon-cyan px-8 py-3 rounded-sm font-space-grotesk font-bold text-sm uppercase tracking-widest"
+                  >
+                    {gameOver ? '> Play Again' : '> Start Game'}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Side panel */}
-          <div className="hidden md:flex flex-col gap-4 w-32">
+          <div
+            className="hidden lg:flex flex-col gap-4 w-32 h-full max-h-96"
+            style={{ minWidth: '8rem' }}
+          >
             <div className="glass border border-secondary-50/20 rounded-sm p-3">
               <p className="text-xs text-neutral-60 uppercase tracking-widest mb-2">Next</p>
               <canvas
