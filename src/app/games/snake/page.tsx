@@ -18,6 +18,19 @@ const DIFFICULTIES = {
 } as const;
 type DiffKey = keyof typeof DIFFICULTIES;
 
+// Detect if mobile
+function isMobile(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 768;
+}
+
+// Get adjusted tick speed based on device type
+function getTickMs(difficulty: DiffKey): number {
+  const baseTickMs = DIFFICULTIES[difficulty].tickMs;
+  // On mobile, slow down by 40% (multiply by 1.4)
+  return isMobile() ? Math.round(baseTickMs * 1.4) : baseTickMs;
+}
+
 type Dir = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 type Point = { x: number; y: number };
 
@@ -133,11 +146,13 @@ export default function SnakePage() {
       y: head.y + (s.dir === 'DOWN' ? 1 : s.dir === 'UP' ? -1 : 0),
     };
 
-    // Wall collision - wrap around
-    if (next.x < 0) next.x = COLS - 1;
-    if (next.x >= COLS) next.x = 0;
-    if (next.y < 0) next.y = ROWS - 1;
-    if (next.y >= ROWS) next.y = 0;
+    // Wall collision - game over
+    if (next.x < 0 || next.x >= COLS || next.y < 0 || next.y >= ROWS) {
+      s.dead = true;
+      setDead(true);
+      sounds.gameOver();
+      return;
+    }
 
     // Self collision
     if (s.snake.some((seg) => seg.x === next.x && seg.y === next.y)) {
@@ -171,7 +186,7 @@ export default function SnakePage() {
     sounds.start();
     draw();
     if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(tick, DIFFICULTIES[difficultyRef.current].tickMs);
+    intervalRef.current = setInterval(tick, getTickMs(difficultyRef.current));
   }, [tick, draw]);
 
   useEffect(() => {
