@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ParticleCanvas } from '../reusable/particle-canvas';
 import { TypewriterText } from '../reusable/typewriter-text';
+import { OrbitalVisualization } from '../reusable/orbital-visualization';
 
 export function Hero() {
   return (
@@ -71,7 +72,7 @@ export function Hero() {
               {[
                 { n: '5+', l: 'Years' },
                 { n: '1700+', l: 'Problems' },
-                { n: '180M+', l: 'Users Reached' },
+                { n: '10M+', l: 'Users Reached' },
               ].map((s) => (
                 <div key={s.l} className="text-center">
                   <div className="font-space-grotesk font-bold text-2xl text-primary-50">{s.n}</div>
@@ -104,77 +105,8 @@ export function Hero() {
           </div>
 
           {/* Right — 3D Orbital Visualization */}
-          <div className="hidden lg:flex items-center justify-center relative h-125 animate-fade-in [animation-delay:300ms]">
-            {/* Core sphere */}
-            <div className="absolute w-32 h-32 rounded-full glass neon-box-green flex items-center justify-center animate-glow z-10">
-              <div className="w-20 h-20 rounded-full bg-linear-to-br from-primary-50/30 to-secondary-50/30 flex items-center justify-center">
-                <span className="font-space-grotesk font-bold text-2xl neon-green">{'{}'}</span>
-              </div>
-            </div>
-
-            {/* Orbit ring 1 */}
-            <div
-              className="absolute w-64 h-64 rounded-full border border-primary-50/20 animate-spin-slow"
-              style={{ transformOrigin: 'center' }}
-            >
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-primary-50 neon-box-green animate-float" />
-            </div>
-
-            {/* Orbit ring 2 - tilted */}
-            <div
-              className="absolute w-80 h-80 rounded-full border border-secondary-50/20"
-              style={{
-                transform: 'rotateX(70deg) rotateZ(20deg)',
-                animation: 'spin-slow 15s linear infinite reverse',
-              }}
-            >
-              <div
-                className="absolute -top-3 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-secondary-50"
-                style={{ boxShadow: '0 0 10px #00d4ff' }}
-              />
-            </div>
-
-            {/* Orbit ring 3 - another tilt */}
-            <div
-              className="absolute w-96 h-96 rounded-full border border-tertiary-50/15"
-              style={{
-                transform: 'rotateX(40deg) rotateZ(-30deg)',
-                animation: 'spin-slow 25s linear infinite',
-              }}
-            >
-              <div
-                className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-tertiary-50"
-                style={{ boxShadow: '0 0 10px #a476ff' }}
-              />
-            </div>
-
-            {/* Floating tech tags */}
-            {[
-              { label: 'NestJS', top: '10%', left: '60%', color: '#00ff87' },
-              { label: 'Next.js', top: '75%', left: '65%', color: '#00d4ff' },
-              { label: 'Angular', top: '15%', left: '5%', color: '#a476ff' },
-              { label: 'Redis', top: '80%', left: '5%', color: '#00ff87' },
-            ].map((tag, i) => (
-              <div
-                key={tag.label}
-                className="absolute terminal-text animate-float"
-                style={{
-                  top: tag.top,
-                  left: tag.left,
-                  color: tag.color,
-                  animationDelay: `${i * 0.8}s`,
-                  fontSize: '0.7rem',
-                }}
-              >
-                {tag.label}
-              </div>
-            ))}
-
-            {/* Corner decorations */}
-            <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-primary-50/40" />
-            <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-secondary-50/40" />
-            <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-tertiary-50/40" />
-            <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-primary-50/40" />
+          <div className="hidden lg:block relative h-125 xl:h-160 animate-fade-in [animation-delay:300ms]">
+            <OrbitalVisualization />
           </div>
         </div>
 

@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Navigation } from '@/components/sections/navigation';
 import { Hero } from '@/components/sections/hero';
-import { AchievementsStats } from '@/components/sections/achievements-stats';
-import { ComputationalArtifacts } from '@/components/sections/computational-artifacts';
+import { Achievements } from '@/components/sections/achievements';
 import { ProfessionalJourney } from '@/components/sections/professional-journey';
 import { FeaturedProjects } from '@/components/sections/featured-projects';
 import { CTA } from '@/components/sections/cta';
@@ -36,8 +35,7 @@ export default function Home() {
       <main className="bg-neutral-5 text-neutral-90">
         <Navigation />
         <Hero />
-        <AchievementsStats />
-        <ComputationalArtifacts />
+        <Achievements />
         <ProfessionalJourney />
         <FeaturedProjects />
         <CTA />

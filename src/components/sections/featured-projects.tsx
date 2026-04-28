@@ -55,12 +55,12 @@ export function FeaturedProjects() {
             </h2>
             <div className="glass border border-primary-50/20 px-4 py-2 rounded-sm animate-fade-in [animation-delay:200ms]">
               <span className="text-xs font-space-grotesk text-primary-50 uppercase tracking-widest">
-                9.7M Daily Users
+                3M+ Daily Users
               </span>
             </div>
           </div>
           <p className="text-neutral-70 max-w-2xl mt-4 text-sm leading-relaxed animate-slide-up [animation-delay:200ms]">
-            Engineered verified prayer times engine serving 180M+ downloads. Built comprehensive
+            Engineered verified prayer times engine serving 1M+ daily hits. Built comprehensive
             Islamic tools recognized as the most accurate Muslim lifestyle app worldwide.
           </p>
         </div>

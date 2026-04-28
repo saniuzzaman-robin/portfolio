@@ -10,7 +10,7 @@ export function ProjectsGrid() {
       title: 'MuslimPro Web Platform',
       category: 'Full Stack',
       description:
-        'Engineered verified prayer times engine with geolocation accuracy. Built Islamic calendar integration, charitable giving platform, and premium subscription system serving 180M+ downloads.',
+        'Engineered verified prayer times engine with geolocation accuracy. Built Islamic calendar integration, charitable giving platform, and premium subscription system serving 3M+ daily users.',
       technologies: ['Next.js', 'NestJS', 'MongoDB', 'Redis', 'TypeScript'],
       link: 'https://app.muslimpro.com',
       color: 'primary' as const,
