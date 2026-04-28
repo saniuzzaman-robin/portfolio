@@ -19,7 +19,7 @@ export function ResumeContent() {
             <a
               href="/CV_SANIUZZAMAN_ROBIN.pdf"
               download
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary-50 text-white font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary-50/50 hover:-translate-y-1 whitespace-nowrap"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary-50 text-black font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300 whitespace-nowrap"
             >
               <Download className="w-5 h-5" />
               <span>Download Resume</span>
@@ -110,11 +110,11 @@ export function ResumeContent() {
               <h3 className="font-space-grotesk text-lg font-bold mb-2">
                 {CV_DATA.competitiveProgramming.title}
               </h3>
-              <p className="text-neutral-70 text-sm">
+              <div className="text-neutral-70 text-sm space-y-1">
                 {CV_DATA.competitiveProgramming.achievements.map((achievement, i) => (
                   <div key={i}>• {achievement}</div>
                 ))}
-              </p>
+              </div>
             </div>
             <div className="bg-neutral-5 rounded-xl p-8 border border-neutral-20">
               <h3 className="font-space-grotesk text-lg font-bold mb-2">
@@ -134,7 +134,7 @@ export function ResumeContent() {
           <div className="flex gap-4 justify-center flex-wrap">
             <a
               href="mailto:saniuzzamanrobin07@gmail.com"
-              className="px-8 py-3 bg-primary-50 text-white font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300 hover:scale-105"
+              className="px-8 py-3 bg-primary-50 text-black font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300"
             >
               Get In Touch
             </a>
