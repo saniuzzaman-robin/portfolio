@@ -24,7 +24,7 @@ export function GameCardGrid() {
 
       {/* Game cards */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {games.map((game, index) => {
+        {GAMES.map((game, index) => {
           const Icon = game.icon;
           return (
             <Link key={game.id} href={game.href} className="group block">
