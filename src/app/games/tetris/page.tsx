@@ -9,7 +9,21 @@ import { sounds } from '@/lib/sounds';
 
 const COLS = 10;
 const ROWS = 20;
-const CELL = 44;
+const CELL_DESKTOP = 44;
+
+// Responsive cell size for mobile
+function getCell(): number {
+  if (typeof window === 'undefined') return CELL_DESKTOP;
+  const width = window.innerWidth;
+  // On mobile (< 768px), scale down the cell size to fit screen
+  if (width < 768) {
+    // Mobile: fit within ~90% of viewport width minus padding
+    const availableWidth = width * 0.9 - 16; // 16px for padding
+    const cellSize = Math.floor(availableWidth / COLS);
+    return Math.max(20, Math.min(28, cellSize)); // Constrain between 20-28
+  }
+  return CELL_DESKTOP;
+}
 
 type Grid = (string | null)[][];
 
@@ -128,13 +142,28 @@ export default function TetrisPage() {
   const [started, setStarted] = useState(false);
   const [best, setBest] = useState(0);
   const [startLevel, setStartLevel] = useState(1);
+  const [cellSize, setCellSize] = useState(CELL_DESKTOP);
   const startLevelRef = useRef(1);
   const scoreRef = useRef(0);
   const linesRef = useRef(0);
   const levelRef = useRef(1);
   const dropRef = useRef<ReturnType<typeof setInterval>>(null);
+  const cellRef = useRef(CELL_DESKTOP);
+
+  // Handle window resize to adjust cell size on mobile
+  useEffect(() => {
+    function updateCellSize() {
+      const newSize = getCell();
+      setCellSize(newSize);
+      cellRef.current = newSize;
+    }
+    updateCellSize();
+    window.addEventListener('resize', updateCellSize);
+    return () => window.removeEventListener('resize', updateCellSize);
+  }, []);
 
   function drawBlock(ctx: CanvasRenderingContext2D, x: number, y: number, color: string) {
+    const CELL = cellRef.current;
     const g = ctx.createLinearGradient(x, y, x + CELL, y + CELL);
     g.addColorStop(0, color);
     g.addColorStop(1, color + '80');
@@ -159,6 +188,7 @@ export default function TetrisPage() {
     if (!ctx) return;
     const grid = gridRef.current;
     const piece = pieceRef.current;
+    const CELL = cellRef.current;
 
     ctx.fillStyle = '#080d1a';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -427,8 +457,8 @@ export default function TetrisPage() {
               />
               <canvas
                 ref={canvasRef}
-                width={COLS * CELL}
-                height={ROWS * CELL}
+                width={COLS * cellSize}
+                height={ROWS * cellSize}
                 className="relative block rounded-sm w-full h-full"
               />
 
@@ -507,14 +537,15 @@ export default function TetrisPage() {
               <p className="text-xs text-neutral-60 uppercase tracking-widest mb-2">Next</p>
               <canvas
                 id="next-canvas"
-                width={4 * CELL}
-                height={4 * CELL}
+                width={4 * cellSize}
+                height={4 * cellSize}
                 className="rounded-sm"
                 ref={(c) => {
                   if (!c) return;
                   const ctx = c.getContext('2d');
                   if (!ctx) return;
                   const p = nextRef.current;
+                  const CELL = cellSize;
                   ctx.fillStyle = '#080d1a';
                   ctx.fillRect(0, 0, 4 * CELL, 4 * CELL);
                   const ox = Math.floor((4 - p.shape[0].length) / 2);
