@@ -7,8 +7,10 @@ import { FeaturedProjects } from '@/components/sections/featured-projects';
 import { CTA } from '@/components/sections/cta';
 import { Footer } from '@/components/sections/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
+import { AdUnit } from '@/components/reusable/ad-unit';
 import { generatePersonSchema, generateWebPageSchema } from '@/lib/schema';
 import { CV_DATA } from '@/lib/cv-data';
+import { AD_SLOTS } from '@/lib/ads-config';
 
 export const metadata: Metadata = {
   title: `Home | ${CV_DATA.name} - ${CV_DATA.title}`,
@@ -37,6 +39,9 @@ export default function Home() {
         <Achievements />
         <ProfessionalJourney />
         <FeaturedProjects />
+        <div className="px-4 py-8 border-t border-white/5">
+          <AdUnit slot={AD_SLOTS.HOME_BANNER} format="horizontal" className="max-w-4xl mx-auto" />
+        </div>
         <CTA />
         <Footer />
       </main>
