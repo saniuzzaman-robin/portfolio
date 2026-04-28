@@ -11,6 +11,7 @@ import {
   Smartphone,
   Settings,
 } from 'lucide-react';
+import { CV_DATA } from '@/lib/cv-data';
 
 interface JobType {
   company: string;
@@ -36,57 +37,20 @@ const highlightIcons = {
 };
 
 export function ProfessionalJourney() {
-  const jobs: JobType[] = [
-    {
-      company: 'Bitsmedia Pte Ltd.',
-      title: 'Software Engineer',
-      period: '01/2024 – Present',
-      duration: '~3 months',
-      description:
-        'Developing full-stack features using Next.js and NestJS. Architecting scalable APIs with caching optimization via Redis and MongoDB.',
-      skills: ['NEXT.JS', 'NESTJS', 'REDIS', 'MONGODB'],
-      accent: '#00ff87',
-      highlights: [
-        { icon: highlightIcons['Full-Stack'], label: 'Stack', value: 'Next.js + NestJS' },
-        {
-          icon: highlightIcons['Performance'],
-          label: 'Performance',
-          value: 'Caching & Optimization',
-        },
-        { icon: highlightIcons['Database'], label: 'Database', value: 'MongoDB & Redis' },
-      ],
-    },
-    {
-      company: 'KONA Software Lab Ltd.',
-      title: 'Software Engineer – L02',
-      period: '10/2022 – 01/2024',
-      duration: '15 months',
-      description:
-        'Led a 4-member team and developed an Admin Panel with Angular. Maintained reusable frontend libraries and managed project architecture.',
-      skills: ['ANGULAR', 'TYPESCRIPT', 'RXJS'],
-      accent: '#00d4ff',
-      highlights: [
-        { icon: highlightIcons['Team Lead'], label: 'Team', value: '4 members' },
-        { icon: highlightIcons['Frontend'], label: 'Frontend', value: 'Admin Panel' },
-        { icon: highlightIcons['Libraries'], label: 'Libraries', value: 'Reusable Components' },
-      ],
-    },
-    {
-      company: 'SELISE Digital Platforms',
-      title: 'Software Engineer',
-      period: '03/2021 – 10/2022',
-      duration: '19 months',
-      description:
-        'Built responsive web apps with Angular & Angular Material. Created a custom Selenium wrapper and ran JMeter load tests for performance.',
-      skills: ['ANGULAR', 'SELENIUM', 'JMETER'],
-      accent: '#a476ff',
-      highlights: [
-        { icon: highlightIcons['Testing'], label: 'Testing', value: 'Selenium & JMeter' },
-        { icon: highlightIcons['Responsive'], label: 'Responsive', value: 'Angular Material' },
-        { icon: highlightIcons['Load'], label: 'Performance', value: 'Load Testing' },
-      ],
-    },
-  ];
+  const jobs: JobType[] = CV_DATA.experience.map((exp) => ({
+    company: exp.company,
+    title: exp.title,
+    period: exp.period.replace('-', '–'),
+    duration: exp.duration,
+    description: exp.description,
+    skills: exp.skills.map((s) => s.toUpperCase()),
+    accent: exp.accent,
+    highlights: exp.highlights.map((h) => ({
+      icon: highlightIcons[h.label as keyof typeof highlightIcons] || highlightIcons['Full-Stack'],
+      label: h.label,
+      value: h.value,
+    })),
+  }));
 
   return (
     <section className="px-6 py-24 md:px-12 lg:px-20 relative">

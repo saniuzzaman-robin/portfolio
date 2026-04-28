@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, RefreshCw, Timer, Star } from 'lucide-react';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateGameSchema } from '@/lib/schema';
+import { sounds } from '@/lib/sounds';
 
 const ICONS = ['⚡', '🔮', '🎯', '🚀', '🌊', '🔥', '💎', '🌌', '🎮', '🤖', '🎲', '🌀'];
 
@@ -63,6 +64,7 @@ export default function MemoryPage() {
     setStarted(false);
     setWon(false);
     setLocked(false);
+    sounds.start();
     // brief delay then flip all back
   }, []);
 
@@ -73,6 +75,8 @@ export default function MemoryPage() {
       if (card.flipped || card.matched) return;
 
       if (!started) setStarted(true);
+
+      sounds.flip();
 
       const newSelected = [...selected, id];
       const newCards = cards.map((c) => (c.id === id ? { ...c, flipped: true } : c));
@@ -87,6 +91,7 @@ export default function MemoryPage() {
         const [a, b] = newSelected;
         if (newCards[a].icon === newCards[b].icon) {
           // Match!
+          sounds.match();
           setTimeout(() => {
             setCards((prev) =>
               prev.map((c) => (c.id === a || c.id === b ? { ...c, matched: true } : c))
@@ -94,6 +99,7 @@ export default function MemoryPage() {
             const newMatched = matched + 1;
             setMatched(newMatched);
             if (newMatched === 8) {
+              sounds.victory();
               setWon(true);
               setStarted(false);
               setBestTime((bt) => (bt === null ? seconds : Math.min(bt, seconds)));
@@ -102,6 +108,7 @@ export default function MemoryPage() {
           }, 400);
         } else {
           // No match — flip back
+          sounds.mismatch();
           setLocked(true);
           setTimeout(() => {
             setCards((prev) =>

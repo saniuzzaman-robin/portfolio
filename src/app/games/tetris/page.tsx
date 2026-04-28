@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, RefreshCw } from 'lucide-react';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateGameSchema } from '@/lib/schema';
+import { sounds } from '@/lib/sounds';
 
 const COLS = 10;
 const ROWS = 20;
@@ -227,6 +228,7 @@ export default function TetrisPage() {
     gridRef.current = newG;
 
     if (cleared > 0) {
+      sounds.lineClear();
       const add = SCORE_TABLE[cleared] * levelRef.current;
       scoreRef.current += add;
       linesRef.current += cleared;
@@ -235,12 +237,15 @@ export default function TetrisPage() {
       setLines(linesRef.current);
       setLevel(levelRef.current);
       setBest((b) => Math.max(b, scoreRef.current));
+    } else {
+      sounds.blockPlace();
     }
 
     pieceRef.current = { ...nextRef.current };
     nextRef.current = newPiece();
 
     if (!fits(gridRef.current, pieceRef.current)) {
+      sounds.gameOver();
       setGameOver(true);
       if (dropRef.current) clearInterval(dropRef.current);
     }
@@ -277,6 +282,7 @@ export default function TetrisPage() {
     setLevel(startLevelRef.current);
     setGameOver(false);
     setStarted(true);
+    sounds.start();
     draw();
     startDrop(startLevelRef.current);
   }, [draw, startDrop]);

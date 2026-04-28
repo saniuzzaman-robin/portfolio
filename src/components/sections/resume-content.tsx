@@ -1,4 +1,5 @@
 import { Download } from 'lucide-react';
+import { CV_DATA } from '@/lib/cv-data';
 
 export function ResumeContent() {
   return (
@@ -9,10 +10,10 @@ export function ResumeContent() {
           <div className="flex justify-between items-start mb-8 flex-wrap gap-4">
             <div>
               <h1 className="font-space-grotesk text-5xl md:text-6xl font-bold mb-2">
-                Md. Saniuzzaman Robin
+                {CV_DATA.name}
               </h1>
               <p className="text-primary-50 text-lg font-space-grotesk uppercase tracking-widest">
-                Software Engineer
+                {CV_DATA.title}
               </p>
             </div>
             <a
@@ -25,16 +26,12 @@ export function ResumeContent() {
             </a>
           </div>
           <p className="text-neutral-70 text-base max-w-3xl leading-relaxed mb-6">
-            Software engineer with 5 years of experience building production-grade web applications
-            and backend systems. Specialized in NestJS for scalable APIs and microservices, Next.js
-            and Angular for performant frontend experiences. Proven expertise in system
-            architecture, performance optimization, and competitive programming with 1700+ problems
-            solved.
+            {CV_DATA.summary}
           </p>
           <div className="flex gap-6 text-neutral-70 text-sm flex-wrap">
-            <span>📧 saniuzzamanrobin07@gmail.com</span>
-            <span>📱 +880 1811 685 391</span>
-            <span>📍 Dhaka, Bangladesh</span>
+            <span>📧 {CV_DATA.email}</span>
+            <span>📱 {CV_DATA.phone}</span>
+            <span>📍 {CV_DATA.location}</span>
           </div>
         </div>
 
@@ -42,54 +39,15 @@ export function ResumeContent() {
         <div className="mb-16 animate-slide-up [animation-delay:100ms]">
           <h2 className="font-space-grotesk text-3xl font-bold text-primary-50 mb-8">Experience</h2>
           <div className="space-y-8">
-            {[
-              {
-                role: 'Software Engineer',
-                company: 'Bitsmedia Pte Ltd.',
-                period: '01/2024 - Present',
-                achievements: [
-                  'Develop and maintain full-stack features using Next.js and NestJS',
-                  'Architect scalable solutions with API implementation and performance optimization',
-                  'Integrated caching and SSR optimizations for Next.js pages',
-                  'Implemented scalable architecture with Redis and MongoDB',
-                ],
-                color: 'primary',
-              },
-              {
-                role: 'Software Engineer - L02',
-                company: 'KONA Software Lab Ltd.',
-                period: '10/2022 - 01/2024',
-                achievements: [
-                  'Coordinated 4-member development team',
-                  'Spearheaded development of Admin Panel with Angular',
-                  'Maintained reusable frontend libraries and components',
-                  'Managed project architecture and caching strategies',
-                ],
-                color: 'secondary',
-              },
-              {
-                role: 'Software Engineer',
-                company: 'SELISE Digital Platforms',
-                period: '03/2021 - 10/2022',
-                achievements: [
-                  'Developed responsive web applications using Angular and Angular Material',
-                  'Created custom Selenium wrapper for automated testing',
-                  'Conducted load testing with JMeter for performance analysis',
-                  'Collaborated with UX and backend teams on complex features',
-                ],
-                color: 'tertiary',
-              },
-            ].map((exp, index) => (
+            {CV_DATA.experience.map((exp, index) => (
               <div
                 key={index}
                 className="bg-neutral-5 rounded-xl p-8 border border-neutral-20 hover:border-neutral-30 transition duration-300"
               >
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3
-                      className={`font-space-grotesk text-xl font-bold text-${exp.color}-50 mb-1`}
-                    >
-                      {exp.role}
+                    <h3 className={`font-space-grotesk text-xl font-bold text-primary-50 mb-1`}>
+                      {exp.title}
                     </h3>
                     <p className="text-neutral-70">{exp.company}</p>
                   </div>
@@ -114,16 +72,15 @@ export function ResumeContent() {
             {[
               {
                 title: 'Frontend',
-                skills:
-                  'Next.js, Angular, React, Tailwind, RxJS, Zustand, Angular Material, Shadcn',
+                skills: CV_DATA.skills.frontend,
               },
               {
                 title: 'Backend',
-                skills: 'NestJS, .NET (C#), GCP, RabbitMQ, Redis, MongoDB, REST, TDD, SOLID',
+                skills: CV_DATA.skills.backend,
               },
               {
                 title: 'Others',
-                skills: 'Git, Postman, Selenium, JMeter, Jest, SEO, Agile, Scrum',
+                skills: CV_DATA.skills.others,
               },
             ].map((skillSet, index) => (
               <div key={index} className="bg-neutral-5 rounded-xl p-6 border border-neutral-20">
@@ -140,31 +97,30 @@ export function ResumeContent() {
             Education & Certifications
           </h2>
           <div className="space-y-6">
+            {CV_DATA.education.map((edu, index) => (
+              <div key={index} className="bg-neutral-5 rounded-xl p-8 border border-neutral-20">
+                <h3 className="font-space-grotesk text-lg font-bold mb-2">{edu.degree}</h3>
+                <p className="text-neutral-70 mb-2">
+                  {edu.institution} • {edu.period}
+                </p>
+                <p className="text-neutral-70 text-sm">{edu.location}</p>
+              </div>
+            ))}
             <div className="bg-neutral-5 rounded-xl p-8 border border-neutral-20">
               <h3 className="font-space-grotesk text-lg font-bold mb-2">
-                B.Sc. in Computer Science & Engineering
-              </h3>
-              <p className="text-neutral-70 mb-2">Cumilla University • 01/2016 - 12/2020</p>
-              <p className="text-neutral-70 text-sm">Cumilla, Bangladesh</p>
-            </div>
-            <div className="bg-neutral-5 rounded-xl p-8 border border-neutral-20">
-              <h3 className="font-space-grotesk text-lg font-bold mb-2">
-                Competitive Programming Achievements
+                {CV_DATA.competitiveProgramming.title}
               </h3>
               <p className="text-neutral-70 text-sm">
-                • Solved 1700+ problems (Codeforces, Codechef, LightOJ, UVA)
-                <br />
-                • Led CP team in 10+ national level contests
-                <br />• ICPC Dhaka Regional Finalist
+                {CV_DATA.competitiveProgramming.achievements.map((achievement, i) => (
+                  <div key={i}>• {achievement}</div>
+                ))}
               </p>
             </div>
             <div className="bg-neutral-5 rounded-xl p-8 border border-neutral-20">
-              <h3 className="font-space-grotesk text-lg font-bold mb-2">Problem Setter & Judge</h3>
-              <p className="text-neutral-70 text-sm">
-                Organized and judged several Intra and Inter-University
-                <br />
-                Programming contests
-              </p>
+              <h3 className="font-space-grotesk text-lg font-bold mb-2">
+                {CV_DATA.problemSetting.title}
+              </h3>
+              <p className="text-neutral-70 text-sm">{CV_DATA.problemSetting.description}</p>
             </div>
           </div>
         </div>

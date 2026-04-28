@@ -109,29 +109,17 @@ body {
 }
 
 /* ============================================================
-   NEON GLOW EFFECTS
+   NEON GLOW EFFECTS - SHARP VERSION
    ============================================================ */
 .neon-green {
-  text-shadow:
-    0 0 7px #00ff87,
-    0 0 20px #00ff87,
-    0 0 45px #00ff87;
   color: #00ff87;
 }
 
 .neon-cyan {
-  text-shadow:
-    0 0 7px #00d4ff,
-    0 0 20px #00d4ff,
-    0 0 45px #00d4ff;
   color: #00d4ff;
 }
 
 .neon-purple {
-  text-shadow:
-    0 0 7px #a476ff,
-    0 0 20px #a476ff,
-    0 0 45px #a476ff;
   color: #a476ff;
 }
 
@@ -154,6 +142,74 @@ body {
     0 0 5px #a476ff,
     0 0 20px rgba(164, 118, 255, 0.3),
     inset 0 0 20px rgba(164, 118, 255, 0.05);
+}
+
+/* ============================================================
+   GAMING UI ALTERNATIVES
+   ============================================================ */
+
+/* Sleek gaming stats display */
+.game-stat {
+  background: linear-gradient(135deg, rgba(0, 255, 135, 0.05), rgba(0, 212, 255, 0.05));
+  border: 1px solid rgba(0, 255, 135, 0.2);
+  border-radius: 6px;
+  padding: 12px 16px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.game-stat:hover {
+  border-color: rgba(0, 255, 135, 0.4);
+  box-shadow: 0 0 12px rgba(0, 255, 135, 0.15);
+}
+
+.game-stat-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8da3b3;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.game-stat-value {
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  display: block;
+}
+
+/* Minimal gaming buttons */
+.btn-game {
+  background: linear-gradient(135deg, rgba(0, 255, 135, 0.1), rgba(0, 255, 135, 0.05));
+  border: 1.5px solid rgba(0, 255, 135, 0.4);
+  color: #00ff87;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-game:hover {
+  background: rgba(0, 255, 135, 0.15);
+  border-color: #00ff87;
+  box-shadow: 0 0 12px rgba(0, 255, 135, 0.25);
+}
+
+.btn-game:active {
+  transform: scale(0.98);
+}
+
+/* Gaming grid layout */
+.game-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
 
 /* ============================================================

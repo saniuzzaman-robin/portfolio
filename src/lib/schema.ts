@@ -3,17 +3,18 @@
  * Helps with SEO and search engine understanding
  */
 
+import { CV_DATA } from './cv-data';
+
 const getSiteUrl = () => process.env.NEXT_PUBLIC_SITE_URL || 'https://saniuzzaman.dev';
 
 export const siteConfig = {
-  name: 'Md. Saniuzzaman Robin',
-  title: 'Full-Stack Software Engineer',
-  description:
-    'Full-stack software engineer with 5+ years of experience building production-grade web applications.',
+  name: CV_DATA.name,
+  title: CV_DATA.title,
+  description: CV_DATA.shortBio,
   url: getSiteUrl(),
-  email: 'saniuzzamanrobin07@gmail.com',
-  phone: '+880 1811 685 391',
-  location: 'Dhaka, Bangladesh',
+  email: CV_DATA.email,
+  phone: CV_DATA.phone,
+  location: CV_DATA.location,
   social: {
     github: 'https://github.com/saniuzzaman-robin',
     linkedin: 'https://linkedin.com/in/saniuzzaman-robin',
@@ -51,40 +52,17 @@ export function generatePersonSchema() {
     },
     sameAs: [siteConfig.social.github, siteConfig.social.linkedin],
     image: `${siteConfig.url}/og-image.jpg`,
-    workExperience: [
-      {
-        '@type': 'WorkExperience',
-        jobTitle: 'Software Engineer',
-        employer: {
-          '@type': 'Organization',
-          name: 'Bitsmedia Pte Ltd.',
-        },
-        startDate: '2024-01',
-        description: 'Full-stack development with Next.js and NestJS',
+    workExperience: CV_DATA.experience.map((exp) => ({
+      '@type': 'WorkExperience',
+      jobTitle: exp.title,
+      employer: {
+        '@type': 'Organization',
+        name: exp.company,
       },
-      {
-        '@type': 'WorkExperience',
-        jobTitle: 'Software Engineer - L02',
-        employer: {
-          '@type': 'Organization',
-          name: 'KONA Software Lab Ltd.',
-        },
-        startDate: '2022-10',
-        endDate: '2024-01',
-        description: 'Team lead and frontend development with Angular',
-      },
-      {
-        '@type': 'WorkExperience',
-        jobTitle: 'Software Engineer',
-        employer: {
-          '@type': 'Organization',
-          name: 'SELISE Digital Platforms',
-        },
-        startDate: '2021-03',
-        endDate: '2022-10',
-        description: 'Responsive web applications and testing automation',
-      },
-    ],
+      startDate: exp.startDate,
+      ...(exp.endDate && { endDate: exp.endDate }),
+      description: exp.descriptionLong,
+    })),
   };
 }
 
