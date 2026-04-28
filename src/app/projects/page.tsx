@@ -29,7 +29,7 @@ export default function Projects() {
   const projectItems = [
     {
       name: 'MuslimPro Web Platform',
-      description: 'Full-stack prayer times platform with 180M+ downloads',
+      description: 'Full-stack prayer times platform with 180M+ App downloads',
       url: 'https://app.muslimpro.com',
     },
     {
