@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* Production optimizations */
   reactCompiler: true,
   compress: true,
+  productionBrowserSourceMaps: true,
 
   /* Image optimization */
   images: {
