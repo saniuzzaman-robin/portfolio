@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { CV_DATA } from '@/lib/cv-data';
 
 function useInView(threshold = 0.2) {
   const ref = useRef<HTMLDivElement>(null);
@@ -56,47 +57,7 @@ function SkillBar({ name, level, accent, delay }: SkillBarProps) {
 }
 
 export function SkillsShowcase() {
-  const skillCategories = [
-    {
-      category: 'Frontend Development',
-      accent: '#00ff87',
-      icon: '⚡',
-      skills: [
-        { name: 'Next.js', level: 95 },
-        { name: 'Angular', level: 90 },
-        { name: 'React', level: 85 },
-        { name: 'TypeScript', level: 90 },
-        { name: 'Tailwind CSS', level: 95 },
-        { name: 'RxJS / Zustand', level: 85 },
-      ],
-    },
-    {
-      category: 'Backend Development',
-      accent: '#00d4ff',
-      icon: '🚀',
-      skills: [
-        { name: 'NestJS', level: 95 },
-        { name: '.NET (C#)', level: 80 },
-        { name: 'REST APIs', level: 95 },
-        { name: 'MongoDB', level: 85 },
-        { name: 'Redis', level: 85 },
-        { name: 'RabbitMQ', level: 80 },
-      ],
-    },
-    {
-      category: 'Tools & Others',
-      accent: '#a476ff',
-      icon: '🔧',
-      skills: [
-        { name: 'Git', level: 95 },
-        { name: 'Jest / TDD', level: 85 },
-        { name: 'Selenium', level: 85 },
-        { name: 'JMeter', level: 80 },
-        { name: 'GCP / Cloud', level: 75 },
-        { name: 'Agile / Scrum', level: 90 },
-      ],
-    },
-  ];
+  const skillCategories = CV_DATA.skillsDetailed;
 
   return (
     <section className="px-6 py-24 md:px-12 lg:px-20 relative">

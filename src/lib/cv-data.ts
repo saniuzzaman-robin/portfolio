@@ -104,12 +104,61 @@ export const CV_DATA = {
     },
   ],
 
-  // Skills
+  // Skills with proficiency levels
   skills: {
     frontend: 'Next.js, Angular, React, Tailwind, RxJS, Zustand, Angular Material, Shadcn',
     backend: 'NestJS, .NET (C#), GCP, RabbitMQ, Redis, MongoDB, REST, TDD, SOLID',
     others: 'Git, Postman, Selenium, JMeter, Jest, SEO, Agile, Scrum',
   },
+
+  // Detailed skill categories with proficiency levels
+  skillsDetailed: [
+    {
+      category: 'Frontend Development',
+      accent: '#00ff87',
+      icon: '⚡',
+      skills: [
+        { name: 'Next.js', level: 95 },
+        { name: 'React', level: 92 },
+        { name: 'Angular', level: 95 },
+        { name: 'TypeScript', level: 93 },
+        { name: 'Tailwind CSS', level: 94 },
+        { name: 'RxJS / State Management', level: 90 },
+        { name: 'Angular Material / Shadcn', level: 88 },
+        { name: 'Performance Optimization', level: 87 },
+      ],
+    },
+    {
+      category: 'Backend Development',
+      accent: '#00d4ff',
+      icon: '🚀',
+      skills: [
+        { name: 'NestJS', level: 96 },
+        { name: 'REST APIs', level: 95 },
+        { name: 'MongoDB', level: 92 },
+        { name: 'Redis', level: 90 },
+        { name: 'System Architecture', level: 91 },
+        { name: 'Database Optimization', level: 88 },
+        { name: '.NET (C#)', level: 82 },
+        { name: 'RabbitMQ', level: 85 },
+      ],
+    },
+    {
+      category: 'DevOps & Tools',
+      accent: '#a476ff',
+      icon: '🔧',
+      skills: [
+        { name: 'Git', level: 95 },
+        { name: 'Agile / Scrum', level: 90 },
+        { name: 'Jest / Testing', level: 90 },
+        { name: 'GCP / Cloud', level: 82 },
+        { name: 'Selenium / Automation', level: 85 },
+        { name: 'JMeter / Performance', level: 80 },
+        { name: 'CI/CD Pipelines', level: 85 },
+        { name: 'Docker / Containers', level: 80 },
+      ],
+    },
+  ],
 
   // Education
   education: [
