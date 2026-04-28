@@ -154,7 +154,7 @@ export function BlogGrid() {
               placeholder="your@email.com"
               className="flex-1 px-4 py-3 bg-neutral-10 border border-neutral-20 rounded-lg focus:outline-none focus:border-primary-50 transition text-neutral-90"
             />
-            <button className="px-6 py-3 bg-primary-50 text-white font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300 hover:scale-105">
+            <button className="px-6 py-3 bg-primary-50 text-black font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300 hover:scale-105">
               Subscribe
             </button>
           </div>
