@@ -13,6 +13,16 @@ interface Particle {
 }
 
 const COLORS = ['#00ff87', '#00d4ff', '#a476ff'];
+/** One particle per N pixels of canvas area */
+const PARTICLE_AREA_DIVISOR = 12000;
+/** Hard cap on particle count to protect low-end devices */
+const PARTICLE_MAX = 120;
+/** Connection draw distance in px */
+const CONNECTION_DISTANCE = 120;
+/** Mouse repulsion radius in px */
+const MOUSE_REPULSION_RADIUS = 100;
+/** Resize debounce delay in ms */
+const RESIZE_DEBOUNCE_MS = 150;
 
 export function ParticleCanvas({ className = '' }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -26,15 +36,19 @@ export function ParticleCanvas({ className = '' }: { className?: string }) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    let resizeTimer: ReturnType<typeof setTimeout>;
     const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      initParticles();
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        initParticles();
+      }, RESIZE_DEBOUNCE_MS);
     };
 
     const initParticles = () => {
-      const count = Math.floor((canvas.width * canvas.height) / 12000);
-      particlesRef.current = Array.from({ length: Math.min(count, 120) }, () => ({
+      const count = Math.floor((canvas.width * canvas.height) / PARTICLE_AREA_DIVISOR);
+      particlesRef.current = Array.from({ length: Math.min(count, PARTICLE_MAX) }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         vx: (Math.random() - 0.5) * 0.4,
@@ -56,8 +70,8 @@ export function ParticleCanvas({ className = '' }: { className?: string }) {
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 100) {
-          const force = (100 - dist) / 100;
+        if (dist < MOUSE_REPULSION_RADIUS) {
+          const force = (MOUSE_REPULSION_RADIUS - dist) / MOUSE_REPULSION_RADIUS;
           p.vx += (dx / dist) * force * 0.3;
           p.vy += (dy / dist) * force * 0.3;
         }
@@ -94,8 +108,8 @@ export function ParticleCanvas({ className = '' }: { className?: string }) {
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            const alpha = ((120 - dist) / 120) * 0.25;
+          if (dist < CONNECTION_DISTANCE) {
+            const alpha = ((CONNECTION_DISTANCE - dist) / CONNECTION_DISTANCE) * 0.25;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
@@ -122,10 +136,14 @@ export function ParticleCanvas({ className = '' }: { className?: string }) {
     canvas.addEventListener('mousemove', onMouseMove);
     canvas.addEventListener('mouseleave', onMouseLeave);
 
-    resize();
+    // Initial render — run without debounce
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    initParticles();
     draw();
 
     return () => {
+      clearTimeout(resizeTimer);
       window.removeEventListener('resize', resize);
       canvas.removeEventListener('mousemove', onMouseMove);
       canvas.removeEventListener('mouseleave', onMouseLeave);

@@ -115,7 +115,9 @@ export function Footer() {
 
         {/* Bottom row */}
         <div className="flex items-center justify-between flex-wrap gap-4">
-          <p className="text-neutral-60 text-xs font-space-grotesk">© 2026 Md. Saniuzzaman Robin</p>
+          <p className="text-neutral-60 text-xs font-space-grotesk">
+            © {new Date().getFullYear()} Md. Saniuzzaman Robin
+          </p>
           <p className="text-neutral-60 text-xs font-space-grotesk">
             Built with <span className="neon-green">GitHub Copilot</span>
           </p>

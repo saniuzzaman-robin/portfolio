@@ -2,47 +2,9 @@
 
 import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
+import { FEATURED_PROJECTS } from '@/lib/data/featured-projects';
 
 export function FeaturedProjects() {
-  const features = [
-    {
-      title: 'Prayer Times',
-      description:
-        'Verified prayer times with geolocation accuracy, Qibla direction, and real-time Adhan notifications',
-      href: 'https://app.muslimpro.com/prayer-times',
-      tag: 'Geolocation + API',
-      accent: '#00ff87',
-      number: '01',
-    },
-    {
-      title: 'Islamic Calendar',
-      description:
-        'Complete Islamic calendar with Hijri dates, Islamic events, and festival schedules',
-      href: 'https://app.muslimpro.com/islamic-calendar',
-      tag: 'Date Systems',
-      accent: '#00d4ff',
-      number: '02',
-    },
-    {
-      title: 'Giving Platform',
-      description:
-        'Charitable giving platform for Badal Hajj, Quranic donations, and community support',
-      href: 'https://app.muslimpro.com/giving',
-      tag: 'FinTech + UX',
-      accent: '#a476ff',
-      number: '03',
-    },
-    {
-      title: 'Qalbox',
-      description:
-        'Video streaming platform with Quranic recitations, tafsir, hadith studies, and Arabic lessons',
-      href: 'https://app.muslimpro.com/qalbox',
-      tag: 'Streaming + Media',
-      accent: '#00ff87',
-      number: '04',
-    },
-  ];
-
   return (
     <section className="px-6 py-24 md:px-12 lg:px-20 relative cyber-grid-dense">
       <div className="max-w-6xl mx-auto">
@@ -67,7 +29,7 @@ export function FeaturedProjects() {
 
         {/* Cards grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {features.map((feature, index) => (
+          {FEATURED_PROJECTS.map((feature, index) => (
             <Link
               key={index}
               href={feature.href}

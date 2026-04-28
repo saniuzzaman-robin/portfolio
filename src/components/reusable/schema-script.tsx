@@ -1,11 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * SchemaScript Component
  * Renders JSON-LD structured data as a script tag
  */
 
+type JsonLdValue = string | number | boolean | null | JsonLdObject | JsonLdValue[];
+type JsonLdObject = { [key: string]: JsonLdValue };
+
 interface SchemaScriptProps {
-  schema: Record<string, any>;
+  schema: JsonLdObject;
 }
 
 export function SchemaScript({ schema }: SchemaScriptProps) {
