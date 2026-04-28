@@ -1,82 +1,22 @@
 'use client';
 
 import Link from 'next/link';
+import { ARTICLES } from '@/lib/data/blog';
+
+// Static class maps — Tailwind JIT requires full class strings to be present at build time.
+// Dynamic string interpolation (e.g. `text-${color}-50`) is purged in production.
+const COLOR_TEXT: Record<string, string> = {
+  primary: 'text-primary-50',
+  secondary: 'text-secondary-50',
+  tertiary: 'text-tertiary-50',
+};
+const COLOR_LINK: Record<string, string> = {
+  primary: 'text-primary-50 hover:text-primary-60',
+  secondary: 'text-secondary-50 hover:text-secondary-60',
+  tertiary: 'text-tertiary-50 hover:text-tertiary-60',
+};
 
 export function BlogGrid() {
-  const articles = [
-    {
-      id: 1,
-      title: 'Building Scalable Next.js Applications',
-      excerpt:
-        'Deep dive into architectural patterns and best practices for creating production-grade Next.js applications.',
-      category: 'Backend',
-      date: 'Mar 15, 2024',
-      readTime: '8 min read',
-      color: 'primary',
-      emoji: '📚',
-      tags: ['Next.js', 'Architecture', 'Performance'],
-    },
-    {
-      id: 2,
-      title: 'Competitive Programming Insights',
-      excerpt:
-        'Techniques and strategies from competitive programming that translate to real-world software engineering.',
-      category: 'Algorithms',
-      date: 'Mar 10, 2024',
-      readTime: '10 min read',
-      color: 'secondary',
-      emoji: '🎯',
-      tags: ['Algorithms', 'Problem Solving', 'Optimization'],
-    },
-    {
-      id: 3,
-      title: 'TypeScript Best Practices',
-      excerpt:
-        'Advanced TypeScript patterns for building type-safe, maintainable applications at scale.',
-      category: 'Frontend',
-      date: 'Mar 5, 2024',
-      readTime: '12 min read',
-      color: 'tertiary',
-      emoji: '✨',
-      tags: ['TypeScript', 'Best Practices', 'Code Quality'],
-    },
-    {
-      id: 4,
-      title: 'System Design for Beginners',
-      excerpt:
-        'A comprehensive guide to system design concepts, from database selection to caching strategies.',
-      category: 'System Design',
-      date: 'Feb 28, 2024',
-      readTime: '15 min read',
-      color: 'primary',
-      emoji: '🏗️',
-      tags: ['System Design', 'Architecture', 'Scalability'],
-    },
-    {
-      id: 5,
-      title: 'React Performance Optimization',
-      excerpt:
-        'Techniques for identifying and fixing performance bottlenecks in React applications.',
-      category: 'Frontend',
-      date: 'Feb 20, 2024',
-      readTime: '9 min read',
-      color: 'secondary',
-      emoji: '⚡',
-      tags: ['React', 'Performance', 'Optimization'],
-    },
-    {
-      id: 6,
-      title: 'Docker and Containerization',
-      excerpt: 'Getting started with Docker for development and deployment of applications.',
-      category: 'DevOps',
-      date: 'Feb 15, 2024',
-      readTime: '11 min read',
-      color: 'tertiary',
-      emoji: '🐳',
-      tags: ['Docker', 'DevOps', 'Containerization'],
-    },
-  ];
-
   return (
     <section className="px-6 py-24 md:px-12 lg:px-20">
       <div className="max-w-6xl mx-auto">
@@ -91,7 +31,7 @@ export function BlogGrid() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          {articles.map((article, index) => (
+          {ARTICLES.map((article, index) => (
             <article
               key={article.id}
               className="bg-neutral-10 rounded-2xl overflow-hidden border border-neutral-20 hover:border-neutral-30 group transition-all duration-300 animate-scale-in hover:shadow-lg"
@@ -101,7 +41,7 @@ export function BlogGrid() {
                 <div className="flex items-start justify-between mb-4">
                   <span className="text-3xl">{article.emoji}</span>
                   <span
-                    className={`text-xs uppercase tracking-widest font-space-grotesk text-${article.color}-50`}
+                    className={`text-xs uppercase tracking-widest font-space-grotesk ${COLOR_TEXT[article.color] ?? 'text-primary-50'}`}
                   >
                     {article.category}
                   </span>
@@ -134,7 +74,7 @@ export function BlogGrid() {
                   </div>
                   <Link
                     href="#"
-                    className={`text-${article.color}-50 font-space-grotesk text-sm uppercase tracking-wider hover:text-${article.color}-60 transition inline-flex items-center gap-2 group-hover:translate-x-2 duration-300`}
+                    className={`font-space-grotesk text-sm uppercase tracking-wider transition inline-flex items-center gap-2 group-hover:translate-x-2 duration-300 ${COLOR_LINK[article.color] ?? 'text-primary-50 hover:text-primary-60'}`}
                   >
                     Read →
                   </Link>

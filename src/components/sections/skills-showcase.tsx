@@ -1,23 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { CV_DATA } from '@/lib/cv-data';
-
-function useInView(threshold = 0.2) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) setInView(true);
-      },
-      { threshold }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [threshold]);
-  return { ref, inView };
-}
+import { useInView } from '@/hooks/use-in-view';
 
 interface SkillBarProps {
   name: string;

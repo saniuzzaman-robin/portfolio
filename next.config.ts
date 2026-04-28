@@ -37,6 +37,24 @@ const nextConfig: NextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              // Scripts: self + inline (Next.js needs unsafe-inline for its runtime) + GA + AdSense
+              "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com",
+              // Styles: self + inline (Tailwind / Next.js inlines critical CSS)
+              "style-src 'self' 'unsafe-inline'",
+              // Images: self + data URIs + GA pixel + AdSense
+              "img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.googlesyndication.com https://*.doubleclick.net",
+              // Fonts loaded from same origin
+              "font-src 'self'",
+              // Frames: AdSense iframes
+              'frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com',
+              // Fetch/XHR: GA, AdSense
+              "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://pagead2.googlesyndication.com",
+            ].join('; '),
+          },
         ],
       },
       {

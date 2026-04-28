@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // Sound effects utility using Web Audio API
+type WebkitWindow = Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext };
 const audioContext =
   typeof window !== 'undefined'
-    ? new (window.AudioContext || (window as any).webkitAudioContext)()
+    ? new ((window as WebkitWindow).AudioContext || (window as WebkitWindow).webkitAudioContext!)()
     : null;
 
 function playTone(

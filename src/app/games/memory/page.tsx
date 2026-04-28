@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, RefreshCw, Timer, Star } from 'lucide-react';
 import { SchemaScript } from '@/components/reusable/schema-script';
@@ -55,6 +55,15 @@ export default function MemoryPage() {
   const [bestTime, setBestTime] = useState<number | null>(null);
   const [bestMoves, setBestMoves] = useState<number | null>(null);
   const seconds = useTimer(started && !won);
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  // Cleanup all pending timeouts on unmount
+  useEffect(() => {
+    const timeouts = timeoutsRef.current;
+    return () => {
+      timeouts.forEach(clearTimeout);
+    };
+  }, []);
 
   const startGame = useCallback(() => {
     setCards(initCards(8));
@@ -92,30 +101,34 @@ export default function MemoryPage() {
         if (newCards[a].icon === newCards[b].icon) {
           // Match!
           sounds.match();
-          setTimeout(() => {
-            setCards((prev) =>
-              prev.map((c) => (c.id === a || c.id === b ? { ...c, matched: true } : c))
-            );
-            const newMatched = matched + 1;
-            setMatched(newMatched);
-            if (newMatched === 8) {
-              sounds.victory();
-              setWon(true);
-              setStarted(false);
-              setBestTime((bt) => (bt === null ? seconds : Math.min(bt, seconds)));
-              setBestMoves((bm) => (bm === null ? moves + 1 : Math.min(bm, moves + 1)));
-            }
-          }, 400);
+          timeoutsRef.current.push(
+            setTimeout(() => {
+              setCards((prev) =>
+                prev.map((c) => (c.id === a || c.id === b ? { ...c, matched: true } : c))
+              );
+              const newMatched = matched + 1;
+              setMatched(newMatched);
+              if (newMatched === 8) {
+                sounds.victory();
+                setWon(true);
+                setStarted(false);
+                setBestTime((bt) => (bt === null ? seconds : Math.min(bt, seconds)));
+                setBestMoves((bm) => (bm === null ? moves + 1 : Math.min(bm, moves + 1)));
+              }
+            }, 400)
+          );
         } else {
           // No match — flip back
           sounds.mismatch();
           setLocked(true);
-          setTimeout(() => {
-            setCards((prev) =>
-              prev.map((c) => (c.id === a || c.id === b ? { ...c, flipped: false } : c))
-            );
-            setLocked(false);
-          }, 900);
+          timeoutsRef.current.push(
+            setTimeout(() => {
+              setCards((prev) =>
+                prev.map((c) => (c.id === a || c.id === b ? { ...c, flipped: false } : c))
+              );
+              setLocked(false);
+            }, 900)
+          );
         }
       }
     },
