@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
 
   /* Headers for security and performance */
   async headers() {
+    const isDev = process.env.NODE_ENV === 'development';
     return [
       {
         source: '/:path*',
@@ -41,16 +42,16 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              // Scripts: self + inline (Next.js needs unsafe-inline for its runtime) + GA + AdSense
-              "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com",
+              // Scripts: self + inline (Next.js needs unsafe-inline for its runtime) + unsafe-eval (React dev) + GA + AdSense + AdSense Quality Check
+              `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://*.adtrafficquality.google`,
               // Styles: self + inline (Tailwind / Next.js inlines critical CSS)
               "style-src 'self' 'unsafe-inline'",
-              // Images: self + data URIs + GA pixel + AdSense
-              "img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.googlesyndication.com https://*.doubleclick.net",
+              // Images: self + data URIs + GA pixel + AdSense + AdSense Quality Check
+              "img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google",
               // Fonts loaded from same origin
               "font-src 'self'",
-              // Frames: AdSense iframes
-              'frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com',
+              // Frames: Google services (Analytics, AdSense), AdSense Quality Check
+              'frame-src https://www.google.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.adtrafficquality.google',
               // Fetch/XHR: GA, AdSense, AdSense Quality Check
               "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://pagead2.googlesyndication.com https://*.adtrafficquality.google",
             ].join('; '),
