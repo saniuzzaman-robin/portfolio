@@ -6,6 +6,8 @@ import { ArrowLeft, RefreshCw } from 'lucide-react';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateGameSchema } from '@/lib/schema';
 import { sounds } from '@/lib/sounds';
+import { AdUnit } from '@/components/reusable/ad-unit';
+import { AD_SLOTS } from '@/lib/ads-config';
 
 const COLS = 10;
 const ROWS = 20;
@@ -582,6 +584,9 @@ export default function TetrisPage() {
                   >
                     {gameOver ? '> Play Again' : '> Start Game'}
                   </button>
+                  <div className="mt-4 w-full max-w-xs px-2">
+                    <AdUnit slot={AD_SLOTS.GAMES_OVERLAY} format="rectangle" />
+                  </div>
                 </div>
               )}
             </div>

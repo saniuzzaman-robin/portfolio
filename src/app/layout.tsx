@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, Manrope } from 'next/font/google';
+import Script from 'next/script';
 import { SkipLink } from '@/components/reusable/skip-link';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { GoogleAnalytics } from '@/components/reusable/google-analytics';
@@ -67,6 +68,12 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <SkipLink />
         <main id="main-content">{children}</main>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6258584982158882"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
