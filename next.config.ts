@@ -51,8 +51,8 @@ const nextConfig: NextConfig = {
               "font-src 'self'",
               // Frames: AdSense iframes
               'frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com',
-              // Fetch/XHR: GA, AdSense
-              "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://pagead2.googlesyndication.com",
+              // Fetch/XHR: GA, AdSense, AdSense Quality Check
+              "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://pagead2.googlesyndication.com https://*.adtrafficquality.google",
             ].join('; '),
           },
         ],
