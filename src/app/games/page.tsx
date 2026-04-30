@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
-        url: 'https://saniuzzaman.dev/logo.png',
+        url: 'https://saniuzzaman.dev/og_image.png',
         width: 1200,
         height: 630,
         alt: 'Saniuzzaman Robin - Games',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: 'Games | Saniuzzaman Robin',
     description: 'Interactive browser games built with React and Canvas',
     creator: '@saniuzzaman_robin',
-    images: ['https://saniuzzaman.dev/logo.png'],
+    images: ['https://saniuzzaman.dev/og_image.png'],
   },
 };
 

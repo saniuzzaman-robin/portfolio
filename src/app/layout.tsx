@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
-        url: 'https://saniuzzaman.dev/logo.png',
+        url: 'https://saniuzzaman.dev/og_image.png',
         width: 1200,
         height: 630,
         alt: 'Md. Saniuzzaman Robin - Software Engineer',
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     description:
       'Full-stack software engineer with 5+ years of experience building production-grade applications.',
     creator: '@saniuzzaman_robin',
-    images: ['https://saniuzzaman.dev/logo.png'],
+    images: ['https://saniuzzaman.dev/og_image.png'],
   },
   robots: 'index, follow',
 };
