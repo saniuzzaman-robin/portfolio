@@ -1,1 +1,4 @@
-npx lint-staged
+# Run linter and build to ensure code quality before push
+
+echo "Running linter and build checks before push..."
+npm run lint && npm run build

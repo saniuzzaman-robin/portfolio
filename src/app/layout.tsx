@@ -32,6 +32,28 @@ export const metadata: Metadata = {
     'dhaka',
   ],
   authors: [{ name: 'Md. Saniuzzaman Robin', url: 'https://saniuzzaman.dev' }],
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+    other: [
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        url: '/favicon-32x32.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        url: '/favicon-16x16.png',
+      },
+    ],
+  },
+  alternates: {
+    canonical: 'https://saniuzzaman.dev',
+  },
   openGraph: {
     type: 'website',
     url: 'https://saniuzzaman.dev',
@@ -39,6 +61,14 @@ export const metadata: Metadata = {
     description:
       'Full-stack software engineer with 5+ years of experience. Building scalable solutions with NestJS & Next.js.',
     siteName: 'Saniuzzaman Robin Portfolio',
+    images: [
+      {
+        url: 'https://saniuzzaman.dev/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Md. Saniuzzaman Robin - Software Engineer',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
@@ -46,6 +76,7 @@ export const metadata: Metadata = {
     description:
       'Full-stack software engineer with 5+ years of experience building production-grade applications.',
     creator: '@saniuzzaman_robin',
+    images: ['https://saniuzzaman.dev/logo.png'],
   },
   robots: 'index, follow',
 };
@@ -62,6 +93,9 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${manrope.variable} h-full antialiased`}
     >
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#080d1a" />
         <SchemaScript schema={generateOrganizationSchema()} />
         <GoogleAnalytics />
       </head>

@@ -7,7 +7,32 @@ import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateGameSchema } from '@/lib/schema';
 import { sounds } from '@/lib/sounds';
 
-const ICONS = ['⚡', '🔮', '🎯', '🚀', '🌊', '🔥', '💎', '🌌', '🎮', '🤖', '🎲', '🌀'];
+const ICONS = [
+  '⚡',
+  '🔮',
+  '🎯',
+  '🚀',
+  '🌊',
+  '🔥',
+  '💎',
+  '🌌',
+  '🎮',
+  '🤖',
+  '🎲',
+  '🌀',
+  '🎪',
+  '🌸',
+  '🍕',
+  '🎸',
+  '🏆',
+  '🌙',
+  '👻',
+  '🎨',
+  '🔔',
+  '💫',
+  '🍦',
+  '🎭',
+];
 
 interface Card {
   id: number;
@@ -31,6 +56,12 @@ function initCards(pairCount = 8): Card[] {
   return shuffle(pairs).map((icon, i) => ({ id: i, icon, matched: false, flipped: false }));
 }
 
+function createUnshuffledCards(pairCount = 8): Card[] {
+  const icons = ICONS.slice(0, pairCount);
+  const pairs = [...icons, ...icons];
+  return pairs.map((icon, i) => ({ id: i, icon, matched: false, flipped: false }));
+}
+
 function useTimer(running: boolean) {
   const [seconds, setSeconds] = useState(0);
   useEffect(() => {
@@ -42,10 +73,7 @@ function useTimer(running: boolean) {
 }
 
 export default function MemoryPage() {
-  const [cards, setCards] = useState<Card[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return initCards(8);
-  });
+  const [cards, setCards] = useState<Card[]>(createUnshuffledCards(8));
   const [selected, setSelected] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [matched, setMatched] = useState(0);
@@ -56,6 +84,16 @@ export default function MemoryPage() {
   const [bestMoves, setBestMoves] = useState<number | null>(null);
   const seconds = useTimer(started && !won);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const isMountedRef = useRef(false);
+
+  // Initialize shuffled cards on client mount
+  useEffect(() => {
+    if (!isMountedRef.current) {
+      isMountedRef.current = true;
+      setCards(initCards(8));
+    }
+  }, []);
 
   // Cleanup all pending timeouts on unmount
   useEffect(() => {
@@ -244,11 +282,13 @@ export default function MemoryPage() {
           )}
 
           <div
-            className="grid grid-cols-4 gap-2 sm:gap-3"
+            className="grid grid-cols-4 grid-rows-4"
             style={{
               height: 'min(100%, 42rem)',
               aspectRatio: '1 / 1',
               maxWidth: '100%',
+              padding: '0.375rem',
+              gap: 'clamp(0.375rem, 1.5vw, 0.75rem)',
             }}
           >
             {cards.map((card) => (
@@ -269,36 +309,46 @@ export default function MemoryPage() {
                 >
                   {/* Back face */}
                   <div
-                    className="absolute inset-0 rounded-sm glass border flex items-center justify-center"
+                    className="absolute inset-0 rounded-sm glass border flex items-center justify-center group-hover:scale-105 transition-transform duration-300"
                     style={{
                       backfaceVisibility: 'hidden',
                       WebkitBackfaceVisibility: 'hidden',
-                      borderColor: 'rgba(164,118,255,0.25)',
-                      background: 'rgba(164,118,255,0.05)',
+                      borderColor: 'rgba(164,118,255,0.4)',
+                      background:
+                        'linear-gradient(135deg, rgba(164,118,255,0.12) 0%, rgba(0,212,255,0.08) 100%)',
+                      boxShadow:
+                        '0 0 20px rgba(164,118,255,0.2), inset 0 0 20px rgba(164,118,255,0.05)',
                     }}
                   >
-                    <span className="text-tertiary-50/40 text-2xl font-bold">?</span>
+                    <div className="flex flex-col items-center justify-center">
+                      <span className="text-tertiary-50/60 text-xl md:text-2xl font-bold mb-0.5">
+                        ?
+                      </span>
+                      <div className="w-6 h-0.5 bg-linear-to-r from-transparent via-tertiary-50/30 to-transparent" />
+                    </div>
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-sm holographic" />
                   </div>
 
                   {/* Front face */}
                   <div
-                    className="absolute inset-0 rounded-sm flex items-center justify-center text-3xl md:text-4xl transition-all duration-300"
+                    className="absolute inset-0 rounded-sm flex items-center justify-center text-3xl md:text-4xl transition-all duration-300 group-hover:scale-110"
                     style={{
                       backfaceVisibility: 'hidden',
                       WebkitBackfaceVisibility: 'hidden',
                       transform: 'rotateY(180deg)',
-                      background: card.matched ? 'rgba(0,255,135,0.15)' : 'rgba(164,118,255,0.15)',
-                      border: `1px solid ${card.matched ? '#00ff8770' : '#a476ff70'}`,
+                      background: card.matched
+                        ? 'linear-gradient(135deg, rgba(0,255,135,0.2) 0%, rgba(0,212,255,0.1) 100%)'
+                        : 'linear-gradient(135deg, rgba(164,118,255,0.18) 0%, rgba(0,212,255,0.12) 100%)',
+                      border: `2px solid ${card.matched ? 'rgba(0,255,135,0.6)' : 'rgba(164,118,255,0.5)'}`,
                       boxShadow: card.matched
-                        ? '0 0 20px rgba(0,255,135,0.3)'
-                        : '0 0 10px rgba(164,118,255,0.2)',
+                        ? '0 0 30px rgba(0,255,135,0.4), inset 0 0 15px rgba(0,255,135,0.1)'
+                        : '0 0 15px rgba(164,118,255,0.3), inset 0 0 15px rgba(164,118,255,0.05)',
                     }}
                   >
                     {card.icon}
                     {card.matched && (
                       <div
-                        className="absolute inset-0 rounded-sm"
+                        className="absolute inset-0 rounded-sm animate-pulse"
                         style={{ background: 'rgba(0,255,135,0.08)' }}
                       />
                     )}

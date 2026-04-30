@@ -22,10 +22,21 @@ export const metadata: Metadata = {
     'backend',
     'frontend',
   ],
+  alternates: {
+    canonical: 'https://saniuzzaman.dev/skills',
+  },
   openGraph: {
     url: 'https://saniuzzaman.dev/skills',
     title: 'Technical Skills | Saniuzzaman Robin',
     description: 'Frontend, backend, and tools expertise with proficiency levels.',
+    images: [
+      {
+        url: 'https://saniuzzaman.dev/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Saniuzzaman Robin - Skills',
+      },
+    ],
   },
 };
 

@@ -19,10 +19,21 @@ export const metadata: Metadata = {
     'competitive programming',
     'B.Sc. Computer Science',
   ],
+  alternates: {
+    canonical: 'https://saniuzzaman.dev/about',
+  },
   openGraph: {
     url: 'https://saniuzzaman.dev/about',
     title: 'About Me | Saniuzzaman Robin',
     description: CV_DATA.aboutMeDesc,
+    images: [
+      {
+        url: 'https://saniuzzaman.dev/logo.png',
+        width: 1200,
+        height: 630,
+        alt: CV_DATA.name,
+      },
+    ],
   },
 };
 

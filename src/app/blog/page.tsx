@@ -21,10 +21,21 @@ export const metadata: Metadata = {
     'next.js',
     'nestjs',
   ],
+  alternates: {
+    canonical: 'https://saniuzzaman.dev/blog',
+  },
   openGraph: {
     url: 'https://saniuzzaman.dev/blog',
     title: 'Blog | Saniuzzaman Robin',
     description: 'Insights on web development, software architecture, and programming.',
+    images: [
+      {
+        url: 'https://saniuzzaman.dev/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Saniuzzaman Robin - Blog',
+      },
+    ],
   },
 };
 
