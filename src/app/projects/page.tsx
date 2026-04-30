@@ -24,9 +24,11 @@ export const metadata: Metadata = {
     canonical: 'https://saniuzzaman.dev/projects',
   },
   openGraph: {
+    type: 'website',
     url: 'https://saniuzzaman.dev/projects',
     title: 'Projects | Saniuzzaman Robin',
     description: 'Showcase of production-grade web applications and full-stack projects.',
+    siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
         url: 'https://saniuzzaman.dev/logo.png',
@@ -35,6 +37,13 @@ export const metadata: Metadata = {
         alt: 'Saniuzzaman Robin - Projects',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Projects | Saniuzzaman Robin',
+    description: 'Full-stack projects built with modern technologies',
+    creator: '@saniuzzaman_robin',
+    images: ['https://saniuzzaman.dev/logo.png'],
   },
 };
 

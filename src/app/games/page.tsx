@@ -13,9 +13,11 @@ export const metadata: Metadata = {
     canonical: 'https://saniuzzaman.dev/games',
   },
   openGraph: {
+    type: 'website',
     url: 'https://saniuzzaman.dev/games',
     title: 'Games | Saniuzzaman Robin',
     description: 'Play interactive browser games: Snake, Tetris, and Memory.',
+    siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
         url: 'https://saniuzzaman.dev/logo.png',
@@ -24,6 +26,13 @@ export const metadata: Metadata = {
         alt: 'Saniuzzaman Robin - Games',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Games | Saniuzzaman Robin',
+    description: 'Interactive browser games built with React and Canvas',
+    creator: '@saniuzzaman_robin',
+    images: ['https://saniuzzaman.dev/logo.png'],
   },
 };
 

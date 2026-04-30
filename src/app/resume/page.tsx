@@ -24,9 +24,11 @@ export const metadata: Metadata = {
     canonical: 'https://saniuzzaman.dev/resume',
   },
   openGraph: {
+    type: 'profile',
     url: 'https://saniuzzaman.dev/resume',
     title: 'Resume | Saniuzzaman Robin',
     description: 'Complete professional resume with experience, education, and technical skills.',
+    siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
         url: 'https://saniuzzaman.dev/logo.png',
@@ -35,6 +37,13 @@ export const metadata: Metadata = {
         alt: 'Saniuzzaman Robin - Resume',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Resume | Saniuzzaman Robin',
+    description: 'Professional CV and work experience',
+    creator: '@saniuzzaman_robin',
+    images: ['https://saniuzzaman.dev/logo.png'],
   },
 };
 

@@ -26,9 +26,11 @@ export const metadata: Metadata = {
     canonical: 'https://saniuzzaman.dev/skills',
   },
   openGraph: {
+    type: 'website',
     url: 'https://saniuzzaman.dev/skills',
     title: 'Technical Skills | Saniuzzaman Robin',
     description: 'Frontend, backend, and tools expertise with proficiency levels.',
+    siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
         url: 'https://saniuzzaman.dev/logo.png',
@@ -37,6 +39,13 @@ export const metadata: Metadata = {
         alt: 'Saniuzzaman Robin - Skills',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Technical Skills | Saniuzzaman Robin',
+    description: 'Full-stack development expertise and technical proficiencies',
+    creator: '@saniuzzaman_robin',
+    images: ['https://saniuzzaman.dev/logo.png'],
   },
 };
 
