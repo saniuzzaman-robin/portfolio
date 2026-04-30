@@ -234,11 +234,14 @@ function Scene() {
 
 export function OrbitalVisualization() {
   return (
-    <div style={{ width: '100%', height: '100%' }} className="w-full h-full">
+    <div style={{ width: '100%', height: '100%' }} className="w-full h-full bg-transparent">
       <Canvas
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
         camera={{ position: [0, 10, 26], fov: 58, near: 0.1, far: 300 }}
+        onCreated={({ gl }) => {
+          gl.setClearColor(0x000000, 0);
+        }}
       >
         <Scene />
       </Canvas>

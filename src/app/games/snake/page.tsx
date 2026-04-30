@@ -258,7 +258,7 @@ export default function SnakePage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="min-h-screen bg-neutral-5 text-neutral-90 flex flex-col">
+      <div className="min-h-dvh bg-neutral-5 text-neutral-90 flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-30 bg-neutral-10/50">
           <Link

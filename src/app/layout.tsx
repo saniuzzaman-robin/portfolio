@@ -90,7 +90,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${spaceGrotesk.variable} ${manrope.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${manrope.variable} antialiased`}
     >
       <head>
         <meta charSet="utf-8" />
@@ -99,7 +99,7 @@ export default function RootLayout({
         <SchemaScript schema={generateOrganizationSchema()} />
         <GoogleAnalytics />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-dvh flex flex-col">
         <AdSenseLoader />
         <SkipLink />
         <main id="main-content">{children}</main>

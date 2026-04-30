@@ -63,7 +63,7 @@ export default function GamesPage() {
   });
 
   return (
-    <main className="bg-neutral-5 text-neutral-90 min-h-screen">
+    <main className="bg-neutral-5 text-neutral-90 min-h-dvh">
       <SchemaScript schema={schema} />
       <Navigation />
 

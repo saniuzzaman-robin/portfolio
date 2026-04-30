@@ -112,6 +112,22 @@ const config: Config = {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
+        'dropdown-open': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(-6px) scaleY(0.92)',
+            transformOrigin: 'top center',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0) scaleY(1)',
+            transformOrigin: 'top center',
+          },
+        },
+        'dropdown-item': {
+          '0%': { opacity: '0', transform: 'translateX(-6px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.5s ease-in',
@@ -134,6 +150,8 @@ const config: Config = {
         'gradient-shift': 'gradient-shift 6s ease infinite',
         'count-up': 'count-up 0.5s ease-out',
         'spin-slow': 'spin-slow 20s linear infinite',
+        'dropdown-open': 'dropdown-open 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'dropdown-item': 'dropdown-item 0.2s cubic-bezier(0.16, 1, 0.3, 1) both',
         'tilt-3d': 'tilt-3d 6s ease-in-out infinite',
       },
     },
