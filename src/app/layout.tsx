@@ -61,6 +61,7 @@ export const metadata: Metadata = {
     description:
       'Full-stack software engineer with 5+ years of experience. Building scalable solutions with NestJS & Next.js.',
     siteName: 'Saniuzzaman Robin Portfolio',
+    locale: 'en_US',
     images: [
       {
         url: 'https://saniuzzaman.dev/og_image.png',
