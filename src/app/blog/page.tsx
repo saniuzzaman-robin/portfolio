@@ -25,9 +25,11 @@ export const metadata: Metadata = {
     canonical: 'https://saniuzzaman.dev/blog',
   },
   openGraph: {
+    type: 'website',
     url: 'https://saniuzzaman.dev/blog',
     title: 'Blog | Saniuzzaman Robin',
     description: 'Insights on web development, software architecture, and programming.',
+    siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
         url: 'https://saniuzzaman.dev/logo.png',
@@ -36,6 +38,13 @@ export const metadata: Metadata = {
         alt: 'Saniuzzaman Robin - Blog',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog | Saniuzzaman Robin',
+    description: 'Technical articles and insights on web development',
+    creator: '@saniuzzaman_robin',
+    images: ['https://saniuzzaman.dev/logo.png'],
   },
 };
 

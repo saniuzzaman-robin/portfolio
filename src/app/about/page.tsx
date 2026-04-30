@@ -23,9 +23,11 @@ export const metadata: Metadata = {
     canonical: 'https://saniuzzaman.dev/about',
   },
   openGraph: {
+    type: 'profile',
     url: 'https://saniuzzaman.dev/about',
     title: 'About Me | Saniuzzaman Robin',
     description: CV_DATA.aboutMeDesc,
+    siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
         url: 'https://saniuzzaman.dev/logo.png',
@@ -34,6 +36,13 @@ export const metadata: Metadata = {
         alt: CV_DATA.name,
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About Me | Saniuzzaman Robin',
+    description: CV_DATA.aboutMeDesc,
+    creator: '@saniuzzaman_robin',
+    images: ['https://saniuzzaman.dev/logo.png'],
   },
 };
 

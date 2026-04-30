@@ -15,13 +15,24 @@ import { AD_SLOTS } from '@/lib/ads-config';
 export const metadata: Metadata = {
   title: `Home | ${CV_DATA.name} - ${CV_DATA.title}`,
   description: `Explore my portfolio showcasing ${CV_DATA.yearsOfExperience} years of software engineering expertise. Specialized in building scalable applications with NestJS, Next.js, Angular, and competitive programming.`,
+  keywords: [
+    'portfolio',
+    'software engineer',
+    'full-stack',
+    'next.js',
+    'nestjs',
+    'angular',
+    'web development',
+  ],
   alternates: {
     canonical: 'https://saniuzzaman.dev',
   },
   openGraph: {
+    type: 'website',
     url: 'https://saniuzzaman.dev',
     title: `Home | ${CV_DATA.name}`,
     description: `${CV_DATA.title} with expertise in Next.js, NestJS, Angular, and system architecture.`,
+    siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
         url: 'https://saniuzzaman.dev/logo.png',
@@ -30,6 +41,13 @@ export const metadata: Metadata = {
         alt: CV_DATA.name,
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `Home | ${CV_DATA.name}`,
+    description: `${CV_DATA.title} - Full-stack software engineer`,
+    creator: '@saniuzzaman_robin',
+    images: ['https://saniuzzaman.dev/logo.png'],
   },
 };
 
