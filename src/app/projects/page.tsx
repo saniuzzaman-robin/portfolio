@@ -20,10 +20,19 @@ export const metadata: Metadata = {
     'nestjs',
     'full-stack',
   ],
+  canonical: 'https://saniuzzaman.dev/projects',
   openGraph: {
     url: 'https://saniuzzaman.dev/projects',
     title: 'Projects | Saniuzzaman Robin',
     description: 'Showcase of production-grade web applications and full-stack projects.',
+    images: [
+      {
+        url: 'https://saniuzzaman.dev/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Saniuzzaman Robin - Projects',
+      },
+    ],
   },
 };
 

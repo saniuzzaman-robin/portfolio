@@ -20,10 +20,19 @@ export const metadata: Metadata = {
     'skills',
     'employment',
   ],
+  canonical: 'https://saniuzzaman.dev/resume',
   openGraph: {
     url: 'https://saniuzzaman.dev/resume',
     title: 'Resume | Saniuzzaman Robin',
     description: 'Complete professional resume with experience, education, and technical skills.',
+    images: [
+      {
+        url: 'https://saniuzzaman.dev/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Saniuzzaman Robin - Resume',
+      },
+    ],
   },
 };
 

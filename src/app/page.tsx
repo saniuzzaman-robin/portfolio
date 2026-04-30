@@ -15,10 +15,21 @@ import { AD_SLOTS } from '@/lib/ads-config';
 export const metadata: Metadata = {
   title: `Home | ${CV_DATA.name} - ${CV_DATA.title}`,
   description: `Explore my portfolio showcasing ${CV_DATA.yearsOfExperience} years of software engineering expertise. Specialized in building scalable applications with NestJS, Next.js, Angular, and competitive programming.`,
+  alternates: {
+    canonical: 'https://saniuzzaman.dev',
+  },
   openGraph: {
     url: 'https://saniuzzaman.dev',
     title: `Home | ${CV_DATA.name}`,
     description: `${CV_DATA.title} with expertise in Next.js, NestJS, Angular, and system architecture.`,
+    images: [
+      {
+        url: 'https://saniuzzaman.dev/logo.png',
+        width: 1200,
+        height: 630,
+        alt: CV_DATA.name,
+      },
+    ],
   },
 };
 
