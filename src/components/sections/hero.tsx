@@ -7,7 +7,7 @@ import { OrbitalVisualization } from '../reusable/orbital-visualization';
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden cyber-grid">
+    <section className="relative min-h-dvh flex items-center overflow-hidden cyber-grid">
       {/* Particle Background */}
       <div className="absolute inset-0 z-0">
         <ParticleCanvas className="opacity-70" />

@@ -448,7 +448,7 @@ export default function TetrisPage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="min-h-screen md:h-screen bg-neutral-5 text-neutral-90 flex flex-col md:overflow-hidden">
+      <div className="min-h-dvh md:h-dvh bg-neutral-5 text-neutral-90 flex flex-col md:overflow-hidden">
         {/* Header */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-3 md:px-6 py-2 md:py-4 border-b border-white/5 glass-strong gap-2 md:gap-0">
           <Link
