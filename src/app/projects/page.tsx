@@ -20,7 +20,9 @@ export const metadata: Metadata = {
     'nestjs',
     'full-stack',
   ],
-  canonical: 'https://saniuzzaman.dev/projects',
+  alternates: {
+    canonical: 'https://saniuzzaman.dev/projects',
+  },
   openGraph: {
     url: 'https://saniuzzaman.dev/projects',
     title: 'Projects | Saniuzzaman Robin',

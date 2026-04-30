@@ -20,7 +20,9 @@ export const metadata: Metadata = {
     'skills',
     'employment',
   ],
-  canonical: 'https://saniuzzaman.dev/resume',
+  alternates: {
+    canonical: 'https://saniuzzaman.dev/resume',
+  },
   openGraph: {
     url: 'https://saniuzzaman.dev/resume',
     title: 'Resume | Saniuzzaman Robin',

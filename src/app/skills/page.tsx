@@ -22,7 +22,9 @@ export const metadata: Metadata = {
     'backend',
     'frontend',
   ],
-  canonical: 'https://saniuzzaman.dev/skills',
+  alternates: {
+    canonical: 'https://saniuzzaman.dev/skills',
+  },
   openGraph: {
     url: 'https://saniuzzaman.dev/skills',
     title: 'Technical Skills | Saniuzzaman Robin',

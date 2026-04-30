@@ -21,7 +21,9 @@ export const metadata: Metadata = {
     'next.js',
     'nestjs',
   ],
-  canonical: 'https://saniuzzaman.dev/blog',
+  alternates: {
+    canonical: 'https://saniuzzaman.dev/blog',
+  },
   openGraph: {
     url: 'https://saniuzzaman.dev/blog',
     title: 'Blog | Saniuzzaman Robin',
