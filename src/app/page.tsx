@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
-        url: 'https://saniuzzaman.dev/logo.png',
+        url: 'https://saniuzzaman.dev/og_image.png',
         width: 1200,
         height: 630,
         alt: CV_DATA.name,
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: `Home | ${CV_DATA.name}`,
     description: `${CV_DATA.title} - Full-stack software engineer`,
     creator: '@saniuzzaman_robin',
-    images: ['https://saniuzzaman.dev/logo.png'],
+    images: ['https://saniuzzaman.dev/og_image.png'],
   },
 };
 

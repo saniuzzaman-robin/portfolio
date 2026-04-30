@@ -51,7 +51,7 @@ export function generatePersonSchema() {
       addressCountry: 'BD',
     },
     sameAs: [siteConfig.social.github, siteConfig.social.linkedin],
-    image: `${siteConfig.url}/logo.png`,
+    image: `${siteConfig.url}/og_image.png`,
     workExperience: CV_DATA.experience.map((exp) => ({
       '@type': 'WorkExperience',
       jobTitle: exp.title,
@@ -131,7 +131,7 @@ export function generateOrganizationSchema() {
     name: siteConfig.name,
     url: siteConfig.url,
     email: siteConfig.email,
-    image: `${siteConfig.url}/logo.png`,
+    image: `${siteConfig.url}/og_image.png`,
     sameAs: [siteConfig.social.github, siteConfig.social.linkedin],
   };
 }
@@ -151,7 +151,7 @@ export function generateWebPageSchema(options: {
     name: options.title,
     description: options.description,
     url: options.url,
-    image: options.image || `${siteConfig.url}/logo.png`,
+    image: options.image || `${siteConfig.url}/og_image.png`,
     creator: {
       '@type': 'Person',
       name: siteConfig.name,
