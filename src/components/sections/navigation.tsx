@@ -39,6 +39,7 @@ export function Navigation() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileGroupOpen, setMobileGroupOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const drawerLinksRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -46,6 +47,44 @@ export function Navigation() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Prevent body scroll when drawer is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
+  // Prevent scroll propagation from drawer to body
+  useEffect(() => {
+    const drawer = drawerLinksRef.current;
+    if (!drawer) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const isScrollingDown = e.deltaY > 0;
+      const isAtBottom = drawer.scrollHeight - drawer.scrollTop <= drawer.clientHeight + 5;
+      const isAtTop = drawer.scrollTop <= 5;
+
+      if ((isScrollingDown && isAtBottom) || (!isScrollingDown && isAtTop)) {
+        e.preventDefault();
+      }
+    };
+
+    drawer.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      drawer.removeEventListener('wheel', handleWheel);
+    };
+  }, [isMenuOpen]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -279,7 +318,7 @@ export function Navigation() {
         <div className="mx-6 h-px bg-linear-to-r from-primary-50/30 via-white/10 to-transparent mb-4" />
 
         {/* Nav links */}
-        <div className="flex flex-col gap-1 px-4 flex-1 overflow-y-auto">
+        <div ref={drawerLinksRef} className="flex flex-col gap-1 px-4 flex-1 overflow-y-auto">
           {/* Home */}
           {(() => {
             const homeLink = navItems[0] as SimpleLink;
