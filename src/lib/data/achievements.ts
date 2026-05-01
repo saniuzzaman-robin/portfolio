@@ -1,6 +1,5 @@
 import { type LucideIcon, Zap, Target, Trophy, Puzzle, Scale } from 'lucide-react';
-
-export type AchievementColor = 'green' | 'cyan' | 'purple';
+import type { AccentToken } from '@/lib/accent';
 
 export interface AchievementItem {
   icon: LucideIcon;
@@ -10,7 +9,7 @@ export interface AchievementItem {
   stat: string;
   label: string;
   description: string;
-  color: AchievementColor;
+  color: AccentToken;
   delay: number;
 }
 
@@ -24,7 +23,7 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     label: 'Professional Engineer',
     description:
       'Full-stack software engineer building scalable applications with NestJS, Next.js, and Angular across production systems reaching 180M+ users.',
-    color: 'green',
+    color: 'primary',
     delay: 0,
   },
   {
@@ -36,7 +35,7 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     label: 'Problems Solved',
     description:
       'Solved across Codeforces, Codechef, LightOJ & UVA — covering dynamic programming, graph theory, segment trees, and advanced data structures.',
-    color: 'cyan',
+    color: 'secondary',
     delay: 80,
   },
   {
@@ -48,7 +47,7 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     label: 'National Contests',
     description:
       'Participated in ICPC, NCPC, and university-level circuits across Bangladesh, consistently ranking among top performers.',
-    color: 'purple',
+    color: 'tertiary',
     delay: 160,
   },
   {
@@ -58,7 +57,7 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     label: 'Problem Setter',
     description:
       'Designed, tested, and judged problems for Intra and Inter-University programming contests, ensuring mathematical rigor and fairness.',
-    color: 'green',
+    color: 'primary',
     delay: 240,
   },
   {
@@ -70,7 +69,7 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     label: 'UI Components',
     description:
       'Reusable, accessible components built across production projects — from design-system primitives to complex data-heavy interfaces.',
-    color: 'cyan',
+    color: 'secondary',
     delay: 320,
   },
 ];

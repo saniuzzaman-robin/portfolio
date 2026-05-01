@@ -12,6 +12,8 @@ import {
   Settings,
 } from 'lucide-react';
 import { CV_DATA } from '@/lib/cv-data';
+import { av, ava, type AccentToken } from '@/lib/accent';
+import { AccentChip } from '@/components/ui/accent-chip';
 
 interface JobType {
   company: string;
@@ -20,7 +22,7 @@ interface JobType {
   duration: string;
   description: string;
   skills: string[];
-  accent: string;
+  accent: AccentToken;
   highlights: { icon: React.ReactNode; label: string; value: string }[];
 }
 
@@ -44,7 +46,7 @@ export function ProfessionalJourney() {
     duration: exp.duration,
     description: exp.description,
     skills: exp.skills.map((s) => s.toUpperCase()),
-    accent: exp.accent,
+    accent: exp.accent as import('@/lib/accent').AccentToken,
     highlights: exp.highlights.map((h) => ({
       icon: highlightIcons[h.label as keyof typeof highlightIcons] || highlightIcons['Full-Stack'],
       label: h.label,
@@ -66,7 +68,10 @@ export function ProfessionalJourney() {
         {/* Vertical timeline line */}
         <div
           className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
-          style={{ background: 'linear-gradient(to bottom, #00ff87, #00d4ff, #a476ff)' }}
+          style={{
+            background:
+              'linear-gradient(to bottom, var(--color-primary-50), var(--color-secondary-50), var(--color-tertiary-50))',
+          }}
         />
 
         <div className="space-y-16">
@@ -80,14 +85,16 @@ export function ProfessionalJourney() {
               <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
                 <div
                   className="glass rounded-sm border p-6 transition-all duration-500 group hover:scale-[1.02]"
-                  style={{ borderColor: `${job.accent}33` }}
-                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = `${job.accent}88`)}
-                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = `${job.accent}33`)}
+                  style={{ borderColor: ava(job.accent, 0.2) }}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = ava(job.accent, 0.53))}
+                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = ava(job.accent, 0.2))}
                 >
                   {/* Top accent bar */}
                   <div
                     className="h-px mb-6"
-                    style={{ background: `linear-gradient(to right, ${job.accent}, transparent)` }}
+                    style={{
+                      background: `linear-gradient(to right, ${av(job.accent)}, transparent)`,
+                    }}
                   />
 
                   <div className="flex items-start justify-between mb-3">
@@ -97,21 +104,14 @@ export function ProfessionalJourney() {
                       </h3>
                       <p
                         className="text-xs font-space-grotesk font-bold uppercase tracking-widest mt-1"
-                        style={{ color: job.accent }}
+                        style={{ color: av(job.accent) }}
                       >
                         {job.title}
                       </p>
                     </div>
-                    <span
-                      className="terminal-text text-xs shrink-0 ml-4"
-                      style={{
-                        color: job.accent,
-                        borderColor: `${job.accent}40`,
-                        backgroundColor: `${job.accent}10`,
-                      }}
-                    >
+                    <AccentChip accent={job.accent} className="shrink-0 ml-4">
                       {job.duration}
-                    </span>
+                    </AccentChip>
                   </div>
 
                   <p className="text-neutral-60 text-xs mb-4 font-space-grotesk">{job.period}</p>
@@ -123,9 +123,9 @@ export function ProfessionalJourney() {
                         key={skill}
                         className="px-3 py-1 text-xs font-space-grotesk font-bold uppercase tracking-wider rounded-sm"
                         style={{
-                          color: job.accent,
-                          border: `1px solid ${job.accent}40`,
-                          background: `${job.accent}10`,
+                          color: av(job.accent),
+                          border: `1px solid ${ava(job.accent, 0.25)}`,
+                          background: ava(job.accent, 0.06),
                         }}
                       >
                         {skill}
@@ -143,8 +143,8 @@ export function ProfessionalJourney() {
                 <div
                   className="w-4 h-4 rounded-full z-10 animate-glow"
                   style={{
-                    backgroundColor: job.accent,
-                    boxShadow: `0 0 10px ${job.accent}, 0 0 30px ${job.accent}50`,
+                    backgroundColor: av(job.accent),
+                    boxShadow: `0 0 10px ${av(job.accent)}, 0 0 30px ${ava(job.accent, 0.31)}`,
                   }}
                 />
                 {/* Highlight cards */}
@@ -153,9 +153,9 @@ export function ProfessionalJourney() {
                     <div
                       key={i}
                       className="flex items-center gap-3 px-4 py-3 glass rounded-sm border transition-all duration-300 hover:scale-105"
-                      style={{ borderColor: `${job.accent}30` }}
+                      style={{ borderColor: ava(job.accent, 0.19) }}
                     >
-                      <span style={{ color: job.accent }}>{h.icon}</span>
+                      <span style={{ color: av(job.accent) }}>{h.icon}</span>
                       <div>
                         <p className="text-neutral-60 text-xs">{h.label}</p>
                         <p className="text-neutral-80 text-sm font-space-grotesk font-bold">

@@ -43,7 +43,7 @@ export const CV_DATA = {
         'Implemented scalable architecture with Redis and MongoDB',
       ],
       skills: ['Next.js', 'NestJS', 'Redis', 'MongoDB', 'TypeScript', 'System Design'],
-      accent: '#00ff87',
+      accent: 'primary',
       highlights: [
         { label: 'Stack', value: 'Next.js + NestJS' },
         { label: 'Performance', value: 'Caching & Optimization' },
@@ -69,7 +69,7 @@ export const CV_DATA = {
         'Managed project architecture and caching strategies',
       ],
       skills: ['Angular', 'TypeScript', 'RxJS', 'Angular Material', 'Team Leadership'],
-      accent: '#00d4ff',
+      accent: 'secondary',
       highlights: [
         { label: 'Team', value: '4 members' },
         { label: 'Frontend', value: 'Admin Panel' },
@@ -95,7 +95,7 @@ export const CV_DATA = {
         'Collaborated with UX and backend teams on complex features',
       ],
       skills: ['Angular', 'Angular Material', 'Selenium', 'JMeter', 'Testing'],
-      accent: '#a476ff',
+      accent: 'tertiary',
       highlights: [
         { label: 'Testing', value: 'Selenium & JMeter' },
         { label: 'Responsive', value: 'Angular Material' },
@@ -115,7 +115,7 @@ export const CV_DATA = {
   skillsDetailed: [
     {
       category: 'Frontend Development',
-      accent: '#00ff87',
+      accent: 'primary',
       icon: '⚡',
       skills: [
         { name: 'Next.js', level: 95 },
@@ -130,7 +130,7 @@ export const CV_DATA = {
     },
     {
       category: 'Backend Development',
-      accent: '#00d4ff',
+      accent: 'secondary',
       icon: '🚀',
       skills: [
         { name: 'NestJS', level: 96 },
@@ -145,7 +145,7 @@ export const CV_DATA = {
     },
     {
       category: 'DevOps & Tools',
-      accent: '#a476ff',
+      accent: 'tertiary',
       icon: '🔧',
       skills: [
         { name: 'Git', level: 95 },
@@ -192,17 +192,17 @@ export const CV_DATA = {
   aboutSections: [
     {
       title: 'Software Engineer · 5+ Years',
-      accent: '#00ff87',
+      accent: 'primary',
       body: 'I specialize in building production-grade web applications and backend systems. My expertise spans full-stack development with NestJS for scalable APIs and Next.js & Angular for performant frontends. Passionate about clean code, system architecture, and solving complex problems.',
     },
     {
       title: 'Competitive Programming Background',
-      accent: '#00d4ff',
+      accent: 'secondary',
       body: 'Solved 1700+ problems across Codeforces, Codechef, LightOJ, UVA. Led teams at 10+ national contests including ICPC Dhaka Regional and NCPC. Judge and problem setter for university programming contests.',
     },
     {
       title: 'Beyond Development',
-      accent: '#a476ff',
+      accent: 'tertiary',
       body: 'Passionate about mentoring developers, conducting code reviews, and architectural planning. Experienced with Agile methodologies, Git workflows, testing frameworks, and DevOps practices. Continuous learner exploring emerging technologies.',
     },
   ],
@@ -213,19 +213,19 @@ export const CV_DATA = {
       icon: '🎯',
       title: 'Problem Solver',
       desc: 'Tackling complex challenges with creative algorithmic solutions',
-      accent: '#00ff87',
+      accent: 'primary',
     },
     {
       icon: '🚀',
       title: 'Performance Driven',
       desc: 'Building fast, responsive, scalable systems that serve millions',
-      accent: '#00d4ff',
+      accent: 'secondary',
     },
     {
       icon: '💡',
       title: 'Innovator',
       desc: 'Exploring emerging technologies and modern best practices',
-      accent: '#a476ff',
+      accent: 'tertiary',
     },
   ],
 };

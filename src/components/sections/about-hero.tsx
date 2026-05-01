@@ -1,6 +1,7 @@
 'use client';
 
 import { CV_DATA } from '@/lib/cv-data';
+import { av, ACCENT_CLASSES, type AccentToken } from '@/lib/accent';
 
 export function AboutHero() {
   const highlights = CV_DATA.highlights;
@@ -22,44 +23,37 @@ export function AboutHero() {
 
         {/* Content sections */}
         <div className="space-y-8 mb-16">
-          {sections.map((s, i) => (
-            <div
-              key={i}
-              className="glass rounded-sm border p-6 transition-all duration-500 animate-slide-up group hover:scale-[1.01]"
-              style={{
-                borderColor: `${s.accent}30`,
-                animationDelay: `${i * 120}ms`,
-                animationFillMode: 'both',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = `${s.accent}60`)}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = `${s.accent}30`)}
-            >
+          {sections.map((s, i) => {
+            const ac = ACCENT_CLASSES[s.accent as AccentToken] ?? ACCENT_CLASSES['primary'];
+            return (
               <div
-                className="h-px mb-5"
-                style={{ background: `linear-gradient(to right, ${s.accent}, transparent)` }}
-              />
-              <h2 className="font-space-grotesk font-bold text-xl mb-3" style={{ color: s.accent }}>
-                {s.title}
-              </h2>
-              <p className="text-neutral-80 leading-relaxed text-sm">{s.body}</p>
-            </div>
-          ))}
+                key={i}
+                className={`glass rounded-sm border ${ac.borderSoft} p-6 transition-all duration-500 animate-slide-up hover:scale-[1.01]`}
+                style={{ animationDelay: `${i * 120}ms`, animationFillMode: 'both' }}
+              >
+                <div
+                  className="h-px mb-5"
+                  style={{
+                    background: `linear-gradient(to right, ${av(s.accent as AccentToken)}, transparent)`,
+                  }}
+                />
+                <h2 className={`font-space-grotesk font-bold text-xl mb-3 ${ac.text}`}>
+                  {s.title}
+                </h2>
+                <p className="text-neutral-80 leading-relaxed text-sm">{s.body}</p>
+              </div>
+            );
+          })}
         </div>
 
         {/* Highlight cards */}
         <div className="grid md:grid-cols-3 gap-6">
           {highlights.map((h, i) => {
-            const borderClasses: Record<string, string> = {
-              '#00ff87': 'border-primary-50/30 hover:border-primary-50/70',
-              '#00d4ff': 'border-secondary-50/30 hover:border-secondary-50/70',
-              '#a476ff': 'border-tertiary-50/30 hover:border-tertiary-50/70',
-            };
-            const borderClass =
-              borderClasses[h.accent] || 'border-primary-50/30 hover:border-primary-50/70';
+            const ac = ACCENT_CLASSES[h.accent as AccentToken] ?? ACCENT_CLASSES['primary'];
             return (
               <div
                 key={i}
-                className={`glass rounded-sm border ${borderClass} p-8 transition-all duration-500 group hover:scale-105 animate-scale-in overflow-hidden relative`}
+                className={`glass rounded-sm border ${ac.borderSoft} p-8 transition-all duration-500 group hover:scale-105 animate-scale-in overflow-hidden relative`}
                 style={{ animationDelay: `${400 + i * 120}ms`, animationFillMode: 'both' }}
               >
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
@@ -70,7 +64,9 @@ export function AboutHero() {
                 <p className="text-neutral-70 text-sm relative z-10">{h.desc}</p>
                 <div
                   className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-700"
-                  style={{ background: `linear-gradient(to right, ${h.accent}, transparent)` }}
+                  style={{
+                    background: `linear-gradient(to right, ${av(h.accent as AccentToken)}, transparent)`,
+                  }}
                 />
               </div>
             );

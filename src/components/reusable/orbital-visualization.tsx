@@ -3,6 +3,7 @@
 import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useTheme } from '@/components/reusable/theme-provider';
 
 // Suppress THREE.Clock deprecation warning emitted by @react-three/fiber internals
 if (typeof window !== 'undefined') {
@@ -134,7 +135,7 @@ function Sun() {
   );
 }
 
-function OrbitRing({ radius, color }: { radius: number; color: string }) {
+function OrbitRing({ radius, color, opacity }: { radius: number; color: string; opacity: number }) {
   const primitive = useMemo(() => {
     const pts: THREE.Vector3[] = [];
     for (let i = 0; i <= 128; i++) {
@@ -142,11 +143,26 @@ function OrbitRing({ radius, color }: { radius: number; color: string }) {
       pts.push(new THREE.Vector3(Math.cos(a) * radius, 0, Math.sin(a) * radius));
     }
     const geo = new THREE.BufferGeometry().setFromPoints(pts);
-    const mat = new THREE.LineBasicMaterial({ color, opacity: 0.2, transparent: true });
+    const mat = new THREE.LineBasicMaterial({ color, opacity, transparent: true });
     return new THREE.Line(geo, mat);
-  }, [radius, color]);
+  }, [radius, color, opacity]);
 
   return <primitive object={primitive} />;
+}
+
+function PlanetGlow({ color, radius }: { color: string; radius: number }) {
+  return (
+    <mesh>
+      <sphereGeometry args={[radius * 2.6, 16, 16]} />
+      <meshStandardMaterial
+        color={color}
+        transparent
+        opacity={0.13}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+      />
+    </mesh>
+  );
 }
 
 function SaturnRings({ inner, outer }: { inner: number; outer: number }) {
@@ -165,7 +181,7 @@ function SaturnRings({ inner, outer }: { inner: number; outer: number }) {
   );
 }
 
-function PlanetSystem({ planet }: { planet: PlanetData }) {
+function PlanetSystem({ planet, isLight }: { planet: PlanetData; isLight: boolean }) {
   const planetRef = useRef<THREE.Mesh>(null);
 
   useFrame(() => {
@@ -176,25 +192,32 @@ function PlanetSystem({ planet }: { planet: PlanetData }) {
     planetRef.current.rotation.y += 0.006;
   });
 
+  // In light mode use the emissive (darker/saturated) color for rings so they
+  // read clearly against a white page; bump opacity too.
+  const ringColor = isLight ? planet.emissive : planet.color;
+  const ringOpacity = isLight ? 0.55 : 0.2;
+  const emissiveIntensity = isLight ? 1.0 : 0.45;
+
   return (
     <group rotation={[planet.tiltX, 0, planet.tiltZ]}>
-      <OrbitRing radius={planet.orbitRadius} color={planet.color} />
+      <OrbitRing radius={planet.orbitRadius} color={ringColor} opacity={ringOpacity} />
       <mesh ref={planetRef}>
         <sphereGeometry args={[planet.radius, 32, 32]} />
         <meshStandardMaterial
           color={planet.color}
           emissive={planet.emissive}
-          emissiveIntensity={0.45}
+          emissiveIntensity={emissiveIntensity}
           roughness={0.75}
           metalness={0.1}
         />
+        {!isLight && <PlanetGlow color={planet.emissive} radius={planet.radius} />}
         {planet.hasRings && <SaturnRings inner={planet.ringInner!} outer={planet.ringOuter!} />}
       </mesh>
     </group>
   );
 }
 
-function SolarSystem() {
+function SolarSystem({ isLight }: { isLight: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame(() => {
@@ -207,7 +230,7 @@ function SolarSystem() {
     <group ref={groupRef}>
       <Sun />
       {PLANETS.map((planet) => (
-        <PlanetSystem key={planet.name} planet={planet} />
+        <PlanetSystem key={planet.name} planet={planet} isLight={isLight} />
       ))}
     </group>
   );
@@ -220,21 +243,31 @@ function Ticker() {
   return null;
 }
 
-function Scene() {
+function Scene({ isLight }: { isLight: boolean }) {
   return (
     <>
       <Ticker />
-      <ambientLight intensity={0.3} />
-      <pointLight position={[0, 0, 0]} intensity={3} color="#ffd080" distance={50} decay={1.2} />
+      {/* Boost ambient in light mode so planet surfaces are lit from all sides */}
+      <ambientLight intensity={isLight ? 1.4 : 0.3} />
+      <pointLight
+        position={[0, 0, 0]}
+        intensity={isLight ? 5 : 3}
+        color="#ffd080"
+        distance={50}
+        decay={1.2}
+      />
       <pointLight position={[30, 15, 25]} intensity={0.1} color="#4488ff" distance={100} />
-      <SolarSystem />
+      <SolarSystem isLight={isLight} />
     </>
   );
 }
 
 export function OrbitalVisualization() {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   return (
-    <div style={{ width: '100%', height: '100%' }} className="w-full h-full bg-transparent">
+    <div style={{ width: '100%', height: '100%' }} className="w-full h-full">
       <Canvas
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
@@ -243,7 +276,7 @@ export function OrbitalVisualization() {
           gl.setClearColor(0x000000, 0);
         }}
       >
-        <Scene />
+        <Scene isLight={isLight} />
       </Canvas>
     </div>
   );

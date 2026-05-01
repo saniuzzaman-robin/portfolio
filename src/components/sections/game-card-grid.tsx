@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { Gamepad2 } from 'lucide-react';
 import { GAMES } from '@/lib/data/games';
+import { av, ava } from '@/lib/accent';
+import { AccentChip } from '@/components/ui/accent-chip';
 
 export function GameCardGrid() {
   return (
@@ -31,16 +33,16 @@ export function GameCardGrid() {
               <div
                 className="relative glass rounded-sm border h-full transition-all duration-500 overflow-hidden animate-scale-in hover:scale-[1.03]"
                 style={{
-                  borderColor: `${game.accent}30`,
+                  borderColor: ava(game.accent, 0.19),
                   animationDelay: `${index * 120}ms`,
                   animationFillMode: 'both',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = `${game.accent}70`;
-                  e.currentTarget.style.boxShadow = `0 0 30px ${game.accent}20`;
+                  e.currentTarget.style.borderColor = ava(game.accent, 0.44);
+                  e.currentTarget.style.boxShadow = `0 0 30px ${ava(game.accent, 0.13)}`;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = `${game.accent}30`;
+                  e.currentTarget.style.borderColor = ava(game.accent, 0.19);
                   e.currentTarget.style.boxShadow = '';
                 }}
               >
@@ -50,7 +52,9 @@ export function GameCardGrid() {
                 {/* Top bar */}
                 <div
                   className="h-px"
-                  style={{ background: `linear-gradient(to right, ${game.accent}, transparent)` }}
+                  style={{
+                    background: `linear-gradient(to right, ${av(game.accent)}, transparent)`,
+                  }}
                 />
 
                 <div className="relative z-10 p-6">
@@ -59,22 +63,13 @@ export function GameCardGrid() {
                     <div
                       className="w-12 h-12 rounded-sm flex items-center justify-center"
                       style={{
-                        background: `${game.accent}15`,
-                        border: `1px solid ${game.accent}40`,
+                        background: ava(game.accent, 0.08),
+                        border: `1px solid ${ava(game.accent, 0.25)}`,
                       }}
                     >
-                      <Icon className="w-6 h-6" style={{ color: game.accent }} />
+                      <Icon className="w-6 h-6" style={{ color: av(game.accent) }} />
                     </div>
-                    <span
-                      className="terminal-text text-xs"
-                      style={{
-                        color: game.accent,
-                        borderColor: `${game.accent}40`,
-                        background: `${game.accent}10`,
-                      }}
-                    >
-                      {game.difficulty}
-                    </span>
+                    <AccentChip accent={game.accent}>{game.difficulty}</AccentChip>
                   </div>
 
                   {/* Title */}
@@ -115,9 +110,9 @@ export function GameCardGrid() {
                           key={t}
                           className="text-xs px-2 py-1 rounded-sm"
                           style={{
-                            color: game.accent,
-                            border: `1px solid ${game.accent}30`,
-                            background: `${game.accent}08`,
+                            color: av(game.accent),
+                            border: `1px solid ${ava(game.accent, 0.19)}`,
+                            background: ava(game.accent, 0.03),
                           }}
                         >
                           {t}
@@ -129,7 +124,7 @@ export function GameCardGrid() {
                   {/* Play CTA */}
                   <div
                     className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest group-hover:translate-x-1 transition-transform duration-300"
-                    style={{ color: game.accent }}
+                    style={{ color: av(game.accent) }}
                   >
                     <span>&gt; Play Now</span>
                   </div>
@@ -138,7 +133,9 @@ export function GameCardGrid() {
                 {/* Bottom line */}
                 <div
                   className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-500"
-                  style={{ background: `linear-gradient(to right, ${game.accent}, transparent)` }}
+                  style={{
+                    background: `linear-gradient(to right, ${av(game.accent)}, transparent)`,
+                  }}
                 />
               </div>
             </Link>

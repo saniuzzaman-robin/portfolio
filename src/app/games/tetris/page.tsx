@@ -520,7 +520,8 @@ export default function TetrisPage() {
               <div
                 className="absolute -inset-1 rounded-sm opacity-40"
                 style={{
-                  background: 'linear-gradient(45deg, #00d4ff, #a476ff, #00ff87, #00d4ff)',
+                  background:
+                    'linear-gradient(45deg, var(--color-secondary-50), var(--color-tertiary-50), var(--color-primary-50), var(--color-secondary-50))',
                   filter: 'blur(4px)',
                 }}
               />

@@ -294,14 +294,15 @@ export default function SnakePage() {
         {/* Game area */}
         <div className="flex-1 cyber-grid relative overflow-hidden flex items-center justify-center p-2 md:p-4">
           <div
-            className="relative w-full flex-shrink-0"
+            className="relative w-full shrink-0"
             style={{ aspectRatio: `${COLS}/${ROWS}`, maxWidth: '100%', maxHeight: '100%' }}
           >
             {/* Outer glow frame */}
             <div
               className="absolute -inset-1 rounded-sm opacity-50"
               style={{
-                background: 'linear-gradient(45deg, #00ff87, #00d4ff, #a476ff, #00ff87)',
+                background:
+                  'linear-gradient(45deg, var(--color-primary-50), var(--color-secondary-50), var(--color-tertiary-50), var(--color-primary-50))',
                 filter: 'blur(6px)',
               }}
             />

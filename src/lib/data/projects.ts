@@ -1,4 +1,5 @@
 import { Book, Clock, Play, Settings, TestTube2, Smartphone, type LucideIcon } from 'lucide-react';
+import type { AccentToken } from '@/lib/accent';
 
 export interface Project {
   id: number;
@@ -7,7 +8,7 @@ export interface Project {
   description: string;
   technologies: string[];
   link: string;
-  color: 'primary' | 'secondary' | 'tertiary';
+  color: AccentToken;
   icon: LucideIcon;
 }
 

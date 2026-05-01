@@ -19,7 +19,7 @@ export function ResumeContent() {
             <a
               href="/CV_SANIUZZAMAN_ROBIN.pdf"
               download
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary-50 text-black font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300 whitespace-nowrap"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary-50 text-primary-100 dark:text-primary-0 font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300 whitespace-nowrap"
             >
               <Download className="w-5 h-5" />
               <span>Download Resume</span>
@@ -134,7 +134,7 @@ export function ResumeContent() {
           <div className="flex gap-4 justify-center flex-wrap">
             <a
               href="mailto:saniuzzamanrobin07@gmail.com"
-              className="px-8 py-3 bg-primary-50 text-black font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300"
+              className="px-8 py-3 bg-primary-50 text-primary-100 dark:text-primary-0 font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300"
             >
               Get In Touch
             </a>

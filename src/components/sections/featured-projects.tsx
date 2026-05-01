@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
 import { FEATURED_PROJECTS } from '@/lib/data/featured-projects';
+import { av, ava } from '@/lib/accent';
+import { AccentChip } from '@/components/ui/accent-chip';
 
 export function FeaturedProjects() {
   return (
@@ -40,18 +42,18 @@ export function FeaturedProjects() {
               <div
                 className="relative h-full glass rounded-sm border transition-all duration-500 overflow-hidden animate-scale-in hover:scale-[1.03]"
                 style={{
-                  borderColor: `${feature.accent}30`,
+                  borderColor: ava(feature.accent, 0.19),
                   animationDelay: `${index * 100}ms`,
                   animationFillMode: 'both',
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget;
-                  el.style.borderColor = `${feature.accent}70`;
-                  el.style.boxShadow = `0 0 20px ${feature.accent}25, 0 0 40px ${feature.accent}10`;
+                  el.style.borderColor = ava(feature.accent, 0.44);
+                  el.style.boxShadow = `0 0 20px ${ava(feature.accent, 0.15)}, 0 0 40px ${ava(feature.accent, 0.06)}`;
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget;
-                  el.style.borderColor = `${feature.accent}30`;
+                  el.style.borderColor = ava(feature.accent, 0.19);
                   el.style.boxShadow = '';
                 }}
               >
@@ -61,23 +63,16 @@ export function FeaturedProjects() {
                 {/* Number watermark */}
                 <div
                   className="absolute top-3 right-4 font-space-grotesk font-bold text-4xl opacity-10 group-hover:opacity-20 transition-opacity"
-                  style={{ color: feature.accent }}
+                  style={{ color: av(feature.accent) }}
                 >
                   {feature.number}
                 </div>
 
                 <div className="relative z-10 p-6">
                   {/* Tag */}
-                  <span
-                    className="terminal-text text-xs mb-4 inline-block"
-                    style={{
-                      color: feature.accent,
-                      borderColor: `${feature.accent}40`,
-                      backgroundColor: `${feature.accent}10`,
-                    }}
-                  >
+                  <AccentChip accent={feature.accent} className="mb-4 inline-block">
                     {feature.tag}
-                  </span>
+                  </AccentChip>
 
                   {/* Title */}
                   <h3 className="font-space-grotesk font-bold text-lg mb-3 text-neutral-90 group-hover:text-neutral-100 transition-colors">
@@ -92,7 +87,7 @@ export function FeaturedProjects() {
                   {/* Link indicator */}
                   <div
                     className="flex items-center gap-2 text-xs font-space-grotesk uppercase tracking-widest transition-all duration-300 group-hover:translate-x-1"
-                    style={{ color: feature.accent }}
+                    style={{ color: av(feature.accent) }}
                   >
                     <span>Explore</span>
                     <ExternalLink className="w-3 h-3" />
@@ -103,7 +98,7 @@ export function FeaturedProjects() {
                 <div
                   className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-500"
                   style={{
-                    background: `linear-gradient(to right, ${feature.accent}, transparent)`,
+                    background: `linear-gradient(to right, ${av(feature.accent)}, transparent)`,
                   }}
                 />
               </div>

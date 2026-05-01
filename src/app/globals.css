@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
   --color-primary-0: #000000;
@@ -84,7 +85,7 @@ body {
   background: #0f1629;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00ff87, #00d4ff);
+  background: linear-gradient(180deg, var(--color-primary-50), var(--color-secondary-50));
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -112,7 +113,7 @@ body {
    NEON GLOW EFFECTS - SHARP VERSION
    ============================================================ */
 .neon-green {
-  color: #00ff87;
+  color: var(--color-primary-50);
 }
 
 .neon-cyan {
@@ -125,9 +126,9 @@ body {
 
 .neon-box-green {
   box-shadow:
-    0 0 5px #00ff87,
-    0 0 20px rgba(0, 255, 135, 0.3),
-    inset 0 0 20px rgba(0, 255, 135, 0.05);
+    0 0 5px var(--color-primary-50),
+    0 0 20px rgb(from var(--color-primary-50) r g b / 0.3),
+    inset 0 0 20px rgb(from var(--color-primary-50) r g b / 0.05);
 }
 
 .neon-box-cyan {
@@ -150,8 +151,12 @@ body {
 
 /* Sleek gaming stats display */
 .game-stat {
-  background: linear-gradient(135deg, rgba(0, 255, 135, 0.05), rgba(0, 212, 255, 0.05));
-  border: 1px solid rgba(0, 255, 135, 0.2);
+  background: linear-gradient(
+    135deg,
+    rgb(from var(--color-primary-50) r g b / 0.05),
+    rgba(0, 212, 255, 0.05)
+  );
+  border: 1px solid rgb(from var(--color-primary-50) r g b / 0.2);
   border-radius: 6px;
   padding: 12px 16px;
   backdrop-filter: blur(10px);
@@ -159,8 +164,8 @@ body {
 }
 
 .game-stat:hover {
-  border-color: rgba(0, 255, 135, 0.4);
-  box-shadow: 0 0 12px rgba(0, 255, 135, 0.15);
+  border-color: rgb(from var(--color-primary-50) r g b / 0.4);
+  box-shadow: 0 0 12px rgb(from var(--color-primary-50) r g b / 0.15);
 }
 
 .game-stat-label {
@@ -182,9 +187,13 @@ body {
 
 /* Minimal gaming buttons */
 .btn-game {
-  background: linear-gradient(135deg, rgba(0, 255, 135, 0.1), rgba(0, 255, 135, 0.05));
-  border: 1.5px solid rgba(0, 255, 135, 0.4);
-  color: #00ff87;
+  background: linear-gradient(
+    135deg,
+    rgb(from var(--color-primary-50) r g b / 0.1),
+    rgb(from var(--color-primary-50) r g b / 0.05)
+  );
+  border: 1.5px solid rgb(from var(--color-primary-50) r g b / 0.4);
+  color: var(--color-primary-50);
   font-weight: 700;
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -196,9 +205,9 @@ body {
 }
 
 .btn-game:hover {
-  background: rgba(0, 255, 135, 0.15);
-  border-color: #00ff87;
-  box-shadow: 0 0 12px rgba(0, 255, 135, 0.25);
+  background: rgb(from var(--color-primary-50) r g b / 0.15);
+  border-color: var(--color-primary-50);
+  box-shadow: 0 0 12px rgb(from var(--color-primary-50) r g b / 0.25);
 }
 
 .btn-game:active {
@@ -238,7 +247,7 @@ body {
 
 .glitch::after {
   animation: glitch-2 2s infinite linear alternate-reverse;
-  color: #00ff87;
+  color: var(--color-primary-50);
   clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
   transform: translate(2px, 0);
 }
@@ -305,7 +314,13 @@ body {
   position: absolute;
   inset: -1px;
   border-radius: 13px;
-  background: linear-gradient(90deg, #00ff87, #00d4ff, #a476ff, #00ff87);
+  background: linear-gradient(
+    90deg,
+    var(--color-primary-50),
+    var(--color-secondary-50),
+    var(--color-tertiary-50),
+    var(--color-primary-50)
+  );
   background-size: 300% 100%;
   animation: border-gradient 4s linear infinite;
   z-index: -1;
@@ -355,11 +370,11 @@ body {
 .holographic {
   background: linear-gradient(
     135deg,
-    rgba(0, 255, 135, 0.15) 0%,
+    rgb(from var(--color-primary-50) r g b / 0.15) 0%,
     rgba(0, 212, 255, 0.15) 25%,
     rgba(164, 118, 255, 0.15) 50%,
     rgba(0, 212, 255, 0.15) 75%,
-    rgba(0, 255, 135, 0.15) 100%
+    rgb(from var(--color-primary-50) r g b / 0.15) 100%
   );
   background-size: 400% 400%;
   animation: gradient-shift 6s ease infinite;
@@ -423,8 +438,8 @@ body {
    ============================================================ */
 .btn-neon-green {
   background: transparent;
-  border: 1px solid #00ff87;
-  color: #00ff87;
+  border: 1px solid var(--color-primary-50);
+  color: var(--color-primary-50);
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -434,7 +449,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: #00ff87;
+  background: var(--color-primary-50);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -447,7 +462,7 @@ body {
 
 .btn-neon-green:hover {
   color: #080d1a;
-  box-shadow: 0 0 20px rgba(0, 255, 135, 0.5);
+  box-shadow: 0 0 20px rgb(from var(--color-primary-50) r g b / 0.5);
 }
 
 .btn-neon-cyan {
@@ -525,10 +540,261 @@ body {
    ============================================================ */
 .terminal-text {
   font-family: 'Courier New', monospace;
-  color: #00ff87;
-  background: rgba(0, 255, 135, 0.05);
-  border: 1px solid rgba(0, 255, 135, 0.2);
+  color: var(--color-primary-50);
+  background: rgb(from var(--color-primary-50) r g b / 0.05);
+  border: 1px solid rgb(from var(--color-primary-50) r g b / 0.2);
   border-radius: 4px;
   padding: 2px 8px;
   font-size: 0.8em;
+}
+
+/* ============================================================
+   THEME CSS VARIABLES
+   ============================================================ */
+:root {
+  --nav-dropdown-bg: linear-gradient(160deg, #0d1525 0%, #080d1a 100%);
+  --nav-dropdown-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(164, 118, 255, 0.15);
+  --nav-drawer-bg: linear-gradient(160deg, #0a1020 0%, #080d1a 60%, #0a0d18 100%);
+  --surface-card: #0f1629;
+  --hover-surface: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================================
+   LIGHT MODE OVERRIDES
+   ============================================================ */
+[data-theme='light'] {
+  /* Primary palette — darker green for legibility on white */
+  --color-primary-40: #005c2e;
+  --color-primary-50: #00773d;
+  --color-primary-60: #009950;
+  --color-primary-70: #00bb63;
+  --color-primary-80: #00dd76;
+  --color-primary-90: #80eebb;
+
+  /* Secondary palette — darker cyan */
+  --color-secondary-40: #005580;
+  --color-secondary-50: #0077a3;
+  --color-secondary-60: #0099cc;
+  --color-secondary-70: #00bbee;
+  --color-secondary-80: #66d9f7;
+  --color-secondary-90: #b3edfb;
+
+  /* Tertiary palette — deeper purple */
+  --color-tertiary-40: #4c1d95;
+  --color-tertiary-50: #5b21b6;
+  --color-tertiary-60: #7c3aed;
+  --color-tertiary-70: #a78bfa;
+  --color-tertiary-80: #c4b5fd;
+  --color-tertiary-90: #ede9fe;
+
+  /* Neutral palette — flipped for light backgrounds */
+  --color-neutral-0: #ffffff;
+  --color-neutral-5: #f8fafc;
+  --color-neutral-10: #e4eaf3;
+  --color-neutral-20: #cfd8e8;
+  --color-neutral-30: #b8c5d6;
+  --color-neutral-40: #94a3b8;
+  --color-neutral-50: #64748b;
+  --color-neutral-60: #475569;
+  --color-neutral-70: #334155;
+  --color-neutral-80: #1e293b;
+  --color-neutral-90: #0f172a;
+  --color-neutral-100: #020617;
+
+  /* Navigation surfaces */
+  --nav-dropdown-bg: linear-gradient(160deg, #f1f5f9 0%, #f8fafc 100%);
+  --nav-dropdown-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(124, 58, 237, 0.2);
+  --nav-drawer-bg: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 60%, #eef2f7 100%);
+  --surface-card: #f1f5f9;
+  --hover-surface: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Scrollbar */
+[data-theme='light'] ::-webkit-scrollbar-track {
+  background: #e2e8f0;
+}
+[data-theme='light'] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00a855, #0099cc);
+}
+[data-theme='light'] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00c068, #00b8e6);
+}
+
+/* Glassmorphism */
+[data-theme='light'] .glass {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme='light'] .glass-strong {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Gradient border card inner bg */
+[data-theme='light'] .gradient-border {
+  background: #f8fafc;
+}
+
+/* Game stat widget */
+[data-theme='light'] .game-stat {
+  background: linear-gradient(135deg, rgba(0, 168, 85, 0.05), rgba(0, 153, 204, 0.05));
+  border-color: rgba(0, 168, 85, 0.2);
+}
+[data-theme='light'] .game-stat:hover {
+  border-color: rgba(0, 168, 85, 0.4);
+  box-shadow: 0 0 12px rgba(0, 168, 85, 0.12);
+}
+
+/* Cyber grid */
+[data-theme='light'] .cyber-grid {
+  background-image:
+    linear-gradient(rgba(0, 153, 204, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 153, 204, 0.08) 1px, transparent 1px);
+}
+[data-theme='light'] .cyber-grid-dense {
+  background-image:
+    linear-gradient(rgba(0, 153, 204, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 153, 204, 0.05) 1px, transparent 1px);
+}
+
+/* ============================================================
+   LIGHT MODE — NEON COLORS (use overridden palette variables)
+   ============================================================ */
+[data-theme='light'] .neon-green {
+  color: var(--color-primary-50);
+}
+[data-theme='light'] .neon-cyan {
+  color: var(--color-secondary-50);
+}
+[data-theme='light'] .neon-purple {
+  color: var(--color-tertiary-50);
+}
+
+[data-theme='light'] .neon-box-green {
+  box-shadow:
+    0 0 5px rgba(0, 119, 61, 0.5),
+    0 0 20px rgba(0, 119, 61, 0.15),
+    inset 0 0 20px rgba(0, 119, 61, 0.04);
+}
+[data-theme='light'] .neon-box-cyan {
+  box-shadow:
+    0 0 5px rgba(0, 119, 163, 0.5),
+    0 0 20px rgba(0, 119, 163, 0.15),
+    inset 0 0 20px rgba(0, 119, 163, 0.04);
+}
+[data-theme='light'] .neon-box-purple {
+  box-shadow:
+    0 0 5px rgba(91, 33, 182, 0.5),
+    0 0 20px rgba(91, 33, 182, 0.15),
+    inset 0 0 20px rgba(91, 33, 182, 0.04);
+}
+
+/* ============================================================
+   LIGHT MODE — NEON BUTTONS
+   ============================================================ */
+[data-theme='light'] .btn-neon-green {
+  border-color: var(--color-primary-50);
+  color: var(--color-primary-50);
+}
+[data-theme='light'] .btn-neon-green::before {
+  background: var(--color-primary-50);
+}
+[data-theme='light'] .btn-neon-green:hover {
+  color: #f8fafc;
+  box-shadow: 0 0 20px rgba(0, 119, 61, 0.35);
+}
+[data-theme='light'] .btn-neon-cyan {
+  border-color: var(--color-secondary-50);
+  color: var(--color-secondary-50);
+}
+[data-theme='light'] .btn-neon-cyan::before {
+  background: var(--color-secondary-50);
+}
+[data-theme='light'] .btn-neon-cyan:hover {
+  color: #f8fafc;
+  box-shadow: 0 0 20px rgba(0, 119, 163, 0.35);
+}
+[data-theme='light'] .btn-neon-purple {
+  border-color: var(--color-tertiary-50);
+  color: var(--color-tertiary-50);
+}
+[data-theme='light'] .btn-neon-purple::before {
+  background: var(--color-tertiary-50);
+}
+[data-theme='light'] .btn-neon-purple:hover {
+  color: #f8fafc;
+  box-shadow: 0 0 20px rgba(91, 33, 182, 0.35);
+}
+
+/* ============================================================
+   LIGHT MODE — GAME WIDGETS & LABELS
+   ============================================================ */
+[data-theme='light'] .btn-game {
+  border-color: rgba(0, 119, 61, 0.45);
+  color: var(--color-primary-50);
+  background: rgba(0, 119, 61, 0.06);
+}
+[data-theme='light'] .btn-game:hover {
+  background: rgba(0, 119, 61, 0.12);
+  border-color: var(--color-primary-50);
+  box-shadow: 0 0 12px rgba(0, 119, 61, 0.2);
+}
+[data-theme='light'] .game-stat-label {
+  color: #4a6480;
+}
+
+/* ============================================================
+   LIGHT MODE — SECTION LABEL / TERMINAL / CURSOR
+   ============================================================ */
+[data-theme='light'] .section-label {
+  color: var(--color-secondary-50);
+}
+
+[data-theme='light'] .terminal-text {
+  color: var(--color-primary-50);
+  background: rgba(0, 119, 61, 0.06);
+  border-color: rgba(0, 119, 61, 0.28);
+}
+
+[data-theme='light'] .typewriter-cursor::after {
+  color: var(--color-secondary-50);
+}
+
+/* Glitch pseudo-elements */
+[data-theme='light'] .glitch::before {
+  color: var(--color-secondary-50);
+}
+[data-theme='light'] .glitch::after {
+  color: var(--color-primary-50);
+}
+
+/* ============================================================
+   LIGHT MODE — WHITE-ALPHA UTILITY OVERRIDES
+   Tailwind's white/N utilities are invisible on light bg.
+   ============================================================ */
+[data-theme='light'] .border-white\/5 {
+  border-color: rgba(0, 0, 0, 0.07) !important;
+}
+[data-theme='light'] .border-white\/8 {
+  border-color: rgba(0, 0, 0, 0.09) !important;
+}
+[data-theme='light'] .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+[data-theme='light'] .border-white\/12 {
+  border-color: rgba(0, 0, 0, 0.14) !important;
+}
+[data-theme='light'] .bg-white\/3 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+[data-theme='light'] .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+[data-theme='light'] .bg-white\/8 {
+  background-color: rgba(0, 0, 0, 0.08) !important;
 }

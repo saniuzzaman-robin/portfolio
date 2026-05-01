@@ -12,7 +12,16 @@ interface Particle {
   color: string;
 }
 
-const COLORS = ['#00ff87', '#00d4ff', '#a476ff'];
+/** Read the three accent colors from CSS variables (theme-aware). Falls back to dark-mode defaults. */
+function getAccentColors(): string[] {
+  if (typeof window === 'undefined') return ['#00ff87', '#00d4ff', '#a476ff'];
+  const style = getComputedStyle(document.documentElement);
+  return [
+    style.getPropertyValue('--color-primary-50').trim() || '#00ff87',
+    style.getPropertyValue('--color-secondary-50').trim() || '#00d4ff',
+    style.getPropertyValue('--color-tertiary-50').trim() || '#a476ff',
+  ];
+}
 /** One particle per N pixels of canvas area */
 const PARTICLE_AREA_DIVISOR = 12000;
 /** Hard cap on particle count to protect low-end devices */
@@ -47,6 +56,7 @@ export function ParticleCanvas({ className = '' }: { className?: string }) {
     };
 
     const initParticles = () => {
+      const colors = getAccentColors();
       const count = Math.floor((canvas.width * canvas.height) / PARTICLE_AREA_DIVISOR);
       particlesRef.current = Array.from({ length: Math.min(count, PARTICLE_MAX) }, () => ({
         x: Math.random() * canvas.width,
@@ -55,7 +65,7 @@ export function ParticleCanvas({ className = '' }: { className?: string }) {
         vy: (Math.random() - 0.5) * 0.4,
         size: Math.random() * 2 + 0.5,
         opacity: Math.random() * 0.6 + 0.2,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        color: colors[Math.floor(Math.random() * colors.length)],
       }));
     };
 

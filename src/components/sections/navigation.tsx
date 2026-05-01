@@ -15,7 +15,12 @@ import {
   X,
   ChevronDown,
   LayoutGrid,
+  Sun,
+  Moon,
 } from 'lucide-react';
+import { useTheme } from '@/components/reusable/theme-provider';
+import { useNavScroll } from '@/hooks/use-nav-scroll';
+import { useClickOutside } from '@/hooks/use-click-outside';
 
 type SimpleLink = {
   kind: 'link';
@@ -35,18 +40,15 @@ type NavItem = SimpleLink | GroupLink;
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const scrolled = useNavScroll(20);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileGroupOpen, setMobileGroupOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const drawerLinksRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  useClickOutside(dropdownRef, () => setDropdownOpen(false));
 
   // Prevent body scroll when drawer is open
   useEffect(() => {
@@ -85,17 +87,6 @@ export function Navigation() {
       drawer.removeEventListener('wheel', handleWheel);
     };
   }, [isMenuOpen]);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   // Close dropdown on route change
   useEffect(() => {
@@ -215,8 +206,8 @@ export function Navigation() {
                     <div
                       className="min-w-40 rounded-sm border border-white/10 overflow-hidden animate-dropdown-open"
                       style={{
-                        background: 'linear-gradient(160deg, #0d1525 0%, #080d1a 100%)',
-                        boxShadow: '0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(164,118,255,0.15)',
+                        background: 'var(--nav-dropdown-bg)',
+                        boxShadow: 'var(--nav-dropdown-shadow)',
                       }}
                     >
                       <div className="h-px w-full bg-linear-to-r from-transparent via-primary-50/50 to-transparent" />
@@ -250,22 +241,40 @@ export function Navigation() {
           })}
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Theme Toggle (desktop) */}
         <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden flex flex-col gap-1.5 cursor-pointer p-1"
-          aria-label="Toggle menu"
+          onClick={toggleTheme}
+          className="hidden cursor-pointer md:flex items-center justify-center w-8 h-8 ml-2 rounded-sm border border-white/10 text-neutral-60 hover:text-primary-50 hover:border-primary-50/40 hover:bg-primary-50/5 transition-all duration-200"
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          <span
-            className={`w-6 h-px bg-primary-50 transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
-          />
-          <span
-            className={`w-4 h-px bg-secondary-50 transition-all duration-300 ${isMenuOpen ? 'opacity-0 w-6' : ''}`}
-          />
-          <span
-            className={`w-6 h-px bg-tertiary-50 transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
-          />
+          {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
         </button>
+
+        {/* Mobile controls */}
+        <div className="md:hidden flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            className="flex items-center justify-center w-8 h-8 cursor-pointer rounded-sm border border-white/10 text-neutral-60 hover:text-primary-50 hover:border-primary-50/40 hover:bg-primary-50/5 transition-all duration-200"
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+          </button>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="flex flex-col gap-1.5 cursor-pointer p-1"
+            aria-label="Toggle menu"
+          >
+            <span
+              className={`w-6 h-px bg-primary-50 transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
+            />
+            <span
+              className={`w-4 h-px bg-secondary-50 transition-all duration-300 ${isMenuOpen ? 'opacity-0 w-6' : ''}`}
+            />
+            <span
+              className={`w-6 h-px bg-tertiary-50 transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
+            />
+          </button>
+        </div>
       </nav>
 
       {/* Spacer */}
@@ -284,7 +293,7 @@ export function Navigation() {
         className={`fixed top-0 right-0 h-dvh w-80 md:hidden z-50 transition-transform duration-300 ease-in-out flex flex-col ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
-        style={{ background: 'linear-gradient(160deg, #0a1020 0%, #080d1a 60%, #0a0d18 100%)' }}
+        style={{ background: 'var(--nav-drawer-bg)' }}
       >
         {/* Top accent line */}
         <div className="h-px w-full bg-linear-to-r from-transparent via-primary-50 to-transparent" />
@@ -305,13 +314,15 @@ export function Navigation() {
               Software Engineer
             </p>
           </div>
-          <button
-            onClick={() => setIsMenuOpen(false)}
-            className="w-8 h-8 flex items-center justify-center rounded-sm border border-white/10 text-neutral-60 hover:text-neutral-100 hover:border-primary-50/50 hover:bg-primary-50/5 transition-all duration-200"
-            aria-label="Close menu"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="w-8 h-8 flex items-center justify-center rounded-sm border border-white/10 text-neutral-60 hover:text-neutral-100 hover:border-primary-50/50 hover:bg-primary-50/5 transition-all duration-200"
+              aria-label="Close menu"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Divider */}
