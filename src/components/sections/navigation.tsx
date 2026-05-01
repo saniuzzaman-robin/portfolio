@@ -19,6 +19,8 @@ import {
   Moon,
 } from 'lucide-react';
 import { useTheme } from '@/components/reusable/theme-provider';
+import { useNavScroll } from '@/hooks/use-nav-scroll';
+import { useClickOutside } from '@/hooks/use-click-outside';
 
 type SimpleLink = {
   kind: 'link';
@@ -38,7 +40,7 @@ type NavItem = SimpleLink | GroupLink;
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const scrolled = useNavScroll(20);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileGroupOpen, setMobileGroupOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -46,11 +48,7 @@ export function Navigation() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  useClickOutside(dropdownRef, () => setDropdownOpen(false));
 
   // Prevent body scroll when drawer is open
   useEffect(() => {
@@ -89,17 +87,6 @@ export function Navigation() {
       drawer.removeEventListener('wheel', handleWheel);
     };
   }, [isMenuOpen]);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   // Close dropdown on route change
   useEffect(() => {

@@ -4,8 +4,9 @@ import { BlogGrid } from '@/components/sections/blog-grid';
 import { Footer } from '@/components/sections/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { AdUnit } from '@/components/reusable/ad-unit';
-import { generateCollectionSchema } from '@/lib/schema';
+import { generateCollectionSchema, siteConfig } from '@/lib/schema';
 import { AD_SLOTS } from '@/lib/ads-config';
+import { ARTICLES } from '@/lib/data/blog';
 
 export const metadata: Metadata = {
   title: 'Blog | Md. Saniuzzaman Robin',
@@ -49,27 +50,18 @@ export const metadata: Metadata = {
 };
 
 export default function Blog() {
-  const blogItems = [
-    {
-      name: 'Building Scalable APIs with NestJS',
-      description: 'Guide to creating production-grade APIs',
-      url: 'https://saniuzzaman.dev/blog',
-    },
-    {
-      name: 'Next.js Performance Optimization',
-      description: 'Tips and tricks for optimizing Next.js applications',
-      url: 'https://saniuzzaman.dev/blog',
-    },
-  ];
-
   return (
     <>
       <SchemaScript
         schema={generateCollectionSchema({
           name: 'Blog',
           description: 'Articles and insights on software engineering',
-          url: 'https://saniuzzaman.dev/blog',
-          items: blogItems,
+          url: `${siteConfig.url}/blog`,
+          items: ARTICLES.map((a) => ({
+            name: a.title,
+            description: a.excerpt,
+            url: `${siteConfig.url}/blog/${a.slug}`,
+          })),
         })}
       />
       <main className="bg-neutral-5 text-neutral-90">

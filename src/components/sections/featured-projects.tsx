@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
 import { FEATURED_PROJECTS } from '@/lib/data/featured-projects';
 import { av, ava } from '@/lib/accent';
+import { AccentChip } from '@/components/ui/accent-chip';
 
 export function FeaturedProjects() {
   return (
@@ -69,16 +70,9 @@ export function FeaturedProjects() {
 
                 <div className="relative z-10 p-6">
                   {/* Tag */}
-                  <span
-                    className="terminal-text text-xs mb-4 inline-block"
-                    style={{
-                      color: av(feature.accent),
-                      borderColor: ava(feature.accent, 0.25),
-                      backgroundColor: ava(feature.accent, 0.06),
-                    }}
-                  >
+                  <AccentChip accent={feature.accent} className="mb-4 inline-block">
                     {feature.tag}
-                  </span>
+                  </AccentChip>
 
                   {/* Title */}
                   <h3 className="font-space-grotesk font-bold text-lg mb-3 text-neutral-90 group-hover:text-neutral-100 transition-colors">

@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { LucideIcon } from 'lucide-react';
-
-type ColorType = 'primary' | 'secondary' | 'tertiary';
+import { ACCENT_CLASSES, type AccentToken } from '@/lib/accent';
 
 interface ProjectCardProps {
   title: string;
@@ -11,28 +10,10 @@ interface ProjectCardProps {
   description: string;
   technologies: string[];
   link: string;
-  color: ColorType;
+  color: AccentToken;
   icon: LucideIcon;
   delay?: number;
 }
-
-const colorMap: Record<ColorType, { text: string; border: string; hover: string }> = {
-  primary: {
-    text: 'text-primary-50',
-    border: 'border-primary-50',
-    hover: 'hover:text-primary-60',
-  },
-  secondary: {
-    text: 'text-secondary-50',
-    border: 'border-secondary-50',
-    hover: 'hover:text-secondary-60',
-  },
-  tertiary: {
-    text: 'text-tertiary-50',
-    border: 'border-tertiary-50',
-    hover: 'hover:text-tertiary-60',
-  },
-};
 
 export function ProjectCard({
   title,
@@ -44,12 +25,12 @@ export function ProjectCard({
   icon: Icon,
   delay = 0,
 }: ProjectCardProps) {
-  const colorClasses = colorMap[color];
+  const c = ACCENT_CLASSES[color];
   const isExternal = link.startsWith('http');
 
   return (
     <div
-      className={`bg-neutral-10 rounded-2xl border ${colorClasses.border} overflow-hidden group transition-all duration-300 animate-scale-in hover:shadow-lg will-change-transform`}
+      className={`bg-neutral-10 rounded-2xl border ${c.border} overflow-hidden group transition-all duration-300 animate-scale-in hover:shadow-lg will-change-transform`}
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="p-8">
@@ -57,9 +38,7 @@ export function ProjectCard({
           <Icon className="w-10 h-10" strokeWidth={1.5} />
         </div>
         <div className="mb-4">
-          <span
-            className={`text-xs uppercase tracking-widest font-space-grotesk ${colorClasses.text}`}
-          >
+          <span className={`text-xs uppercase tracking-widest font-space-grotesk ${c.text}`}>
             {category}
           </span>
         </div>
@@ -81,7 +60,7 @@ export function ProjectCard({
           href={link}
           target={isExternal ? '_blank' : undefined}
           rel={isExternal ? 'noopener noreferrer' : undefined}
-          className={`${colorClasses.text} font-space-grotesk text-sm uppercase tracking-wider ${colorClasses.hover} transition inline-flex items-center gap-2 group-hover:translate-x-2 duration-300 will-change-transform`}
+          className={`${c.text} font-space-grotesk text-sm uppercase tracking-wider ${c.textHover} transition inline-flex items-center gap-2 group-hover:translate-x-2 duration-300 will-change-transform`}
         >
           View Details →
         </Link>

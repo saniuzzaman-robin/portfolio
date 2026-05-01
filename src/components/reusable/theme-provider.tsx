@@ -1,7 +1,13 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  startTransition,
+  type ReactNode,
+} from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -21,8 +27,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = localStorage.getItem('theme');
     const resolved: Theme = stored === 'light' ? 'light' : 'dark';
-    setTheme(resolved);
     document.documentElement.setAttribute('data-theme', resolved);
+    startTransition(() => setTheme(resolved));
   }, []);
 
   const toggleTheme = () => {

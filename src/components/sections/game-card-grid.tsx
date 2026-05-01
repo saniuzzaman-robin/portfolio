@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Gamepad2 } from 'lucide-react';
 import { GAMES } from '@/lib/data/games';
 import { av, ava } from '@/lib/accent';
+import { AccentChip } from '@/components/ui/accent-chip';
 
 export function GameCardGrid() {
   return (
@@ -68,16 +69,7 @@ export function GameCardGrid() {
                     >
                       <Icon className="w-6 h-6" style={{ color: av(game.accent) }} />
                     </div>
-                    <span
-                      className="terminal-text text-xs"
-                      style={{
-                        color: av(game.accent),
-                        borderColor: ava(game.accent, 0.25),
-                        background: ava(game.accent, 0.06),
-                      }}
-                    >
-                      {game.difficulty}
-                    </span>
+                    <AccentChip accent={game.accent}>{game.difficulty}</AccentChip>
                   </div>
 
                   {/* Title */}

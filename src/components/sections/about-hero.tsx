@@ -1,22 +1,7 @@
 'use client';
 
 import { CV_DATA } from '@/lib/cv-data';
-import { av, type AccentToken } from '@/lib/accent';
-
-const ACCENT_CLASSES: Record<AccentToken, { text: string; border: string }> = {
-  primary: {
-    text: 'text-primary-50',
-    border: 'border-primary-50/20 hover:border-primary-50/40',
-  },
-  secondary: {
-    text: 'text-secondary-50',
-    border: 'border-secondary-50/20 hover:border-secondary-50/40',
-  },
-  tertiary: {
-    text: 'text-tertiary-50',
-    border: 'border-tertiary-50/20 hover:border-tertiary-50/40',
-  },
-};
+import { av, ACCENT_CLASSES, type AccentToken } from '@/lib/accent';
 
 export function AboutHero() {
   const highlights = CV_DATA.highlights;
@@ -43,7 +28,7 @@ export function AboutHero() {
             return (
               <div
                 key={i}
-                className={`glass rounded-sm border ${ac.border} p-6 transition-all duration-500 animate-slide-up hover:scale-[1.01]`}
+                className={`glass rounded-sm border ${ac.borderSoft} p-6 transition-all duration-500 animate-slide-up hover:scale-[1.01]`}
                 style={{ animationDelay: `${i * 120}ms`, animationFillMode: 'both' }}
               >
                 <div
@@ -68,7 +53,7 @@ export function AboutHero() {
             return (
               <div
                 key={i}
-                className={`glass rounded-sm border ${ac.border} p-8 transition-all duration-500 group hover:scale-105 animate-scale-in overflow-hidden relative`}
+                className={`glass rounded-sm border ${ac.borderSoft} p-8 transition-all duration-500 group hover:scale-105 animate-scale-in overflow-hidden relative`}
                 style={{ animationDelay: `${400 + i * 120}ms`, animationFillMode: 'both' }}
               >
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />

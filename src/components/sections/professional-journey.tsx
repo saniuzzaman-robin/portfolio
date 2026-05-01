@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { CV_DATA } from '@/lib/cv-data';
 import { av, ava, type AccentToken } from '@/lib/accent';
+import { AccentChip } from '@/components/ui/accent-chip';
 
 interface JobType {
   company: string;
@@ -108,16 +109,9 @@ export function ProfessionalJourney() {
                         {job.title}
                       </p>
                     </div>
-                    <span
-                      className="terminal-text text-xs shrink-0 ml-4"
-                      style={{
-                        color: av(job.accent),
-                        borderColor: ava(job.accent, 0.25),
-                        backgroundColor: ava(job.accent, 0.06),
-                      }}
-                    >
+                    <AccentChip accent={job.accent} className="shrink-0 ml-4">
                       {job.duration}
-                    </span>
+                    </AccentChip>
                   </div>
 
                   <p className="text-neutral-60 text-xs mb-4 font-space-grotesk">{job.period}</p>
