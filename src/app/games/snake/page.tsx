@@ -6,8 +6,6 @@ import { ArrowLeft, RefreshCw } from 'lucide-react';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateGameSchema } from '@/lib/schema';
 import { sounds } from '@/lib/sounds';
-import { AdUnit } from '@/components/reusable/ad-unit';
-import { AD_SLOTS } from '@/lib/ads-config';
 
 const CELL = 26;
 const COLS = 25;
@@ -29,8 +27,8 @@ function isMobile(): boolean {
 // Get adjusted tick speed based on device type
 function getTickMs(difficulty: DiffKey): number {
   const baseTickMs = DIFFICULTIES[difficulty].tickMs;
-  // On mobile, slow down by 40% (multiply by 1.4)
-  return isMobile() ? Math.round(baseTickMs * 1.4) : baseTickMs;
+  // On mobile, slow down by 60% (multiply by 1.6)
+  return isMobile() ? Math.round(baseTickMs * 1.6) : baseTickMs;
 }
 
 type Dir = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
@@ -258,7 +256,7 @@ export default function SnakePage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="min-h-dvh bg-neutral-5 text-neutral-90 flex flex-col">
+      <div className="h-dvh bg-neutral-5 text-neutral-90 flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-30 bg-neutral-10/50">
           <Link
@@ -294,104 +292,101 @@ export default function SnakePage() {
         </div>
 
         {/* Game area */}
-        <div className="flex-1 cyber-grid relative overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-center p-2 md:p-4">
+        <div className="flex-1 cyber-grid relative overflow-hidden flex items-center justify-center p-2 md:p-4">
+          <div
+            className="relative w-full flex-shrink-0"
+            style={{ aspectRatio: `${COLS}/${ROWS}`, maxWidth: '100%', maxHeight: '100%' }}
+          >
+            {/* Outer glow frame */}
             <div
-              className="relative w-full"
-              style={{ aspectRatio: `${COLS}/${ROWS}`, maxWidth: '100%', maxHeight: '100%' }}
-            >
-              {/* Outer glow frame */}
+              className="absolute -inset-1 rounded-sm opacity-50"
+              style={{
+                background: 'linear-gradient(45deg, #00ff87, #00d4ff, #a476ff, #00ff87)',
+                filter: 'blur(6px)',
+              }}
+            />
+
+            <canvas
+              ref={canvasRef}
+              width={COLS * CELL}
+              height={ROWS * CELL}
+              className="relative block w-full h-full rounded-sm"
+              style={{ imageRendering: 'pixelated', objectFit: 'contain' }}
+            />
+
+            {/* Overlay for start/game over */}
+            {(!started || dead) && (
               <div
-                className="absolute -inset-1 rounded-sm opacity-50"
-                style={{
-                  background: 'linear-gradient(45deg, #00ff87, #00d4ff, #a476ff, #00ff87)',
-                  filter: 'blur(6px)',
-                }}
-              />
-
-              <canvas
-                ref={canvasRef}
-                width={COLS * CELL}
-                height={ROWS * CELL}
-                className="relative block w-full h-full rounded-sm"
-                style={{ imageRendering: 'pixelated', objectFit: 'contain' }}
-              />
-
-              {/* Overlay for start/game over */}
-              {(!started || dead) && (
-                <div
-                  className="absolute inset-0 flex flex-col items-center justify-center rounded-sm z-10"
-                  style={{ background: 'rgba(8,13,26,0.85)', backdropFilter: 'blur(4px)' }}
-                >
-                  {dead ? (
-                    <>
-                      <p className="font-space-grotesk font-bold text-3xl neon-green mb-2">
-                        GAME OVER
-                      </p>
-                      <p className="text-neutral-70 text-sm mb-1">
-                        Score: <span className="neon-cyan font-bold">{score}</span>
-                      </p>
-                      <p className="text-neutral-70 text-sm mb-6">
-                        Best: <span className="neon-green font-bold">{best}</span>
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="font-space-grotesk font-bold text-4xl neon-green mb-1">SNAKE</p>
-                      <p className="text-neutral-70 text-xs mb-6 text-center">
-                        Collect cyan packets. Avoid walls &amp; yourself.
-                      </p>
-                    </>
-                  )}
-
-                  {/* Difficulty selector */}
-                  <div className="mb-6 w-full max-w-xs px-4">
-                    <p className="text-neutral-60 text-xs uppercase tracking-widest text-center mb-3 font-space-grotesk">
-                      Difficulty
+                className="absolute inset-0 flex flex-col items-center justify-center rounded-sm z-10"
+                style={{ background: 'rgba(8,13,26,0.85)', backdropFilter: 'blur(4px)' }}
+              >
+                {dead ? (
+                  <>
+                    <p className="font-space-grotesk font-bold text-3xl neon-green mb-2">
+                      GAME OVER
                     </p>
-                    <div className="grid grid-cols-3 gap-2">
-                      {(Object.keys(DIFFICULTIES) as DiffKey[]).map((key) => {
-                        const d = DIFFICULTIES[key];
-                        const active = difficulty === key;
-                        return (
-                          <button
-                            key={key}
-                            onClick={() => {
-                              setDifficulty(key);
-                              difficultyRef.current = key;
-                            }}
-                            className="flex flex-col items-center gap-0.5 py-2.5 px-2 rounded-sm border transition-all duration-200 font-space-grotesk"
-                            style={{
-                              borderColor: active ? d.color : 'rgba(255,255,255,0.1)',
-                              background: active ? `${d.color}15` : 'rgba(255,255,255,0.03)',
-                              boxShadow: active ? `0 0 12px ${d.color}40` : 'none',
-                            }}
-                          >
-                            <span
-                              className="text-xs font-bold uppercase tracking-widest"
-                              style={{ color: active ? d.color : '#6b8299' }}
-                            >
-                              {d.label}
-                            </span>
-                            <span className="text-[10px] text-neutral-50">{d.desc}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
+                    <p className="text-neutral-70 text-sm mb-1">
+                      Score: <span className="neon-cyan font-bold">{score}</span>
+                    </p>
+                    <p className="text-neutral-70 text-sm mb-6">
+                      Best: <span className="neon-green font-bold">{best}</span>
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="font-space-grotesk font-bold text-4xl neon-green mb-1">SNAKE</p>
+                    <p className="text-neutral-70 text-xs mb-6 text-center">
+                      Collect cyan packets. Avoid walls &amp; yourself.
+                    </p>
+                  </>
+                )}
 
-                  <button onClick={start} className="btn-game px-8 py-3 font-space-grotesk text-sm">
-                    {dead ? '▶ Play Again' : '▶ Start Game'}
-                  </button>
-                  <p className="text-neutral-60 text-xs mt-4 font-space-grotesk">
-                    Arrow Keys / WASD / Swipe
+                {/* Difficulty selector */}
+                <div className="mb-4 w-full max-w-xs px-2 md:px-4">
+                  <p className="text-neutral-60 text-[10px] md:text-xs uppercase tracking-widest text-center mb-2 md:mb-3 font-space-grotesk">
+                    Difficulty
                   </p>
-                  <div className="mt-4 w-full max-w-xs px-2">
-                    <AdUnit slot={AD_SLOTS.GAMES_OVERLAY} format="rectangle" />
+                  <div className="grid grid-cols-3 gap-1.5 md:gap-2">
+                    {(Object.keys(DIFFICULTIES) as DiffKey[]).map((key) => {
+                      const d = DIFFICULTIES[key];
+                      const active = difficulty === key;
+                      return (
+                        <button
+                          key={key}
+                          onClick={() => {
+                            setDifficulty(key);
+                            difficultyRef.current = key;
+                          }}
+                          className="flex flex-col items-center gap-0.5 py-1.5 md:py-2.5 px-1 md:px-2 rounded-sm border transition-all duration-200 font-space-grotesk"
+                          style={{
+                            borderColor: active ? d.color : 'rgba(255,255,255,0.1)',
+                            background: active ? `${d.color}15` : 'rgba(255,255,255,0.03)',
+                            boxShadow: active ? `0 0 12px ${d.color}40` : 'none',
+                          }}
+                        >
+                          <span
+                            className="text-[9px] md:text-xs font-bold uppercase tracking-widest leading-tight"
+                            style={{ color: active ? d.color : '#6b8299' }}
+                          >
+                            {d.label}
+                          </span>
+                          <span className="hidden md:inline text-[10px] text-neutral-50">
+                            {d.desc}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
-              )}
-            </div>
+
+                <button onClick={start} className="btn-game px-8 py-3 font-space-grotesk text-sm">
+                  {dead ? '▶ Play Again' : '▶ Start Game'}
+                </button>
+                <p className="text-neutral-60 text-xs mt-4 font-space-grotesk">
+                  Arrow Keys / WASD / Swipe
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
