@@ -245,7 +245,8 @@ export default function MemoryPage() {
             className="h-full transition-all duration-500"
             style={{
               width: `${progress}%`,
-              background: 'linear-gradient(to right, #a476ff, #00d4ff, #00ff87)',
+              background:
+                'linear-gradient(to right, var(--color-tertiary-50), var(--color-secondary-50), var(--color-primary-50))',
             }}
           />
         </div>

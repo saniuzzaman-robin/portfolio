@@ -4,6 +4,7 @@ import { SkipLink } from '@/components/reusable/skip-link';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { GoogleAnalytics } from '@/components/reusable/google-analytics';
 import { AdSenseLoader } from '@/components/reusable/adsense-loader';
+import { ThemeProvider } from '@/components/reusable/theme-provider';
 import { generateOrganizationSchema } from '@/lib/schema';
 import './globals.css';
 
@@ -91,19 +92,29 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
+      data-theme="dark"
       className={`${spaceGrotesk.variable} ${manrope.variable} antialiased`}
+      suppressHydrationWarning
     >
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#080d1a" />
+        {/* Prevent flash of wrong theme before hydration */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`,
+          }}
+        />
         <SchemaScript schema={generateOrganizationSchema()} />
         <GoogleAnalytics />
       </head>
       <body className="min-h-dvh flex flex-col">
-        <AdSenseLoader />
-        <SkipLink />
-        <main id="main-content">{children}</main>
+        <ThemeProvider>
+          <AdSenseLoader />
+          <SkipLink />
+          <main id="main-content">{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );

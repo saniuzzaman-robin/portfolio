@@ -2,11 +2,12 @@
 
 import { CV_DATA } from '@/lib/cv-data';
 import { useInView } from '@/hooks/use-in-view';
+import { av, ava, type AccentToken } from '@/lib/accent';
 
 interface SkillBarProps {
   name: string;
   level: number;
-  accent: string;
+  accent: AccentToken;
   delay: number;
 }
 
@@ -20,7 +21,7 @@ function SkillBar({ name, level, accent, delay }: SkillBarProps) {
         </span>
         <span
           className="font-space-grotesk font-bold text-xs tabular-nums"
-          style={{ color: accent }}
+          style={{ color: av(accent) }}
         >
           {level}%
         </span>
@@ -31,8 +32,8 @@ function SkillBar({ name, level, accent, delay }: SkillBarProps) {
           style={{
             width: inView ? `${level}%` : '0%',
             transitionDelay: `${delay}ms`,
-            background: `linear-gradient(to right, ${accent}, ${accent}80)`,
-            boxShadow: `0 0 8px ${accent}60`,
+            background: `linear-gradient(to right, ${av(accent)}, ${ava(accent, 0.5)})`,
+            boxShadow: `0 0 8px ${ava(accent, 0.38)}`,
           }}
         />
       </div>
@@ -61,45 +62,54 @@ export function SkillsShowcase() {
 
         {/* Skill categories */}
         <div className="space-y-12">
-          {skillCategories.map((cat, catIdx) => (
-            <div
-              key={catIdx}
-              className="glass rounded-sm border p-8 transition-all duration-500 animate-slide-up hover:scale-[1.01]"
-              style={{
-                borderColor: `${cat.accent}25`,
-                animationDelay: `${catIdx * 120}ms`,
-                animationFillMode: 'both',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = `${cat.accent}50`)}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = `${cat.accent}25`)}
-            >
-              {/* Category header */}
-              <div className="flex items-center gap-3 mb-8">
-                <div
-                  className="w-10 h-10 rounded-sm flex items-center justify-center text-xl"
-                  style={{ background: `${cat.accent}15`, border: `1px solid ${cat.accent}40` }}
-                >
-                  {cat.icon}
+          {skillCategories.map((cat, catIdx) => {
+            const accent = cat.accent as AccentToken;
+            return (
+              <div
+                key={catIdx}
+                className="glass rounded-sm border p-8 transition-all duration-500 animate-slide-up hover:scale-[1.01]"
+                style={{
+                  borderColor: ava(accent, 0.15),
+                  animationDelay: `${catIdx * 120}ms`,
+                  animationFillMode: 'both',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = ava(accent, 0.31))}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = ava(accent, 0.15))}
+              >
+                {/* Category header */}
+                <div className="flex items-center gap-3 mb-8">
+                  <div
+                    className="w-10 h-10 rounded-sm flex items-center justify-center text-xl"
+                    style={{
+                      background: ava(accent, 0.08),
+                      border: `1px solid ${ava(accent, 0.25)}`,
+                    }}
+                  >
+                    {cat.icon}
+                  </div>
+                  <h2
+                    className="font-space-grotesk font-bold text-xl"
+                    style={{ color: av(accent) }}
+                  >
+                    {cat.category}
+                  </h2>
                 </div>
-                <h2 className="font-space-grotesk font-bold text-xl" style={{ color: cat.accent }}>
-                  {cat.category}
-                </h2>
-              </div>
 
-              {/* Skill bars */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {cat.skills.map((skill, i) => (
-                  <SkillBar
-                    key={i}
-                    name={skill.name}
-                    level={skill.level}
-                    accent={cat.accent}
-                    delay={catIdx * 100 + i * 80}
-                  />
-                ))}
+                {/* Skill bars */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {cat.skills.map((skill, i) => (
+                    <SkillBar
+                      key={i}
+                      name={skill.name}
+                      level={skill.level}
+                      accent={accent}
+                      delay={catIdx * 100 + i * 80}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Bottom cards */}
