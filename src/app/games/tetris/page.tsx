@@ -6,25 +6,30 @@ import { ArrowLeft, RefreshCw } from 'lucide-react';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateGameSchema } from '@/lib/schema';
 import { sounds } from '@/lib/sounds';
-import { AdUnit } from '@/components/reusable/ad-unit';
-import { AD_SLOTS } from '@/lib/ads-config';
 
 const COLS = 10;
 const ROWS = 20;
 const CELL_DESKTOP = 44;
 
-// Responsive cell size for mobile
+// Responsive cell size based on both viewport width and height
 function getCell(): number {
   if (typeof window === 'undefined') return CELL_DESKTOP;
-  const width = window.innerWidth;
-  // On mobile (< 768px), scale down the cell size to fit screen
-  if (width < 768) {
-    // Mobile: fit within ~90% of viewport width minus padding
-    const availableWidth = width * 0.9 - 16; // 16px for padding
-    const cellSize = Math.floor(availableWidth / COLS);
-    return Math.max(20, Math.min(28, cellSize)); // Constrain between 20-28
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  if (vw < 768) {
+    // Mobile: leave room for header (~44px) + controls (~80px) + padding (~8px)
+    const availableW = vw - 8;
+    const availableH = vh - 44 - 80 - 8;
+    const byWidth = Math.floor(availableW / COLS);
+    const byHeight = Math.floor(availableH / ROWS);
+    return Math.max(14, Math.min(byWidth, byHeight));
   }
-  return CELL_DESKTOP;
+
+  // Desktop: leave room for header (~64px) + padding (~32px)
+  const availableH = vh - 64 - 32;
+  const byHeight = Math.floor(availableH / ROWS);
+  return Math.min(CELL_DESKTOP, byHeight);
 }
 
 type Grid = (string | null)[][];
@@ -448,65 +453,68 @@ export default function TetrisPage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="min-h-dvh md:h-dvh bg-neutral-5 text-neutral-90 flex flex-col md:overflow-hidden">
+      <div className="h-dvh bg-neutral-5 text-neutral-90 flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-3 md:px-6 py-2 md:py-4 border-b border-white/5 glass-strong gap-2 md:gap-0">
+        <div className="flex items-center justify-between px-2 md:px-6 py-1.5 md:py-4 border-b border-white/5 glass-strong gap-2 md:gap-0 shrink-0">
           <Link
             href="/games"
             className="flex items-center gap-2 text-neutral-50 hover:text-secondary-50 transition-colors text-xs md:text-sm font-space-grotesk uppercase tracking-widest"
           >
-            <ArrowLeft className="w-4 h-4" /> Games
+            <ArrowLeft className="w-3 h-3 md:w-4 md:h-4" />
+            <span className="hidden md:inline">Games</span>
           </Link>
-          <div className="flex items-center gap-2 md:gap-6 text-center flex-wrap justify-between md:justify-center w-full md:w-auto">
+
+          {/* Mobile: Only Score */}
+          <div className="md:hidden flex items-center gap-2 text-center">
             <div>
-              <p className="text-[10px] md:text-xs text-neutral-60 uppercase tracking-widest">
-                Score
-              </p>
-              <p className="font-space-grotesk font-bold text-sm md:text-xl neon-cyan tabular-nums">
-                {score}
-              </p>
+              <p className="text-[9px] text-neutral-60 uppercase tracking-widest">Score</p>
+              <p className="font-space-grotesk font-bold text-xs neon-cyan tabular-nums">{score}</p>
+            </div>
+          </div>
+
+          {/* Desktop: Full Stats */}
+          <div className="hidden md:flex items-center gap-6 text-center flex-wrap justify-center">
+            <div>
+              <p className="text-xs text-neutral-60 uppercase tracking-widest">Score</p>
+              <p className="font-space-grotesk font-bold text-xl neon-cyan tabular-nums">{score}</p>
             </div>
             <div>
-              <p className="text-[10px] md:text-xs text-neutral-60 uppercase tracking-widest">
-                Lines
-              </p>
-              <p className="font-space-grotesk font-bold text-sm md:text-xl neon-green tabular-nums">
+              <p className="text-xs text-neutral-60 uppercase tracking-widest">Lines</p>
+              <p className="font-space-grotesk font-bold text-xl neon-green tabular-nums">
                 {lines}
               </p>
             </div>
             <div>
-              <p className="text-[10px] md:text-xs text-neutral-60 uppercase tracking-widest">
-                Level
-              </p>
-              <p className="font-space-grotesk font-bold text-sm md:text-xl neon-purple tabular-nums">
+              <p className="text-xs text-neutral-60 uppercase tracking-widest">Level</p>
+              <p className="font-space-grotesk font-bold text-xl neon-purple tabular-nums">
                 {level}
               </p>
             </div>
-            <div className="hidden md:block">
+            <div>
               <p className="text-xs text-neutral-60 uppercase tracking-widest">Best</p>
               <p className="font-space-grotesk font-bold text-xl text-neutral-70 tabular-nums">
                 {best}
               </p>
             </div>
           </div>
+
           <button
             onClick={startGame}
-            className="flex items-center gap-2 btn-neon-cyan px-3 md:px-4 py-1.5 md:py-2 rounded-sm text-[10px] md:text-xs font-space-grotesk font-bold uppercase tracking-widest whitespace-nowrap"
+            className="flex items-center gap-1 md:gap-2 btn-neon-cyan px-2 md:px-4 py-1 md:py-2 rounded-sm text-[10px] md:text-xs font-space-grotesk font-bold uppercase tracking-widest whitespace-nowrap"
           >
-            <RefreshCw className="w-3 h-3 md:w-3.5 md:h-3.5" />
-            {started ? 'Restart' : 'Start'}
+            <RefreshCw className="w-3 h-3 md:w-4 md:h-4" />
+            <span className="hidden md:inline">{started ? 'Restart' : 'Start'}</span>
           </button>
         </div>
 
-        <div className="flex-1 flex items-center justify-center p-2 md:p-4 cyber-grid relative gap-6 md:overflow-hidden min-h-0">
+        <div className="flex-1 flex items-center justify-center p-1 md:p-4 cyber-grid relative gap-4 lg:gap-6 overflow-hidden min-h-0">
           {/* Canvas */}
-          <div className="relative w-full md:h-full md:flex md:items-center md:justify-center min-h-0 md:min-w-0">
+          <div className="flex items-center justify-center min-h-0">
             <div
-              className="relative"
+              className="relative shrink-0"
               style={{
-                aspectRatio: `${COLS}/${ROWS}`,
-                height: '100%',
-                maxWidth: '100%',
+                width: COLS * cellSize,
+                height: ROWS * cellSize,
               }}
             >
               <div
@@ -520,7 +528,7 @@ export default function TetrisPage() {
                 ref={canvasRef}
                 width={COLS * cellSize}
                 height={ROWS * cellSize}
-                className="relative block rounded-sm w-full h-full"
+                className="relative block rounded-sm"
               />
 
               {/* Overlay */}
@@ -584,9 +592,6 @@ export default function TetrisPage() {
                   >
                     {gameOver ? '> Play Again' : '> Start Game'}
                   </button>
-                  <div className="mt-4 w-full max-w-xs px-2">
-                    <AdUnit slot={AD_SLOTS.GAMES_OVERLAY} format="rectangle" />
-                  </div>
                 </div>
               )}
             </div>
@@ -642,9 +647,9 @@ export default function TetrisPage() {
         </div>
 
         {/* Mobile controls */}
-        <div className="md:hidden flex flex-col gap-2 p-3 border-t border-white/5 bg-neutral-10/50">
+        <div className="md:hidden flex flex-col gap-1 p-1.5 border-t border-white/5 bg-neutral-10/50 shrink-0">
           {/* Top row: Rotate and Hard Drop */}
-          <div className="flex justify-between gap-2">
+          <div className="flex justify-between gap-1">
             <button
               onClick={() => {
                 if (!started || gameOver) return;
@@ -655,9 +660,10 @@ export default function TetrisPage() {
                   draw();
                 }
               }}
-              className="flex-1 py-2 glass border border-white/10 rounded-sm flex items-center justify-center text-secondary-50 hover:border-secondary-50/50 active:bg-secondary-50/10 font-space-grotesk font-bold text-sm"
+              className="flex-1 py-1 glass border border-white/10 rounded-sm flex items-center justify-center text-secondary-50 hover:border-secondary-50/50 active:bg-secondary-50/10 text-lg"
+              title="Rotate"
             >
-              ↻ Rotate
+              ↻
             </button>
             <button
               onClick={() => {
@@ -669,14 +675,15 @@ export default function TetrisPage() {
                 draw();
                 lock();
               }}
-              className="flex-1 py-2 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 font-space-grotesk font-bold text-sm"
+              className="flex-1 py-1 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 text-lg"
+              title="Hard Drop"
             >
-              ⬇ Drop
+              ⬇
             </button>
           </div>
 
           {/* Bottom row: Left, Soft Drop, Right */}
-          <div className="flex gap-2 justify-center">
+          <div className="flex gap-1 justify-center">
             <button
               onClick={() => {
                 if (!started || gameOver) return;
@@ -686,7 +693,8 @@ export default function TetrisPage() {
                   draw();
                 }
               }}
-              className="w-16 py-2 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 text-xl"
+              className="flex-1 py-1 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 text-lg"
+              title="Move Left"
             >
               ◄
             </button>
@@ -695,9 +703,10 @@ export default function TetrisPage() {
                 if (!started || gameOver) return;
                 drop();
               }}
-              className="flex-1 py-2 glass border border-white/10 rounded-sm flex items-center justify-center text-secondary-50 hover:border-secondary-50/50 active:bg-secondary-50/10 font-space-grotesk font-bold text-sm"
+              className="flex-1 py-1 glass border border-white/10 rounded-sm flex items-center justify-center text-secondary-50 hover:border-secondary-50/50 active:bg-secondary-50/10 text-lg"
+              title="Soft Drop"
             >
-              Soft ↓
+              ▼
             </button>
             <button
               onClick={() => {
@@ -708,7 +717,8 @@ export default function TetrisPage() {
                   draw();
                 }
               }}
-              className="w-16 py-2 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 text-xl"
+              className="flex-1 py-1 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 text-lg"
+              title="Move Right"
             >
               ►
             </button>
