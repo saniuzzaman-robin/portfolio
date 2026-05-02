@@ -1,4 +1,4 @@
-# Run linter and build to ensure code quality before push
+# Run linter and unit tests to ensure code quality before commit
 
-echo "Running linter and build checks before push..."
-npm run lint && npm run build
+echo "Running linter and tests before commit..."
+npm run lint && npm run test:run

@@ -3,7 +3,6 @@ import { Space_Grotesk, Manrope } from 'next/font/google';
 import { SkipLink } from '@/components/reusable/skip-link';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { GoogleAnalytics } from '@/components/reusable/google-analytics';
-import { AdSenseLoader } from '@/components/reusable/adsense-loader';
 import { ThemeProvider } from '@/components/reusable/theme-provider';
 import { generateOrganizationSchema } from '@/lib/schema';
 import './globals.css';
@@ -111,7 +110,6 @@ export default function RootLayout({
       </head>
       <body className="min-h-dvh flex flex-col">
         <ThemeProvider>
-          <AdSenseLoader />
           <SkipLink />
           <main id="main-content">{children}</main>
         </ThemeProvider>
