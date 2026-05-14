@@ -1,12 +1,21 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { Navigation } from '@/components/sections/navigation';
 import { Hero } from '@/components/sections/hero';
-import { Achievements } from '@/components/sections/achievements';
-import { ProfessionalJourney } from '@/components/sections/professional-journey';
-import { FeaturedProjects } from '@/components/sections/featured-projects';
-import { CTA } from '@/components/sections/cta';
-import { Footer } from '@/components/sections/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
+
+// Below-fold sections — code-split to reduce initial JS bundle
+const Achievements = dynamic(() =>
+  import('@/components/sections/achievements').then((m) => m.Achievements)
+);
+const ProfessionalJourney = dynamic(() =>
+  import('@/components/sections/professional-journey').then((m) => m.ProfessionalJourney)
+);
+const FeaturedProjects = dynamic(() =>
+  import('@/components/sections/featured-projects').then((m) => m.FeaturedProjects)
+);
+const CTA = dynamic(() => import('@/components/sections/cta').then((m) => m.CTA));
+const Footer = dynamic(() => import('@/components/sections/footer').then((m) => m.Footer));
 import { generatePersonSchema, generateWebPageSchema } from '@/lib/schema';
 import { CV_DATA } from '@/lib/cv-data';
 
