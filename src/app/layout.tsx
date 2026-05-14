@@ -53,9 +53,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  alternates: {
-    canonical: 'https://saniuzzaman.dev',
-  },
   openGraph: {
     type: 'website',
     url: 'https://saniuzzaman.dev',
