@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import {
   Rocket,
   Zap,
@@ -82,10 +83,13 @@ export function ProfessionalJourney() {
               {/* Content card — alternates left/right */}
               <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
                 <div
-                  className="glass rounded-sm border p-6 transition-all duration-500 group hover:scale-[1.02]"
-                  style={{ borderColor: ava(job.accent, 0.2) }}
-                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = ava(job.accent, 0.53))}
-                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = ava(job.accent, 0.2))}
+                  className="glass rounded-sm border p-6 transition-all duration-500 group hover:scale-[1.02] hover:border-(--card-border-hover)"
+                  style={
+                    {
+                      borderColor: ava(job.accent, 0.2),
+                      '--card-border-hover': ava(job.accent, 0.53),
+                    } as CSSProperties
+                  }
                 >
                   {/* Top accent bar */}
                   <div

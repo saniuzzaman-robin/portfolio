@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
 import { FEATURED_PROJECTS } from '@/lib/data/featured-projects';
@@ -38,22 +39,16 @@ export function FeaturedProjects() {
               className="group block"
             >
               <div
-                className="relative h-full glass rounded-sm border transition-all duration-500 overflow-hidden animate-scale-in hover:scale-[1.03]"
-                style={{
-                  borderColor: ava(feature.accent, 0.19),
-                  animationDelay: `${index * 100}ms`,
-                  animationFillMode: 'both',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget;
-                  el.style.borderColor = ava(feature.accent, 0.44);
-                  el.style.boxShadow = `0 0 20px ${ava(feature.accent, 0.15)}, 0 0 40px ${ava(feature.accent, 0.06)}`;
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget;
-                  el.style.borderColor = ava(feature.accent, 0.19);
-                  el.style.boxShadow = '';
-                }}
+                className="relative h-full glass rounded-sm border transition-all duration-500 overflow-hidden animate-scale-in hover:scale-[1.03] hover:border-(--card-border-hover) hover:shadow-(--card-shadow-hover)"
+                style={
+                  {
+                    borderColor: ava(feature.accent, 0.19),
+                    '--card-border-hover': ava(feature.accent, 0.44),
+                    '--card-shadow-hover': `0 0 20px ${ava(feature.accent, 0.15)}, 0 0 40px ${ava(feature.accent, 0.06)}`,
+                    animationDelay: `${index * 100}ms`,
+                    animationFillMode: 'both',
+                  } as CSSProperties
+                }
               >
                 {/* Holographic hover overlay */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
