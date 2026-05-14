@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { ARTICLES } from '@/lib/data/blog';
 import { ACCENT_CLASSES } from '@/lib/accent';

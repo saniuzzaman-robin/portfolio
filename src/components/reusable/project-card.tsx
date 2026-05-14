@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { LucideIcon } from 'lucide-react';
 import { ACCENT_CLASSES, type AccentToken } from '@/lib/accent';

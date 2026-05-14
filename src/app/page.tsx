@@ -1,12 +1,18 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { Navigation } from '@/components/sections/navigation';
 import { Hero } from '@/components/sections/hero';
-import { Achievements } from '@/components/sections/achievements';
 import { ProfessionalJourney } from '@/components/sections/professional-journey';
 import { FeaturedProjects } from '@/components/sections/featured-projects';
 import { CTA } from '@/components/sections/cta';
 import { Footer } from '@/components/sections/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
+
+// Achievements is a client component (uses hooks) — split its bundle so it
+// doesn't block the above-fold paint.
+const Achievements = dynamic(() =>
+  import('@/components/sections/achievements').then((m) => m.Achievements)
+);
 import { generatePersonSchema, generateWebPageSchema } from '@/lib/schema';
 import { CV_DATA } from '@/lib/cv-data';
 

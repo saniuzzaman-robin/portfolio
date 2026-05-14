@@ -10,11 +10,13 @@ import './globals.css';
 const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const manrope = Manrope({
   variable: '--font-manrope',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {

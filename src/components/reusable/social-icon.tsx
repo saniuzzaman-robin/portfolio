@@ -1,5 +1,3 @@
-'use client';
-
 export type SocialIconType = 'github' | 'linkedin' | 'email' | 'twitter' | 'facebook';
 
 interface IconProps {
