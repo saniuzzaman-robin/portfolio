@@ -272,9 +272,6 @@ export function OrbitalVisualization() {
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
         camera={{ position: [0, 10, 26], fov: 58, near: 0.1, far: 300 }}
-        onCreated={({ gl }) => {
-          gl.setClearColor(0x000000, 0);
-        }}
       >
         <Scene isLight={isLight} />
       </Canvas>
