@@ -1,9 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { ParticleCanvas } from '../reusable/particle-canvas';
 import { TypewriterText } from '../reusable/typewriter-text';
-import { OrbitalVisualization } from '../reusable/orbital-visualization';
+import dynamic from 'next/dynamic';
+
+const OrbitalVisualization = dynamic(
+  () => import('../reusable/orbital-visualization').then((m) => m.OrbitalVisualization),
+  { ssr: false }
+);
+
+const ParticleCanvas = dynamic(
+  () => import('../reusable/particle-canvas').then((m) => m.ParticleCanvas),
+  { ssr: false }
+);
 
 export function Hero() {
   return (
@@ -105,7 +114,7 @@ export function Hero() {
           </div>
 
           {/* Right — 3D Orbital Visualization */}
-          <div className="hidden lg:block relative h-125 xl:h-160 animate-fade-in [animation-delay:300ms]">
+          <div className="hidden lg:block relative h-125 xl:h-160 bg-transparent">
             <OrbitalVisualization />
           </div>
         </div>
