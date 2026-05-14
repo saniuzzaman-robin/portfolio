@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Navigation } from '@/components/sections/navigation';
 import { ProjectsGrid } from '@/components/sections/projects-grid';
-import dynamic from 'next/dynamic';
-const Footer = dynamic(() => import('@/components/sections/footer').then((m) => m.Footer));
+import { Footer } from '@/components/sections/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateCollectionSchema } from '@/lib/schema';
 

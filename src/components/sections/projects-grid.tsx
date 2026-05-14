@@ -1,5 +1,3 @@
-'use client';
-
 import { ProjectCard } from '../reusable/project-card';
 import { PROJECTS } from '@/lib/data/projects';
 
