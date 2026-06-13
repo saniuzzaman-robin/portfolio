@@ -78,9 +78,8 @@ export const CV_DATA = {
       description:
         'Led a 4-member team building an enterprise-grade multi-tenant e-commerce Admin Panel in Angular. Owned internal frontend libraries and expanded to .NET 6 backend with CQRS, SAGA patterns, and microservices.',
       descriptionLong:
-        'Stepped up to lead and manage a 4-member development team when the lead departed. Spearheaded multi-tenant e-commerce Admin Panel in Angular with RBAC, dynamic URL-based bootstrap, advanced inventory, product/order management, reporting, and real-time notifications. Owned and maintained internal frontend libraries (auth, themes, query/command services, WebSockets) enabling cross-team reuse. Collaborated closely with PM, HOD, Principal Architects, designers, and QA for quarterly roadmap delivery. Later expanded to .NET 6 backend — implemented CQRS, SAGA patterns, and product/order/cart microservices for a new e-commerce platform.',
+        'Spearheaded multi-tenant e-commerce Admin Panel in Angular with RBAC, dynamic URL-based bootstrap, advanced inventory, product/order management, reporting, and real-time notifications. Owned and maintained internal frontend libraries (auth, themes, query/command services, WebSockets) enabling cross-team reuse. Collaborated closely with PM, HOD, Principal Architects, designers, and QA for quarterly roadmap delivery. Later expanded to .NET 6 backend — implemented CQRS, SAGA patterns, and product/order/cart microservices for a new e-commerce platform.',
       achievements: [
-        'Led and managed a 4-member software development team, stepping up when the team lead left',
         'Spearheaded multi-tenant e-commerce Admin Panel in Angular with RBAC and dynamic URL-based bootstrap',
         'Implemented complex features: inventory, product & order pipelines, reporting, real-time notifications',
         'Owned internal frontend libraries (auth, themes, query/command services, WebSockets) for cross-team efficiency',
