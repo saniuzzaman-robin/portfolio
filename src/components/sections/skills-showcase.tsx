@@ -1,5 +1,6 @@
 'use client';
 
+import type { CSSProperties } from 'react';
 import { CV_DATA } from '@/lib/cv-data';
 import { useInView } from '@/hooks/use-in-view';
 import { av, ava, type AccentToken } from '@/lib/accent';
@@ -15,18 +16,18 @@ function SkillBar({ name, level, accent, delay }: SkillBarProps) {
   const { ref, inView } = useInView(0.3);
   return (
     <div ref={ref} className="group">
-      <div className="flex justify-between items-center mb-2">
-        <span className="font-space-grotesk font-bold text-sm text-neutral-80 group-hover:text-neutral-100 transition-colors">
+      <div className="mb-2 flex items-center justify-between">
+        <span className="font-space-grotesk text-neutral-80 text-sm font-bold transition-colors group-hover:text-neutral-100">
           {name}
         </span>
         <span
-          className="font-space-grotesk font-bold text-xs tabular-nums"
+          className="font-space-grotesk text-xs font-bold tabular-nums"
           style={{ color: av(accent) }}
         >
           {level}%
         </span>
       </div>
-      <div className="h-1.5 bg-neutral-10 rounded-full overflow-hidden">
+      <div className="bg-neutral-10 h-1.5 overflow-hidden rounded-full">
         <div
           className="h-full rounded-full transition-all duration-1000 ease-out"
           style={{
@@ -45,16 +46,16 @@ export function SkillsShowcase() {
   const skillCategories = CV_DATA.skillsDetailed;
 
   return (
-    <section className="px-6 py-24 md:px-12 lg:px-20 relative">
-      <div className="absolute inset-0 cyber-grid-dense opacity-20 pointer-events-none" />
-      <div className="max-w-6xl mx-auto relative z-10">
+    <section className="relative px-6 py-24 md:px-12 lg:px-20">
+      <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-20" />
+      <div className="relative z-10 mx-auto max-w-6xl">
         {/* Header */}
-        <div className="mb-16 animate-slide-right">
+        <div className="animate-slide-right mb-16">
           <p className="section-label mb-3">Technical Stack</p>
-          <h1 className="font-space-grotesk text-5xl md:text-6xl font-bold mb-4">
+          <h1 className="font-space-grotesk mb-4 text-5xl font-bold md:text-6xl">
             Skills &amp; <span className="neon-cyan">Expertise</span>
           </h1>
-          <p className="text-neutral-70 text-sm leading-relaxed max-w-xl">
+          <p className="text-neutral-70 max-w-xl text-sm leading-relaxed">
             A comprehensive view of technologies mastered through 5+ years of production
             engineering.
           </p>
@@ -67,19 +68,20 @@ export function SkillsShowcase() {
             return (
               <div
                 key={catIdx}
-                className="glass rounded-sm border p-8 transition-all duration-500 animate-slide-up hover:scale-[1.01]"
-                style={{
-                  borderColor: ava(accent, 0.15),
-                  animationDelay: `${catIdx * 120}ms`,
-                  animationFillMode: 'both',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = ava(accent, 0.31))}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = ava(accent, 0.15))}
+                className="glass animate-slide-up rounded-sm border-(--sb) p-8 transition-all duration-500 hover:scale-[1.01] hover:border-(--sb-h)"
+                style={
+                  {
+                    '--sb': ava(accent, 0.15),
+                    '--sb-h': ava(accent, 0.35),
+                    animationDelay: `${catIdx * 120}ms`,
+                    animationFillMode: 'both',
+                  } as CSSProperties
+                }
               >
                 {/* Category header */}
-                <div className="flex items-center gap-3 mb-8">
+                <div className="mb-8 flex items-center gap-3">
                   <div
-                    className="w-10 h-10 rounded-sm flex items-center justify-center text-xl"
+                    className="flex h-10 w-10 items-center justify-center rounded-sm text-xl"
                     style={{
                       background: ava(accent, 0.08),
                       border: `1px solid ${ava(accent, 0.25)}`,
@@ -88,7 +90,7 @@ export function SkillsShowcase() {
                     {cat.icon}
                   </div>
                   <h2
-                    className="font-space-grotesk font-bold text-xl"
+                    className="font-space-grotesk text-xl font-bold"
                     style={{ color: av(accent) }}
                   >
                     {cat.category}
@@ -96,7 +98,7 @@ export function SkillsShowcase() {
                 </div>
 
                 {/* Skill bars */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {cat.skills.map((skill, i) => (
                     <SkillBar
                       key={i}
@@ -113,13 +115,13 @@ export function SkillsShowcase() {
         </div>
 
         {/* Bottom cards */}
-        <div className="grid md:grid-cols-2 gap-6 mt-16">
-          <div className="glass rounded-sm border border-primary-50/20 hover:border-primary-50/50 p-8 transition-all duration-300 animate-scale-in [animation-delay:600ms] group relative overflow-hidden">
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
-            <h3 className="font-space-grotesk text-xl font-bold neon-green mb-4 relative z-10">
+        <div className="mt-16 grid gap-6 md:grid-cols-2">
+          <div className="glass border-primary-50/20 hover:border-primary-50/50 animate-scale-in group relative overflow-hidden rounded-sm border p-8 transition-all duration-300 [animation-delay:600ms]">
+            <div className="holographic pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <h3 className="font-space-grotesk neon-green relative z-10 mb-4 text-xl font-bold">
               ⚡ Competitive Programming
             </h3>
-            <ul className="space-y-2 text-neutral-70 text-sm relative z-10">
+            <ul className="text-neutral-70 relative z-10 space-y-2 text-sm">
               {[
                 '1700+ problems solved across major judges',
                 'ICPC Regional Finalist',
@@ -133,12 +135,12 @@ export function SkillsShowcase() {
               ))}
             </ul>
           </div>
-          <div className="glass rounded-sm border border-secondary-50/20 hover:border-secondary-50/50 p-8 transition-all duration-300 animate-scale-in [animation-delay:700ms] group relative overflow-hidden">
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
-            <h3 className="font-space-grotesk text-xl font-bold neon-cyan mb-4 relative z-10">
+          <div className="glass border-secondary-50/20 hover:border-secondary-50/50 animate-scale-in group relative overflow-hidden rounded-sm border p-8 transition-all duration-300 [animation-delay:700ms]">
+            <div className="holographic pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <h3 className="font-space-grotesk neon-cyan relative z-10 mb-4 text-xl font-bold">
               🎯 Core Expertise
             </h3>
-            <ul className="space-y-2 text-neutral-70 text-sm relative z-10">
+            <ul className="text-neutral-70 relative z-10 space-y-2 text-sm">
               {[
                 'System Architecture & Design Patterns',
                 'Performance Optimization (Redis, Caching)',

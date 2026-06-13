@@ -67,7 +67,7 @@ export function TypewriterText({
     <span className={className}>
       {displayed}
       <span
-        className={`${cursorClassName} inline-block w-0.5 ml-0.5 align-middle`}
+        className={`${cursorClassName} ml-0.5 inline-block w-0.5 align-middle`}
         style={{ opacity: showCursor ? 1 : 0, transition: 'opacity 0.1s' }}
       >
         |

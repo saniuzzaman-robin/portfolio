@@ -28,6 +28,7 @@ export function Footer() {
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
     { label: 'Projects', href: '/projects' },
+    { label: 'Tools', href: '/tools' },
     { label: 'Skills', href: '/skills' },
     { label: 'Blog', href: '/blog' },
     { label: 'Resume', href: '/resume' },
@@ -35,33 +36,33 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative px-6 pt-16 pb-8 md:px-12 lg:px-20 border-t border-white/5 overflow-hidden">
+    <footer className="relative overflow-hidden border-t border-white/5 px-6 pt-16 pb-8 md:px-12 lg:px-20">
       {/* Top gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary-50/40 to-transparent" />
+      <div className="via-primary-50/40 absolute top-0 right-0 left-0 h-px bg-linear-to-r from-transparent to-transparent" />
 
       {/* Background */}
-      <div className="absolute inset-0 cyber-grid-dense opacity-20 pointer-events-none" />
+      <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-20" />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-6xl">
         {/* Top row */}
-        <div className="grid md:grid-cols-3 gap-12 mb-12 pb-12 border-b border-white/5">
+        <div className="mb-12 grid gap-12 border-b border-white/5 pb-12 md:grid-cols-3">
           {/* Brand */}
           <div>
-            <div className="font-space-grotesk font-bold text-xl mb-3">
+            <div className="font-space-grotesk mb-3 text-xl font-bold">
               <span className="neon-green">ARCH</span>
               <span className="neon-cyan">ITECT</span>
               <span className="neon-purple">VI</span>
             </div>
-            <p className="text-neutral-70 text-xs leading-relaxed mb-6 max-w-xs">
+            <p className="text-neutral-70 mb-6 max-w-xs text-xs leading-relaxed">
               Full-stack software engineer crafting scalable applications with NestJS, Next.js &
               Angular. Open to opportunities worldwide.
             </p>
             <a
               href="/CV_SANIUZZAMAN_ROBIN.pdf"
               download
-              className="inline-flex items-center gap-2 btn-neon-green px-5 py-2.5 rounded-sm font-space-grotesk font-bold text-xs uppercase tracking-widest"
+              className="btn-neon-green font-space-grotesk inline-flex items-center gap-2 rounded-sm px-5 py-2.5 text-xs font-bold tracking-widest uppercase"
             >
-              <Download className="w-3.5 h-3.5" />
+              <Download className="h-3.5 w-3.5" />
               <span>Download CV</span>
             </a>
           </div>
@@ -74,7 +75,7 @@ export function Footer() {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="text-neutral-60 hover:text-primary-50 text-xs uppercase tracking-wider font-space-grotesk transition-colors duration-200 flex items-center gap-1 group"
+                  className="text-neutral-60 hover:text-primary-50 font-space-grotesk group flex items-center gap-1 text-xs tracking-wider uppercase transition-colors duration-200"
                 >
                   <span className="text-primary-50/0 group-hover:text-primary-50/60 transition-colors">
                     &gt;
@@ -88,7 +89,7 @@ export function Footer() {
           {/* Contact */}
           <div>
             <p className="section-label mb-5">Connect</p>
-            <div className="space-y-3 mb-6">
+            <div className="mb-6 space-y-3">
               {links.map((l) => (
                 <Link
                   key={l.label}
@@ -96,13 +97,13 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={l.ariaLabel}
-                  className="flex items-center gap-3 text-neutral-60 hover:text-primary-50 transition-colors duration-200 group"
+                  className="text-neutral-60 hover:text-primary-50 group flex items-center gap-3 transition-colors duration-200"
                 >
                   <SocialIcon
                     icon={l.icon}
-                    className="w-4 h-4 group-hover:neon-green transition-all"
+                    className="group-hover:neon-green h-4 w-4 transition-all"
                   />
-                  <span className="text-xs font-space-grotesk uppercase tracking-wider">
+                  <span className="font-space-grotesk text-xs tracking-wider uppercase">
                     {l.label}
                   </span>
                 </Link>
@@ -112,11 +113,11 @@ export function Footer() {
         </div>
 
         {/* Bottom row */}
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          <p className="text-neutral-60 text-xs font-space-grotesk">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <p className="text-neutral-60 font-space-grotesk text-xs">
             © {new Date().getFullYear()} Md. Saniuzzaman Robin
           </p>
-          <p className="text-neutral-60 text-xs font-space-grotesk">
+          <p className="text-neutral-60 font-space-grotesk text-xs">
             Built with <span className="neon-green">GitHub Copilot</span>
           </p>
         </div>

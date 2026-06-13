@@ -1,175 +1,176 @@
 import type { CSSProperties } from 'react';
-import {
-  Rocket,
-  Zap,
-  Database,
-  Users,
-  Palette,
-  Package,
-  TestTube2,
-  Smartphone,
-  Settings,
-} from 'lucide-react';
 import { CV_DATA } from '@/lib/cv-data';
 import { av, ava, type AccentToken } from '@/lib/accent';
-import { AccentChip } from '@/components/ui/accent-chip';
-
-interface JobType {
-  company: string;
-  title: string;
-  period: string;
-  duration: string;
-  description: string;
-  skills: string[];
-  accent: AccentToken;
-  highlights: { icon: React.ReactNode; label: string; value: string }[];
-}
-
-const highlightIcons = {
-  'Full-Stack': <Rocket className="w-4 h-4" strokeWidth={1.5} />,
-  Performance: <Zap className="w-4 h-4" strokeWidth={1.5} />,
-  Database: <Database className="w-4 h-4" strokeWidth={1.5} />,
-  'Team Lead': <Users className="w-4 h-4" strokeWidth={1.5} />,
-  Frontend: <Palette className="w-4 h-4" strokeWidth={1.5} />,
-  Libraries: <Package className="w-4 h-4" strokeWidth={1.5} />,
-  Testing: <TestTube2 className="w-4 h-4" strokeWidth={1.5} />,
-  Responsive: <Smartphone className="w-4 h-4" strokeWidth={1.5} />,
-  Load: <Settings className="w-4 h-4" strokeWidth={1.5} />,
-};
 
 export function ProfessionalJourney() {
-  const jobs: JobType[] = CV_DATA.experience.map((exp) => ({
-    company: exp.company,
-    title: exp.title,
-    period: exp.period.replace('-', '–'),
-    duration: exp.duration,
-    description: exp.description,
-    skills: exp.skills.map((s) => s.toUpperCase()),
-    accent: exp.accent as import('@/lib/accent').AccentToken,
-    highlights: exp.highlights.map((h) => ({
-      icon: highlightIcons[h.label as keyof typeof highlightIcons] || highlightIcons['Full-Stack'],
-      label: h.label,
-      value: h.value,
-    })),
-  }));
+  const jobs = CV_DATA.experience;
 
   return (
-    <section className="px-6 py-24 md:px-12 lg:px-20 relative">
-      {/* Header */}
-      <div className="mb-20 animate-slide-right">
-        <p className="section-label mb-3">Experience</p>
-        <h2 className="font-space-grotesk text-4xl md:text-5xl font-bold text-right">
-          Professional <span className="neon-green">Journey</span>
-        </h2>
+    <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
+      {/* Background */}
+      <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-20" />
+      <div className="pointer-events-none absolute inset-0">
+        <div className="bg-primary-50/3 absolute top-0 right-0 h-96 w-96 rounded-full blur-3xl" />
+        <div className="bg-tertiary-50/3 absolute bottom-0 left-0 h-96 w-96 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-5xl mx-auto relative">
-        {/* Vertical timeline line */}
-        <div
-          className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
-          style={{
-            background:
-              'linear-gradient(to bottom, var(--color-primary-50), var(--color-secondary-50), var(--color-tertiary-50))',
-          }}
-        />
+      <div className="relative z-10 mx-auto max-w-4xl">
+        {/* Header */}
+        <div className="animate-slide-right mb-20">
+          <p className="section-label mb-3">Experience</p>
+          <h2 className="font-space-grotesk text-4xl font-bold md:text-5xl">
+            Professional <span className="neon-green">Journey</span>
+          </h2>
+        </div>
 
-        <div className="space-y-16">
-          {jobs.map((job, index) => (
-            <div
-              key={index}
-              className={`grid lg:grid-cols-2 gap-8 items-start animate-slide-up`}
-              style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'both' }}
-            >
-              {/* Content card — alternates left/right */}
-              <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
+        {/* Timeline */}
+        <div className="relative">
+          {/* Vertical spine — left-aligned */}
+          <div
+            className="absolute top-0 bottom-0 left-4 w-px md:left-6"
+            style={{
+              background:
+                'linear-gradient(to bottom, var(--color-primary-50), var(--color-secondary-50), var(--color-tertiary-50), transparent)',
+            }}
+          />
+
+          <div className="space-y-12">
+            {jobs.map((job, index) => {
+              const accent = av(job.accent as AccentToken);
+              const accentA = (a: number) => ava(job.accent as AccentToken, a);
+
+              return (
                 <div
-                  className="glass rounded-sm border p-6 transition-all duration-500 group hover:scale-[1.02] hover:border-(--card-border-hover)"
-                  style={
-                    {
-                      borderColor: ava(job.accent, 0.2),
-                      '--card-border-hover': ava(job.accent, 0.53),
-                    } as CSSProperties
-                  }
+                  key={index}
+                  className="animate-slide-up relative pl-14 md:pl-20"
+                  style={{ animationDelay: `${index * 120}ms`, animationFillMode: 'both' }}
                 >
-                  {/* Top accent bar */}
+                  {/* Timeline node */}
                   <div
-                    className="h-px mb-6"
+                    className="animate-glow absolute top-5 left-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-full border-2 md:left-3.5"
                     style={{
-                      background: `linear-gradient(to right, ${av(job.accent)}, transparent)`,
+                      borderColor: accent,
+                      backgroundColor: '#080d1a',
+                      boxShadow: `0 0 10px ${accent}, 0 0 24px ${accentA(0.25)}`,
                     }}
-                  />
-
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="font-space-grotesk font-bold text-xl text-neutral-90">
-                        {job.company}
-                      </h3>
-                      <p
-                        className="text-xs font-space-grotesk font-bold uppercase tracking-widest mt-1"
-                        style={{ color: av(job.accent) }}
-                      >
-                        {job.title}
-                      </p>
-                    </div>
-                    <AccentChip accent={job.accent} className="shrink-0 ml-4">
-                      {job.duration}
-                    </AccentChip>
+                  >
+                    <div className="h-2 w-2 rounded-full" style={{ backgroundColor: accent }} />
                   </div>
 
-                  <p className="text-neutral-60 text-xs mb-4 font-space-grotesk">{job.period}</p>
-                  <p className="text-neutral-70 text-sm leading-relaxed mb-5">{job.description}</p>
-
-                  <div className="flex gap-2 flex-wrap">
-                    {job.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-3 py-1 text-xs font-space-grotesk font-bold uppercase tracking-wider rounded-sm"
-                        style={{
-                          color: av(job.accent),
-                          border: `1px solid ${ava(job.accent, 0.25)}`,
-                          background: ava(job.accent, 0.06),
-                        }}
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Timeline node + highlights */}
-              <div
-                className={`hidden lg:flex flex-col items-center gap-6 ${index % 2 === 1 ? 'lg:order-1' : ''}`}
-              >
-                {/* Node */}
-                <div
-                  className="w-4 h-4 rounded-full z-10 animate-glow"
-                  style={{
-                    backgroundColor: av(job.accent),
-                    boxShadow: `0 0 10px ${av(job.accent)}, 0 0 30px ${ava(job.accent, 0.31)}`,
-                  }}
-                />
-                {/* Highlight cards */}
-                <div className="space-y-3 w-full">
-                  {job.highlights.map((h, i) => (
+                  {/* Card */}
+                  <div
+                    className="glass card-shine group overflow-hidden rounded-sm border-(--jb) transition-all duration-500 hover:border-(--jb-h)"
+                    style={
+                      {
+                        '--jb': accentA(0.18),
+                        '--jb-h': accentA(0.45),
+                      } as CSSProperties
+                    }
+                  >
+                    {/* Top gradient bar */}
                     <div
-                      key={i}
-                      className="flex items-center gap-3 px-4 py-3 glass rounded-sm border transition-all duration-300 hover:scale-105"
-                      style={{ borderColor: ava(job.accent, 0.19) }}
-                    >
-                      <span style={{ color: av(job.accent) }}>{h.icon}</span>
-                      <div>
-                        <p className="text-neutral-60 text-xs">{h.label}</p>
-                        <p className="text-neutral-80 text-sm font-space-grotesk font-bold">
-                          {h.value}
+                      className="h-px"
+                      style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
+                    />
+
+                    {/* Corner glow */}
+                    <div
+                      className="pointer-events-none absolute top-0 right-0 h-48 w-48 opacity-[0.05] transition-opacity duration-500 group-hover:opacity-[0.12]"
+                      style={{
+                        background: `radial-gradient(circle at top right, ${accent}, transparent 65%)`,
+                      }}
+                    />
+
+                    <div className="relative z-10 p-6 md:p-8">
+                      {/* Header row */}
+                      <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
+                        <div>
+                          <h3 className="font-space-grotesk text-neutral-90 mb-1 text-xl font-bold transition-colors group-hover:text-neutral-100 md:text-2xl">
+                            {job.company}
+                          </h3>
+                          <p
+                            className="font-space-grotesk text-sm font-bold tracking-wider uppercase"
+                            style={{ color: accent }}
+                          >
+                            {job.title}
+                          </p>
+                        </div>
+                        <div className="flex shrink-0 flex-col items-end gap-1.5">
+                          <span
+                            className="font-space-grotesk rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase"
+                            style={{
+                              color: accent,
+                              border: `1px solid ${accentA(0.3)}`,
+                              background: accentA(0.07),
+                            }}
+                          >
+                            {job.duration}
+                          </span>
+                          <span className="text-neutral-60 font-space-grotesk text-xs">
+                            {job.period.replace(' -', ' –')}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-neutral-70 mb-6 text-sm leading-relaxed">
+                        {job.descriptionLong}
+                      </p>
+
+                      {/* Key achievements */}
+                      <div className="mb-6">
+                        <p
+                          className="font-space-grotesk mb-3 text-[10px] font-bold tracking-widest uppercase"
+                          style={{ color: accent }}
+                        >
+                          Key Contributions
                         </p>
+                        <ul className="grid gap-x-6 gap-y-2 sm:grid-cols-2">
+                          {job.achievements.slice(0, 6).map((ach, i) => (
+                            <li
+                              key={i}
+                              className="text-neutral-70 flex items-start gap-2 text-xs leading-relaxed"
+                            >
+                              <span
+                                className="mt-0.5 shrink-0 text-[10px]"
+                                style={{ color: accent }}
+                              >
+                                ▸
+                              </span>
+                              <span>{ach}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Tech stack */}
+                      <div className="flex flex-wrap gap-2">
+                        {job.skills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="font-space-grotesk rounded-sm px-2.5 py-0.5 text-[10px] font-bold tracking-wide uppercase"
+                            style={{
+                              color: accent,
+                              border: `1px solid ${accentA(0.22)}`,
+                              background: accentA(0.05),
+                            }}
+                          >
+                            {skill}
+                          </span>
+                        ))}
                       </div>
                     </div>
-                  ))}
+
+                    {/* Bottom sweep */}
+                    <div
+                      className="h-px w-0 transition-all duration-700 group-hover:w-full"
+                      style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

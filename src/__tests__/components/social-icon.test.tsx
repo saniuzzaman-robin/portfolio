@@ -11,7 +11,7 @@ describe('SocialIcon', () => {
   });
 
   it('forwards the className to the SVG element', () => {
-    const { container } = render(<SocialIcon icon="github" className="w-8 h-8" />);
+    const { container } = render(<SocialIcon icon="github" className="h-8 w-8" />);
     expect(container.querySelector('svg')).toHaveClass('w-8 h-8');
   });
 

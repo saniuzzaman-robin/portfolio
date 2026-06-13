@@ -15,27 +15,27 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
   }, [error]);
 
   return (
-    <main className="min-h-dvh flex items-center justify-center px-6">
-      <div className="text-center max-w-md">
-        <p className="font-space-grotesk text-xs uppercase tracking-widest neon-green mb-4">
+    <main className="flex min-h-dvh items-center justify-center px-6">
+      <div className="max-w-md text-center">
+        <p className="font-space-grotesk neon-green mb-4 text-xs tracking-widest uppercase">
           Error
         </p>
-        <h1 className="font-space-grotesk text-5xl font-bold mb-4">
+        <h1 className="font-space-grotesk mb-4 text-5xl font-bold">
           <span className="neon-cyan">Something</span> went wrong
         </h1>
-        <p className="text-neutral-70 text-sm mb-10">
+        <p className="text-neutral-70 mb-10 text-sm">
           An unexpected error occurred. Try again or return home.
         </p>
-        <div className="flex gap-4 justify-center">
+        <div className="flex justify-center gap-4">
           <button
             onClick={reset}
-            className="btn-neon-cyan px-6 py-3 font-space-grotesk text-sm uppercase tracking-widest"
+            className="btn-neon-cyan font-space-grotesk px-6 py-3 text-sm tracking-widest uppercase"
           >
             Try again
           </button>
           <Link
             href="/"
-            className="px-6 py-3 border border-white/10 text-neutral-60 hover:text-white font-space-grotesk text-sm uppercase tracking-widest transition-colors duration-200"
+            className="text-neutral-60 font-space-grotesk border border-white/10 px-6 py-3 text-sm tracking-widest uppercase transition-colors duration-200 hover:text-white"
           >
             Go home
           </Link>

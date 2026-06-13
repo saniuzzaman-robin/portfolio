@@ -67,13 +67,13 @@ export default function GamesPage() {
       <SchemaScript schema={schema} />
       <Navigation />
 
-      <section className="px-6 py-20 md:px-12 lg:px-20 relative overflow-hidden">
+      <section className="relative overflow-hidden px-6 py-20 md:px-12 lg:px-20">
         {/* Background */}
-        <div className="absolute inset-0 cyber-grid pointer-events-none opacity-40" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-50/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary-50/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="cyber-grid pointer-events-none absolute inset-0 opacity-40" />
+        <div className="bg-primary-50/5 pointer-events-none absolute top-1/4 left-1/4 h-96 w-96 rounded-full blur-3xl" />
+        <div className="bg-secondary-50/5 pointer-events-none absolute right-1/4 bottom-1/4 h-64 w-64 rounded-full blur-3xl" />
 
-        <div className="max-w-6xl mx-auto relative z-10">
+        <div className="relative z-10 mx-auto max-w-6xl">
           <GameCardGrid />
         </div>
       </section>

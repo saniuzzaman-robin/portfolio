@@ -453,46 +453,46 @@ export default function TetrisPage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="h-dvh bg-neutral-5 text-neutral-90 flex flex-col overflow-hidden">
+      <div className="bg-neutral-5 text-neutral-90 flex h-dvh flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-2 md:px-6 py-1.5 md:py-4 border-b border-white/5 glass-strong gap-2 md:gap-0 shrink-0">
+        <div className="glass-strong flex shrink-0 items-center justify-between gap-2 border-b border-white/5 px-2 py-1.5 md:gap-0 md:px-6 md:py-4">
           <Link
             href="/games"
-            className="flex items-center gap-2 text-neutral-50 hover:text-secondary-50 transition-colors text-xs md:text-sm font-space-grotesk uppercase tracking-widest"
+            className="hover:text-secondary-50 font-space-grotesk flex items-center gap-2 text-xs tracking-widest text-neutral-50 uppercase transition-colors md:text-sm"
           >
-            <ArrowLeft className="w-3 h-3 md:w-4 md:h-4" />
+            <ArrowLeft className="h-3 w-3 md:h-4 md:w-4" />
             <span className="hidden md:inline">Games</span>
           </Link>
 
           {/* Mobile: Only Score */}
-          <div className="md:hidden flex items-center gap-2 text-center">
+          <div className="flex items-center gap-2 text-center md:hidden">
             <div>
-              <p className="text-[9px] text-neutral-60 uppercase tracking-widest">Score</p>
-              <p className="font-space-grotesk font-bold text-xs neon-cyan tabular-nums">{score}</p>
+              <p className="text-neutral-60 text-[9px] tracking-widest uppercase">Score</p>
+              <p className="font-space-grotesk neon-cyan text-xs font-bold tabular-nums">{score}</p>
             </div>
           </div>
 
           {/* Desktop: Full Stats */}
-          <div className="hidden md:flex items-center gap-6 text-center flex-wrap justify-center">
+          <div className="hidden flex-wrap items-center justify-center gap-6 text-center md:flex">
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Score</p>
-              <p className="font-space-grotesk font-bold text-xl neon-cyan tabular-nums">{score}</p>
+              <p className="text-neutral-60 text-xs tracking-widest uppercase">Score</p>
+              <p className="font-space-grotesk neon-cyan text-xl font-bold tabular-nums">{score}</p>
             </div>
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Lines</p>
-              <p className="font-space-grotesk font-bold text-xl neon-green tabular-nums">
+              <p className="text-neutral-60 text-xs tracking-widest uppercase">Lines</p>
+              <p className="font-space-grotesk neon-green text-xl font-bold tabular-nums">
                 {lines}
               </p>
             </div>
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Level</p>
-              <p className="font-space-grotesk font-bold text-xl neon-purple tabular-nums">
+              <p className="text-neutral-60 text-xs tracking-widest uppercase">Level</p>
+              <p className="font-space-grotesk neon-purple text-xl font-bold tabular-nums">
                 {level}
               </p>
             </div>
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Best</p>
-              <p className="font-space-grotesk font-bold text-xl text-neutral-70 tabular-nums">
+              <p className="text-neutral-60 text-xs tracking-widest uppercase">Best</p>
+              <p className="font-space-grotesk text-neutral-70 text-xl font-bold tabular-nums">
                 {best}
               </p>
             </div>
@@ -500,16 +500,16 @@ export default function TetrisPage() {
 
           <button
             onClick={startGame}
-            className="flex items-center gap-1 md:gap-2 btn-neon-cyan px-2 md:px-4 py-1 md:py-2 rounded-sm text-[10px] md:text-xs font-space-grotesk font-bold uppercase tracking-widest whitespace-nowrap"
+            className="btn-neon-cyan font-space-grotesk flex items-center gap-1 rounded-sm px-2 py-1 text-[10px] font-bold tracking-widest whitespace-nowrap uppercase md:gap-2 md:px-4 md:py-2 md:text-xs"
           >
-            <RefreshCw className="w-3 h-3 md:w-4 md:h-4" />
+            <RefreshCw className="h-3 w-3 md:h-4 md:w-4" />
             <span className="hidden md:inline">{started ? 'Restart' : 'Start'}</span>
           </button>
         </div>
 
-        <div className="flex-1 flex items-center justify-center p-1 md:p-4 cyber-grid relative gap-4 lg:gap-6 overflow-hidden min-h-0">
+        <div className="cyber-grid relative flex min-h-0 flex-1 items-center justify-center gap-4 overflow-hidden p-1 md:p-4 lg:gap-6">
           {/* Canvas */}
-          <div className="flex items-center justify-center min-h-0">
+          <div className="flex min-h-0 items-center justify-center">
             <div
               className="relative shrink-0"
               style={{
@@ -538,25 +538,25 @@ export default function TetrisPage() {
                   className="absolute inset-0 flex flex-col items-center justify-center rounded-sm"
                   style={{ background: 'rgba(8,13,26,0.88)', backdropFilter: 'blur(4px)' }}
                 >
-                  <p className="font-space-grotesk font-bold text-3xl neon-cyan mb-2">
+                  <p className="font-space-grotesk neon-cyan mb-2 text-3xl font-bold">
                     {gameOver ? 'GAME OVER' : 'TETRIS'}
                   </p>
                   {gameOver && (
-                    <p className="text-neutral-70 text-sm mb-2">
+                    <p className="text-neutral-70 mb-2 text-sm">
                       Score: <span className="neon-cyan font-bold">{score}</span>
                     </p>
                   )}
-                  <p className="text-neutral-60 text-xs mb-5 text-center px-4">
+                  <p className="text-neutral-60 mb-5 px-4 text-center text-xs">
                     ↑ Rotate ←→ Move ↓ Soft drop Space = Hard drop
                   </p>
 
                   {/* Starting level picker */}
                   {!gameOver && (
                     <div className="mb-6 w-full px-4">
-                      <p className="text-neutral-60 text-xs uppercase tracking-widest text-center mb-3 font-space-grotesk">
+                      <p className="text-neutral-60 font-space-grotesk mb-3 text-center text-xs tracking-widest uppercase">
                         Starting Level
                       </p>
-                      <div className="flex gap-2 justify-center">
+                      <div className="flex justify-center gap-2">
                         {[1, 3, 5, 8, 10].map((lvl) => {
                           const active = startLevel === lvl;
                           return (
@@ -566,7 +566,7 @@ export default function TetrisPage() {
                                 setStartLevel(lvl);
                                 startLevelRef.current = lvl;
                               }}
-                              className="w-10 h-10 rounded-sm border font-space-grotesk font-bold text-sm transition-all duration-200"
+                              className="font-space-grotesk h-10 w-10 rounded-sm border text-sm font-bold transition-all duration-200"
                               style={{
                                 borderColor: active ? '#00d4ff' : 'rgba(255,255,255,0.1)',
                                 background: active
@@ -581,7 +581,7 @@ export default function TetrisPage() {
                           );
                         })}
                       </div>
-                      <p className="text-neutral-50 text-[10px] text-center mt-2 font-space-grotesk">
+                      <p className="font-space-grotesk mt-2 text-center text-[10px] text-neutral-50">
                         Higher level = faster drops &amp; more score
                       </p>
                     </div>
@@ -589,7 +589,7 @@ export default function TetrisPage() {
 
                   <button
                     onClick={startGame}
-                    className="btn-neon-cyan px-8 py-3 rounded-sm font-space-grotesk font-bold text-sm uppercase tracking-widest"
+                    className="btn-neon-cyan font-space-grotesk rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
                   >
                     {gameOver ? '> Play Again' : '> Start Game'}
                   </button>
@@ -600,11 +600,11 @@ export default function TetrisPage() {
 
           {/* Side panel */}
           <div
-            className="hidden lg:flex flex-col gap-4 w-32 h-full max-h-96 mr-6"
+            className="mr-6 hidden h-full max-h-96 w-32 flex-col gap-4 lg:flex"
             style={{ minWidth: '8rem' }}
           >
-            <div className="glass border border-secondary-50/20 rounded-sm p-3">
-              <p className="text-xs text-neutral-60 uppercase tracking-widest mb-2">Next</p>
+            <div className="glass border-secondary-50/20 rounded-sm border p-3">
+              <p className="text-neutral-60 mb-2 text-xs tracking-widest uppercase">Next</p>
               <canvas
                 id="next-canvas"
                 width={4 * cellSize}
@@ -630,7 +630,7 @@ export default function TetrisPage() {
                 }}
               />
             </div>
-            <div className="glass border border-white/10 rounded-sm p-3 space-y-2 text-xs text-neutral-50 font-space-grotesk">
+            <div className="glass font-space-grotesk space-y-2 rounded-sm border border-white/10 p-3 text-xs text-neutral-50">
               <p>
                 <span className="text-secondary-50">↑</span> Rotate
               </p>
@@ -648,7 +648,7 @@ export default function TetrisPage() {
         </div>
 
         {/* Mobile controls */}
-        <div className="md:hidden flex flex-col gap-1 p-1.5 border-t border-white/5 bg-neutral-10/50 shrink-0">
+        <div className="bg-neutral-10/50 flex shrink-0 flex-col gap-1 border-t border-white/5 p-1.5 md:hidden">
           {/* Top row: Rotate and Hard Drop */}
           <div className="flex justify-between gap-1">
             <button
@@ -661,7 +661,7 @@ export default function TetrisPage() {
                   draw();
                 }
               }}
-              className="flex-1 py-1 glass border border-white/10 rounded-sm flex items-center justify-center text-secondary-50 hover:border-secondary-50/50 active:bg-secondary-50/10 text-lg"
+              className="glass text-secondary-50 hover:border-secondary-50/50 active:bg-secondary-50/10 flex flex-1 items-center justify-center rounded-sm border border-white/10 py-1 text-lg"
               title="Rotate"
             >
               ↻
@@ -676,7 +676,7 @@ export default function TetrisPage() {
                 draw();
                 lock();
               }}
-              className="flex-1 py-1 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 text-lg"
+              className="glass text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 flex flex-1 items-center justify-center rounded-sm border border-white/10 py-1 text-lg"
               title="Hard Drop"
             >
               ⬇
@@ -684,7 +684,7 @@ export default function TetrisPage() {
           </div>
 
           {/* Bottom row: Left, Soft Drop, Right */}
-          <div className="flex gap-1 justify-center">
+          <div className="flex justify-center gap-1">
             <button
               onClick={() => {
                 if (!started || gameOver) return;
@@ -694,7 +694,7 @@ export default function TetrisPage() {
                   draw();
                 }
               }}
-              className="flex-1 py-1 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 text-lg"
+              className="glass text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 flex flex-1 items-center justify-center rounded-sm border border-white/10 py-1 text-lg"
               title="Move Left"
             >
               ◄
@@ -704,7 +704,7 @@ export default function TetrisPage() {
                 if (!started || gameOver) return;
                 drop();
               }}
-              className="flex-1 py-1 glass border border-white/10 rounded-sm flex items-center justify-center text-secondary-50 hover:border-secondary-50/50 active:bg-secondary-50/10 text-lg"
+              className="glass text-secondary-50 hover:border-secondary-50/50 active:bg-secondary-50/10 flex flex-1 items-center justify-center rounded-sm border border-white/10 py-1 text-lg"
               title="Soft Drop"
             >
               ▼
@@ -718,7 +718,7 @@ export default function TetrisPage() {
                   draw();
                 }
               }}
-              className="flex-1 py-1 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 text-lg"
+              className="glass text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 flex flex-1 items-center justify-center rounded-sm border border-white/10 py-1 text-lg"
               title="Move Right"
             >
               ►

@@ -190,41 +190,41 @@ export default function MemoryPage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="h-dvh bg-neutral-5 text-neutral-90 flex flex-col overflow-hidden">
+      <div className="bg-neutral-5 text-neutral-90 flex h-dvh flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 glass-strong flex-wrap gap-4">
+        <div className="glass-strong flex flex-wrap items-center justify-between gap-4 border-b border-white/5 px-6 py-4">
           <Link
             href="/games"
-            className="flex items-center gap-2 text-neutral-50 hover:text-tertiary-50 transition-colors text-sm font-space-grotesk uppercase tracking-widest"
+            className="hover:text-tertiary-50 font-space-grotesk flex items-center gap-2 text-sm tracking-widest text-neutral-50 uppercase transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" /> Games
+            <ArrowLeft className="h-4 w-4" /> Games
           </Link>
           <div className="flex items-center gap-5 text-center">
             <div className="flex items-center gap-2">
-              <Timer className="w-4 h-4 text-tertiary-50" />
+              <Timer className="text-tertiary-50 h-4 w-4" />
               <div>
-                <p className="text-xs text-neutral-60 uppercase tracking-widest">Time</p>
-                <p className="font-space-grotesk font-bold text-xl neon-purple tabular-nums">
+                <p className="text-neutral-60 text-xs tracking-widest uppercase">Time</p>
+                <p className="font-space-grotesk neon-purple text-xl font-bold tabular-nums">
                   {formatTime(seconds)}
                 </p>
               </div>
             </div>
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Moves</p>
-              <p className="font-space-grotesk font-bold text-xl neon-cyan tabular-nums">{moves}</p>
+              <p className="text-neutral-60 text-xs tracking-widest uppercase">Moves</p>
+              <p className="font-space-grotesk neon-cyan text-xl font-bold tabular-nums">{moves}</p>
             </div>
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-widest">Matched</p>
-              <p className="font-space-grotesk font-bold text-xl neon-green tabular-nums">
+              <p className="text-neutral-60 text-xs tracking-widest uppercase">Matched</p>
+              <p className="font-space-grotesk neon-green text-xl font-bold tabular-nums">
                 {matched}/{totalPairs}
               </p>
             </div>
             {bestMoves !== null && (
               <div className="flex items-center gap-1">
-                <Star className="w-3.5 h-3.5 text-yellow-400" />
+                <Star className="h-3.5 w-3.5 text-yellow-400" />
                 <div>
-                  <p className="text-xs text-neutral-60 uppercase tracking-widest">Best</p>
-                  <p className="font-space-grotesk font-bold text-sm text-yellow-400 tabular-nums">
+                  <p className="text-neutral-60 text-xs tracking-widest uppercase">Best</p>
+                  <p className="font-space-grotesk text-sm font-bold text-yellow-400 tabular-nums">
                     {bestMoves} moves
                   </p>
                 </div>
@@ -233,14 +233,14 @@ export default function MemoryPage() {
           </div>
           <button
             onClick={startGame}
-            className="flex items-center gap-2 btn-neon-purple px-4 py-2 rounded-sm text-xs font-space-grotesk font-bold uppercase tracking-widest"
+            className="btn-neon-purple font-space-grotesk flex items-center gap-2 rounded-sm px-4 py-2 text-xs font-bold tracking-widest uppercase"
           >
-            <RefreshCw className="w-3.5 h-3.5" /> New Game
+            <RefreshCw className="h-3.5 w-3.5" /> New Game
           </button>
         </div>
 
         {/* Progress bar */}
-        <div className="h-1 bg-neutral-10">
+        <div className="bg-neutral-10 h-1">
           <div
             className="h-full transition-all duration-500"
             style={{
@@ -252,30 +252,30 @@ export default function MemoryPage() {
         </div>
 
         {/* Game grid */}
-        <div className="flex-1 flex items-center justify-center p-4 cyber-grid relative overflow-hidden min-h-0">
+        <div className="cyber-grid relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-4">
           {/* Win screen */}
           {won && (
             <div
-              className="absolute inset-0 flex flex-col items-center justify-center z-20"
+              className="absolute inset-0 z-20 flex flex-col items-center justify-center"
               style={{ background: 'rgba(8,13,26,0.9)', backdropFilter: 'blur(8px)' }}
             >
-              <p className="font-space-grotesk font-bold text-4xl neon-purple mb-2 animate-slide-up">
+              <p className="font-space-grotesk neon-purple animate-slide-up mb-2 text-4xl font-bold">
                 YOU WIN!
               </p>
-              <p className="text-neutral-70 text-sm mb-1 animate-fade-in [animation-delay:200ms]">
+              <p className="text-neutral-70 animate-fade-in mb-1 text-sm [animation-delay:200ms]">
                 Time: <span className="neon-cyan font-bold">{formatTime(seconds)}</span>
               </p>
-              <p className="text-neutral-70 text-sm mb-6 animate-fade-in [animation-delay:300ms]">
+              <p className="text-neutral-70 animate-fade-in mb-6 text-sm [animation-delay:300ms]">
                 Moves: <span className="neon-green font-bold">{moves}</span>
               </p>
               {bestTime !== null && (
-                <p className="text-yellow-400 text-xs mb-6 font-space-grotesk animate-fade-in [animation-delay:400ms]">
+                <p className="font-space-grotesk animate-fade-in mb-6 text-xs text-yellow-400 [animation-delay:400ms]">
                   ⭐ Best: {formatTime(bestTime)} in {bestMoves} moves
                 </p>
               )}
               <button
                 onClick={startGame}
-                className="btn-neon-purple px-8 py-3 rounded-sm font-space-grotesk font-bold text-sm uppercase tracking-widest animate-scale-in [animation-delay:500ms]"
+                className="btn-neon-purple font-space-grotesk animate-scale-in rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase [animation-delay:500ms]"
               >
                 &gt; Play Again
               </button>
@@ -296,13 +296,13 @@ export default function MemoryPage() {
               <button
                 key={card.id}
                 onClick={() => flip(card.id)}
-                className="relative aspect-square cursor-pointer focus:outline-none group"
+                className="group relative aspect-square cursor-pointer focus:outline-none"
                 disabled={card.flipped || card.matched || locked}
                 style={{ perspective: '600px' }}
                 aria-label={card.flipped || card.matched ? `Card: ${card.icon}` : 'Hidden card'}
               >
                 <div
-                  className="relative w-full h-full transition-all duration-500"
+                  className="relative h-full w-full transition-all duration-500"
                   style={{
                     transformStyle: 'preserve-3d',
                     transform: card.flipped || card.matched ? 'rotateY(180deg)' : 'rotateY(0deg)',
@@ -310,7 +310,7 @@ export default function MemoryPage() {
                 >
                   {/* Back face */}
                   <div
-                    className="absolute inset-0 rounded-sm glass border flex items-center justify-center group-hover:scale-105 transition-transform duration-300"
+                    className="glass absolute inset-0 flex items-center justify-center rounded-sm border transition-transform duration-300 group-hover:scale-105"
                     style={{
                       backfaceVisibility: 'hidden',
                       WebkitBackfaceVisibility: 'hidden',
@@ -322,17 +322,17 @@ export default function MemoryPage() {
                     }}
                   >
                     <div className="flex flex-col items-center justify-center">
-                      <span className="text-tertiary-50/60 text-xl md:text-2xl font-bold mb-0.5">
+                      <span className="text-tertiary-50/60 mb-0.5 text-xl font-bold md:text-2xl">
                         ?
                       </span>
-                      <div className="w-6 h-0.5 bg-linear-to-r from-transparent via-tertiary-50/30 to-transparent" />
+                      <div className="via-tertiary-50/30 h-0.5 w-6 bg-linear-to-r from-transparent to-transparent" />
                     </div>
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-sm holographic" />
+                    <div className="holographic absolute inset-0 rounded-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   </div>
 
                   {/* Front face */}
                   <div
-                    className="absolute inset-0 rounded-sm flex items-center justify-center text-3xl md:text-4xl transition-all duration-300 group-hover:scale-110"
+                    className="absolute inset-0 flex items-center justify-center rounded-sm text-3xl transition-all duration-300 group-hover:scale-110 md:text-4xl"
                     style={{
                       backfaceVisibility: 'hidden',
                       WebkitBackfaceVisibility: 'hidden',
@@ -349,7 +349,7 @@ export default function MemoryPage() {
                     {card.icon}
                     {card.matched && (
                       <div
-                        className="absolute inset-0 rounded-sm animate-pulse"
+                        className="absolute inset-0 animate-pulse rounded-sm"
                         style={{ background: 'rgba(0,255,135,0.08)' }}
                       />
                     )}

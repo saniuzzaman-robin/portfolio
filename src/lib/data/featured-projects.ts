@@ -13,34 +13,34 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
   {
     title: 'Prayer Times',
     description:
-      'Verified prayer times with geolocation accuracy, Qibla direction, and real-time Adhan notifications',
+      'Migrated Kotlin engine to NestJS microservice. Geolocation via MaxMind GeoIP, place search via Google Maps, cities database for optimized lookups, and full SEO on the Next.js frontend.',
     href: 'https://app.muslimpro.com/prayer-times',
-    tag: 'Geolocation + API',
+    tag: 'Geolocation + Backend Migration',
     accent: 'primary',
     number: '01',
   },
   {
-    title: 'Islamic Calendar',
+    title: 'Giving Platform',
     description:
-      'Complete Islamic calendar with Hijri dates, Islamic events, and festival schedules',
-    href: 'https://app.muslimpro.com/islamic-calendar',
-    tag: 'Date Systems',
+      'Re-platformed the WordPress donation engine to Next.js/WooCommerce with advanced SEO and a modern redesign — driving a 30% YoY increase in donations in 2025–2026.',
+    href: 'https://app.muslimpro.com/giving',
+    tag: 'FinTech + SEO',
     accent: 'secondary',
     number: '02',
   },
   {
-    title: 'Giving Platform',
+    title: 'Islamic Calendar',
     description:
-      'Charitable giving platform for Badal Hajj, Quranic donations, and community support',
-    href: 'https://app.muslimpro.com/giving',
-    tag: 'FinTech + UX',
+      'Full backend API implementation in NestJS and frontend integration for Hijri dates, Islamic events, and festival schedules with proper SEO support.',
+    href: 'https://app.muslimpro.com/islamic-calendar',
+    tag: 'Full Stack + Date Systems',
     accent: 'tertiary',
     number: '03',
   },
   {
     title: 'Qalbox',
     description:
-      'Video streaming platform with Quranic recitations, tafsir, hadith studies, and Arabic lessons',
+      'Completed shorts page, integrated live streaming and search for the MuslimPro video platform. Added the first SEO pass including OG tags and sitemaps.',
     href: 'https://app.muslimpro.com/qalbox',
     tag: 'Streaming + Media',
     accent: 'primary',

@@ -127,6 +127,22 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'translateX(-6px)' },
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
+        'glow-pulse': {
+          '0%, 100%': { opacity: '0.35' },
+          '50%': { opacity: '0.75' },
+        },
+        ticker: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        'float-sm': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-5px)' },
+        },
+        'shine-sweep': {
+          '0%': { left: '-100%' },
+          '100%': { left: '150%' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.5s ease-in',
@@ -152,6 +168,10 @@ const config: Config = {
         'dropdown-open': 'dropdown-open 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'dropdown-item': 'dropdown-item 0.2s cubic-bezier(0.16, 1, 0.3, 1) both',
         'tilt-3d': 'tilt-3d 6s ease-in-out infinite',
+        'glow-pulse': 'glow-pulse 3s ease-in-out infinite',
+        ticker: 'ticker 28s linear infinite',
+        'float-sm': 'float-sm 3s ease-in-out infinite',
+        'shine-sweep': 'shine-sweep 0.6s ease forwards',
       },
     },
   },

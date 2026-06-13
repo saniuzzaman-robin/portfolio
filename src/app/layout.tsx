@@ -107,7 +107,7 @@ export default function RootLayout({
         <SchemaScript schema={generateOrganizationSchema()} />
         <GoogleAnalytics />
       </head>
-      <body className="min-h-dvh flex flex-col">
+      <body className="flex min-h-dvh flex-col">
         <ThemeProvider>
           <SkipLink />
           <main id="main-content">{children}</main>

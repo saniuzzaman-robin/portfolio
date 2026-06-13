@@ -1,150 +1,329 @@
-import { Download } from 'lucide-react';
+import type { CSSProperties } from 'react';
+import { Download, Mail, ExternalLink } from 'lucide-react';
 import { CV_DATA } from '@/lib/cv-data';
+import { av, ava, type AccentToken } from '@/lib/accent';
+
+const ACCENT_ORDER = ['primary', 'secondary', 'tertiary'] as const;
 
 export function ResumeContent() {
   return (
-    <section className="px-6 py-24 md:px-12 lg:px-20 bg-linear-to-br from-neutral-10 to-neutral-5">
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="mb-16 animate-slide-right">
-          <div className="flex justify-between items-start mb-8 flex-wrap gap-4">
-            <div>
-              <h1 className="font-space-grotesk text-5xl md:text-6xl font-bold mb-2">
-                {CV_DATA.name}
-              </h1>
-              <p className="text-primary-50 text-lg font-space-grotesk uppercase tracking-widest">
-                {CV_DATA.title}
-              </p>
-            </div>
-            <a
-              href="/CV_SANIUZZAMAN_ROBIN.pdf"
-              download
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary-50 text-primary-100 dark:text-primary-0 font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300 whitespace-nowrap"
-            >
-              <Download className="w-5 h-5" />
-              <span>Download Resume</span>
-            </a>
-          </div>
-          <p className="text-neutral-70 text-base max-w-3xl leading-relaxed mb-6">
-            {CV_DATA.summary}
-          </p>
-          <div className="flex gap-6 text-neutral-70 text-sm flex-wrap">
-            <span>📧 {CV_DATA.email}</span>
-            <span>📱 {CV_DATA.phone}</span>
-            <span>📍 {CV_DATA.location}</span>
-          </div>
-        </div>
+    <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
+      {/* Background */}
+      <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-20" />
+      <div className="bg-primary-50/3 pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full blur-3xl" />
 
-        {/* Experience */}
-        <div className="mb-16 animate-slide-up [animation-delay:100ms]">
-          <h2 className="font-space-grotesk text-3xl font-bold text-primary-50 mb-8">Experience</h2>
-          <div className="space-y-8">
-            {CV_DATA.experience.map((exp, index) => (
-              <div
-                key={index}
-                className="bg-neutral-5 rounded-xl p-8 border border-neutral-20 hover:border-neutral-30 transition duration-300"
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className={`font-space-grotesk text-xl font-bold text-primary-50 mb-1`}>
-                      {exp.title}
-                    </h3>
-                    <p className="text-neutral-70">{exp.company}</p>
-                  </div>
-                  <span className="text-neutral-60 text-sm font-space-grotesk">{exp.period}</span>
+      <div className="relative z-10 mx-auto max-w-5xl">
+        {/* ── Header ───────────────────────────────────────────── */}
+        <div className="animate-slide-right mb-16">
+          <div className="glass card-shine border-primary-50/15 relative mb-8 overflow-hidden rounded-sm border p-8">
+            <div
+              className="mb-6 h-px"
+              style={{
+                background:
+                  'linear-gradient(to right, var(--color-primary-50), var(--color-secondary-50), transparent)',
+              }}
+            />
+            <div
+              className="pointer-events-none absolute top-0 right-0 h-64 w-64 opacity-[0.04]"
+              style={{
+                background:
+                  'radial-gradient(circle at top right, var(--color-primary-50), transparent 65%)',
+              }}
+            />
+
+            <div className="relative z-10 flex flex-wrap items-start justify-between gap-6">
+              <div>
+                <h1 className="font-space-grotesk text-neutral-90 mb-2 text-4xl font-bold md:text-5xl">
+                  {CV_DATA.name}
+                </h1>
+                <p className="neon-green font-space-grotesk mb-4 text-base tracking-widest uppercase">
+                  {CV_DATA.title}
+                </p>
+                <div className="text-neutral-60 font-space-grotesk flex flex-wrap gap-5 text-xs">
+                  <span>✉ {CV_DATA.email}</span>
+                  <span>☏ {CV_DATA.phone}</span>
+                  <span>⊙ {CV_DATA.location}</span>
                 </div>
-                <ul className="space-y-2 text-neutral-70 text-sm">
-                  {exp.achievements.map((achievement, i) => (
-                    <li key={i}>✓ {achievement}</li>
-                  ))}
-                </ul>
               </div>
-            ))}
+              <a
+                href="/CV_SANIUZZAMAN_ROBIN.pdf"
+                download
+                className="btn-neon-green font-space-grotesk inline-flex shrink-0 items-center gap-2 rounded-sm px-6 py-3 text-sm font-bold tracking-widest uppercase"
+              >
+                <Download className="h-4 w-4" />
+                <span>Download CV</span>
+              </a>
+            </div>
+
+            <p className="text-neutral-70 relative z-10 mt-6 max-w-3xl text-sm leading-relaxed">
+              {CV_DATA.summary}
+            </p>
           </div>
         </div>
 
-        {/* Skills */}
-        <div className="mb-16 animate-slide-up [animation-delay:200ms]">
-          <h2 className="font-space-grotesk text-3xl font-bold text-secondary-50 mb-8">
-            Technical Skills
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+        {/* ── Experience ───────────────────────────────────────── */}
+        <div className="animate-slide-up mb-16 [animation-delay:100ms]">
+          <div className="mb-10 flex items-center gap-3">
+            <div className="from-primary-50/40 h-px flex-1 bg-linear-to-r to-transparent" />
+            <h2 className="font-space-grotesk neon-green text-2xl font-bold tracking-widest uppercase">
+              Experience
+            </h2>
+            <div className="from-primary-50/40 h-px flex-1 bg-linear-to-l to-transparent" />
+          </div>
+
+          {/* Timeline */}
+          <div className="relative">
+            <div
+              className="absolute top-0 bottom-0 left-4 w-px"
+              style={{
+                background:
+                  'linear-gradient(to bottom, var(--color-primary-50), var(--color-secondary-50), var(--color-tertiary-50), transparent)',
+              }}
+            />
+
+            <div className="space-y-8">
+              {CV_DATA.experience.map((exp, index) => {
+                const accentToken = ACCENT_ORDER[index % 3];
+                const accent = av(accentToken as AccentToken);
+                const accentA = (a: number) => ava(accentToken as AccentToken, a);
+
+                return (
+                  <div key={index} className="relative pl-12">
+                    {/* Node */}
+                    <div
+                      className="absolute top-5 left-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-full border-2"
+                      style={{
+                        borderColor: accent,
+                        backgroundColor: '#080d1a',
+                        boxShadow: `0 0 8px ${accent}`,
+                      }}
+                    >
+                      <div className="h-2 w-2 rounded-full" style={{ backgroundColor: accent }} />
+                    </div>
+
+                    <div
+                      className="glass card-shine group overflow-hidden rounded-sm border-(--rb) transition-all duration-500 hover:border-(--rb-h)"
+                      style={{ '--rb': accentA(0.18), '--rb-h': accentA(0.42) } as CSSProperties}
+                    >
+                      <div
+                        className="h-px"
+                        style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
+                      />
+                      <div
+                        className="pointer-events-none absolute top-0 right-0 h-40 w-40 opacity-[0.05] transition-opacity group-hover:opacity-[0.1]"
+                        style={{
+                          background: `radial-gradient(circle at top right, ${accent}, transparent 65%)`,
+                        }}
+                      />
+
+                      <div className="relative z-10 p-6">
+                        <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+                          <div>
+                            <h3 className="font-space-grotesk text-neutral-90 text-lg font-bold transition-colors group-hover:text-neutral-100">
+                              {exp.company}
+                            </h3>
+                            <p
+                              className="font-space-grotesk mt-0.5 text-sm font-bold tracking-wider uppercase"
+                              style={{ color: accent }}
+                            >
+                              {exp.title}
+                            </p>
+                          </div>
+                          <div className="flex shrink-0 flex-col items-end gap-1">
+                            <span
+                              className="font-space-grotesk rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase"
+                              style={{
+                                color: accent,
+                                border: `1px solid ${accentA(0.28)}`,
+                                background: accentA(0.07),
+                              }}
+                            >
+                              {exp.duration}
+                            </span>
+                            <span className="text-neutral-60 text-xs">
+                              {exp.period.replace(' -', ' –')}
+                            </span>
+                          </div>
+                        </div>
+
+                        <ul className="mb-4 grid gap-x-6 gap-y-1.5 sm:grid-cols-2">
+                          {exp.achievements.map((ach, i) => (
+                            <li
+                              key={i}
+                              className="text-neutral-70 flex items-start gap-2 text-xs leading-relaxed"
+                            >
+                              <span className="mt-0.5 shrink-0" style={{ color: accent }}>
+                                ▸
+                              </span>
+                              <span>{ach}</span>
+                            </li>
+                          ))}
+                        </ul>
+
+                        <div className="flex flex-wrap gap-1.5">
+                          {exp.skills.map((skill) => (
+                            <span
+                              key={skill}
+                              className="font-space-grotesk rounded-sm px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase"
+                              style={{
+                                color: accent,
+                                border: `1px solid ${accentA(0.22)}`,
+                                background: accentA(0.05),
+                              }}
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <div
+                        className="h-px w-0 transition-all duration-700 group-hover:w-full"
+                        style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Technical Skills ─────────────────────────────────── */}
+        <div className="animate-slide-up mb-16 [animation-delay:200ms]">
+          <div className="mb-10 flex items-center gap-3">
+            <div className="from-secondary-50/40 h-px flex-1 bg-linear-to-r to-transparent" />
+            <h2 className="font-space-grotesk neon-cyan text-2xl font-bold tracking-widest uppercase">
+              Technical Skills
+            </h2>
+            <div className="from-secondary-50/40 h-px flex-1 bg-linear-to-l to-transparent" />
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
             {[
               {
                 title: 'Frontend',
                 skills: CV_DATA.skills.frontend,
+                accent: 'primary' as AccentToken,
               },
               {
                 title: 'Backend',
                 skills: CV_DATA.skills.backend,
+                accent: 'secondary' as AccentToken,
               },
               {
-                title: 'Others',
+                title: 'Tools & Others',
                 skills: CV_DATA.skills.others,
+                accent: 'tertiary' as AccentToken,
               },
-            ].map((skillSet, index) => (
-              <div key={index} className="bg-neutral-5 rounded-xl p-6 border border-neutral-20">
-                <h3 className="font-space-grotesk font-bold mb-3">{skillSet.title}</h3>
-                <p className="text-neutral-70 text-sm leading-relaxed">{skillSet.skills}</p>
-              </div>
-            ))}
+            ].map(({ title, skills, accent: accentToken }) => {
+              const accent = av(accentToken);
+              const accentA = (a: number) => ava(accentToken, a);
+              return (
+                <div
+                  key={title}
+                  className="glass rounded-sm border-(--skb) p-6 transition-all duration-300 hover:border-(--skb-h)"
+                  style={{ '--skb': accentA(0.18), '--skb-h': accentA(0.42) } as CSSProperties}
+                >
+                  <div
+                    className="mb-4 h-px"
+                    style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
+                  />
+                  <p
+                    className="font-space-grotesk mb-3 text-xs font-bold tracking-widest uppercase"
+                    style={{ color: accent }}
+                  >
+                    {title}
+                  </p>
+                  <p className="text-neutral-70 text-sm leading-relaxed">{skills}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Education & Certifications */}
-        <div className="mb-16 animate-slide-up [animation-delay:300ms]">
-          <h2 className="font-space-grotesk text-3xl font-bold text-tertiary-50 mb-8">
-            Education & Certifications
-          </h2>
-          <div className="space-y-6">
-            {CV_DATA.education.map((edu, index) => (
-              <div key={index} className="bg-neutral-5 rounded-xl p-8 border border-neutral-20">
-                <h3 className="font-space-grotesk text-lg font-bold mb-2">{edu.degree}</h3>
-                <p className="text-neutral-70 mb-2">
-                  {edu.institution} • {edu.period}
+        {/* ── Education & Achievements ─────────────────────────── */}
+        <div className="animate-slide-up mb-16 [animation-delay:300ms]">
+          <div className="mb-10 flex items-center gap-3">
+            <div className="from-tertiary-50/40 h-px flex-1 bg-linear-to-r to-transparent" />
+            <h2 className="font-space-grotesk neon-purple text-2xl font-bold tracking-widest uppercase">
+              Education & CP
+            </h2>
+            <div className="from-tertiary-50/40 h-px flex-1 bg-linear-to-l to-transparent" />
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {CV_DATA.education.map((edu, i) => (
+              <div
+                key={i}
+                className="glass border-primary-50/15 hover:border-primary-50/38 rounded-sm border p-6 transition-all duration-300"
+              >
+                <div className="from-primary-50/50 mb-4 h-px bg-linear-to-r to-transparent" />
+                <h3 className="font-space-grotesk text-neutral-90 mb-1 text-base font-bold">
+                  {edu.degree}
+                </h3>
+                <p className="text-primary-50 font-space-grotesk mb-1 text-xs font-bold tracking-wider uppercase">
+                  {edu.institution}
                 </p>
-                <p className="text-neutral-70 text-sm">{edu.location}</p>
+                <p className="text-neutral-60 text-xs">
+                  {edu.period} · {edu.location}
+                </p>
               </div>
             ))}
-            <div className="bg-neutral-5 rounded-xl p-8 border border-neutral-20">
-              <h3 className="font-space-grotesk text-lg font-bold mb-2">
-                {CV_DATA.competitiveProgramming.title}
+            <div className="glass border-secondary-50/15 hover:border-secondary-50/38 rounded-sm border p-6 transition-all duration-300">
+              <div className="from-secondary-50/50 mb-4 h-px bg-linear-to-r to-transparent" />
+              <h3 className="font-space-grotesk text-neutral-90 mb-3 text-base font-bold">
+                Competitive Programming
               </h3>
-              <div className="text-neutral-70 text-sm space-y-1">
-                {CV_DATA.competitiveProgramming.achievements.map((achievement, i) => (
-                  <div key={i}>• {achievement}</div>
+              <ul className="space-y-1.5">
+                {CV_DATA.competitiveProgramming.achievements.map((a, i) => (
+                  <li key={i} className="text-neutral-70 flex items-start gap-2 text-xs">
+                    <span className="text-secondary-50 mt-0.5 shrink-0">▸</span>
+                    {a}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-            <div className="bg-neutral-5 rounded-xl p-8 border border-neutral-20">
-              <h3 className="font-space-grotesk text-lg font-bold mb-2">
+            <div className="glass border-tertiary-50/15 hover:border-tertiary-50/38 rounded-sm border p-6 transition-all duration-300">
+              <div className="from-tertiary-50/50 mb-4 h-px bg-linear-to-r to-transparent" />
+              <h3 className="font-space-grotesk text-neutral-90 mb-2 text-base font-bold">
                 {CV_DATA.problemSetting.title}
               </h3>
-              <p className="text-neutral-70 text-sm">{CV_DATA.problemSetting.description}</p>
+              <p className="text-neutral-70 text-xs leading-relaxed">
+                {CV_DATA.problemSetting.description}
+              </p>
             </div>
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="bg-neutral-10 rounded-2xl p-12 border border-primary-50/30 text-center animate-scale-in [animation-delay:400ms]">
-          <h3 className="font-space-grotesk text-2xl font-bold mb-4">Ready to work together?</h3>
-          <p className="text-neutral-70 mb-6">
+        {/* ── CTA ──────────────────────────────────────────────── */}
+        <div className="glass border-primary-50/20 hover:border-primary-50/40 animate-scale-in relative overflow-hidden rounded-sm border p-10 text-center transition-all duration-300 [animation-delay:400ms]">
+          <div
+            className="mb-8 h-px"
+            style={{
+              background:
+                'linear-gradient(to right, transparent, var(--color-primary-50), var(--color-secondary-50), transparent)',
+            }}
+          />
+          <h3 className="font-space-grotesk text-neutral-90 mb-3 text-2xl font-bold">
+            Ready to work together?
+          </h3>
+          <p className="text-neutral-70 mx-auto mb-8 max-w-md text-sm">
             Let's connect and discuss how I can contribute to your next project.
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="flex flex-wrap justify-center gap-4">
             <a
               href="mailto:saniuzzamanrobin07@gmail.com"
-              className="px-8 py-3 bg-primary-50 text-primary-100 dark:text-primary-0 font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300"
+              className="btn-neon-green font-space-grotesk inline-flex items-center gap-2 rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
             >
+              <Mail className="h-4 w-4" />
               Get In Touch
             </a>
             <a
               href="https://linkedin.com/in/saniuzzaman-robin"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3 border border-primary-50 text-primary-50 font-space-grotesk font-bold rounded-lg hover:bg-primary-50/10 transition duration-300"
+              className="btn-neon-cyan font-space-grotesk inline-flex items-center gap-2 rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
             >
-              LinkedIn Profile
+              <ExternalLink className="h-4 w-4" />
+              LinkedIn
             </a>
           </div>
         </div>
