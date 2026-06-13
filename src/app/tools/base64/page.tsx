@@ -31,7 +31,11 @@ export default function Base64Page() {
         setOutput(decodeURIComponent(escape(atob(input.trim()))));
       }
     } catch (e) {
-      setError(mode === 'decode' ? 'Invalid Base64 string' : 'Encoding failed');
+      setError(
+        mode === 'decode'
+          ? 'Invalid Base64 string'
+          : 'Encoding failed' + (e instanceof Error ? ': ' + e.message : '')
+      );
       setOutput('');
     }
   };
