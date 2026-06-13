@@ -8,14 +8,17 @@ import { generateCollectionSchema } from '@/lib/schema';
 export const metadata: Metadata = {
   title: 'Projects | Md. Saniuzzaman Robin',
   description:
-    'Explore my portfolio of web development projects built with Next.js, Angular, and NestJS. Featuring MuslimPro, scalable APIs, and responsive applications.',
+    'Portfolio of production projects: Prayer Times migration, Giving donation platform (30% YoY growth), Qalbox video streaming, Islamic Calendar, MuslimPro Admin Console, KONA multi-tenant e-commerce panel, and IPEX AG enterprise platform. Built with Next.js, NestJS, Angular, and more.',
   keywords: [
     'projects',
     'portfolio',
-    'web development',
+    'muslimpro',
+    'prayer times',
+    'giving platform',
+    'qalbox',
     'next.js',
-    'angular',
     'nestjs',
+    'angular',
     'full-stack',
   ],
   alternates: {
@@ -48,19 +51,40 @@ export const metadata: Metadata = {
 export default function Projects() {
   const projectItems = [
     {
-      name: 'MuslimPro Web Platform',
-      description: 'Full-stack prayer times platform with 180M+ App downloads',
-      url: 'https://app.muslimpro.com',
+      name: 'Prayer Times Web',
+      description: 'NestJS microservice migration with MaxMind GeoIP and Google Maps integration',
+      url: 'https://app.muslimpro.com/prayer-times',
     },
     {
-      name: 'KONA Admin Panel',
-      description: 'Enterprise-grade admin panel with Angular',
+      name: 'Giving — Donation Platform',
+      description: 'Next.js/WooCommerce replatform that drove a 30% YoY donation increase',
+      url: 'https://app.muslimpro.com/giving',
+    },
+    {
+      name: 'Qalbox Video Platform',
+      description: 'Shorts, live streaming, and search on the MuslimPro video streaming platform',
+      url: 'https://app.muslimpro.com/qalbox',
+    },
+    {
+      name: 'Islamic Calendar',
+      description: 'Full backend APIs and frontend integration for Hijri dates and Islamic events',
+      url: 'https://app.muslimpro.com/islamic-calendar',
+    },
+    {
+      name: 'MuslimPro Admin Console',
+      description: 'Enterprise Admin Console built from scratch in Next.js',
       url: '#',
     },
     {
-      name: 'Automated Testing Suite',
-      description: 'Selenium and JMeter-based testing automation',
+      name: 'KONA Multi-Tenant Admin Panel',
+      description: 'Angular multi-tenant e-commerce admin with RBAC and CQRS/SAGA backend',
       url: '#',
+    },
+    {
+      name: 'IPEX AG — SELISE Platform',
+      description:
+        "Primary frontend engineer for Switzerland's leading building damage management platform",
+      url: 'https://www.ipex.ch/en',
     },
   ];
 

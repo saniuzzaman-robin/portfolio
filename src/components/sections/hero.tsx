@@ -81,7 +81,7 @@ export function Hero() {
               {[
                 { n: '5+', l: 'Years' },
                 { n: '1700+', l: 'Problems' },
-                { n: '10M+', l: 'Users Reached' },
+                { n: '30%', l: 'YoY Donations' },
               ].map((s) => (
                 <div key={s.l} className="text-center">
                   <div className="font-space-grotesk font-bold text-2xl text-primary-50">{s.n}</div>

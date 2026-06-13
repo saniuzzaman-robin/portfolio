@@ -7,8 +7,11 @@ import {
   Palette,
   Package,
   TestTube2,
-  Smartphone,
-  Settings,
+  TrendingUp,
+  Globe,
+  Layers,
+  Award,
+  BarChart2,
 } from 'lucide-react';
 import { CV_DATA } from '@/lib/cv-data';
 import { av, ava, type AccentToken } from '@/lib/accent';
@@ -26,6 +29,7 @@ interface JobType {
 }
 
 const highlightIcons = {
+  // legacy keys kept for safety
   'Full-Stack': <Rocket className="w-4 h-4" strokeWidth={1.5} />,
   Performance: <Zap className="w-4 h-4" strokeWidth={1.5} />,
   Database: <Database className="w-4 h-4" strokeWidth={1.5} />,
@@ -33,8 +37,14 @@ const highlightIcons = {
   Frontend: <Palette className="w-4 h-4" strokeWidth={1.5} />,
   Libraries: <Package className="w-4 h-4" strokeWidth={1.5} />,
   Testing: <TestTube2 className="w-4 h-4" strokeWidth={1.5} />,
-  Responsive: <Smartphone className="w-4 h-4" strokeWidth={1.5} />,
-  Load: <Settings className="w-4 h-4" strokeWidth={1.5} />,
+  // new keys
+  Stack: <Rocket className="w-4 h-4" strokeWidth={1.5} />,
+  Impact: <TrendingUp className="w-4 h-4" strokeWidth={1.5} />,
+  Scale: <Globe className="w-4 h-4" strokeWidth={1.5} />,
+  Team: <Users className="w-4 h-4" strokeWidth={1.5} />,
+  Architecture: <Layers className="w-4 h-4" strokeWidth={1.5} />,
+  Hiring: <Award className="w-4 h-4" strokeWidth={1.5} />,
+  Output: <BarChart2 className="w-4 h-4" strokeWidth={1.5} />,
 };
 
 export function ProfessionalJourney() {
