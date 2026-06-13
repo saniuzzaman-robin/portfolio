@@ -2,7 +2,13 @@
 
 import { useState } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, ToolTextarea, CopyButton, ToolTabs } from '@/components/tools/tool-shell';
+import {
+  ToolShell,
+  ToolPanel,
+  ToolTextarea,
+  CopyButton,
+  ToolTabs,
+} from '@/components/tools/tool-shell';
 import { Binary, Zap } from 'lucide-react';
 
 export default function Base64Page() {
@@ -47,7 +53,7 @@ export default function Base64Page() {
         accent="primary"
       >
         {/* Mode tabs + controls */}
-        <div className="flex flex-wrap items-center gap-4 mb-6">
+        <div className="mb-6 flex flex-wrap items-center gap-4">
           <ToolTabs
             tabs={['encode', 'decode']}
             active={mode}
@@ -56,13 +62,13 @@ export default function Base64Page() {
           />
           <button
             onClick={swapMode}
-            className="text-[10px] font-space-grotesk font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm border border-white/10 text-neutral-60 hover:text-primary-50 hover:border-primary-50/30 transition-all duration-200"
+            className="font-space-grotesk text-neutral-60 hover:text-primary-50 hover:border-primary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
           >
             ⇄ Swap
           </button>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
           <ToolPanel
             label={mode === 'encode' ? 'Plain Text' : 'Base64 Input'}
             accent="primary"
@@ -83,9 +89,15 @@ export default function Base64Page() {
             action={<CopyButton text={output} accent="secondary" />}
           >
             {error ? (
-              <div className="px-4 py-3 text-sm font-mono text-red-400">{error}</div>
+              <div className="px-4 py-3 font-mono text-sm text-red-400">{error}</div>
             ) : (
-              <ToolTextarea value={output} readOnly placeholder="Output appears here after processing…" rows={14} accent="secondary" />
+              <ToolTextarea
+                value={output}
+                readOnly
+                placeholder="Output appears here after processing…"
+                rows={14}
+                accent="secondary"
+              />
             )}
           </ToolPanel>
         </div>
@@ -95,20 +107,27 @@ export default function Base64Page() {
           <button
             onClick={process}
             disabled={!input.trim()}
-            className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest px-6 py-2.5 rounded-sm btn-neon-green disabled:opacity-40 disabled:cursor-not-allowed"
+            className="hover:bg-primary-20 font-space-grotesk border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40"
           >
-            <Zap className="w-4 h-4" />
+            <Zap className="h-4 w-4" />
             {mode === 'encode' ? 'Encode' : 'Decode'}
           </button>
 
           {output && !error && (
-            <div className="flex flex-wrap gap-6 text-xs text-neutral-60 font-space-grotesk">
-              <span>Input: <strong className="text-neutral-80">{input.length} chars</strong></span>
-              <span>Output: <strong className="text-neutral-80">{output.length} chars</strong></span>
+            <div className="text-neutral-60 font-space-grotesk flex flex-wrap gap-6 text-xs">
+              <span>
+                Input: <strong className="text-neutral-80">{input.length} chars</strong>
+              </span>
+              <span>
+                Output: <strong className="text-neutral-80">{output.length} chars</strong>
+              </span>
               {mode === 'encode' && (
-                <span>Size increase: <strong className="text-primary-50">
-                  +{Math.round(((output.length - input.length) / input.length) * 100)}%
-                </strong></span>
+                <span>
+                  Size increase:{' '}
+                  <strong className="text-primary-50">
+                    +{Math.round(((output.length - input.length) / input.length) * 100)}%
+                  </strong>
+                </span>
               )}
             </div>
           )}

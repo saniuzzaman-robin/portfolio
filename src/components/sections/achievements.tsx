@@ -15,39 +15,39 @@ function AchievementRow({ item, rank }: { item: AchievementItem; rank: number })
   return (
     <div
       ref={ref}
-      className="relative group animate-slide-up"
+      className="group animate-slide-up relative"
       style={{ animationDelay: `${item.delay}ms`, animationFillMode: 'both' } as CSSProperties}
     >
-      <div className="relative flex items-center gap-3 md:gap-6 px-5 md:px-7 py-5 transition-all duration-300 overflow-hidden">
+      <div className="relative flex items-center gap-3 overflow-hidden px-5 py-5 transition-all duration-300 md:gap-6 md:px-7">
         {/* Hover bg fill */}
         <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           style={{ background: accentA(0.05) }}
         />
         {/* Left accent bar */}
         <div
-          className="absolute left-0 top-2 bottom-2 w-0.5 rounded-full group-hover:top-0 group-hover:bottom-0 transition-all duration-300"
+          className="absolute top-2 bottom-2 left-0 w-0.5 rounded-full transition-all duration-300 group-hover:top-0 group-hover:bottom-0"
           style={{ background: accent }}
         />
 
         {/* Rank */}
         <span
-          className="font-space-grotesk font-bold text-xs tabular-nums w-7 shrink-0 opacity-35 group-hover:opacity-80 transition-opacity duration-300 relative z-10"
+          className="font-space-grotesk relative z-10 w-7 shrink-0 text-xs font-bold tabular-nums opacity-35 transition-opacity duration-300 group-hover:opacity-80"
           style={{ color: accent }}
         >
           #{String(rank).padStart(2, '0')}
         </span>
 
         {/* Icon + Category */}
-        <div className="hidden sm:flex flex-col items-center gap-1.5 shrink-0 w-16 relative z-10">
+        <div className="relative z-10 hidden w-16 shrink-0 flex-col items-center gap-1.5 sm:flex">
           <div
-            className="w-8 h-8 rounded-sm flex items-center justify-center border transition-all duration-300 group-hover:scale-110"
+            className="flex h-8 w-8 items-center justify-center rounded-sm border transition-all duration-300 group-hover:scale-110"
             style={{ borderColor: accentA(0.3), background: accentA(0.08), color: accent }}
           >
-            <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
+            <Icon className="h-3.5 w-3.5" strokeWidth={1.5} />
           </div>
           <span
-            className="text-[9px] uppercase tracking-widest font-space-grotesk font-bold text-center leading-tight"
+            className="font-space-grotesk text-center text-[9px] leading-tight font-bold tracking-widest uppercase"
             style={{ color: accent }}
           >
             {item.tag}
@@ -56,18 +56,18 @@ function AchievementRow({ item, rank }: { item: AchievementItem; rank: number })
 
         {/* Big stat */}
         <div
-          className="font-space-grotesk font-bold tabular-nums text-3xl md:text-4xl lg:text-5xl shrink-0 w-32 md:w-40 leading-none relative z-10"
+          className="font-space-grotesk relative z-10 w-32 shrink-0 text-3xl leading-none font-bold tabular-nums md:w-40 md:text-4xl lg:text-5xl"
           style={{ color: accent, textShadow: `0 0 24px ${accentA(0.4)}` }}
         >
           {displayStat}
         </div>
 
         {/* Label + description */}
-        <div className="flex-1 min-w-0 relative z-10">
-          <p className="font-space-grotesk font-bold text-neutral-90 text-sm uppercase tracking-widest mb-1 group-hover:text-neutral-100 transition-colors">
+        <div className="relative z-10 min-w-0 flex-1">
+          <p className="font-space-grotesk text-neutral-90 mb-1 text-sm font-bold tracking-widest uppercase transition-colors group-hover:text-neutral-100">
             {item.label}
           </p>
-          <p className="text-neutral-60 text-xs leading-relaxed line-clamp-2 group-hover:text-neutral-70 transition-colors">
+          <p className="text-neutral-60 group-hover:text-neutral-70 line-clamp-2 text-xs leading-relaxed transition-colors">
             {item.description}
           </p>
         </div>
@@ -75,7 +75,7 @@ function AchievementRow({ item, rank }: { item: AchievementItem; rank: number })
 
       {/* Row divider */}
       <div
-        className="mx-5 md:mx-7 h-px"
+        className="mx-5 h-px md:mx-7"
         style={{ background: `linear-gradient(to right, ${accentA(0.18)}, transparent)` }}
       />
     </div>
@@ -84,43 +84,51 @@ function AchievementRow({ item, rank }: { item: AchievementItem; rank: number })
 
 export function Achievements() {
   return (
-    <section className="px-6 py-24 md:px-12 lg:px-20 relative overflow-hidden">
-      <div className="absolute inset-0 cyber-grid-dense opacity-20 pointer-events-none" />
-      <div className="absolute top-1/3 right-0 w-96 h-96 bg-secondary-50/4 rounded-full blur-3xl pointer-events-none animate-float-slow" />
-      <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-primary-50/3 rounded-full blur-3xl pointer-events-none animate-float" />
+    <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
+      <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-20" />
+      <div className="bg-secondary-50/4 animate-float-slow pointer-events-none absolute top-1/3 right-0 h-96 w-96 rounded-full blur-3xl" />
+      <div className="bg-primary-50/3 animate-float pointer-events-none absolute bottom-0 left-1/4 h-80 w-80 rounded-full blur-3xl" />
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-5xl">
         {/* Header */}
-        <div className="mb-14 animate-slide-right flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <div className="animate-slide-right mb-14 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="section-label mb-3">Career &amp; Competitive</p>
-            <h2 className="font-space-grotesk text-4xl md:text-5xl font-bold">
+            <h2 className="font-space-grotesk text-4xl font-bold md:text-5xl">
               Achievements &amp; <span className="neon-cyan">Milestones</span>
             </h2>
           </div>
-          <div className="terminal-text text-xs shrink-0 self-start sm:self-auto">
+          <div className="terminal-text shrink-0 self-start text-xs sm:self-auto">
             <span className="neon-green">5</span> records loaded
           </div>
         </div>
 
         {/* Scoreboard panel */}
-        <div className="glass rounded-sm border border-white/8 overflow-hidden animate-scale-in [animation-delay:100ms]">
+        <div className="glass animate-scale-in overflow-hidden rounded-sm border border-white/8 [animation-delay:100ms]">
           {/* Panel header */}
-          <div className="flex items-center gap-3 md:gap-6 px-5 md:px-7 py-3 border-b border-white/5 bg-white/2">
+          <div className="flex items-center gap-3 border-b border-white/5 bg-white/2 px-5 py-3 md:gap-6 md:px-7">
             <div className="flex gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
-              <span className="w-2.5 h-2.5 rounded-full bg-primary-50/60" />
+              <span className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
+              <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/60" />
+              <span className="bg-primary-50/60 h-2.5 w-2.5 rounded-full" />
             </div>
             <span className="terminal-text text-[10px]">~/metrics --career --competitive</span>
           </div>
 
           {/* Column labels */}
-          <div className="flex items-center gap-3 md:gap-6 px-5 md:px-7 py-2.5 border-b border-white/5">
-            <span className="w-7 shrink-0 text-[9px] font-space-grotesk uppercase tracking-widest text-neutral-50">RNK</span>
-            <span className="hidden sm:block w-16 text-[9px] font-space-grotesk uppercase tracking-widest text-neutral-50">CAT</span>
-            <span className="w-32 md:w-40 text-[9px] font-space-grotesk uppercase tracking-widest text-neutral-50">STAT</span>
-            <span className="flex-1 text-[9px] font-space-grotesk uppercase tracking-widest text-neutral-50">ACHIEVEMENT</span>
+          <div className="flex items-center gap-3 border-b border-white/5 px-5 py-2.5 md:gap-6 md:px-7">
+            <span className="font-space-grotesk w-7 shrink-0 text-[9px] tracking-widest text-neutral-50 uppercase">
+              RNK
+            </span>
+            <span className="font-space-grotesk hidden w-16 text-[9px] tracking-widest text-neutral-50 uppercase sm:block">
+              CAT
+            </span>
+            <span className="font-space-grotesk w-32 text-[9px] tracking-widest text-neutral-50 uppercase md:w-40">
+              STAT
+            </span>
+            <span className="font-space-grotesk flex-1 text-[9px] tracking-widest text-neutral-50 uppercase">
+              ACHIEVEMENT
+            </span>
           </div>
 
           {/* Rows */}
@@ -131,9 +139,9 @@ export function Achievements() {
           </div>
 
           {/* Footer */}
-          <div className="px-5 md:px-7 py-3 border-t border-white/5 bg-white/1 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary-50 animate-glow inline-block" />
-            <span className="text-[9px] font-space-grotesk text-neutral-60 uppercase tracking-widest">
+          <div className="flex items-center gap-2 border-t border-white/5 bg-white/1 px-5 py-3 md:px-7">
+            <span className="bg-primary-50 animate-glow inline-block h-1.5 w-1.5 rounded-full" />
+            <span className="font-space-grotesk text-neutral-60 text-[9px] tracking-widest uppercase">
               All metrics verified · Last updated 2026
             </span>
           </div>

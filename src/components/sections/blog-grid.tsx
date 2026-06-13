@@ -5,64 +5,64 @@ import { ACCENT_CLASSES } from '@/lib/accent';
 export function BlogGrid() {
   return (
     <section className="px-6 py-24 md:px-12 lg:px-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-20 animate-slide-right">
-          <h1 className="font-space-grotesk text-5xl md:text-6xl font-bold mb-6">
+      <div className="mx-auto max-w-6xl">
+        <div className="animate-slide-right mb-20">
+          <h1 className="font-space-grotesk mb-6 text-5xl font-bold md:text-6xl">
             Blog & Articles
           </h1>
-          <p className="text-neutral-70 text-lg max-w-2xl">
+          <p className="text-neutral-70 max-w-2xl text-lg">
             Technical insights, tutorials, and thoughts on software engineering, system design, and
             competitive programming.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid gap-8 lg:grid-cols-2">
           {ARTICLES.map((article, index) => {
             const c = ACCENT_CLASSES[article.color];
             return (
               <article
                 key={article.id}
-                className="bg-neutral-10 rounded-2xl overflow-hidden border border-neutral-20 hover:border-neutral-30 group transition-all duration-300 animate-scale-in hover:shadow-lg"
+                className="bg-neutral-10 border-neutral-20 hover:border-neutral-30 group animate-scale-in overflow-hidden rounded-2xl border transition-all duration-300 hover:shadow-lg"
                 style={{ animationDelay: `${index * 75}ms` }}
               >
-                <div className="p-8 flex flex-col h-full">
-                  <div className="flex items-start justify-between mb-4">
+                <div className="flex h-full flex-col p-8">
+                  <div className="mb-4 flex items-start justify-between">
                     <span className="text-3xl">{article.emoji}</span>
                     <span
-                      className={`text-xs uppercase tracking-widest font-space-grotesk ${c.text}`}
+                      className={`font-space-grotesk text-xs tracking-widest uppercase ${c.text}`}
                     >
                       {article.category}
                     </span>
                   </div>
 
-                  <h2 className="font-space-grotesk text-2xl font-bold mb-4 group-hover:text-primary-50 transition duration-300">
+                  <h2 className="font-space-grotesk group-hover:text-primary-50 mb-4 text-2xl font-bold transition duration-300">
                     {article.title}
                   </h2>
 
-                  <p className="text-neutral-70 text-sm leading-relaxed mb-6 grow">
+                  <p className="text-neutral-70 mb-6 grow text-sm leading-relaxed">
                     {article.excerpt}
                   </p>
 
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="mb-6 flex flex-wrap gap-2">
                     {article.tags.map((tag, i) => (
                       <span
                         key={i}
-                        className="text-xs bg-neutral-5 text-neutral-70 px-2 py-1 rounded-full hover:scale-105 transition-transform duration-200"
+                        className="bg-neutral-5 text-neutral-70 rounded-full px-2 py-1 text-xs transition-transform duration-200 hover:scale-105"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex justify-between items-center pt-6 border-t border-neutral-20">
-                    <div className="text-xs text-neutral-70">
+                  <div className="border-neutral-20 flex items-center justify-between border-t pt-6">
+                    <div className="text-neutral-70 text-xs">
                       <span>{article.date}</span>
                       <span className="mx-2">•</span>
                       <span>{article.readTime}</span>
                     </div>
                     <Link
                       href={`/blog/${article.slug}`}
-                      className={`font-space-grotesk text-sm uppercase tracking-wider transition inline-flex items-center gap-2 group-hover:translate-x-2 duration-300 ${c.text} ${c.textHover}`}
+                      className={`font-space-grotesk inline-flex items-center gap-2 text-sm tracking-wider uppercase transition duration-300 group-hover:translate-x-2 ${c.text} ${c.textHover}`}
                     >
                       Read →
                     </Link>
@@ -73,17 +73,17 @@ export function BlogGrid() {
           })}
         </div>
 
-        <div className="mt-20 text-center animate-fade-in [animation-delay:600ms]">
+        <div className="animate-fade-in mt-20 text-center [animation-delay:600ms]">
           <p className="text-neutral-70 mb-6">
             Subscribe to get notified about new articles and insights
           </p>
-          <div className="flex gap-2 max-w-md mx-auto">
+          <div className="mx-auto flex max-w-md gap-2">
             <input
               type="email"
               placeholder="your@email.com"
-              className="flex-1 px-4 py-3 bg-neutral-10 border border-neutral-20 rounded-lg focus:outline-none focus:border-primary-50 transition text-neutral-90"
+              className="bg-neutral-10 border-neutral-20 focus:border-primary-50 text-neutral-90 flex-1 rounded-lg border px-4 py-3 transition focus:outline-none"
             />
-            <button className="px-6 py-3 bg-primary-50 text-primary-100 dark:text-primary-0 font-space-grotesk font-bold rounded-lg hover:bg-primary-60 transition duration-300 hover:scale-105">
+            <button className="bg-primary-50 text-primary-100 dark:text-primary-0 font-space-grotesk hover:bg-primary-60 rounded-lg px-6 py-3 font-bold transition duration-300 hover:scale-105">
               Subscribe
             </button>
           </div>

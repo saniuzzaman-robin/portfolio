@@ -256,27 +256,27 @@ export default function SnakePage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="h-dvh bg-neutral-5 text-neutral-90 flex flex-col overflow-hidden">
+      <div className="bg-neutral-5 text-neutral-90 flex h-dvh flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-30 bg-neutral-10/50">
+        <div className="border-neutral-30 bg-neutral-10/50 flex items-center justify-between border-b px-4 py-3">
           <Link
             href="/games"
-            className="flex items-center gap-2 text-neutral-50 hover:text-primary-50 transition-colors text-xs font-space-grotesk uppercase tracking-wider"
+            className="hover:text-primary-50 font-space-grotesk flex items-center gap-2 text-xs tracking-wider text-neutral-50 uppercase transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="h-4 w-4" />
             Games
           </Link>
           <div className="flex items-center gap-4 text-center">
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-wider">Score</p>
-              <p className="text-lg font-bold neon-green">{score}</p>
+              <p className="text-neutral-60 text-xs tracking-wider uppercase">Score</p>
+              <p className="neon-green text-lg font-bold">{score}</p>
             </div>
             <div>
-              <p className="text-xs text-neutral-60 uppercase tracking-wider">Best</p>
-              <p className="text-lg font-bold neon-cyan">{best}</p>
+              <p className="text-neutral-60 text-xs tracking-wider uppercase">Best</p>
+              <p className="neon-cyan text-lg font-bold">{best}</p>
             </div>
             <div className="hidden sm:block">
-              <p className="text-xs text-neutral-60 uppercase tracking-wider">Mode</p>
+              <p className="text-neutral-60 text-xs tracking-wider uppercase">Mode</p>
               <p className="text-lg font-bold" style={{ color: DIFFICULTIES[difficulty].color }}>
                 {difficulty}
               </p>
@@ -284,15 +284,15 @@ export default function SnakePage() {
           </div>
           <button
             onClick={start}
-            className="px-4 py-2 border border-primary-50 rounded text-primary-50 hover:bg-primary-50/10 transition-colors text-xs font-space-grotesk uppercase tracking-wider flex items-center gap-2"
+            className="border-primary-50 text-primary-50 hover:bg-primary-50/10 font-space-grotesk flex items-center gap-2 rounded border px-4 py-2 text-xs tracking-wider uppercase transition-colors"
           >
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className="h-4 w-4" />
             {started ? 'Restart' : 'Start'}
           </button>
         </div>
 
         {/* Game area */}
-        <div className="flex-1 cyber-grid relative overflow-hidden flex items-center justify-center p-2 md:p-4">
+        <div className="cyber-grid relative flex flex-1 items-center justify-center overflow-hidden p-2 md:p-4">
           <div
             className="relative w-full shrink-0"
             style={{ aspectRatio: `${COLS}/${ROWS}`, maxWidth: '100%', maxHeight: '100%' }}
@@ -311,32 +311,32 @@ export default function SnakePage() {
               ref={canvasRef}
               width={COLS * CELL}
               height={ROWS * CELL}
-              className="relative block w-full h-full rounded-sm"
+              className="relative block h-full w-full rounded-sm"
               style={{ imageRendering: 'pixelated', objectFit: 'contain' }}
             />
 
             {/* Overlay for start/game over */}
             {(!started || dead) && (
               <div
-                className="absolute inset-0 flex flex-col items-center justify-center rounded-sm z-10"
+                className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-sm"
                 style={{ background: 'rgba(8,13,26,0.85)', backdropFilter: 'blur(4px)' }}
               >
                 {dead ? (
                   <>
-                    <p className="font-space-grotesk font-bold text-3xl neon-green mb-2">
+                    <p className="font-space-grotesk neon-green mb-2 text-3xl font-bold">
                       GAME OVER
                     </p>
-                    <p className="text-neutral-70 text-sm mb-1">
+                    <p className="text-neutral-70 mb-1 text-sm">
                       Score: <span className="neon-cyan font-bold">{score}</span>
                     </p>
-                    <p className="text-neutral-70 text-sm mb-6">
+                    <p className="text-neutral-70 mb-6 text-sm">
                       Best: <span className="neon-green font-bold">{best}</span>
                     </p>
                   </>
                 ) : (
                   <>
-                    <p className="font-space-grotesk font-bold text-4xl neon-green mb-1">SNAKE</p>
-                    <p className="text-neutral-70 text-xs mb-6 text-center">
+                    <p className="font-space-grotesk neon-green mb-1 text-4xl font-bold">SNAKE</p>
+                    <p className="text-neutral-70 mb-6 text-center text-xs">
                       Collect cyan packets. Avoid walls &amp; yourself.
                     </p>
                   </>
@@ -344,7 +344,7 @@ export default function SnakePage() {
 
                 {/* Difficulty selector */}
                 <div className="mb-4 w-full max-w-xs px-2 md:px-4">
-                  <p className="text-neutral-60 text-[10px] md:text-xs uppercase tracking-widest text-center mb-2 md:mb-3 font-space-grotesk">
+                  <p className="text-neutral-60 font-space-grotesk mb-2 text-center text-[10px] tracking-widest uppercase md:mb-3 md:text-xs">
                     Difficulty
                   </p>
                   <div className="grid grid-cols-3 gap-1.5 md:gap-2">
@@ -358,7 +358,7 @@ export default function SnakePage() {
                             setDifficulty(key);
                             difficultyRef.current = key;
                           }}
-                          className="flex flex-col items-center gap-0.5 py-1.5 md:py-2.5 px-1 md:px-2 rounded-sm border transition-all duration-200 font-space-grotesk"
+                          className="font-space-grotesk flex flex-col items-center gap-0.5 rounded-sm border px-1 py-1.5 transition-all duration-200 md:px-2 md:py-2.5"
                           style={{
                             borderColor: active ? d.color : 'rgba(255,255,255,0.1)',
                             background: active ? `${d.color}15` : 'rgba(255,255,255,0.03)',
@@ -366,12 +366,12 @@ export default function SnakePage() {
                           }}
                         >
                           <span
-                            className="text-[9px] md:text-xs font-bold uppercase tracking-widest leading-tight"
+                            className="text-[9px] leading-tight font-bold tracking-widest uppercase md:text-xs"
                             style={{ color: active ? d.color : '#6b8299' }}
                           >
                             {d.label}
                           </span>
-                          <span className="hidden md:inline text-[10px] text-neutral-50">
+                          <span className="hidden text-[10px] text-neutral-50 md:inline">
                             {d.desc}
                           </span>
                         </button>
@@ -380,10 +380,10 @@ export default function SnakePage() {
                   </div>
                 </div>
 
-                <button onClick={start} className="btn-game px-8 py-3 font-space-grotesk text-sm">
+                <button onClick={start} className="btn-game font-space-grotesk px-8 py-3 text-sm">
                   {dead ? '▶ Play Again' : '▶ Start Game'}
                 </button>
-                <p className="text-neutral-60 text-xs mt-4 font-space-grotesk">
+                <p className="text-neutral-60 font-space-grotesk mt-4 text-xs">
                   Arrow Keys / WASD / Swipe
                 </p>
               </div>
@@ -392,13 +392,13 @@ export default function SnakePage() {
         </div>
 
         {/* Mobile d-pad */}
-        <div className="md:hidden flex flex-col items-center gap-1 p-4 border-t border-white/5">
+        <div className="flex flex-col items-center gap-1 border-t border-white/5 p-4 md:hidden">
           <button
             onClick={() => {
               pendingDir.current = 'UP';
               if (!started) start();
             }}
-            className="w-12 h-12 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10"
+            className="glass text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 flex h-12 w-12 items-center justify-center rounded-sm border border-white/10"
           >
             ▲
           </button>
@@ -408,7 +408,7 @@ export default function SnakePage() {
                 pendingDir.current = 'LEFT';
                 if (!started) start();
               }}
-              className="w-12 h-12 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10"
+              className="glass text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 flex h-12 w-12 items-center justify-center rounded-sm border border-white/10"
             >
               ◄
             </button>
@@ -417,7 +417,7 @@ export default function SnakePage() {
                 pendingDir.current = 'DOWN';
                 if (!started) start();
               }}
-              className="w-12 h-12 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10"
+              className="glass text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 flex h-12 w-12 items-center justify-center rounded-sm border border-white/10"
             >
               ▼
             </button>
@@ -426,7 +426,7 @@ export default function SnakePage() {
                 pendingDir.current = 'RIGHT';
                 if (!started) start();
               }}
-              className="w-12 h-12 glass border border-white/10 rounded-sm flex items-center justify-center text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10"
+              className="glass text-primary-50 hover:border-primary-50/50 active:bg-primary-50/10 flex h-12 w-12 items-center justify-center rounded-sm border border-white/10"
             >
               ►
             </button>

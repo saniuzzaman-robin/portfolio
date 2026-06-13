@@ -10,28 +10,28 @@ export function GameCardGrid() {
   return (
     <>
       {/* Header */}
-      <div className="mb-16 animate-slide-up">
-        <div className="flex items-center gap-3 mb-4">
-          <Gamepad2 className="w-6 h-6 text-primary-50" />
+      <div className="animate-slide-up mb-16">
+        <div className="mb-4 flex items-center gap-3">
+          <Gamepad2 className="text-primary-50 h-6 w-6" />
           <p className="section-label">Interactive Lab</p>
         </div>
-        <h1 className="font-space-grotesk font-bold text-5xl md:text-7xl mb-4">
+        <h1 className="font-space-grotesk mb-4 text-5xl font-bold md:text-7xl">
           <span className="neon-green">GAME</span> <span className="neon-cyan">LAB</span>
         </h1>
-        <p className="text-neutral-70 text-sm max-w-xl leading-relaxed">
+        <p className="text-neutral-70 max-w-xl text-sm leading-relaxed">
           Browser-native games built with vanilla Canvas API and React — zero game engines, zero
           dependencies. Pure JavaScript mastery on display.
         </p>
       </div>
 
       {/* Game cards */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {GAMES.map((game, index) => {
           const Icon = game.icon;
           return (
             <Link key={game.id} href={game.href} className="group block">
               <div
-                className="relative glass rounded-sm border h-full transition-all duration-500 overflow-hidden animate-scale-in hover:scale-[1.03]"
+                className="glass animate-scale-in relative h-full overflow-hidden rounded-sm border transition-all duration-500 hover:scale-[1.03]"
                 style={{
                   borderColor: ava(game.accent, 0.19),
                   animationDelay: `${index * 120}ms`,
@@ -47,7 +47,7 @@ export function GameCardGrid() {
                 }}
               >
                 {/* Holographic hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
+                <div className="holographic pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 {/* Top bar */}
                 <div
@@ -59,39 +59,39 @@ export function GameCardGrid() {
 
                 <div className="relative z-10 p-6">
                   {/* Icon + subtitle */}
-                  <div className="flex items-start justify-between mb-6">
+                  <div className="mb-6 flex items-start justify-between">
                     <div
-                      className="w-12 h-12 rounded-sm flex items-center justify-center"
+                      className="flex h-12 w-12 items-center justify-center rounded-sm"
                       style={{
                         background: ava(game.accent, 0.08),
                         border: `1px solid ${ava(game.accent, 0.25)}`,
                       }}
                     >
-                      <Icon className="w-6 h-6" style={{ color: av(game.accent) }} />
+                      <Icon className="h-6 w-6" style={{ color: av(game.accent) }} />
                     </div>
                     <AccentChip accent={game.accent}>{game.difficulty}</AccentChip>
                   </div>
 
                   {/* Title */}
-                  <p className="text-xs font-space-grotesk uppercase tracking-widest mb-1 text-neutral-60">
+                  <p className="font-space-grotesk text-neutral-60 mb-1 text-xs tracking-widest uppercase">
                     {game.subtitle}
                   </p>
-                  <h2 className="font-space-grotesk font-bold text-2xl mb-3 text-neutral-90 group-hover:text-neutral-100 transition-colors">
+                  <h2 className="font-space-grotesk text-neutral-90 mb-3 text-2xl font-bold transition-colors group-hover:text-neutral-100">
                     {game.title}
                   </h2>
 
-                  <p className="text-neutral-70 text-sm leading-relaxed mb-6">{game.description}</p>
+                  <p className="text-neutral-70 mb-6 text-sm leading-relaxed">{game.description}</p>
 
                   {/* Controls */}
                   <div className="mb-5">
-                    <p className="text-xs text-neutral-60 uppercase tracking-wider mb-2">
+                    <p className="text-neutral-60 mb-2 text-xs tracking-wider uppercase">
                       Controls
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       {game.controls.map((c) => (
                         <span
                           key={c}
-                          className="text-xs px-2 py-1 rounded-sm glass border border-white/10 text-neutral-70"
+                          className="glass text-neutral-70 rounded-sm border border-white/10 px-2 py-1 text-xs"
                         >
                           {c}
                         </span>
@@ -101,14 +101,14 @@ export function GameCardGrid() {
 
                   {/* Tech */}
                   <div className="mb-6">
-                    <p className="text-xs text-neutral-60 uppercase tracking-wider mb-2">
+                    <p className="text-neutral-60 mb-2 text-xs tracking-wider uppercase">
                       Built With
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       {game.tech.map((t) => (
                         <span
                           key={t}
-                          className="text-xs px-2 py-1 rounded-sm"
+                          className="rounded-sm px-2 py-1 text-xs"
                           style={{
                             color: av(game.accent),
                             border: `1px solid ${ava(game.accent, 0.19)}`,
@@ -123,7 +123,7 @@ export function GameCardGrid() {
 
                   {/* Play CTA */}
                   <div
-                    className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest group-hover:translate-x-1 transition-transform duration-300"
+                    className="font-space-grotesk flex items-center gap-2 text-xs font-bold tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1"
                     style={{ color: av(game.accent) }}
                   >
                     <span>&gt; Play Now</span>
@@ -132,7 +132,7 @@ export function GameCardGrid() {
 
                 {/* Bottom line */}
                 <div
-                  className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-500"
+                  className="absolute bottom-0 left-0 h-px w-0 transition-all duration-500 group-hover:w-full"
                   style={{
                     background: `linear-gradient(to right, ${av(game.accent)}, transparent)`,
                   }}
@@ -144,8 +144,8 @@ export function GameCardGrid() {
       </div>
 
       {/* Footer note */}
-      <div className="mt-12 text-center animate-fade-in [animation-delay:600ms]">
-        <p className="text-neutral-60 text-xs font-space-grotesk uppercase tracking-widest">
+      <div className="animate-fade-in mt-12 text-center [animation-delay:600ms]">
+        <p className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase">
           All games built with zero game engines — pure web APIs &amp; React
         </p>
       </div>

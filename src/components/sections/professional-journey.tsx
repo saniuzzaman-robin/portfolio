@@ -6,19 +6,19 @@ export function ProfessionalJourney() {
   const jobs = CV_DATA.experience;
 
   return (
-    <section className="px-6 py-24 md:px-12 lg:px-20 relative overflow-hidden">
+    <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
       {/* Background */}
-      <div className="absolute inset-0 cyber-grid-dense opacity-20 pointer-events-none" />
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary-50/3 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-tertiary-50/3 rounded-full blur-3xl" />
+      <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-20" />
+      <div className="pointer-events-none absolute inset-0">
+        <div className="bg-primary-50/3 absolute top-0 right-0 h-96 w-96 rounded-full blur-3xl" />
+        <div className="bg-tertiary-50/3 absolute bottom-0 left-0 h-96 w-96 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-4xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-4xl">
         {/* Header */}
-        <div className="mb-20 animate-slide-right">
+        <div className="animate-slide-right mb-20">
           <p className="section-label mb-3">Experience</p>
-          <h2 className="font-space-grotesk text-4xl md:text-5xl font-bold">
+          <h2 className="font-space-grotesk text-4xl font-bold md:text-5xl">
             Professional <span className="neon-green">Journey</span>
           </h2>
         </div>
@@ -27,7 +27,7 @@ export function ProfessionalJourney() {
         <div className="relative">
           {/* Vertical spine — left-aligned */}
           <div
-            className="absolute left-4 md:left-6 top-0 bottom-0 w-px"
+            className="absolute top-0 bottom-0 left-4 w-px md:left-6"
             style={{
               background:
                 'linear-gradient(to bottom, var(--color-primary-50), var(--color-secondary-50), var(--color-tertiary-50), transparent)',
@@ -42,27 +42,24 @@ export function ProfessionalJourney() {
               return (
                 <div
                   key={index}
-                  className="relative pl-14 md:pl-20 animate-slide-up"
+                  className="animate-slide-up relative pl-14 md:pl-20"
                   style={{ animationDelay: `${index * 120}ms`, animationFillMode: 'both' }}
                 >
                   {/* Timeline node */}
                   <div
-                    className="absolute left-1.5 md:left-3.5 top-5 w-5 h-5 rounded-full border-2 animate-glow z-10 flex items-center justify-center"
+                    className="animate-glow absolute top-5 left-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-full border-2 md:left-3.5"
                     style={{
                       borderColor: accent,
                       backgroundColor: '#080d1a',
                       boxShadow: `0 0 10px ${accent}, 0 0 24px ${accentA(0.25)}`,
                     }}
                   >
-                    <div
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: accent }}
-                    />
+                    <div className="h-2 w-2 rounded-full" style={{ backgroundColor: accent }} />
                   </div>
 
                   {/* Card */}
                   <div
-                    className="glass card-shine rounded-sm border-(--jb) hover:border-(--jb-h) transition-all duration-500 group overflow-hidden"
+                    className="glass card-shine group overflow-hidden rounded-sm border-(--jb) transition-all duration-500 hover:border-(--jb-h)"
                     style={
                       {
                         '--jb': accentA(0.18),
@@ -78,27 +75,29 @@ export function ProfessionalJourney() {
 
                     {/* Corner glow */}
                     <div
-                      className="absolute top-0 right-0 w-48 h-48 opacity-[0.05] group-hover:opacity-[0.12] transition-opacity duration-500 pointer-events-none"
-                      style={{ background: `radial-gradient(circle at top right, ${accent}, transparent 65%)` }}
+                      className="pointer-events-none absolute top-0 right-0 h-48 w-48 opacity-[0.05] transition-opacity duration-500 group-hover:opacity-[0.12]"
+                      style={{
+                        background: `radial-gradient(circle at top right, ${accent}, transparent 65%)`,
+                      }}
                     />
 
                     <div className="relative z-10 p-6 md:p-8">
                       {/* Header row */}
-                      <div className="flex flex-wrap items-start justify-between gap-4 mb-5">
+                      <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
                         <div>
-                          <h3 className="font-space-grotesk font-bold text-xl md:text-2xl text-neutral-90 group-hover:text-neutral-100 transition-colors mb-1">
+                          <h3 className="font-space-grotesk text-neutral-90 mb-1 text-xl font-bold transition-colors group-hover:text-neutral-100 md:text-2xl">
                             {job.company}
                           </h3>
                           <p
-                            className="text-sm font-space-grotesk font-bold uppercase tracking-wider"
+                            className="font-space-grotesk text-sm font-bold tracking-wider uppercase"
                             style={{ color: accent }}
                           >
                             {job.title}
                           </p>
                         </div>
-                        <div className="flex flex-col items-end gap-1.5 shrink-0">
+                        <div className="flex shrink-0 flex-col items-end gap-1.5">
                           <span
-                            className="text-xs font-space-grotesk font-bold px-3 py-1 rounded-sm uppercase tracking-widest"
+                            className="font-space-grotesk rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase"
                             style={{
                               color: accent,
                               border: `1px solid ${accentA(0.3)}`,
@@ -107,29 +106,37 @@ export function ProfessionalJourney() {
                           >
                             {job.duration}
                           </span>
-                          <span className="text-neutral-60 text-xs font-space-grotesk">
+                          <span className="text-neutral-60 font-space-grotesk text-xs">
                             {job.period.replace(' -', ' –')}
                           </span>
                         </div>
                       </div>
 
                       {/* Description */}
-                      <p className="text-neutral-70 text-sm leading-relaxed mb-6">
+                      <p className="text-neutral-70 mb-6 text-sm leading-relaxed">
                         {job.descriptionLong}
                       </p>
 
                       {/* Key achievements */}
                       <div className="mb-6">
                         <p
-                          className="text-[10px] uppercase tracking-widest font-space-grotesk font-bold mb-3"
+                          className="font-space-grotesk mb-3 text-[10px] font-bold tracking-widest uppercase"
                           style={{ color: accent }}
                         >
                           Key Contributions
                         </p>
-                        <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2">
+                        <ul className="grid gap-x-6 gap-y-2 sm:grid-cols-2">
                           {job.achievements.slice(0, 6).map((ach, i) => (
-                            <li key={i} className="flex items-start gap-2 text-xs text-neutral-70 leading-relaxed">
-                              <span className="mt-0.5 shrink-0 text-[10px]" style={{ color: accent }}>▸</span>
+                            <li
+                              key={i}
+                              className="text-neutral-70 flex items-start gap-2 text-xs leading-relaxed"
+                            >
+                              <span
+                                className="mt-0.5 shrink-0 text-[10px]"
+                                style={{ color: accent }}
+                              >
+                                ▸
+                              </span>
                               <span>{ach}</span>
                             </li>
                           ))}
@@ -141,7 +148,7 @@ export function ProfessionalJourney() {
                         {job.skills.map((skill) => (
                           <span
                             key={skill}
-                            className="text-[10px] px-2.5 py-0.5 font-space-grotesk font-bold uppercase tracking-wide rounded-sm"
+                            className="font-space-grotesk rounded-sm px-2.5 py-0.5 text-[10px] font-bold tracking-wide uppercase"
                             style={{
                               color: accent,
                               border: `1px solid ${accentA(0.22)}`,
@@ -156,7 +163,7 @@ export function ProfessionalJourney() {
 
                     {/* Bottom sweep */}
                     <div
-                      className="h-px w-0 group-hover:w-full transition-all duration-700"
+                      className="h-px w-0 transition-all duration-700 group-hover:w-full"
                       style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
                     />
                   </div>

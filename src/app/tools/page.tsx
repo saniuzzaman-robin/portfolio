@@ -29,18 +29,18 @@ export default function ToolsPage() {
         <Navigation />
 
         {/* Hero */}
-        <section className="px-6 pt-24 pb-16 md:px-12 lg:px-20 relative overflow-hidden">
-          <div className="absolute inset-0 cyber-grid-dense opacity-20 pointer-events-none" />
-          <div className="absolute top-0 left-1/2 w-96 h-64 bg-primary-50/4 -translate-x-1/2 rounded-full blur-3xl pointer-events-none" />
-          <div className="max-w-6xl mx-auto relative z-10">
-            <div className="flex items-center gap-3 mb-4 animate-slide-down">
-              <Wrench className="w-5 h-5 text-primary-50" />
+        <section className="relative overflow-hidden px-6 pt-24 pb-16 md:px-12 lg:px-20">
+          <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-20" />
+          <div className="bg-primary-50/4 pointer-events-none absolute top-0 left-1/2 h-64 w-96 -translate-x-1/2 rounded-full blur-3xl" />
+          <div className="relative z-10 mx-auto max-w-6xl">
+            <div className="animate-slide-down mb-4 flex items-center gap-3">
+              <Wrench className="text-primary-50 h-5 w-5" />
               <p className="section-label">Developer Utilities</p>
             </div>
-            <h1 className="font-space-grotesk font-bold text-5xl md:text-7xl mb-5 animate-slide-up [animation-delay:80ms]">
+            <h1 className="font-space-grotesk animate-slide-up mb-5 text-5xl font-bold [animation-delay:80ms] md:text-7xl">
               <span className="neon-green">DEV</span> <span className="neon-cyan">TOOLS</span>
             </h1>
-            <p className="text-neutral-70 text-base max-w-xl leading-relaxed animate-slide-up [animation-delay:150ms]">
+            <p className="text-neutral-70 animate-slide-up max-w-xl text-base leading-relaxed [animation-delay:150ms]">
               10 essential utilities that run entirely in your browser — no installs, no telemetry,
               no fuss. Everything a developer reaches for daily.
             </p>
@@ -49,8 +49,8 @@ export default function ToolsPage() {
 
         {/* Tools grid */}
         <section className="px-6 pb-24 md:px-12 lg:px-20">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {DEV_TOOLS.map((tool, index) => {
                 const Icon = tool.icon;
                 const accent = av(tool.accent);
@@ -58,7 +58,7 @@ export default function ToolsPage() {
                 return (
                   <Link key={tool.id} href={tool.href} className="group block">
                     <div
-                      className="relative glass card-shine rounded-sm border-(--tb) hover:border-(--tb-h) hover:shadow-(--ts) transition-all duration-400 overflow-hidden animate-scale-in hover:scale-[1.02] h-full flex"
+                      className="glass card-shine animate-scale-in relative flex h-full overflow-hidden rounded-sm border-(--tb) transition-all duration-400 hover:scale-[1.02] hover:border-(--tb-h) hover:shadow-(--ts)"
                       style={
                         {
                           '--tb': accentA(0.16),
@@ -71,48 +71,48 @@ export default function ToolsPage() {
                     >
                       {/* Left bookmark bar */}
                       <div
-                        className="w-0.5 shrink-0 group-hover:w-1 transition-all duration-300"
+                        className="w-0.5 shrink-0 transition-all duration-300 group-hover:w-1"
                         style={{
                           background: `linear-gradient(to bottom, ${accent}, ${accentA(0.2)})`,
                         }}
                       />
 
-                      <div className="flex-1 p-5 flex flex-col relative overflow-hidden">
+                      <div className="relative flex flex-1 flex-col overflow-hidden p-5">
                         {/* Holographic hover */}
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
+                        <div className="holographic pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                         {/* Icon */}
                         <div
-                          className="w-9 h-9 rounded-sm flex items-center justify-center border mb-4 transition-all duration-300 group-hover:scale-110 relative z-10"
+                          className="relative z-10 mb-4 flex h-9 w-9 items-center justify-center rounded-sm border transition-all duration-300 group-hover:scale-110"
                           style={{
                             borderColor: accentA(0.3),
                             background: accentA(0.08),
                             color: accent,
                           }}
                         >
-                          <Icon className="w-4 h-4" strokeWidth={1.5} />
+                          <Icon className="h-4 w-4" strokeWidth={1.5} />
                         </div>
 
                         {/* Title */}
-                        <h2 className="font-space-grotesk font-bold text-base text-neutral-90 group-hover:text-neutral-100 transition-colors relative z-10 mb-0.5">
+                        <h2 className="font-space-grotesk text-neutral-90 relative z-10 mb-0.5 text-base font-bold transition-colors group-hover:text-neutral-100">
                           {tool.title}
                         </h2>
                         <p
-                          className="text-[10px] font-space-grotesk font-bold uppercase tracking-widest mb-3 relative z-10"
+                          className="font-space-grotesk relative z-10 mb-3 text-[10px] font-bold tracking-widest uppercase"
                           style={{ color: accent }}
                         >
                           {tool.subtitle}
                         </p>
-                        <p className="text-neutral-60 text-xs leading-relaxed relative z-10 flex-1">
+                        <p className="text-neutral-60 relative z-10 flex-1 text-xs leading-relaxed">
                           {tool.description}
                         </p>
 
                         {/* Tags */}
-                        <div className="flex flex-wrap gap-1.5 mt-4 relative z-10">
+                        <div className="relative z-10 mt-4 flex flex-wrap gap-1.5">
                           {tool.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="text-[9px] px-1.5 py-0.5 rounded-sm font-space-grotesk font-bold uppercase tracking-wide"
+                              className="font-space-grotesk rounded-sm px-1.5 py-0.5 text-[9px] font-bold tracking-wide uppercase"
                               style={{
                                 color: accent,
                                 background: accentA(0.07),
@@ -127,7 +127,7 @@ export default function ToolsPage() {
 
                       {/* Bottom sweep */}
                       <div
-                        className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-700"
+                        className="absolute bottom-0 left-0 h-px w-0 transition-all duration-700 group-hover:w-full"
                         style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
                       />
                     </div>

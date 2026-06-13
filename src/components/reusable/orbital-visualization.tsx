@@ -267,7 +267,7 @@ export function OrbitalVisualization() {
   const isLight = theme === 'light';
 
   return (
-    <div style={{ width: '100%', height: '100%' }} className="w-full h-full">
+    <div style={{ width: '100%', height: '100%' }} className="h-full w-full">
       <Canvas
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}

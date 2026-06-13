@@ -7,39 +7,39 @@ const ACCENT_ORDER = ['primary', 'secondary', 'tertiary'] as const;
 
 export function ResumeContent() {
   return (
-    <section className="px-6 py-24 md:px-12 lg:px-20 relative overflow-hidden">
+    <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
       {/* Background */}
-      <div className="absolute inset-0 cyber-grid-dense opacity-20 pointer-events-none" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary-50/3 rounded-full blur-3xl pointer-events-none" />
+      <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-20" />
+      <div className="bg-primary-50/3 pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full blur-3xl" />
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-5xl">
         {/* ── Header ───────────────────────────────────────────── */}
-        <div className="mb-16 animate-slide-right">
-          <div className="glass card-shine rounded-sm border border-primary-50/15 p-8 mb-8 relative overflow-hidden">
+        <div className="animate-slide-right mb-16">
+          <div className="glass card-shine border-primary-50/15 relative mb-8 overflow-hidden rounded-sm border p-8">
             <div
-              className="h-px mb-6"
+              className="mb-6 h-px"
               style={{
                 background:
                   'linear-gradient(to right, var(--color-primary-50), var(--color-secondary-50), transparent)',
               }}
             />
             <div
-              className="absolute top-0 right-0 w-64 h-64 opacity-[0.04] pointer-events-none"
+              className="pointer-events-none absolute top-0 right-0 h-64 w-64 opacity-[0.04]"
               style={{
                 background:
                   'radial-gradient(circle at top right, var(--color-primary-50), transparent 65%)',
               }}
             />
 
-            <div className="relative z-10 flex justify-between items-start flex-wrap gap-6">
+            <div className="relative z-10 flex flex-wrap items-start justify-between gap-6">
               <div>
-                <h1 className="font-space-grotesk text-4xl md:text-5xl font-bold mb-2 text-neutral-90">
+                <h1 className="font-space-grotesk text-neutral-90 mb-2 text-4xl font-bold md:text-5xl">
                   {CV_DATA.name}
                 </h1>
-                <p className="neon-green font-space-grotesk text-base uppercase tracking-widest mb-4">
+                <p className="neon-green font-space-grotesk mb-4 text-base tracking-widest uppercase">
                   {CV_DATA.title}
                 </p>
-                <div className="flex flex-wrap gap-5 text-neutral-60 text-xs font-space-grotesk">
+                <div className="text-neutral-60 font-space-grotesk flex flex-wrap gap-5 text-xs">
                   <span>✉ {CV_DATA.email}</span>
                   <span>☏ {CV_DATA.phone}</span>
                   <span>⊙ {CV_DATA.location}</span>
@@ -48,33 +48,33 @@ export function ResumeContent() {
               <a
                 href="/CV_SANIUZZAMAN_ROBIN.pdf"
                 download
-                className="btn-neon-green inline-flex items-center gap-2 px-6 py-3 rounded-sm font-space-grotesk font-bold text-sm uppercase tracking-widest shrink-0"
+                className="btn-neon-green font-space-grotesk inline-flex shrink-0 items-center gap-2 rounded-sm px-6 py-3 text-sm font-bold tracking-widest uppercase"
               >
-                <Download className="w-4 h-4" />
+                <Download className="h-4 w-4" />
                 <span>Download CV</span>
               </a>
             </div>
 
-            <p className="text-neutral-70 text-sm leading-relaxed mt-6 max-w-3xl relative z-10">
+            <p className="text-neutral-70 relative z-10 mt-6 max-w-3xl text-sm leading-relaxed">
               {CV_DATA.summary}
             </p>
           </div>
         </div>
 
         {/* ── Experience ───────────────────────────────────────── */}
-        <div className="mb-16 animate-slide-up [animation-delay:100ms]">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="h-px flex-1 bg-linear-to-r from-primary-50/40 to-transparent" />
-            <h2 className="font-space-grotesk text-2xl font-bold neon-green uppercase tracking-widest">
+        <div className="animate-slide-up mb-16 [animation-delay:100ms]">
+          <div className="mb-10 flex items-center gap-3">
+            <div className="from-primary-50/40 h-px flex-1 bg-linear-to-r to-transparent" />
+            <h2 className="font-space-grotesk neon-green text-2xl font-bold tracking-widest uppercase">
               Experience
             </h2>
-            <div className="h-px flex-1 bg-linear-to-l from-primary-50/40 to-transparent" />
+            <div className="from-primary-50/40 h-px flex-1 bg-linear-to-l to-transparent" />
           </div>
 
           {/* Timeline */}
           <div className="relative">
             <div
-              className="absolute left-4 top-0 bottom-0 w-px"
+              className="absolute top-0 bottom-0 left-4 w-px"
               style={{
                 background:
                   'linear-gradient(to bottom, var(--color-primary-50), var(--color-secondary-50), var(--color-tertiary-50), transparent)',
@@ -91,18 +91,18 @@ export function ResumeContent() {
                   <div key={index} className="relative pl-12">
                     {/* Node */}
                     <div
-                      className="absolute left-1.5 top-5 w-5 h-5 rounded-full border-2 z-10 flex items-center justify-center"
+                      className="absolute top-5 left-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-full border-2"
                       style={{
                         borderColor: accent,
                         backgroundColor: '#080d1a',
                         boxShadow: `0 0 8px ${accent}`,
                       }}
                     >
-                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: accent }} />
+                      <div className="h-2 w-2 rounded-full" style={{ backgroundColor: accent }} />
                     </div>
 
                     <div
-                      className="glass card-shine rounded-sm border-(--rb) hover:border-(--rb-h) transition-all duration-500 group overflow-hidden"
+                      className="glass card-shine group overflow-hidden rounded-sm border-(--rb) transition-all duration-500 hover:border-(--rb-h)"
                       style={{ '--rb': accentA(0.18), '--rb-h': accentA(0.42) } as CSSProperties}
                     >
                       <div
@@ -110,28 +110,28 @@ export function ResumeContent() {
                         style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
                       />
                       <div
-                        className="absolute top-0 right-0 w-40 h-40 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity pointer-events-none"
+                        className="pointer-events-none absolute top-0 right-0 h-40 w-40 opacity-[0.05] transition-opacity group-hover:opacity-[0.1]"
                         style={{
                           background: `radial-gradient(circle at top right, ${accent}, transparent 65%)`,
                         }}
                       />
 
                       <div className="relative z-10 p-6">
-                        <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+                        <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
                           <div>
-                            <h3 className="font-space-grotesk font-bold text-lg text-neutral-90 group-hover:text-neutral-100 transition-colors">
+                            <h3 className="font-space-grotesk text-neutral-90 text-lg font-bold transition-colors group-hover:text-neutral-100">
                               {exp.company}
                             </h3>
                             <p
-                              className="text-sm font-space-grotesk font-bold uppercase tracking-wider mt-0.5"
+                              className="font-space-grotesk mt-0.5 text-sm font-bold tracking-wider uppercase"
                               style={{ color: accent }}
                             >
                               {exp.title}
                             </p>
                           </div>
-                          <div className="flex flex-col items-end gap-1 shrink-0">
+                          <div className="flex shrink-0 flex-col items-end gap-1">
                             <span
-                              className="text-xs font-space-grotesk font-bold px-3 py-1 rounded-sm uppercase tracking-widest"
+                              className="font-space-grotesk rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase"
                               style={{
                                 color: accent,
                                 border: `1px solid ${accentA(0.28)}`,
@@ -146,11 +146,11 @@ export function ResumeContent() {
                           </div>
                         </div>
 
-                        <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-1.5 mb-4">
+                        <ul className="mb-4 grid gap-x-6 gap-y-1.5 sm:grid-cols-2">
                           {exp.achievements.map((ach, i) => (
                             <li
                               key={i}
-                              className="flex items-start gap-2 text-xs text-neutral-70 leading-relaxed"
+                              className="text-neutral-70 flex items-start gap-2 text-xs leading-relaxed"
                             >
                               <span className="mt-0.5 shrink-0" style={{ color: accent }}>
                                 ▸
@@ -164,7 +164,7 @@ export function ResumeContent() {
                           {exp.skills.map((skill) => (
                             <span
                               key={skill}
-                              className="text-[10px] px-2 py-0.5 font-space-grotesk font-bold uppercase tracking-wide rounded-sm"
+                              className="font-space-grotesk rounded-sm px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase"
                               style={{
                                 color: accent,
                                 border: `1px solid ${accentA(0.22)}`,
@@ -177,7 +177,7 @@ export function ResumeContent() {
                         </div>
                       </div>
                       <div
-                        className="h-px w-0 group-hover:w-full transition-all duration-700"
+                        className="h-px w-0 transition-all duration-700 group-hover:w-full"
                         style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
                       />
                     </div>
@@ -189,15 +189,15 @@ export function ResumeContent() {
         </div>
 
         {/* ── Technical Skills ─────────────────────────────────── */}
-        <div className="mb-16 animate-slide-up [animation-delay:200ms]">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="h-px flex-1 bg-linear-to-r from-secondary-50/40 to-transparent" />
-            <h2 className="font-space-grotesk text-2xl font-bold neon-cyan uppercase tracking-widest">
+        <div className="animate-slide-up mb-16 [animation-delay:200ms]">
+          <div className="mb-10 flex items-center gap-3">
+            <div className="from-secondary-50/40 h-px flex-1 bg-linear-to-r to-transparent" />
+            <h2 className="font-space-grotesk neon-cyan text-2xl font-bold tracking-widest uppercase">
               Technical Skills
             </h2>
-            <div className="h-px flex-1 bg-linear-to-l from-secondary-50/40 to-transparent" />
+            <div className="from-secondary-50/40 h-px flex-1 bg-linear-to-l to-transparent" />
           </div>
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid gap-4 md:grid-cols-3">
             {[
               {
                 title: 'Frontend',
@@ -220,15 +220,15 @@ export function ResumeContent() {
               return (
                 <div
                   key={title}
-                  className="glass rounded-sm border-(--skb) hover:border-(--skb-h) p-6 transition-all duration-300"
+                  className="glass rounded-sm border-(--skb) p-6 transition-all duration-300 hover:border-(--skb-h)"
                   style={{ '--skb': accentA(0.18), '--skb-h': accentA(0.42) } as CSSProperties}
                 >
                   <div
-                    className="h-px mb-4"
+                    className="mb-4 h-px"
                     style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
                   />
                   <p
-                    className="font-space-grotesk font-bold text-xs uppercase tracking-widest mb-3"
+                    className="font-space-grotesk mb-3 text-xs font-bold tracking-widest uppercase"
                     style={{ color: accent }}
                   >
                     {title}
@@ -241,25 +241,25 @@ export function ResumeContent() {
         </div>
 
         {/* ── Education & Achievements ─────────────────────────── */}
-        <div className="mb-16 animate-slide-up [animation-delay:300ms]">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="h-px flex-1 bg-linear-to-r from-tertiary-50/40 to-transparent" />
-            <h2 className="font-space-grotesk text-2xl font-bold neon-purple uppercase tracking-widest">
+        <div className="animate-slide-up mb-16 [animation-delay:300ms]">
+          <div className="mb-10 flex items-center gap-3">
+            <div className="from-tertiary-50/40 h-px flex-1 bg-linear-to-r to-transparent" />
+            <h2 className="font-space-grotesk neon-purple text-2xl font-bold tracking-widest uppercase">
               Education & CP
             </h2>
-            <div className="h-px flex-1 bg-linear-to-l from-tertiary-50/40 to-transparent" />
+            <div className="from-tertiary-50/40 h-px flex-1 bg-linear-to-l to-transparent" />
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             {CV_DATA.education.map((edu, i) => (
               <div
                 key={i}
-                className="glass rounded-sm border border-primary-50/15 hover:border-primary-50/38 p-6 transition-all duration-300"
+                className="glass border-primary-50/15 hover:border-primary-50/38 rounded-sm border p-6 transition-all duration-300"
               >
-                <div className="h-px mb-4 bg-linear-to-r from-primary-50/50 to-transparent" />
-                <h3 className="font-space-grotesk font-bold text-base text-neutral-90 mb-1">
+                <div className="from-primary-50/50 mb-4 h-px bg-linear-to-r to-transparent" />
+                <h3 className="font-space-grotesk text-neutral-90 mb-1 text-base font-bold">
                   {edu.degree}
                 </h3>
-                <p className="text-primary-50 text-xs font-space-grotesk font-bold uppercase tracking-wider mb-1">
+                <p className="text-primary-50 font-space-grotesk mb-1 text-xs font-bold tracking-wider uppercase">
                   {edu.institution}
                 </p>
                 <p className="text-neutral-60 text-xs">
@@ -267,23 +267,23 @@ export function ResumeContent() {
                 </p>
               </div>
             ))}
-            <div className="glass rounded-sm border border-secondary-50/15 hover:border-secondary-50/38 p-6 transition-all duration-300">
-              <div className="h-px mb-4 bg-linear-to-r from-secondary-50/50 to-transparent" />
-              <h3 className="font-space-grotesk font-bold text-base text-neutral-90 mb-3">
+            <div className="glass border-secondary-50/15 hover:border-secondary-50/38 rounded-sm border p-6 transition-all duration-300">
+              <div className="from-secondary-50/50 mb-4 h-px bg-linear-to-r to-transparent" />
+              <h3 className="font-space-grotesk text-neutral-90 mb-3 text-base font-bold">
                 Competitive Programming
               </h3>
               <ul className="space-y-1.5">
                 {CV_DATA.competitiveProgramming.achievements.map((a, i) => (
-                  <li key={i} className="flex items-start gap-2 text-xs text-neutral-70">
+                  <li key={i} className="text-neutral-70 flex items-start gap-2 text-xs">
                     <span className="text-secondary-50 mt-0.5 shrink-0">▸</span>
                     {a}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="glass rounded-sm border border-tertiary-50/15 hover:border-tertiary-50/38 p-6 transition-all duration-300">
-              <div className="h-px mb-4 bg-linear-to-r from-tertiary-50/50 to-transparent" />
-              <h3 className="font-space-grotesk font-bold text-base text-neutral-90 mb-2">
+            <div className="glass border-tertiary-50/15 hover:border-tertiary-50/38 rounded-sm border p-6 transition-all duration-300">
+              <div className="from-tertiary-50/50 mb-4 h-px bg-linear-to-r to-transparent" />
+              <h3 className="font-space-grotesk text-neutral-90 mb-2 text-base font-bold">
                 {CV_DATA.problemSetting.title}
               </h3>
               <p className="text-neutral-70 text-xs leading-relaxed">
@@ -294,35 +294,35 @@ export function ResumeContent() {
         </div>
 
         {/* ── CTA ──────────────────────────────────────────────── */}
-        <div className="glass rounded-sm border border-primary-50/20 hover:border-primary-50/40 p-10 text-center animate-scale-in [animation-delay:400ms] transition-all duration-300 relative overflow-hidden">
+        <div className="glass border-primary-50/20 hover:border-primary-50/40 animate-scale-in relative overflow-hidden rounded-sm border p-10 text-center transition-all duration-300 [animation-delay:400ms]">
           <div
-            className="h-px mb-8"
+            className="mb-8 h-px"
             style={{
               background:
                 'linear-gradient(to right, transparent, var(--color-primary-50), var(--color-secondary-50), transparent)',
             }}
           />
-          <h3 className="font-space-grotesk text-2xl font-bold mb-3 text-neutral-90">
+          <h3 className="font-space-grotesk text-neutral-90 mb-3 text-2xl font-bold">
             Ready to work together?
           </h3>
-          <p className="text-neutral-70 text-sm mb-8 max-w-md mx-auto">
+          <p className="text-neutral-70 mx-auto mb-8 max-w-md text-sm">
             Let's connect and discuss how I can contribute to your next project.
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="flex flex-wrap justify-center gap-4">
             <a
               href="mailto:saniuzzamanrobin07@gmail.com"
-              className="btn-neon-green inline-flex items-center gap-2 px-8 py-3 rounded-sm font-space-grotesk font-bold text-sm uppercase tracking-widest"
+              className="btn-neon-green font-space-grotesk inline-flex items-center gap-2 rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
             >
-              <Mail className="w-4 h-4" />
+              <Mail className="h-4 w-4" />
               Get In Touch
             </a>
             <a
               href="https://linkedin.com/in/saniuzzaman-robin"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-neon-cyan inline-flex items-center gap-2 px-8 py-3 rounded-sm font-space-grotesk font-bold text-sm uppercase tracking-widest"
+              className="btn-neon-cyan font-space-grotesk inline-flex items-center gap-2 rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
             >
-              <ExternalLink className="w-4 h-4" />
+              <ExternalLink className="h-4 w-4" />
               LinkedIn
             </a>
           </div>

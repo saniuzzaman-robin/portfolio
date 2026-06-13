@@ -2,7 +2,13 @@
 
 import { useState } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, ToolTextarea, CopyButton, ToolTabs } from '@/components/tools/tool-shell';
+import {
+  ToolShell,
+  ToolPanel,
+  ToolTextarea,
+  CopyButton,
+  ToolTabs,
+} from '@/components/tools/tool-shell';
 import { Link as LinkIcon, Zap } from 'lucide-react';
 
 export default function URLPage() {
@@ -33,7 +39,9 @@ export default function URLPage() {
           });
 
           setParams(parsedParams);
-          setOutput(`Protocol: ${url.protocol}\nHostname: ${url.hostname}\nPathname: ${url.pathname}\nSearch: ${url.search}`);
+          setOutput(
+            `Protocol: ${url.protocol}\nHostname: ${url.hostname}\nPathname: ${url.pathname}\nSearch: ${url.search}`
+          );
         } catch {
           setError('Invalid URL format');
         }
@@ -82,18 +90,22 @@ export default function URLPage() {
           <button
             onClick={process}
             disabled={!input.trim()}
-            className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest px-6 py-2.5 rounded-sm btn-neon-green disabled:opacity-40 disabled:cursor-not-allowed"
+            className="hover:bg-primary-20 font-space-grotesk border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40"
           >
-            <Zap className="w-4 h-4" />
+            <Zap className="h-4 w-4" />
             {mode === 'encode' ? 'Encode' : mode === 'decode' ? 'Decode' : 'Parse'}
           </button>
         </div>
 
-        {error && <div className="text-red-400 text-sm font-mono mb-4">{error}</div>}
+        {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
 
         {output && (
-          <ToolPanel label={mode === 'parse' ? 'URL Components' : 'Result'} accent="secondary" action={<CopyButton text={output} accent="secondary" />}>
-            <div className="px-4 py-3 font-mono text-sm text-neutral-70 break-all bg-neutral-10/40 rounded-sm border border-white/5">
+          <ToolPanel
+            label={mode === 'parse' ? 'URL Components' : 'Result'}
+            accent="secondary"
+            action={<CopyButton text={output} accent="secondary" />}
+          >
+            <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-sm break-all">
               {output}
             </div>
           </ToolPanel>
@@ -101,17 +113,26 @@ export default function URLPage() {
 
         {Object.keys(params).length > 0 && (
           <div className="mt-6">
-            <h3 className="text-sm font-space-grotesk font-bold text-neutral-90 mb-4">Query Parameters</h3>
+            <h3 className="font-space-grotesk text-neutral-90 mb-4 text-sm font-bold">
+              Query Parameters
+            </h3>
             <div className="space-y-3">
               {Object.entries(params).map(([key, value]) => (
-                <div key={key} className="grid grid-cols-2 gap-3 p-3 bg-neutral-10/40 rounded-sm border border-white/5">
+                <div
+                  key={key}
+                  className="bg-neutral-10/40 grid grid-cols-2 gap-3 rounded-sm border border-white/5 p-3"
+                >
                   <div>
-                    <span className="text-[10px] uppercase tracking-widest text-neutral-60 font-space-grotesk">Key</span>
-                    <div className="font-mono text-sm text-neutral-80 break-all">{key}</div>
+                    <span className="text-neutral-60 font-space-grotesk text-[10px] tracking-widest uppercase">
+                      Key
+                    </span>
+                    <div className="text-neutral-80 font-mono text-sm break-all">{key}</div>
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase tracking-widest text-neutral-60 font-space-grotesk">Value</span>
-                    <div className="font-mono text-sm text-neutral-80 break-all">{value}</div>
+                    <span className="text-neutral-60 font-space-grotesk text-[10px] tracking-widest uppercase">
+                      Value
+                    </span>
+                    <div className="text-neutral-80 font-mono text-sm break-all">{value}</div>
                   </div>
                 </div>
               ))}

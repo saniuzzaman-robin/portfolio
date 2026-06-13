@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/components/reusable/theme-provider';
 import { useNavScroll } from '@/hooks/use-nav-scroll';
-import { useClickOutside } from '@/hooks/use-click-outside';
+import { DEV_TOOLS } from '@/lib/data/tools';
 
 type SimpleLink = {
   kind: 'link';
@@ -42,14 +42,26 @@ type NavItem = SimpleLink | GroupLink;
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const scrolled = useNavScroll(20);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileGroupOpen, setMobileGroupOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const drawerLinksRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
 
-  useClickOutside(dropdownRef, () => setDropdownOpen(false));
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (openDropdown) {
+        const ref = dropdownRefs.current[openDropdown];
+        if (ref && !ref.contains(e.target as Node)) {
+          setOpenDropdown(null);
+        }
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [openDropdown]);
 
   // Prevent body scroll when drawer is open
   useEffect(() => {
@@ -92,7 +104,7 @@ export function Navigation() {
   // Close dropdown on route change
   useEffect(() => {
     const id = setTimeout(() => {
-      setDropdownOpen(false);
+      setOpenDropdown(null);
       setIsMenuOpen(false);
     }, 0);
     return () => clearTimeout(id);
@@ -111,7 +123,16 @@ export function Navigation() {
       ],
     },
     { kind: 'link', label: 'Projects', href: '/projects', icon: FolderGit2 },
-    { kind: 'link', label: 'Tools', href: '/tools', icon: Wrench },
+    {
+      kind: 'group',
+      label: 'Tools',
+      icon: Wrench,
+      children: DEV_TOOLS.map((tool) => ({
+        label: tool.title,
+        href: tool.href,
+        icon: tool.icon,
+      })),
+    },
     { kind: 'link', label: 'Resume', href: '/resume', icon: FileText },
     { kind: 'link', label: 'Games', href: '/games', icon: Gamepad2 },
   ];
@@ -130,27 +151,27 @@ export function Navigation() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 lg:px-20 transition-all duration-500 ${
+        className={`fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-500 md:px-12 lg:px-20 ${
           scrolled
-            ? 'bg-neutral-5/95 backdrop-blur-xl border-b border-white/8 shadow-xl shadow-black/40'
+            ? 'bg-neutral-5/95 border-b border-white/8 shadow-xl shadow-black/40 backdrop-blur-xl'
             : 'bg-neutral-5/60 backdrop-blur-md'
         }`}
       >
         {/* Logo */}
         <Link
           href="/"
-          className="font-space-grotesk font-bold text-lg uppercase tracking-widest group relative"
+          className="font-space-grotesk group relative text-lg font-bold tracking-widest uppercase"
         >
           <span className="neon-green group-hover:animate-glitch transition-all duration-300">
             ARCH
           </span>
           <span className="neon-cyan">ITECT</span>
           <span className="neon-purple">VI</span>
-          <span className="absolute -bottom-1 left-0 w-0 h-px bg-linear-to-r from-primary-50 via-secondary-50 to-tertiary-50 group-hover:w-full transition-all duration-500" />
+          <span className="from-primary-50 via-secondary-50 to-tertiary-50 absolute -bottom-1 left-0 h-px w-0 bg-linear-to-r transition-all duration-500 group-hover:w-full" />
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => {
             if (item.kind === 'link') {
               const active = isActive(item.href);
@@ -159,16 +180,16 @@ export function Navigation() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative px-4 py-2 text-xs font-space-grotesk uppercase tracking-widest transition-all duration-300 rounded-sm group flex items-center gap-1.5 ${
+                  className={`font-space-grotesk group relative flex items-center gap-1.5 rounded-sm px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 ${
                     active ? 'text-primary-50' : 'text-neutral-70 hover:text-neutral-100'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="h-3.5 w-3.5" />
                   {item.label}
                   {active && (
-                    <span className="absolute bottom-0 left-2 right-2 h-px bg-linear-to-r from-primary-50 to-secondary-50" />
+                    <span className="from-primary-50 to-secondary-50 absolute right-2 bottom-0 left-2 h-px bg-linear-to-r" />
                   )}
-                  <span className="absolute inset-0 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/3" />
+                  <span className="absolute inset-0 rounded-sm bg-white/3 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 </Link>
               );
             }
@@ -176,43 +197,46 @@ export function Navigation() {
             // Dropdown group
             const groupActive = isGroupActive(item.children);
             const Icon = item.icon;
+            const isOpen = openDropdown === item.label;
             return (
               <div
                 key={item.label}
                 className="relative"
-                ref={dropdownRef}
-                onMouseEnter={() => setDropdownOpen(true)}
-                onMouseLeave={() => setDropdownOpen(false)}
+                ref={(el) => {
+                  if (el) dropdownRefs.current[item.label] = el;
+                }}
+                onMouseEnter={() => setOpenDropdown(item.label)}
+                onMouseLeave={() => setOpenDropdown(null)}
               >
                 <button
-                  className={`relative px-4 py-2 text-xs font-space-grotesk uppercase tracking-widest transition-all duration-300 rounded-sm flex items-center gap-1.5 cursor-pointer ${
-                    groupActive || dropdownOpen
+                  className={`font-space-grotesk relative flex cursor-pointer items-center gap-1.5 rounded-sm px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 ${
+                    groupActive || isOpen
                       ? 'text-primary-50'
                       : 'text-neutral-70 hover:text-neutral-100'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="h-3.5 w-3.5" />
                   {item.label}
                   <ChevronDown
-                    className={`w-3 h-3 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}
+                    className={`h-3 w-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                   />
-                  {groupActive && !dropdownOpen && (
-                    <span className="absolute bottom-0 left-2 right-2 h-px bg-linear-to-r from-primary-50 to-secondary-50" />
+                  {groupActive && !isOpen && (
+                    <span className="from-primary-50 to-secondary-50 absolute right-2 bottom-0 left-2 h-px bg-linear-to-r" />
                   )}
-                  <span className="absolute inset-0 rounded-sm opacity-0 hover:opacity-100 transition-opacity duration-300 bg-white/3" />
+                  <span className="absolute inset-0 rounded-sm bg-white/3 opacity-0 transition-opacity duration-300 hover:opacity-100" />
                 </button>
 
                 {/* Dropdown panel */}
-                {dropdownOpen && (
+                {isOpen && (
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1">
                     <div
-                      className="min-w-40 rounded-sm border border-white/10 overflow-hidden animate-dropdown-open"
+                      className="animate-dropdown-open min-w-40 overflow-hidden rounded-sm border border-white/10"
                       style={{
                         background: 'var(--nav-dropdown-bg)',
                         boxShadow: 'var(--nav-dropdown-shadow)',
                       }}
                     >
-                      <div className="h-px w-full bg-linear-to-r from-transparent via-primary-50/50 to-transparent" />
+                      <div className="via-primary-50/50 h-px w-full bg-linear-to-r from-transparent to-transparent" />
                       {item.children.map((child, idx) => {
                         const active = isActive(child.href);
                         const ChildIcon = child.icon;
@@ -220,17 +244,17 @@ export function Navigation() {
                           <Link
                             key={child.href}
                             href={child.href}
-                            className={`flex items-center gap-3 px-4 py-3 text-xs font-space-grotesk uppercase tracking-widest transition-all duration-200 group relative animate-dropdown-item ${
+                            className={`font-space-grotesk group animate-dropdown-item relative flex items-center gap-3 px-4 py-3 text-xs tracking-widest uppercase transition-all duration-200 ${
                               active
                                 ? 'text-primary-50 bg-primary-50/8'
-                                : 'text-neutral-70 hover:text-neutral-100 hover:bg-white/5'
+                                : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
                             }`}
                             style={{ animationDelay: `${idx * 50}ms` }}
                           >
                             <span
-                              className={`absolute left-0 top-0 bottom-0 w-0.5 transition-opacity duration-200 ${active ? 'bg-primary-50 opacity-100' : 'bg-white/20 opacity-0 group-hover:opacity-100'}`}
+                              className={`absolute top-0 bottom-0 left-0 w-0.5 transition-opacity duration-200 ${active ? 'bg-primary-50 opacity-100' : 'bg-white/20 opacity-0 group-hover:opacity-100'}`}
                             />
-                            <ChildIcon className="w-3.5 h-3.5 shrink-0" />
+                            <ChildIcon className="h-3.5 w-3.5 shrink-0" />
                             {child.label}
                           </Link>
                         );
@@ -246,34 +270,34 @@ export function Navigation() {
         {/* Theme Toggle (desktop) */}
         <button
           onClick={toggleTheme}
-          className="hidden cursor-pointer md:flex items-center justify-center w-8 h-8 ml-2 rounded-sm border border-white/10 text-neutral-60 hover:text-primary-50 hover:border-primary-50/40 hover:bg-primary-50/5 transition-all duration-200"
+          className="text-neutral-60 hover:text-primary-50 hover:border-primary-50/40 hover:bg-primary-50/5 ml-2 hidden h-8 w-8 cursor-pointer items-center justify-center rounded-sm border border-white/10 transition-all duration-200 md:flex"
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+          {theme === 'dark' ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
         </button>
 
         {/* Mobile controls */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="flex items-center gap-2 md:hidden">
           <button
             onClick={toggleTheme}
-            className="flex items-center justify-center w-8 h-8 cursor-pointer rounded-sm border border-white/10 text-neutral-60 hover:text-primary-50 hover:border-primary-50/40 hover:bg-primary-50/5 transition-all duration-200"
+            className="text-neutral-60 hover:text-primary-50 hover:border-primary-50/40 hover:bg-primary-50/5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-sm border border-white/10 transition-all duration-200"
             aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+            {theme === 'dark' ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
           </button>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex flex-col gap-1.5 cursor-pointer p-1"
+            className="flex cursor-pointer flex-col gap-1.5 p-1"
             aria-label="Toggle menu"
           >
             <span
-              className={`w-6 h-px bg-primary-50 transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
+              className={`bg-primary-50 h-px w-6 transition-all duration-300 ${isMenuOpen ? 'translate-y-1.5 rotate-45' : ''}`}
             />
             <span
-              className={`w-4 h-px bg-secondary-50 transition-all duration-300 ${isMenuOpen ? 'opacity-0 w-6' : ''}`}
+              className={`bg-secondary-50 h-px w-4 transition-all duration-300 ${isMenuOpen ? 'w-6 opacity-0' : ''}`}
             />
             <span
-              className={`w-6 h-px bg-tertiary-50 transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
+              className={`bg-tertiary-50 h-px w-6 transition-all duration-300 ${isMenuOpen ? '-translate-y-1.5 -rotate-45' : ''}`}
             />
           </button>
         </div>
@@ -285,20 +309,20 @@ export function Navigation() {
       {/* Mobile Overlay */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/70 backdrop-blur-md md:hidden z-40 animate-fade-in"
+          className="animate-fade-in fixed inset-0 z-40 bg-black/70 backdrop-blur-md md:hidden"
           onClick={() => setIsMenuOpen(false)}
         />
       )}
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-dvh w-80 md:hidden z-50 transition-transform duration-300 ease-in-out flex flex-col ${
+        className={`fixed top-0 right-0 z-50 flex h-dvh w-80 flex-col transition-transform duration-300 ease-in-out md:hidden ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         style={{ background: 'var(--nav-drawer-bg)' }}
       >
         {/* Top accent line */}
-        <div className="h-px w-full bg-linear-to-r from-transparent via-primary-50 to-transparent" />
+        <div className="via-primary-50 h-px w-full bg-linear-to-r from-transparent to-transparent" />
 
         {/* Drawer header */}
         <div className="flex items-center justify-between px-6 py-5">
@@ -306,32 +330,32 @@ export function Navigation() {
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
-              className="font-space-grotesk font-bold text-base uppercase tracking-widest"
+              className="font-space-grotesk text-base font-bold tracking-widest uppercase"
             >
               <span className="neon-green">ARCH</span>
               <span className="neon-cyan">ITECT</span>
               <span className="neon-purple">VI</span>
             </Link>
-            <p className="text-neutral-50 text-xs font-space-grotesk tracking-wider">
+            <p className="font-space-grotesk text-xs tracking-wider text-neutral-50">
               Software Engineer
             </p>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsMenuOpen(false)}
-              className="w-8 h-8 flex items-center justify-center rounded-sm border border-white/10 text-neutral-60 hover:text-neutral-100 hover:border-primary-50/50 hover:bg-primary-50/5 transition-all duration-200"
+              className="text-neutral-60 hover:border-primary-50/50 hover:bg-primary-50/5 flex h-8 w-8 items-center justify-center rounded-sm border border-white/10 transition-all duration-200 hover:text-neutral-100"
               aria-label="Close menu"
             >
-              <X className="w-4 h-4" />
+              <X className="h-4 w-4" />
             </button>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="mx-6 h-px bg-linear-to-r from-primary-50/30 via-white/10 to-transparent mb-4" />
+        <div className="from-primary-50/30 mx-6 mb-4 h-px bg-linear-to-r via-white/10 to-transparent" />
 
         {/* Nav links */}
-        <div ref={drawerLinksRef} className="flex flex-col gap-1 px-4 flex-1 overflow-y-auto">
+        <div ref={drawerLinksRef} className="flex flex-1 flex-col gap-1 overflow-y-auto px-4">
           {/* Home */}
           {(() => {
             const homeLink = navItems[0] as SimpleLink;
@@ -341,19 +365,19 @@ export function Navigation() {
               <Link
                 href={homeLink.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`relative flex items-center gap-4 px-4 py-3.5 rounded-sm font-space-grotesk text-xs uppercase tracking-widest transition-all duration-200 group overflow-hidden ${
+                className={`font-space-grotesk group relative flex items-center gap-4 overflow-hidden rounded-sm px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
                   active
                     ? 'text-primary-50 bg-primary-50/8'
-                    : 'text-neutral-70 hover:text-neutral-100 hover:bg-white/5'
+                    : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
                 }`}
               >
                 <span
-                  className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-r transition-all duration-200 ${active ? 'bg-primary-50' : 'bg-primary-50/0 group-hover:bg-white/20'}`}
+                  className={`absolute top-0 bottom-0 left-0 w-0.5 rounded-r transition-all duration-200 ${active ? 'bg-primary-50' : 'bg-primary-50/0 group-hover:bg-white/20'}`}
                 />
                 <span
-                  className={`flex items-center justify-center w-7 h-7 rounded-sm transition-all duration-200 shrink-0 ${active ? 'bg-primary-50/15 text-primary-50' : 'bg-white/5 text-neutral-60 group-hover:bg-white/8 group-hover:text-neutral-90'}`}
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${active ? 'bg-primary-50/15 text-primary-50' : 'text-neutral-60 group-hover:text-neutral-90 bg-white/5 group-hover:bg-white/8'}`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="h-3.5 w-3.5" />
                 </span>
                 <span className="flex-1">{homeLink.label}</span>
               </Link>
@@ -361,23 +385,23 @@ export function Navigation() {
           })()}
 
           {/* Collapsible group */}
-          <div className="rounded-sm overflow-hidden border border-white/5">
+          <div className="overflow-hidden rounded-sm border border-white/5">
             <button
               onClick={() => setMobileGroupOpen((o) => !o)}
-              className={`w-full relative flex items-center gap-4 px-4 py-3.5 font-space-grotesk text-xs uppercase tracking-widest transition-all duration-200 group ${
+              className={`font-space-grotesk group relative flex w-full items-center gap-4 px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
                 isGroupActive(groupItem.children)
                   ? 'text-primary-50 bg-primary-50/8'
-                  : 'text-neutral-70 hover:text-neutral-100 hover:bg-white/5'
+                  : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
               }`}
             >
               <span
-                className={`flex items-center justify-center w-7 h-7 rounded-sm transition-all duration-200 shrink-0 ${isGroupActive(groupItem.children) ? 'bg-primary-50/15 text-primary-50' : 'bg-white/5 text-neutral-60 group-hover:bg-white/8 group-hover:text-neutral-90'}`}
+                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${isGroupActive(groupItem.children) ? 'bg-primary-50/15 text-primary-50' : 'text-neutral-60 group-hover:text-neutral-90 bg-white/5 group-hover:bg-white/8'}`}
               >
-                <LayoutGrid className="w-3.5 h-3.5" />
+                <LayoutGrid className="h-3.5 w-3.5" />
               </span>
               <span className="flex-1 text-left">{groupItem.label}</span>
               <ChevronDown
-                className={`w-3.5 h-3.5 transition-transform duration-200 ${mobileGroupOpen ? 'rotate-180' : ''}`}
+                className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileGroupOpen ? 'rotate-180' : ''}`}
               />
             </button>
 
@@ -394,19 +418,19 @@ export function Navigation() {
                       key={child.href}
                       href={child.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`relative flex items-center gap-4 pl-10 pr-4 py-3 font-space-grotesk text-xs uppercase tracking-widest transition-all duration-200 group ${
+                      className={`font-space-grotesk group relative flex items-center gap-4 py-3 pr-4 pl-10 text-xs tracking-widest uppercase transition-all duration-200 ${
                         active
                           ? 'text-primary-50 bg-primary-50/8'
-                          : 'text-neutral-60 hover:text-neutral-100 hover:bg-white/5'
+                          : 'text-neutral-60 hover:bg-white/5 hover:text-neutral-100'
                       }`}
                     >
                       <span
-                        className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-r transition-all duration-200 ${active ? 'bg-primary-50' : 'opacity-0 group-hover:opacity-100 group-hover:bg-white/20'}`}
+                        className={`absolute top-0 bottom-0 left-0 w-0.5 rounded-r transition-all duration-200 ${active ? 'bg-primary-50' : 'opacity-0 group-hover:bg-white/20 group-hover:opacity-100'}`}
                       />
                       <span
-                        className={`flex items-center justify-center w-6 h-6 rounded-sm transition-all duration-200 shrink-0 ${active ? 'bg-primary-50/15 text-primary-50' : 'bg-white/5 text-neutral-50 group-hover:bg-white/8 group-hover:text-neutral-90'}`}
+                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${active ? 'bg-primary-50/15 text-primary-50' : 'group-hover:text-neutral-90 bg-white/5 text-neutral-50 group-hover:bg-white/8'}`}
                       >
-                        <ChildIcon className="w-3 h-3" />
+                        <ChildIcon className="h-3 w-3" />
                       </span>
                       <span className="flex-1">{child.label}</span>
                     </Link>
@@ -425,20 +449,20 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`relative flex items-center gap-4 px-4 py-3.5 rounded-sm font-space-grotesk text-xs uppercase tracking-widest transition-all duration-200 group overflow-hidden ${
+                className={`font-space-grotesk group relative flex items-center gap-4 overflow-hidden rounded-sm px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
                   active
                     ? 'text-primary-50 bg-primary-50/8'
-                    : 'text-neutral-70 hover:text-neutral-100 hover:bg-white/5'
+                    : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
                 }`}
                 style={{ animationDelay: `${(i + 2) * 40}ms` }}
               >
                 <span
-                  className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-r transition-all duration-200 ${active ? 'bg-primary-50' : 'bg-primary-50/0 group-hover:bg-white/20'}`}
+                  className={`absolute top-0 bottom-0 left-0 w-0.5 rounded-r transition-all duration-200 ${active ? 'bg-primary-50' : 'bg-primary-50/0 group-hover:bg-white/20'}`}
                 />
                 <span
-                  className={`flex items-center justify-center w-7 h-7 rounded-sm transition-all duration-200 shrink-0 ${active ? 'bg-primary-50/15 text-primary-50' : 'bg-white/5 text-neutral-60 group-hover:bg-white/8 group-hover:text-neutral-90'}`}
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${active ? 'bg-primary-50/15 text-primary-50' : 'text-neutral-60 group-hover:text-neutral-90 bg-white/5 group-hover:bg-white/8'}`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="h-3.5 w-3.5" />
                 </span>
                 <span className="flex-1">{link.label}</span>
               </Link>
@@ -447,21 +471,21 @@ export function Navigation() {
         </div>
 
         {/* Bottom section */}
-        <div className="px-6 pb-8 pt-4">
-          <div className="h-px bg-linear-to-r from-primary-50/30 via-white/10 to-transparent mb-5" />
-          <p className="text-neutral-40 text-xs font-space-grotesk tracking-widest uppercase mb-1">
+        <div className="px-6 pt-4 pb-8">
+          <div className="from-primary-50/30 mb-5 h-px bg-linear-to-r via-white/10 to-transparent" />
+          <p className="text-neutral-40 font-space-grotesk mb-1 text-xs tracking-widest uppercase">
             Available for work
           </p>
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary-50 animate-pulse" />
-            <span className="text-primary-50 text-xs font-space-grotesk">
+            <span className="bg-primary-50 h-1.5 w-1.5 animate-pulse rounded-full" />
+            <span className="text-primary-50 font-space-grotesk text-xs">
               Open to opportunities
             </span>
           </div>
         </div>
 
         {/* Bottom accent line */}
-        <div className="h-px w-full bg-linear-to-r from-transparent via-secondary-50/40 to-transparent" />
+        <div className="via-secondary-50/40 h-px w-full bg-linear-to-r from-transparent to-transparent" />
       </div>
     </>
   );

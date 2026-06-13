@@ -16,29 +16,29 @@ const ParticleCanvas = dynamic(
 
 export function Hero() {
   return (
-    <section className="relative min-h-dvh flex items-center overflow-hidden cyber-grid">
+    <section className="cyber-grid relative flex min-h-dvh items-center overflow-hidden">
       {/* Particle Background */}
       <div className="absolute inset-0 z-0">
         <ParticleCanvas className="opacity-70" />
       </div>
 
       {/* Radial gradient overlays */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-50/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary-50/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-tertiary-50/5 rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="bg-primary-50/5 absolute top-1/4 left-1/4 h-96 w-96 rounded-full blur-3xl" />
+        <div className="bg-secondary-50/5 absolute right-1/4 bottom-1/4 h-96 w-96 rounded-full blur-3xl" />
+        <div className="bg-tertiary-50/5 absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl" />
       </div>
 
       <div className="relative z-10 w-full px-6 py-32 md:px-12 lg:px-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
+        <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-2">
           {/* Left — Text Content */}
           <div>
             {/* Terminal-style label */}
-            <div className="flex items-center gap-3 mb-8 animate-slide-down">
+            <div className="animate-slide-down mb-8 flex items-center gap-3">
               <div className="flex gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-red-500" />
-                <span className="w-3 h-3 rounded-full bg-yellow-400" />
-                <span className="w-3 h-3 rounded-full bg-primary-50" />
+                <span className="h-3 w-3 rounded-full bg-red-500" />
+                <span className="h-3 w-3 rounded-full bg-yellow-400" />
+                <span className="bg-primary-50 h-3 w-3 rounded-full" />
               </div>
               <span className="terminal-text text-xs">
                 ~/saniuzzaman &gt;&gt; init portfolio.exe
@@ -46,20 +46,20 @@ export function Hero() {
             </div>
 
             {/* Name with glitch effect */}
-            <div className="mb-6 animate-slide-up [animation-delay:100ms]">
+            <div className="animate-slide-up mb-6 [animation-delay:100ms]">
               <h1
-                className="glitch font-space-grotesk font-bold text-5xl md:text-7xl lg:text-8xl leading-none tracking-tight text-neutral-90"
+                className="glitch font-space-grotesk text-neutral-90 text-5xl leading-none font-bold tracking-tight md:text-7xl lg:text-8xl"
                 data-text="SANIUZZAMAN"
               >
                 SANIUZZAMAN
               </h1>
-              <h2 className="font-space-grotesk font-bold text-4xl md:text-5xl lg:text-6xl mt-2 neon-green animate-slide-up [animation-delay:200ms]">
+              <h2 className="font-space-grotesk neon-green animate-slide-up mt-2 text-4xl font-bold [animation-delay:200ms] md:text-5xl lg:text-6xl">
                 ROBIN
               </h2>
             </div>
 
             {/* Typewriter role */}
-            <div className="mb-8 animate-fade-in [animation-delay:400ms] h-10 flex items-center">
+            <div className="animate-fade-in mb-8 flex h-10 items-center [animation-delay:400ms]">
               <TypewriterText
                 texts={[
                   'Full-Stack Software Engineer',
@@ -68,7 +68,7 @@ export function Hero() {
                   'Competitive Programmer',
                   'System Design Enthusiast',
                 ]}
-                className="font-space-grotesk text-lg md:text-2xl neon-cyan font-semibold"
+                className="font-space-grotesk neon-cyan text-lg font-semibold md:text-2xl"
                 cursorClassName="neon-cyan"
                 speed={70}
                 deleteSpeed={35}
@@ -77,7 +77,7 @@ export function Hero() {
             </div>
 
             {/* Stats bar */}
-            <div className="flex gap-3 mb-10 animate-fade-in [animation-delay:600ms] flex-wrap">
+            <div className="animate-fade-in mb-10 flex flex-wrap gap-3 [animation-delay:600ms]">
               {[
                 { n: '5+', l: 'Years Exp.', color: 'var(--color-primary-50)' },
                 { n: '1700+', l: 'Problems Solved', color: 'var(--color-secondary-50)' },
@@ -85,7 +85,7 @@ export function Hero() {
               ].map((s, i) => (
                 <div
                   key={s.l}
-                  className="game-stat text-center animate-slide-up"
+                  className="game-stat animate-slide-up text-center"
                   style={{ animationDelay: `${600 + i * 100}ms`, animationFillMode: 'both' }}
                 >
                   <span className="game-stat-value" style={{ color: s.color }}>
@@ -97,22 +97,22 @@ export function Hero() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex gap-4 flex-wrap animate-slide-up [animation-delay:700ms]">
+            <div className="animate-slide-up flex flex-wrap gap-4 [animation-delay:700ms]">
               <Link
                 href="/projects"
-                className="btn-neon-green px-8 py-3 rounded-sm font-space-grotesk font-bold text-sm uppercase tracking-widest"
+                className="btn-neon-green font-space-grotesk rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
               >
                 &gt; View Portfolio
               </Link>
               <Link
                 href="/games"
-                className="btn-neon-cyan px-8 py-3 rounded-sm font-space-grotesk font-bold text-sm uppercase tracking-widest"
+                className="btn-neon-cyan font-space-grotesk rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
               >
                 &gt; Play Games
               </Link>
               <Link
                 href="/resume"
-                className="glass border border-neutral-30 px-8 py-3 rounded-sm font-space-grotesk text-sm uppercase tracking-widest text-neutral-70 hover:text-neutral-90 hover:border-neutral-50 transition-colors duration-300"
+                className="glass border-neutral-30 font-space-grotesk text-neutral-70 hover:text-neutral-90 rounded-sm border px-8 py-3 text-sm tracking-widest uppercase transition-colors duration-300 hover:border-neutral-50"
               >
                 &gt; Resume
               </Link>
@@ -120,22 +120,22 @@ export function Hero() {
           </div>
 
           {/* Right — 3D Orbital Visualization */}
-          <div className="hidden lg:block relative h-125 xl:h-160 bg-transparent">
+          <div className="relative hidden h-125 bg-transparent lg:block xl:h-160">
             <OrbitalVisualization />
           </div>
         </div>
 
         {/* Scroll indicator — positioned above the ticker strip */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce opacity-60">
-          <span className="text-xs text-neutral-60 uppercase tracking-widest font-space-grotesk">
+        <div className="absolute bottom-12 left-1/2 flex -translate-x-1/2 animate-bounce flex-col items-center gap-2 opacity-60">
+          <span className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase">
             Scroll
           </span>
-          <div className="w-px h-8 bg-linear-to-b from-primary-50 to-transparent" />
+          <div className="from-primary-50 h-8 w-px bg-linear-to-b to-transparent" />
         </div>
       </div>
 
       {/* Scrolling tech ticker — sits at the absolute bottom of the hero, below the scroll indicator */}
-      <div className="absolute bottom-0 left-0 right-0 ticker-wrap py-2.5 border-t border-white/5 opacity-40 z-10">
+      <div className="ticker-wrap absolute right-0 bottom-0 left-0 z-10 border-t border-white/5 py-2.5 opacity-40">
         <div className="ticker-track">
           {[
             'Next.js',
@@ -179,9 +179,9 @@ export function Hero() {
           ].map((tech, i) => (
             <span
               key={i}
-              className="mx-6 text-[10px] font-space-grotesk uppercase tracking-widest text-neutral-60 flex items-center gap-3 shrink-0"
+              className="font-space-grotesk text-neutral-60 mx-6 flex shrink-0 items-center gap-3 text-[10px] tracking-widest uppercase"
             >
-              <span className="w-1 h-1 rounded-full bg-primary-50/60 inline-block" />
+              <span className="bg-primary-50/60 inline-block h-1 w-1 rounded-full" />
               {tech}
             </span>
           ))}

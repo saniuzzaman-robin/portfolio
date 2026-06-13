@@ -30,7 +30,7 @@ export function ProjectCard({
 
   return (
     <div
-      className="relative glass card-shine rounded-sm border-(--ca) hover:border-(--ca-h) hover:shadow-(--cs) animate-scale-in group transition-all duration-500 hover:scale-[1.02] overflow-hidden flex flex-col"
+      className="glass card-shine animate-scale-in group relative flex flex-col overflow-hidden rounded-sm border-(--ca) transition-all duration-500 hover:scale-[1.02] hover:border-(--ca-h) hover:shadow-(--cs)"
       style={
         {
           '--ca': ava(color, 0.18),
@@ -42,7 +42,7 @@ export function ProjectCard({
       }
     >
       {/* Holographic hover overlay */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
+      <div className="holographic pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
       {/* Top accent gradient bar */}
       <div
@@ -52,44 +52,44 @@ export function ProjectCard({
 
       {/* Corner gradient wash */}
       <div
-        className="absolute top-0 left-0 w-24 h-24 opacity-[0.08] group-hover:opacity-[0.16] transition-opacity duration-500 pointer-events-none"
+        className="pointer-events-none absolute top-0 left-0 h-24 w-24 opacity-[0.08] transition-opacity duration-500 group-hover:opacity-[0.16]"
         style={{ background: `linear-gradient(135deg, ${accent} 0%, transparent 70%)` }}
       />
 
-      <div className="relative z-10 p-6 flex flex-col h-full">
+      <div className="relative z-10 flex h-full flex-col p-6">
         {/* Icon + Category row */}
-        <div className="flex items-start justify-between mb-5">
+        <div className="mb-5 flex items-start justify-between">
           <div
-            className="p-2.5 rounded-sm border transition-all duration-300 group-hover:scale-110"
+            className="rounded-sm border p-2.5 transition-all duration-300 group-hover:scale-110"
             style={{
               borderColor: ava(color, 0.28),
               background: ava(color, 0.07),
               color: accent,
             }}
           >
-            <Icon className="w-5 h-5" strokeWidth={1.5} />
+            <Icon className="h-5 w-5" strokeWidth={1.5} />
           </div>
           <span
-            className={`text-[10px] uppercase tracking-widest font-space-grotesk font-bold px-2.5 py-1 rounded-full ${c.tag}`}
+            className={`font-space-grotesk rounded-full px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase ${c.tag}`}
           >
             {category}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="font-space-grotesk text-base font-bold mb-3 text-neutral-90 group-hover:text-neutral-100 transition-colors leading-snug">
+        <h3 className="font-space-grotesk text-neutral-90 mb-3 text-base leading-snug font-bold transition-colors group-hover:text-neutral-100">
           {title}
         </h3>
 
         {/* Description */}
-        <p className="text-neutral-60 text-sm mb-5 leading-relaxed flex-1">{description}</p>
+        <p className="text-neutral-60 mb-5 flex-1 text-sm leading-relaxed">{description}</p>
 
         {/* Tech tags */}
-        <div className="flex flex-wrap gap-1.5 mb-5">
+        <div className="mb-5 flex flex-wrap gap-1.5">
           {technologies.map((tech) => (
             <span
               key={tech}
-              className="text-[10px] px-2.5 py-0.5 rounded-full font-space-grotesk font-bold uppercase tracking-wide"
+              className="font-space-grotesk rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wide uppercase"
               style={{
                 color: accent,
                 border: `1px solid ${ava(color, 0.22)}`,
@@ -106,17 +106,17 @@ export function ProjectCard({
           href={link}
           target={isExternal ? '_blank' : undefined}
           rel={isExternal ? 'noopener noreferrer' : undefined}
-          className="flex items-center gap-2 text-xs font-space-grotesk uppercase tracking-widest group-hover:translate-x-1 transition-transform duration-300 w-fit"
+          className="font-space-grotesk flex w-fit items-center gap-2 text-xs tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1"
           style={{ color: accent }}
         >
           <span>View Project</span>
-          <ExternalLink className="w-3 h-3" />
+          <ExternalLink className="h-3 w-3" />
         </Link>
       </div>
 
       {/* Bottom accent sweep line */}
       <div
-        className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-700"
+        className="absolute bottom-0 left-0 h-px w-0 transition-all duration-700 group-hover:w-full"
         style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
       />
     </div>

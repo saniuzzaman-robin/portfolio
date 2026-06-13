@@ -9,35 +9,35 @@ export function AboutHero() {
   const highlights = CV_DATA.highlights;
 
   return (
-    <section className="px-6 py-24 md:px-12 lg:px-20 relative overflow-hidden">
+    <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
       {/* Background */}
-      <div className="absolute inset-0 cyber-grid-dense opacity-25 pointer-events-none" />
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary-50/4 rounded-full blur-3xl animate-float-slow" />
-        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-secondary-50/3 rounded-full blur-3xl animate-float" />
+      <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-25" />
+      <div className="pointer-events-none absolute inset-0">
+        <div className="bg-primary-50/4 animate-float-slow absolute top-0 right-0 h-96 w-96 rounded-full blur-3xl" />
+        <div className="bg-secondary-50/3 animate-float absolute bottom-0 left-1/3 h-80 w-80 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-5xl">
         {/* Header */}
-        <div className="mb-16 animate-slide-right">
+        <div className="animate-slide-right mb-16">
           <p className="section-label mb-3">Who I Am</p>
-          <h1 className="font-space-grotesk text-5xl md:text-7xl font-bold mb-4">
+          <h1 className="font-space-grotesk mb-4 text-5xl font-bold md:text-7xl">
             About <span className="neon-green">Me</span>
           </h1>
-          <div className="h-px w-40 bg-linear-to-r from-primary-50 via-secondary-50 to-transparent" />
+          <div className="from-primary-50 via-secondary-50 h-px w-40 bg-linear-to-r to-transparent" />
         </div>
 
         {/* Content — 2-col grid on desktop: sections left, highlights right */}
-        <div className="grid md:grid-cols-5 gap-6 mb-0">
+        <div className="mb-0 grid gap-6 md:grid-cols-5">
           {/* About sections — 3 col span */}
-          <div className="md:col-span-3 space-y-4">
+          <div className="space-y-4 md:col-span-3">
             {sections.map((s, i) => {
               const accent = av(s.accent as AccentToken);
               const accentA = (a: number) => ava(s.accent as AccentToken, a);
               return (
                 <div
                   key={i}
-                  className="glass card-shine rounded-sm border-(--sb) hover:border-(--sb-h) transition-all duration-500 animate-slide-up group overflow-hidden"
+                  className="glass card-shine animate-slide-up group overflow-hidden rounded-sm border-(--sb) transition-all duration-500 hover:border-(--sb-h)"
                   style={
                     {
                       '--sb': accentA(0.15),
@@ -48,26 +48,33 @@ export function AboutHero() {
                   }
                 >
                   {/* Top accent */}
-                  <div className="h-px" style={{ background: `linear-gradient(to right, ${accent}, transparent)` }} />
+                  <div
+                    className="h-px"
+                    style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
+                  />
 
-                  <div className="p-6 relative">
+                  <div className="relative p-6">
                     {/* Corner wash */}
                     <div
-                      className="absolute top-0 right-0 w-32 h-32 opacity-[0.05] group-hover:opacity-[0.12] transition-opacity duration-500 pointer-events-none"
-                      style={{ background: `radial-gradient(circle at top right, ${accent}, transparent 65%)` }}
+                      className="pointer-events-none absolute top-0 right-0 h-32 w-32 opacity-[0.05] transition-opacity duration-500 group-hover:opacity-[0.12]"
+                      style={{
+                        background: `radial-gradient(circle at top right, ${accent}, transparent 65%)`,
+                      }}
                     />
                     <h2
-                      className="font-space-grotesk font-bold text-lg mb-3 relative z-10"
+                      className="font-space-grotesk relative z-10 mb-3 text-lg font-bold"
                       style={{ color: accent }}
                     >
                       {s.title}
                     </h2>
-                    <p className="text-neutral-70 leading-relaxed text-sm relative z-10">{s.body}</p>
+                    <p className="text-neutral-70 relative z-10 text-sm leading-relaxed">
+                      {s.body}
+                    </p>
                   </div>
 
                   {/* Bottom sweep */}
                   <div
-                    className="h-px w-0 group-hover:w-full transition-all duration-700"
+                    className="h-px w-0 transition-all duration-700 group-hover:w-full"
                     style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
                   />
                 </div>
@@ -76,7 +83,7 @@ export function AboutHero() {
           </div>
 
           {/* Highlights — 2 col span, stacked vertically */}
-          <div className="md:col-span-2 flex flex-col gap-4">
+          <div className="flex flex-col gap-4 md:col-span-2">
             {highlights.map((h, i) => {
               const ac = ACCENT_CLASSES[h.accent as AccentToken] ?? ACCENT_CLASSES['primary'];
               const accent = av(h.accent as AccentToken);
@@ -84,7 +91,7 @@ export function AboutHero() {
               return (
                 <div
                   key={i}
-                  className="glass card-shine rounded-sm border-(--hb) hover:border-(--hb-h) transition-all duration-500 animate-scale-in group overflow-hidden flex-1 relative"
+                  className="glass card-shine animate-scale-in group relative flex-1 overflow-hidden rounded-sm border-(--hb) transition-all duration-500 hover:border-(--hb-h)"
                   style={
                     {
                       '--hb': accentA(0.15),
@@ -95,27 +102,30 @@ export function AboutHero() {
                   }
                 >
                   {/* Holographic hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 holographic pointer-events-none" />
+                  <div className="holographic pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                   {/* Top accent */}
-                  <div className="h-px" style={{ background: `linear-gradient(to right, ${accent}, transparent)` }} />
+                  <div
+                    className="h-px"
+                    style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
+                  />
 
-                  <div className="p-6 relative z-10 h-full flex flex-col">
+                  <div className="relative z-10 flex h-full flex-col p-6">
                     <div
-                      className="w-10 h-10 rounded-sm flex items-center justify-center text-xl mb-4 border transition-all duration-300 group-hover:scale-110"
+                      className="mb-4 flex h-10 w-10 items-center justify-center rounded-sm border text-xl transition-all duration-300 group-hover:scale-110"
                       style={{ borderColor: accentA(0.28), background: accentA(0.07) }}
                     >
                       {h.icon}
                     </div>
-                    <h3 className={`font-space-grotesk font-bold text-base mb-2 ${ac.text}`}>
+                    <h3 className={`font-space-grotesk mb-2 text-base font-bold ${ac.text}`}>
                       {h.title}
                     </h3>
-                    <p className="text-neutral-60 text-sm leading-relaxed mt-auto">{h.desc}</p>
+                    <p className="text-neutral-60 mt-auto text-sm leading-relaxed">{h.desc}</p>
                   </div>
 
                   {/* Bottom sweep */}
                   <div
-                    className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-700"
+                    className="absolute bottom-0 left-0 h-px w-0 transition-all duration-700 group-hover:w-full"
                     style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
                   />
                 </div>

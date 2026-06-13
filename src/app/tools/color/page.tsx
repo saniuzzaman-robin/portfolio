@@ -23,10 +23,12 @@ export default function ColorPage() {
   };
 
   const rgbToHex = (r: number, g: number, b: number): string => {
-    return `#${[r, g, b].map((x) => {
-      const hex = x.toString(16);
-      return hex.length === 1 ? '0' + hex : hex;
-    }).join('')}`.toUpperCase();
+    return `#${[r, g, b]
+      .map((x) => {
+        const hex = x.toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+      })
+      .join('')}`.toUpperCase();
   };
 
   const rgbToHsl = (r: number, g: number, b: number): { h: number; s: number; l: number } => {
@@ -91,22 +93,30 @@ export default function ColorPage() {
         accent="tertiary"
       >
         {/* Color input grid */}
-        <div className="grid md:grid-cols-3 gap-4 mb-6">
+        <div className="mb-6 grid gap-4 md:grid-cols-3">
           {/* HEX Input */}
-          <ToolPanel label="HEX" accent="tertiary" action={<CopyButton text={hex} accent="tertiary" />}>
+          <ToolPanel
+            label="HEX"
+            accent="tertiary"
+            action={<CopyButton text={hex} accent="tertiary" />}
+          >
             <input
               type="text"
               value={hex}
               onChange={(e) => setHex(e.target.value)}
               placeholder="#000000"
-              className="w-full px-4 py-2 text-sm font-mono bg-neutral-15/40 border border-tertiary-40/30 rounded-sm text-neutral-90 placeholder-neutral-50 focus:outline-none focus:border-tertiary-50/60 transition-colors uppercase"
+              className="bg-neutral-15/40 border-tertiary-40/30 text-neutral-90 focus:border-tertiary-50/60 w-full rounded-sm border px-4 py-2 font-mono text-sm uppercase placeholder-neutral-50 transition-colors focus:outline-none"
             />
           </ToolPanel>
 
           {/* RGB Input */}
           {rgb && (
-            <ToolPanel label="RGB" accent="tertiary" action={<CopyButton text={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} accent="tertiary" />}>
-              <div className="px-4 py-2 text-sm font-mono text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5">
+            <ToolPanel
+              label="RGB"
+              accent="tertiary"
+              action={<CopyButton text={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} accent="tertiary" />}
+            >
+              <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-2 font-mono text-sm">
                 rgb({rgb.r}, {rgb.g}, {rgb.b})
               </div>
             </ToolPanel>
@@ -114,8 +124,12 @@ export default function ColorPage() {
 
           {/* HSL Input */}
           {hsl && (
-            <ToolPanel label="HSL" accent="tertiary" action={<CopyButton text={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} accent="tertiary" />}>
-              <div className="px-4 py-2 text-sm font-mono text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5">
+            <ToolPanel
+              label="HSL"
+              accent="tertiary"
+              action={<CopyButton text={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} accent="tertiary" />}
+            >
+              <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-2 font-mono text-sm">
                 hsl({hsl.h}, {hsl.s}%, {hsl.l}%)
               </div>
             </ToolPanel>
@@ -123,9 +137,9 @@ export default function ColorPage() {
         </div>
 
         {/* Color Picker */}
-        <div className="flex items-end gap-4 mb-6">
+        <div className="mb-6 flex items-end gap-4">
           <div>
-            <label className="block text-xs font-space-grotesk font-bold uppercase tracking-widest text-neutral-60 mb-2">
+            <label className="font-space-grotesk text-neutral-60 mb-2 block text-xs font-bold tracking-widest uppercase">
               Color Picker
             </label>
             <input
@@ -133,20 +147,20 @@ export default function ColorPage() {
               type="color"
               value={hex}
               onChange={(e) => setHex(e.target.value)}
-              className="w-16 h-12 rounded-sm cursor-pointer border border-white/10"
+              className="h-12 w-16 cursor-pointer rounded-sm border border-white/10"
             />
           </div>
 
           <div
-            className="w-20 h-12 rounded-sm border border-white/10"
+            className="h-12 w-20 rounded-sm border border-white/10"
             style={{ background: hex }}
           />
 
           <button
             onClick={generatePalette}
-            className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest px-6 py-2.5 rounded-sm btn-neon-cyan"
+            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-purple-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            <Zap className="w-4 h-4" />
+            <Zap className="h-4 w-4" />
             Generate Palette
           </button>
         </div>
@@ -154,8 +168,10 @@ export default function ColorPage() {
         {/* Palette shades */}
         {shades.length > 0 && (
           <div className="mt-6">
-            <h3 className="text-sm font-space-grotesk font-bold text-neutral-90 mb-4">Shade Palette</h3>
-            <div className="grid md:grid-cols-5 gap-3">
+            <h3 className="font-space-grotesk text-neutral-90 mb-4 text-sm font-bold">
+              Shade Palette
+            </h3>
+            <div className="grid gap-3 md:grid-cols-5">
               {shades.map((shade, i) => (
                 <div
                   key={i}
@@ -165,10 +181,10 @@ export default function ColorPage() {
                   }}
                 >
                   <div
-                    className="w-full h-20 rounded-sm border border-white/10 group-hover:border-white/30 transition-all"
+                    className="h-20 w-full rounded-sm border border-white/10 transition-all group-hover:border-white/30"
                     style={{ background: shade }}
                   />
-                  <div className="text-[10px] font-mono text-neutral-60 group-hover:text-neutral-80 text-center mt-2 transition-colors">
+                  <div className="text-neutral-60 group-hover:text-neutral-80 mt-2 text-center font-mono text-[10px] transition-colors">
                     {shade}
                   </div>
                 </div>
@@ -179,12 +195,18 @@ export default function ColorPage() {
 
         {/* Conversions display */}
         {showConversions && rgb && hsl && (
-          <div className="mt-8 p-4 bg-neutral-10/40 rounded-sm border border-white/5">
-            <h4 className="text-xs font-space-grotesk font-bold uppercase tracking-widest text-neutral-60 mb-3">All Formats</h4>
-            <div className="space-y-2 text-xs font-mono text-neutral-70">
+          <div className="bg-neutral-10/40 mt-8 rounded-sm border border-white/5 p-4">
+            <h4 className="font-space-grotesk text-neutral-60 mb-3 text-xs font-bold tracking-widest uppercase">
+              All Formats
+            </h4>
+            <div className="text-neutral-70 space-y-2 font-mono text-xs">
               <div>HEX: {hex}</div>
-              <div>RGB: rgb({rgb.r}, {rgb.g}, {rgb.b})</div>
-              <div>HSL: hsl({hsl.h}, {hsl.s}%, {hsl.l}%)</div>
+              <div>
+                RGB: rgb({rgb.r}, {rgb.g}, {rgb.b})
+              </div>
+              <div>
+                HSL: hsl({hsl.h}, {hsl.s}%, {hsl.l}%)
+              </div>
             </div>
           </div>
         )}

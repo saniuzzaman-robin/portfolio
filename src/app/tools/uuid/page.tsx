@@ -92,7 +92,7 @@ export default function UuidPage() {
         accent="secondary"
       >
         {/* Controls */}
-        <div className="flex flex-wrap items-center gap-4 mb-6">
+        <div className="mb-6 flex flex-wrap items-center gap-4">
           <ToolTabs
             tabs={FORMATS}
             active={format}
@@ -101,13 +101,13 @@ export default function UuidPage() {
           />
 
           <div className="flex items-center gap-2">
-            <label className="text-xs text-neutral-60 font-space-grotesk uppercase tracking-widest">
+            <label className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase">
               Count
             </label>
             <select
               value={count}
               onChange={(e) => setCount(Number(e.target.value))}
-              className="bg-neutral-10 border border-white/10 text-neutral-80 text-xs font-space-grotesk px-2 py-1.5 rounded-sm focus:outline-none focus:border-secondary-50/40"
+              className="bg-neutral-10 text-neutral-80 font-space-grotesk focus:border-secondary-50/40 rounded-sm border border-white/10 px-2 py-1.5 text-xs focus:outline-none"
             >
               {[1, 5, 10, 25, 50, 100].map((n) => (
                 <option key={n} value={n}>
@@ -119,9 +119,9 @@ export default function UuidPage() {
 
           <button
             onClick={generate}
-            className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest px-4 py-2 rounded-sm btn-neon-cyan"
+            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className="h-3.5 w-3.5" />
             Generate
           </button>
         </div>
@@ -132,7 +132,7 @@ export default function UuidPage() {
           action={
             <button
               onClick={copyAll}
-              className="text-[10px] font-space-grotesk font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm transition-all duration-200 text-secondary-50 border border-secondary-50/25 hover:bg-secondary-50/10"
+              className="font-space-grotesk text-secondary-50 border-secondary-50/25 hover:bg-secondary-50/10 rounded-sm border px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
             >
               {copied === -1 ? '✓ Copied all' : 'Copy all'}
             </button>
@@ -142,15 +142,15 @@ export default function UuidPage() {
             {ids.map((id, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between px-4 py-2.5 hover:bg-white/2 group/row transition-colors"
+                className="group/row flex items-center justify-between px-4 py-2.5 transition-colors hover:bg-white/2"
               >
-                <span className="font-mono text-sm text-neutral-80 select-all tracking-wide">
+                <span className="text-neutral-80 font-mono text-sm tracking-wide select-all">
                   {id}
                 </span>
-                <div className="flex items-center gap-2 opacity-0 group-hover/row:opacity-100 transition-opacity shrink-0 ml-3">
+                <div className="ml-3 flex shrink-0 items-center gap-2 opacity-0 transition-opacity group-hover/row:opacity-100">
                   <button
                     onClick={() => copyOne(id, i)}
-                    className="text-[9px] font-space-grotesk font-bold uppercase tracking-widest px-2 py-1 rounded-sm border border-secondary-50/25 text-secondary-50 hover:bg-secondary-50/10 transition-colors"
+                    className="font-space-grotesk border-secondary-50/25 text-secondary-50 hover:bg-secondary-50/10 rounded-sm border px-2 py-1 text-[9px] font-bold tracking-widest uppercase transition-colors"
                   >
                     {copied === i ? '✓' : 'Copy'}
                   </button>
@@ -161,7 +161,7 @@ export default function UuidPage() {
         </ToolPanel>
 
         {/* Info */}
-        <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {(
             [
               ['UUID v4', 'Random 128-bit, RFC 4122 compliant'],
@@ -171,7 +171,7 @@ export default function UuidPage() {
             ] as const
           ).map(([name, desc]) => (
             <div key={name} className="glass rounded-sm border border-white/8 p-3">
-              <p className="text-secondary-50 text-[10px] font-space-grotesk font-bold uppercase tracking-widest mb-1">
+              <p className="text-secondary-50 font-space-grotesk mb-1 text-[10px] font-bold tracking-widest uppercase">
                 {name}
               </p>
               <p className="text-neutral-60 text-xs leading-relaxed">{desc}</p>

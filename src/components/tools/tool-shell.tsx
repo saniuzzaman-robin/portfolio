@@ -26,44 +26,44 @@ export function ToolShell({
   const accentA = (a: number) => ava(accent, a);
 
   return (
-    <div className="min-h-screen bg-neutral-5 text-neutral-90">
+    <div className="bg-neutral-5 text-neutral-90 min-h-screen">
       {/* Page header */}
-      <div className="relative px-6 pt-10 pb-8 md:px-12 lg:px-20 border-b border-white/5 overflow-hidden">
-        <div className="absolute inset-0 cyber-grid-dense opacity-20 pointer-events-none" />
+      <div className="relative overflow-hidden border-b border-white/5 px-6 pt-10 pb-8 md:px-12 lg:px-20">
+        <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-20" />
         <div
-          className="absolute top-0 right-0 w-96 h-40 opacity-[0.06] pointer-events-none"
+          className="pointer-events-none absolute top-0 right-0 h-40 w-96 opacity-[0.06]"
           style={{
             background: `radial-gradient(ellipse at top right, ${accentColor}, transparent 70%)`,
           }}
         />
-        <div className="max-w-6xl mx-auto relative z-10">
+        <div className="relative z-10 mx-auto max-w-6xl">
           <Link
             href="/tools"
-            className="inline-flex items-center gap-2 text-[10px] font-space-grotesk uppercase tracking-widest text-neutral-60 hover:text-neutral-90 transition-colors mb-6 group"
+            className="font-space-grotesk text-neutral-60 hover:text-neutral-90 group mb-6 inline-flex items-center gap-2 text-[10px] tracking-widest uppercase transition-colors"
           >
-            <ArrowLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
+            <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-0.5" />
             All Tools
           </Link>
           <div className="flex items-start gap-4">
             <div
-              className="w-12 h-12 rounded-sm border flex items-center justify-center shrink-0 mt-0.5"
+              className="mt-0.5 flex h-12 w-12 shrink-0 items-center justify-center rounded-sm border"
               style={{ borderColor: accentA(0.35), background: accentA(0.09), color: accentColor }}
             >
-              <Icon className="w-5 h-5" strokeWidth={1.5} />
+              <Icon className="h-5 w-5" strokeWidth={1.5} />
             </div>
             <div>
-              <div className="flex items-baseline gap-3 mb-1">
-                <h1 className="font-space-grotesk font-bold text-2xl md:text-3xl text-neutral-90">
+              <div className="mb-1 flex items-baseline gap-3">
+                <h1 className="font-space-grotesk text-neutral-90 text-2xl font-bold md:text-3xl">
                   {title}
                 </h1>
                 <span
-                  className="text-xs font-space-grotesk uppercase tracking-widest"
+                  className="font-space-grotesk text-xs tracking-widest uppercase"
                   style={{ color: accentColor }}
                 >
                   {subtitle}
                 </span>
               </div>
-              <p className="text-neutral-60 text-sm leading-relaxed max-w-xl">{description}</p>
+              <p className="text-neutral-60 max-w-xl text-sm leading-relaxed">{description}</p>
             </div>
           </div>
         </div>
@@ -71,7 +71,7 @@ export function ToolShell({
 
       {/* Tool content */}
       <div className="px-6 py-8 md:px-12 lg:px-20">
-        <div className="max-w-6xl mx-auto">{children}</div>
+        <div className="mx-auto max-w-6xl">{children}</div>
       </div>
     </div>
   );
@@ -98,16 +98,16 @@ export function ToolPanel({
   const accentA = (a: number) => ava(accent, a);
   return (
     <div
-      className={`glass rounded-sm border overflow-hidden ${className}`}
+      className={`glass overflow-hidden rounded-sm border ${className}`}
       style={{ borderColor: accentA(0.18) } as CSSProperties}
     >
       {label && (
         <div
-          className="flex items-center justify-between px-4 py-2.5 border-b"
+          className="flex items-center justify-between border-b px-4 py-2.5"
           style={{ borderColor: accentA(0.12), background: accentA(0.04) }}
         >
           <span
-            className="text-[10px] font-space-grotesk font-bold uppercase tracking-widest"
+            className="font-space-grotesk text-[10px] font-bold tracking-widest uppercase"
             style={{ color: accentColor }}
           >
             {label}
@@ -148,7 +148,7 @@ export function ToolTextarea({
       readOnly={readOnly}
       rows={rows}
       spellCheck={false}
-      className={`w-full resize-none bg-transparent px-4 py-3 text-sm text-neutral-80 placeholder:text-neutral-50 outline-none focus:bg-white/2 transition-colors duration-200 ${mono ? 'font-mono' : 'font-sans'}`}
+      className={`text-neutral-80 w-full resize-none bg-transparent px-4 py-3 text-sm transition-colors duration-200 outline-none placeholder:text-neutral-50 focus:bg-white/2 ${mono ? 'font-mono' : 'font-sans'}`}
       style={{ borderColor: readOnly ? 'transparent' : accentA(0.15) }}
     />
   );
@@ -161,11 +161,7 @@ interface CopyButtonProps {
   className?: string;
 }
 
-export function CopyButton({
-  text,
-  accent = 'primary',
-  label = 'Copy',
-}: CopyButtonProps) {
+export function CopyButton({ text, accent = 'primary', label = 'Copy' }: CopyButtonProps) {
   const accentColor = av(accent);
   const accentA = (a: number) => ava(accent, a);
   const [copied, setCopied] = React.useState(false);
@@ -180,11 +176,12 @@ export function CopyButton({
   return (
     <button
       onClick={copy}
-      className="text-[10px] font-space-grotesk font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm transition-all duration-200 hover:scale-105"
+      className="font-space-grotesk rounded-sm px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200 hover:scale-105"
       style={{
-        color: accentColor,
-        border: `1px solid ${accentA(0.25)}`,
-        background: copied ? accentA(0.15) : accentA(0.06),
+        color: copied ? accentColor : accentColor,
+        border: `1px solid ${accentA(0.35)}`,
+        background: copied ? accentA(0.2) : accentA(0.08),
+        boxShadow: copied ? `0 0 12px ${accentA(0.3)}` : 'none',
       }}
     >
       {copied ? '✓ Copied' : label}
@@ -206,12 +203,12 @@ export function ToolTabs({ tabs, active, onChange, accent = 'primary' }: ToolTab
   const accentColor = av(accent);
   const accentA = (a: number) => ava(accent, a);
   return (
-    <div className="flex gap-1 p-1 glass rounded-sm border border-white/8 w-fit">
+    <div className="glass flex w-fit gap-1 rounded-sm border border-white/8 p-1">
       {tabs.map((tab) => (
         <button
           key={tab}
           onClick={() => onChange(tab)}
-          className="px-4 py-1.5 text-xs font-space-grotesk font-bold uppercase tracking-widest rounded-sm transition-all duration-200"
+          className="font-space-grotesk rounded-sm px-4 py-1.5 text-xs font-bold tracking-widest uppercase transition-all duration-200"
           style={
             active === tab
               ? {

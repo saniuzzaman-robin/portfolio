@@ -70,31 +70,43 @@ export default function TimestampPage() {
           accent="tertiary"
         />
 
-        <div className="mt-6 mb-6 grid md:grid-cols-2 gap-4">
+        <div className="mt-6 mb-6 grid gap-4 md:grid-cols-2">
           {mode === 'unix-to-human' ? (
-            <ToolPanel label="Unix Timestamp" accent="tertiary" action={<CopyButton text={unixInput} accent="tertiary" />}>
+            <ToolPanel
+              label="Unix Timestamp"
+              accent="tertiary"
+              action={<CopyButton text={unixInput} accent="tertiary" />}
+            >
               <input
                 type="text"
                 value={unixInput}
                 onChange={(e) => setUnixInput(e.target.value)}
                 placeholder="Enter Unix timestamp (seconds)…"
-                className="w-full px-4 py-2 text-sm font-mono bg-neutral-15/40 border border-tertiary-40/30 rounded-sm text-neutral-90 placeholder-neutral-50 focus:outline-none focus:border-tertiary-50/60 transition-colors"
+                className="bg-neutral-15/40 border-tertiary-40/30 text-neutral-90 focus:border-tertiary-50/60 w-full rounded-sm border px-4 py-2 font-mono text-sm placeholder-neutral-50 transition-colors focus:outline-none"
               />
             </ToolPanel>
           ) : (
-            <ToolPanel label="Human Date" accent="tertiary" action={<CopyButton text={humanInput} accent="tertiary" />}>
+            <ToolPanel
+              label="Human Date"
+              accent="tertiary"
+              action={<CopyButton text={humanInput} accent="tertiary" />}
+            >
               <input
                 type="text"
                 value={humanInput}
                 onChange={(e) => setHumanInput(e.target.value)}
                 placeholder="e.g., 2024-12-25 or Jan 1, 2025…"
-                className="w-full px-4 py-2 text-sm font-mono bg-neutral-15/40 border border-tertiary-40/30 rounded-sm text-neutral-90 placeholder-neutral-50 focus:outline-none focus:border-tertiary-50/60 transition-colors"
+                className="bg-neutral-15/40 border-tertiary-40/30 text-neutral-90 focus:border-tertiary-50/60 w-full rounded-sm border px-4 py-2 font-mono text-sm placeholder-neutral-50 transition-colors focus:outline-none"
               />
             </ToolPanel>
           )}
 
-          <ToolPanel label="Output" accent="secondary" action={<CopyButton text={output} accent="secondary" />}>
-            <div className="px-4 py-2 text-sm font-mono text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5">
+          <ToolPanel
+            label="Output"
+            accent="secondary"
+            action={<CopyButton text={output} accent="secondary" />}
+          >
+            <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-2 font-mono text-sm">
               {output || 'Result appears here…'}
             </div>
           </ToolPanel>
@@ -105,19 +117,21 @@ export default function TimestampPage() {
           <button
             onClick={convert}
             disabled={!unixInput.trim() && !humanInput.trim()}
-            className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest px-6 py-2.5 rounded-sm btn-neon-cyan disabled:opacity-40 disabled:cursor-not-allowed"
+            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-purple-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            <Zap className="w-4 h-4" />
+            <Zap className="h-4 w-4" />
             Convert
           </button>
         </div>
 
-        {error && <div className="text-red-400 text-sm font-mono mb-4">{error}</div>}
+        {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
 
         {/* Quick picks */}
         {mode === 'unix-to-human' && (
           <div className="mt-6">
-            <p className="text-xs text-neutral-60 font-space-grotesk uppercase tracking-widest mb-3">Quick picks</p>
+            <p className="text-neutral-60 font-space-grotesk mb-3 text-xs tracking-widest uppercase">
+              Quick picks
+            </p>
             <div className="flex flex-wrap gap-2">
               {[
                 { label: 'Now', fn: () => quickPick('now') },
@@ -128,7 +142,7 @@ export default function TimestampPage() {
                 <button
                   key={item.label}
                   onClick={item.fn}
-                  className="text-[10px] font-space-grotesk font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm border border-white/10 text-neutral-60 hover:text-tertiary-50 hover:border-tertiary-50/30 transition-all duration-200"
+                  className="font-space-grotesk text-neutral-60 hover:text-tertiary-50 hover:border-tertiary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
                 >
                   {item.label}
                 </button>

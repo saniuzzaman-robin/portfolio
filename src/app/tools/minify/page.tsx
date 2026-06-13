@@ -2,7 +2,13 @@
 
 import { useState } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, ToolTextarea, CopyButton, ToolTabs } from '@/components/tools/tool-shell';
+import {
+  ToolShell,
+  ToolPanel,
+  ToolTextarea,
+  CopyButton,
+  ToolTabs,
+} from '@/components/tools/tool-shell';
 import { Zap as ZapIcon, Zap } from 'lucide-react';
 
 export default function MinifyPage() {
@@ -94,50 +100,66 @@ export default function MinifyPage() {
         />
 
         <div className="mt-6 mb-6">
-          <ToolPanel label="Input" accent="secondary" action={<CopyButton text={input} accent="secondary" />}>
+          <ToolPanel
+            label="Input"
+            accent="secondary"
+            action={<CopyButton text={input} accent="secondary" />}
+          >
             <ToolTextarea
               value={input}
               onChange={setInput}
               placeholder={`Paste ${language.toUpperCase()} code…`}
               rows={12}
               accent="secondary"
-              family="mono"
             />
           </ToolPanel>
         </div>
 
         {/* Action buttons */}
-        <div className="flex flex-wrap gap-3 mb-6">
+        <div className="mb-6 flex flex-wrap gap-3">
           <button
             onClick={minify}
             disabled={!input.trim()}
-            className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest px-6 py-2.5 rounded-sm btn-neon-purple disabled:opacity-40 disabled:cursor-not-allowed"
+            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            <Zap className="w-4 h-4" />
+            <Zap className="h-4 w-4" />
             Minify
           </button>
           <button
             onClick={beautify}
             disabled={!input.trim()}
-            className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest px-6 py-2.5 rounded-sm border border-white/20 text-neutral-60 hover:text-secondary-50 hover:border-secondary-50/30 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="font-space-grotesk text-neutral-60 hover:text-secondary-50 hover:border-secondary-50/30 flex cursor-pointer items-center gap-2 rounded-sm border border-white/20 px-6 py-2.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Format
           </button>
         </div>
 
-        {error && <div className="text-red-400 text-sm font-mono mb-4">{error}</div>}
+        {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
 
         {output && (
-          <ToolPanel label="Output" accent="secondary" action={<CopyButton text={output} accent="secondary" />}>
-            <ToolTextarea value={output} readOnly rows={12} accent="secondary" family="mono" />
+          <ToolPanel
+            label="Output"
+            accent="secondary"
+            action={<CopyButton text={output} accent="secondary" />}
+          >
+            <ToolTextarea value={output} readOnly rows={12} accent="secondary" />
           </ToolPanel>
         )}
 
         {output && !error && (
-          <div className="mt-4 flex flex-wrap gap-6 text-xs text-neutral-60 font-space-grotesk">
-            <span>Input: <strong className="text-neutral-80">{input.length} chars</strong></span>
-            <span>Output: <strong className="text-neutral-80">{output.length} chars</strong></span>
-            <span>Saved: <strong className="text-secondary-50">{Math.round(((input.length - output.length) / input.length) * 100)}%</strong></span>
+          <div className="text-neutral-60 font-space-grotesk mt-4 flex flex-wrap gap-6 text-xs">
+            <span>
+              Input: <strong className="text-neutral-80">{input.length} chars</strong>
+            </span>
+            <span>
+              Output: <strong className="text-neutral-80">{output.length} chars</strong>
+            </span>
+            <span>
+              Saved:{' '}
+              <strong className="text-secondary-50">
+                {Math.round(((input.length - output.length) / input.length) * 100)}%
+              </strong>
+            </span>
           </div>
         )}
       </ToolShell>

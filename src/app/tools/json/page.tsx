@@ -2,7 +2,13 @@
 
 import { useState } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, ToolTextarea, CopyButton, ToolTabs } from '@/components/tools/tool-shell';
+import {
+  ToolShell,
+  ToolPanel,
+  ToolTextarea,
+  CopyButton,
+  ToolTabs,
+} from '@/components/tools/tool-shell';
 import { Braces, Zap } from 'lucide-react';
 
 export default function JSONPage() {
@@ -11,7 +17,7 @@ export default function JSONPage() {
   const [input2, setInput2] = useState('');
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
-  const [stats, setStats] = useState<{ valid: boolean; keys?: number }>({});
+  const [stats, setStats] = useState<{ valid: boolean; keys?: number }>({ valid: false });
 
   const validateJSON = (json: string): boolean => {
     try {
@@ -24,7 +30,7 @@ export default function JSONPage() {
 
   const process = () => {
     setError('');
-    setStats({});
+    setStats({ valid: false });
     setOutput('');
 
     try {
@@ -94,8 +100,12 @@ export default function JSONPage() {
 
         <div className="mt-6">
           {mode === 'diff' ? (
-            <div className="grid md:grid-cols-2 gap-4 mb-6">
-              <ToolPanel label="JSON Input 1" accent="secondary" action={<CopyButton text={input1} accent="secondary" />}>
+            <div className="mb-6 grid gap-4 md:grid-cols-2">
+              <ToolPanel
+                label="JSON Input 1"
+                accent="secondary"
+                action={<CopyButton text={input1} accent="secondary" />}
+              >
                 <ToolTextarea
                   value={input1}
                   onChange={setInput1}
@@ -104,7 +114,11 @@ export default function JSONPage() {
                   accent="secondary"
                 />
               </ToolPanel>
-              <ToolPanel label="JSON Input 2" accent="secondary" action={<CopyButton text={input2} accent="secondary" />}>
+              <ToolPanel
+                label="JSON Input 2"
+                accent="secondary"
+                action={<CopyButton text={input2} accent="secondary" />}
+              >
                 <ToolTextarea
                   value={input2}
                   onChange={setInput2}
@@ -115,7 +129,11 @@ export default function JSONPage() {
               </ToolPanel>
             </div>
           ) : (
-            <ToolPanel label={mode === 'minify' ? 'JSON Input' : 'Raw JSON'} accent="secondary" action={<CopyButton text={input1} accent="secondary" />}>
+            <ToolPanel
+              label={mode === 'minify' ? 'JSON Input' : 'Raw JSON'}
+              accent="secondary"
+              action={<CopyButton text={input1} accent="secondary" />}
+            >
               <ToolTextarea
                 value={input1}
                 onChange={setInput1}
@@ -132,25 +150,31 @@ export default function JSONPage() {
           <button
             onClick={process}
             disabled={!input1.trim() || (mode === 'diff' && !input2.trim())}
-            className="flex items-center gap-2 text-xs font-space-grotesk font-bold uppercase tracking-widest px-6 py-2.5 rounded-sm btn-neon-purple disabled:opacity-40 disabled:cursor-not-allowed"
+            className="hover:bg-cyan-700 font-space-grotesk border-cyan-700 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40"
           >
-            <Zap className="w-4 h-4" />
+            <Zap className="h-4 w-4" />
             {mode === 'format' ? 'Format' : mode === 'minify' ? 'Minify' : 'Compare'}
           </button>
         </div>
 
-        {error && <div className="text-red-400 text-sm font-mono mb-4">{error}</div>}
+        {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
 
         {output && (
-          <ToolPanel label={mode === 'diff' ? 'Diff Output' : mode === 'minify' ? 'Minified' : 'Formatted'} accent="secondary" action={<CopyButton text={output} accent="secondary" />}>
+          <ToolPanel
+            label={mode === 'diff' ? 'Diff Output' : mode === 'minify' ? 'Minified' : 'Formatted'}
+            accent="secondary"
+            action={<CopyButton text={output} accent="secondary" />}
+          >
             <ToolTextarea value={output} readOnly placeholder="" rows={14} accent="secondary" />
           </ToolPanel>
         )}
 
         {stats.valid && (
-          <div className="mt-4 text-xs text-neutral-60 font-space-grotesk">
+          <div className="text-neutral-60 font-space-grotesk mt-4 text-xs">
             <span>JSON valid ✓</span>
-            {stats.keys !== undefined && <span className="ml-4">• {stats.keys} top-level keys</span>}
+            {stats.keys !== undefined && (
+              <span className="ml-4">• {stats.keys} top-level keys</span>
+            )}
           </div>
         )}
       </ToolShell>

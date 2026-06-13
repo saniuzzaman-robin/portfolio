@@ -229,5 +229,5 @@ export function ParticleCanvas({ className = '' }: { className?: string }) {
     };
   }, []);
 
-  return <div ref={containerRef} className={`w-full h-full ${className}`} />;
+  return <div ref={containerRef} className={`h-full w-full ${className}`} />;
 }
