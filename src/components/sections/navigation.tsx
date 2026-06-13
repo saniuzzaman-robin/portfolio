@@ -17,6 +17,7 @@ import {
   LayoutGrid,
   Sun,
   Moon,
+  Wrench,
 } from 'lucide-react';
 import { useTheme } from '@/components/reusable/theme-provider';
 import { useNavScroll } from '@/hooks/use-nav-scroll';
@@ -110,6 +111,7 @@ export function Navigation() {
       ],
     },
     { kind: 'link', label: 'Projects', href: '/projects', icon: FolderGit2 },
+    { kind: 'link', label: 'Tools', href: '/tools', icon: Wrench },
     { kind: 'link', label: 'Resume', href: '/resume', icon: FileText },
     { kind: 'link', label: 'Games', href: '/games', icon: Gamepad2 },
   ];
