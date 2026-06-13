@@ -115,11 +115,11 @@ export const CV_DATA = {
       endDate: '2022-10',
       duration: '19 months',
       description:
-        "Joined through the STP (Super Talent Program) — top 5 out of hundreds of applicants. Primary frontend engineer for IPEX AG (Switzerland's market leader in building damage management), delivering 60–70% of all UI features.",
+        "Joined through the STP (Super Talent Program) — top 10 out of hundreds of applicants. Primary frontend engineer for IPEX AG (Switzerland's market leader in building damage management), delivering 60–70% of all UI features.",
       descriptionLong:
-        "Joined through SELISE's STP (Super Talent Program) after placing top 5 in competitive programming rounds. Primary frontend engineer for IPEX AG — Switzerland's market leader in building damage management and digitization — and Berger Paints. Built complex Angular + Angular Material UIs: reactive forms, advanced calculation engines, data tables, drag-and-drop workflow dashboards, navigation, tooltips, and popups. Implemented automated OCR-based PDF processing pipeline for insurance claim case management. Built custom Selenium wrapper for regression testing across 6+ enterprise platforms. Conducted JMeter load testing to isolate performance bottlenecks.",
+        "Joined through SELISE's STP (Super Talent Program) after placing top 10 in competitive programming rounds. Primary frontend engineer for IPEX AG — Switzerland's market leader in building damage management and digitization — and Berger Paints. Built complex Angular + Angular Material UIs: reactive forms, advanced calculation engines, data tables, drag-and-drop workflow dashboards, navigation, tooltips, and popups. Implemented automated OCR-based PDF processing pipeline for insurance claim case management. Built custom Selenium wrapper for regression testing across 6+ enterprise platforms. Conducted JMeter load testing to isolate performance bottlenecks.",
       achievements: [
-        'Joined via STP (Super Talent Program) — achieved top 5 out of hundreds of applicants',
+        'Joined via STP (Super Talent Program) — achieved top 10 out of hundreds of applicants',
         'Acted as primary frontend driver — independently executed 60–70% of all UI deliverables',
         'Built complex Angular UI for IPEX AG: reactive forms, calculation engines, data tables, drag-and-drop dashboards',
         'Implemented automated OCR-based PDF processing pipeline for insurance claim case management',
@@ -129,7 +129,7 @@ export const CV_DATA = {
       skills: ['Angular', 'Angular Material', 'Selenium', 'JMeter', 'TypeScript', 'RxJS'],
       accent: 'tertiary',
       highlights: [
-        { label: 'Hiring', value: 'STP Top 5' },
+        { label: 'Hiring', value: 'STP Top 10' },
         { label: 'Output', value: '60–70% FE Work' },
         { label: 'Testing', value: 'Selenium + JMeter' },
       ],

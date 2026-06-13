@@ -1,5 +1,6 @@
 'use client';
 
+import type { CSSProperties } from 'react';
 import { CV_DATA } from '@/lib/cv-data';
 import { useInView } from '@/hooks/use-in-view';
 import { av, ava, type AccentToken } from '@/lib/accent';
@@ -67,14 +68,15 @@ export function SkillsShowcase() {
             return (
               <div
                 key={catIdx}
-                className="glass rounded-sm border p-8 transition-all duration-500 animate-slide-up hover:scale-[1.01]"
-                style={{
-                  borderColor: ava(accent, 0.15),
-                  animationDelay: `${catIdx * 120}ms`,
-                  animationFillMode: 'both',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = ava(accent, 0.31))}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = ava(accent, 0.15))}
+                className="glass rounded-sm border-(--sb) hover:border-(--sb-h) animate-slide-up hover:scale-[1.01] transition-all duration-500 p-8"
+                style={
+                  {
+                    '--sb': ava(accent, 0.15),
+                    '--sb-h': ava(accent, 0.35),
+                    animationDelay: `${catIdx * 120}ms`,
+                    animationFillMode: 'both',
+                  } as CSSProperties
+                }
               >
                 {/* Category header */}
                 <div className="flex items-center gap-3 mb-8">

@@ -77,15 +77,21 @@ export function Hero() {
             </div>
 
             {/* Stats bar */}
-            <div className="flex gap-6 mb-10 animate-fade-in [animation-delay:600ms] flex-wrap">
+            <div className="flex gap-3 mb-10 animate-fade-in [animation-delay:600ms] flex-wrap">
               {[
-                { n: '5+', l: 'Years' },
-                { n: '1700+', l: 'Problems' },
-                { n: '30%', l: 'YoY Donations' },
-              ].map((s) => (
-                <div key={s.l} className="text-center">
-                  <div className="font-space-grotesk font-bold text-2xl text-primary-50">{s.n}</div>
-                  <div className="text-neutral-60 text-xs uppercase tracking-wider">{s.l}</div>
+                { n: '5+', l: 'Years Exp.', color: 'var(--color-primary-50)' },
+                { n: '1700+', l: 'Problems Solved', color: 'var(--color-secondary-50)' },
+                { n: '30%', l: 'YoY Donation Growth', color: 'var(--color-tertiary-50)' },
+              ].map((s, i) => (
+                <div
+                  key={s.l}
+                  className="game-stat text-center animate-slide-up"
+                  style={{ animationDelay: `${600 + i * 100}ms`, animationFillMode: 'both' }}
+                >
+                  <span className="game-stat-value" style={{ color: s.color }}>
+                    {s.n}
+                  </span>
+                  <span className="game-stat-label">{s.l}</span>
                 </div>
               ))}
             </div>
@@ -119,12 +125,66 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce opacity-60">
+        {/* Scroll indicator — positioned above the ticker strip */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce opacity-60">
           <span className="text-xs text-neutral-60 uppercase tracking-widest font-space-grotesk">
             Scroll
           </span>
           <div className="w-px h-8 bg-linear-to-b from-primary-50 to-transparent" />
+        </div>
+      </div>
+
+      {/* Scrolling tech ticker — sits at the absolute bottom of the hero, below the scroll indicator */}
+      <div className="absolute bottom-0 left-0 right-0 ticker-wrap py-2.5 border-t border-white/5 opacity-40 z-10">
+        <div className="ticker-track">
+          {[
+            'Next.js',
+            'NestJS',
+            'Angular',
+            'MongoDB',
+            'Redis',
+            'TypeScript',
+            'GCP',
+            'Google Pub/Sub',
+            'WooCommerce',
+            'SEO',
+            'Microservices',
+            'CQRS',
+            'SAGA',
+            'MaxMind GeoIP',
+            'React',
+            'Tailwind CSS',
+            '.NET 6',
+            'Jest',
+            'Selenium',
+            'Next.js',
+            'NestJS',
+            'Angular',
+            'MongoDB',
+            'Redis',
+            'TypeScript',
+            'GCP',
+            'Google Pub/Sub',
+            'WooCommerce',
+            'SEO',
+            'Microservices',
+            'CQRS',
+            'SAGA',
+            'MaxMind GeoIP',
+            'React',
+            'Tailwind CSS',
+            '.NET 6',
+            'Jest',
+            'Selenium',
+          ].map((tech, i) => (
+            <span
+              key={i}
+              className="mx-6 text-[10px] font-space-grotesk uppercase tracking-widest text-neutral-60 flex items-center gap-3 shrink-0"
+            >
+              <span className="w-1 h-1 rounded-full bg-primary-50/60 inline-block" />
+              {tech}
+            </span>
+          ))}
         </div>
       </div>
     </section>
