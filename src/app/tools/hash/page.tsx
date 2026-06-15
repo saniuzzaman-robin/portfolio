@@ -165,7 +165,7 @@ export default function HashPage() {
                 setMode(m);
                 setHashes([]);
               }}
-              className={`font-space-grotesk pb-2 text-xs font-bold tracking-widest uppercase transition-colors lg:text-sm ${
+              className={`font-poppins pb-2 text-xs font-bold tracking-widest uppercase transition-colors lg:text-sm ${
                 mode === m
                   ? 'border-b-2 border-purple-500 text-purple-300'
                   : 'text-neutral-500 hover:text-neutral-300'
@@ -210,7 +210,7 @@ export default function HashPage() {
 
         {/* Output Format Selector */}
         <div className="my-4 flex items-center gap-4">
-          <label className="font-space-grotesk text-xs font-bold tracking-widest text-neutral-400 uppercase lg:text-sm">
+          <label className="font-poppins text-xs font-bold tracking-widest text-neutral-400 uppercase lg:text-sm">
             Output Format:
           </label>
           <div className="flex gap-2">
@@ -235,7 +235,7 @@ export default function HashPage() {
           <button
             onClick={process}
             disabled={!input.trim() || (mode === 'hmac' && !secret.trim())}
-            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-purple-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
+            className="font-poppins flex cursor-pointer items-center gap-2 rounded-sm border border-purple-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             <Zap className="h-4 w-4" />
             Generate Hashes
@@ -269,7 +269,7 @@ export default function HashPage() {
 
         {/* Info note */}
         <div className="bg-neutral-10/40 text-neutral-60 mt-8 rounded-sm border border-white/5 p-3 text-xs lg:text-sm">
-          <p className="font-space-grotesk mb-2 font-bold tracking-widest uppercase">ℹ Info:</p>
+          <p className="font-poppins mb-2 font-bold tracking-widest uppercase">ℹ Info:</p>
           <ul className="list-inside list-disc space-y-1">
             <li>
               <strong>Simple Hash:</strong> Standard cryptographic hash of input text

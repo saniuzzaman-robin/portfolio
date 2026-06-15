@@ -17,11 +17,11 @@ function SkillBar({ name, level, accent, delay }: SkillBarProps) {
   return (
     <div ref={ref} className="group">
       <div className="mb-2 flex items-center justify-between">
-        <span className="font-space-grotesk text-neutral-80 text-sm font-bold transition-colors group-hover:text-neutral-100">
+        <span className="font-poppins text-neutral-80 text-sm font-bold transition-colors group-hover:text-neutral-100">
           {name}
         </span>
         <span
-          className="font-space-grotesk text-xs font-bold tabular-nums lg:text-sm"
+          className="font-poppins text-xs font-bold tabular-nums lg:text-sm"
           style={{ color: av(accent) }}
         >
           {level}%
@@ -52,7 +52,7 @@ export function SkillsShowcase() {
         {/* Header */}
         <div className="animate-slide-right mb-16">
           <p className="section-label mb-3">Technical Stack</p>
-          <h1 className="font-space-grotesk mb-4 text-5xl font-bold md:text-6xl">
+          <h1 className="font-poppins mb-4 text-5xl font-bold md:text-6xl">
             Skills &amp; <span className="neon-cyan">Expertise</span>
           </h1>
           <p className="text-neutral-70 max-w-xl text-sm leading-relaxed">
@@ -90,7 +90,7 @@ export function SkillsShowcase() {
                     {cat.icon}
                   </div>
                   <h2
-                    className="font-space-grotesk text-xl font-bold"
+                    className="font-poppins text-xl font-bold"
                     style={{ color: av(accent) }}
                   >
                     {cat.category}
@@ -118,7 +118,7 @@ export function SkillsShowcase() {
         <div className="mt-16 grid gap-6 md:grid-cols-2">
           <div className="glass border-primary-50/20 hover:border-primary-50/50 animate-scale-in group relative overflow-hidden rounded-sm border p-8 transition-all duration-300 [animation-delay:600ms]">
             <div className="holographic pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            <h3 className="font-space-grotesk neon-green relative z-10 mb-4 text-xl font-bold">
+            <h3 className="font-poppins neon-green relative z-10 mb-4 text-xl font-bold">
               ⚡ Competitive Programming
             </h3>
             <ul className="text-neutral-70 relative z-10 space-y-2 text-sm">
@@ -137,7 +137,7 @@ export function SkillsShowcase() {
           </div>
           <div className="glass border-secondary-50/20 hover:border-secondary-50/50 animate-scale-in group relative overflow-hidden rounded-sm border p-8 transition-all duration-300 [animation-delay:700ms]">
             <div className="holographic pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            <h3 className="font-space-grotesk neon-cyan relative z-10 mb-4 text-xl font-bold">
+            <h3 className="font-poppins neon-cyan relative z-10 mb-4 text-xl font-bold">
               🎯 Core Expertise
             </h3>
             <ul className="text-neutral-70 relative z-10 space-y-2 text-sm">

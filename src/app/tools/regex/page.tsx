@@ -77,7 +77,7 @@ export default function RegexPage() {
           </ToolPanel>
 
           <div>
-            <label className="font-space-grotesk text-neutral-60 mb-2 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+            <label className="font-poppins text-neutral-60 mb-2 block text-xs font-bold tracking-widest uppercase lg:text-sm">
               Flags
             </label>
             <div className="flex gap-2">
@@ -119,7 +119,7 @@ export default function RegexPage() {
           <button
             onClick={test}
             disabled={!pattern.trim() || !testString.trim()}
-            className="hover:bg-primary-20 font-space-grotesk border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
+            className="hover:bg-primary-20 font-poppins border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             <Zap className="h-4 w-4" />
             Test Pattern
@@ -131,13 +131,13 @@ export default function RegexPage() {
         {matches.length > 0 && (
           <div className="space-y-4">
             <div className="rounded-sm border border-green-900/40 bg-green-950/20 p-3">
-              <p className="font-space-grotesk text-xs text-green-300 lg:text-sm">
+              <p className="font-poppins text-xs text-green-300 lg:text-sm">
                 ✓ Found <strong>{matches.length}</strong> match{matches.length !== 1 ? 'es' : ''}
               </p>
             </div>
 
             <div>
-              <h3 className="font-space-grotesk text-neutral-90 mb-3 text-sm font-bold">Matches</h3>
+              <h3 className="font-poppins text-neutral-90 mb-3 text-sm font-bold">Matches</h3>
               <div className="max-h-64 space-y-2 overflow-y-auto">
                 {matches.map((match, i) => (
                   <div key={i} className="bg-neutral-10/40 rounded-sm border border-white/5 p-3">

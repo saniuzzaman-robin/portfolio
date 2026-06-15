@@ -39,7 +39,7 @@ export function ToolShell({
         <div className="relative z-10 mx-auto max-w-6xl">
           <Link
             href="/tools"
-            className="font-space-grotesk text-neutral-60 hover:text-neutral-90 group mb-6 inline-flex items-center gap-2 text-[10px] tracking-widest uppercase transition-colors"
+            className="font-poppins text-neutral-60 hover:text-neutral-90 group mb-6 inline-flex items-center gap-2 text-[10px] tracking-widest uppercase transition-colors"
           >
             <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-0.5" />
             All Tools
@@ -53,11 +53,11 @@ export function ToolShell({
             </div>
             <div>
               <div className="mb-1 flex items-baseline gap-3">
-                <h1 className="font-space-grotesk text-neutral-90 text-2xl font-bold md:text-3xl">
+                <h1 className="font-poppins text-neutral-90 text-2xl font-bold md:text-3xl">
                   {title}
                 </h1>
                 <span
-                  className="font-space-grotesk text-xs tracking-widest uppercase lg:text-sm"
+                  className="font-poppins text-xs tracking-widest uppercase lg:text-sm"
                   style={{ color: accentColor }}
                 >
                   {subtitle}
@@ -107,7 +107,7 @@ export function ToolPanel({
           style={{ borderColor: accentA(0.12), background: accentA(0.04) }}
         >
           <span
-            className="font-space-grotesk text-[10px] font-bold tracking-widest uppercase"
+            className="font-poppins text-[10px] font-bold tracking-widest uppercase"
             style={{ color: accentColor }}
           >
             {label}
@@ -176,7 +176,7 @@ export function CopyButton({ text, accent = 'primary', label = 'Copy' }: CopyBut
   return (
     <button
       onClick={copy}
-      className="font-space-grotesk rounded-sm px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200 hover:scale-105"
+      className="font-poppins rounded-sm px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200 hover:scale-105"
       style={{
         color: copied ? accentColor : accentColor,
         border: `1px solid ${accentA(0.35)}`,
@@ -208,7 +208,7 @@ export function ToolTabs({ tabs, active, onChange, accent = 'primary' }: ToolTab
         <button
           key={tab}
           onClick={() => onChange(tab)}
-          className="font-space-grotesk cursor-pointer rounded-sm px-4 py-1.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 lg:text-sm"
+          className="font-poppins cursor-pointer rounded-sm px-4 py-1.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 lg:text-sm"
           style={
             active === tab
               ? {

@@ -15,7 +15,7 @@ export function GameCardGrid() {
           <Gamepad2 className="text-primary-50 h-6 w-6" />
           <p className="section-label">Interactive Lab</p>
         </div>
-        <h1 className="font-space-grotesk mb-4 text-5xl font-bold md:text-7xl">
+        <h1 className="font-poppins mb-4 text-5xl font-bold md:text-7xl">
           <span className="neon-green">GAME</span> <span className="neon-cyan">LAB</span>
         </h1>
         <p className="text-neutral-70 max-w-xl text-sm leading-relaxed">
@@ -73,10 +73,10 @@ export function GameCardGrid() {
                   </div>
 
                   {/* Title */}
-                  <p className="font-space-grotesk text-neutral-60 mb-1 text-xs tracking-widest uppercase lg:text-sm">
+                  <p className="font-poppins text-neutral-60 mb-1 text-xs tracking-widest uppercase lg:text-sm">
                     {game.subtitle}
                   </p>
-                  <h2 className="font-space-grotesk text-neutral-90 mb-3 text-2xl font-bold transition-colors group-hover:text-neutral-100">
+                  <h2 className="font-poppins text-neutral-90 mb-3 text-2xl font-bold transition-colors group-hover:text-neutral-100">
                     {game.title}
                   </h2>
 
@@ -123,7 +123,7 @@ export function GameCardGrid() {
 
                   {/* Play CTA */}
                   <div
-                    className="font-space-grotesk flex items-center gap-2 text-xs font-bold tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1 lg:text-sm"
+                    className="font-poppins flex items-center gap-2 text-xs font-bold tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1 lg:text-sm"
                     style={{ color: av(game.accent) }}
                   >
                     <span>&gt; Play Now</span>
@@ -145,7 +145,7 @@ export function GameCardGrid() {
 
       {/* Footer note */}
       <div className="animate-fade-in mt-12 text-center [animation-delay:600ms]">
-        <p className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase lg:text-sm">
+        <p className="text-neutral-60 font-poppins text-xs tracking-widest uppercase lg:text-sm">
           All games built with zero game engines — pure web APIs &amp; React
         </p>
       </div>

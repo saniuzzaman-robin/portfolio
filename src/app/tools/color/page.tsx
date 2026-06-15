@@ -213,7 +213,7 @@ export default function ColorPage() {
           <div className="grid items-end gap-6 md:grid-cols-2 lg:grid-cols-3">
             {/* Color Picker */}
             <div className="md:col-span-1">
-              <label className="font-space-grotesk text-neutral-60 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+              <label className="font-poppins text-neutral-60 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
                 Pick Color
               </label>
               <div className="relative overflow-hidden rounded-xl shadow-xl">
@@ -232,7 +232,7 @@ export default function ColorPage() {
 
             {/* HEX Input */}
             <div className="md:col-span-1">
-              <label className="font-space-grotesk text-neutral-60 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+              <label className="font-poppins text-neutral-60 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
                 HEX Code
               </label>
               <button
@@ -260,7 +260,7 @@ export default function ColorPage() {
             {/* Action Button */}
             <button
               onClick={generatePalette}
-              className="font-space-grotesk flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-cyan-600 bg-linear-to-r from-cyan-600/20 to-cyan-500/10 px-6 py-3 text-xs font-bold tracking-widest uppercase transition-all hover:border-cyan-500 hover:from-cyan-600/30 hover:to-cyan-500/20 active:scale-95 md:col-span-1 lg:text-sm"
+              className="font-poppins flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-cyan-600 bg-linear-to-r from-cyan-600/20 to-cyan-500/10 px-6 py-3 text-xs font-bold tracking-widest uppercase transition-all hover:border-cyan-500 hover:from-cyan-600/30 hover:to-cyan-500/20 active:scale-95 md:col-span-1 lg:text-sm"
             >
               <Zap className="h-4 w-4" />
               Generate
@@ -436,7 +436,7 @@ export default function ColorPage() {
         {/* Color harmonies */}
         {Object.keys(harmonies).length > 0 && (
           <div className="mb-8">
-            <h3 className="font-space-grotesk text-neutral-90 mb-4 text-sm font-bold uppercase">
+            <h3 className="font-poppins text-neutral-90 mb-4 text-sm font-bold uppercase">
               Color Harmonies
             </h3>
             <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-5">
@@ -472,7 +472,7 @@ export default function ColorPage() {
         {/* Palette shades */}
         {palette.length > 0 && (
           <div className="mb-8">
-            <h3 className="font-space-grotesk text-neutral-90 mb-4 text-sm font-bold uppercase">
+            <h3 className="font-poppins text-neutral-90 mb-4 text-sm font-bold uppercase">
               Shade Palette
             </h3>
             <div className="grid gap-2 md:grid-cols-10">
@@ -503,7 +503,7 @@ export default function ColorPage() {
 
             {/* Copy Palette Code */}
             <div className="bg-neutral-10/40 mt-6 rounded-lg border border-white/10 p-4">
-              <p className="font-space-grotesk text-neutral-60 mb-3 text-xs font-bold tracking-widest uppercase lg:text-sm">
+              <p className="font-poppins text-neutral-60 mb-3 text-xs font-bold tracking-widest uppercase lg:text-sm">
                 Copy Palette Code
               </p>
               <div className="mb-4 flex flex-wrap gap-2">
@@ -532,7 +532,7 @@ export default function ColorPage() {
               </div>
               <button
                 onClick={copyPaletteCode}
-                className="font-space-grotesk flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-cyan-600/50 bg-cyan-600/10 px-4 py-2 text-xs font-bold tracking-widest uppercase transition-all hover:border-cyan-500 hover:bg-cyan-600/20 lg:text-sm"
+                className="font-poppins flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-cyan-600/50 bg-cyan-600/10 px-4 py-2 text-xs font-bold tracking-widest uppercase transition-all hover:border-cyan-500 hover:bg-cyan-600/20 lg:text-sm"
               >
                 {copiedColor === generatePaletteCode(paletteFormat) ? (
                   <>
@@ -552,7 +552,7 @@ export default function ColorPage() {
 
         {/* Info section */}
         <div className="bg-neutral-10/40 rounded-sm border border-white/5 p-4">
-          <p className="font-space-grotesk text-neutral-60 mb-2 text-xs font-bold tracking-widest uppercase lg:text-sm">
+          <p className="font-poppins text-neutral-60 mb-2 text-xs font-bold tracking-widest uppercase lg:text-sm">
             ℹ Tips:
           </p>
           <ul className="text-neutral-70 space-y-1 text-xs lg:text-sm">

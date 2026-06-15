@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, Manrope } from 'next/font/google';
+import { Poppins, Fira_Code } from 'next/font/google';
 import { SkipLink } from '@/components/reusable/skip-link';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { GoogleAnalytics } from '@/components/reusable/google-analytics';
@@ -7,14 +7,23 @@ import { ThemeProvider } from '@/components/reusable/theme-provider';
 import { generateOrganizationSchema } from '@/lib/schema';
 import './globals.css';
 
-const spaceGrotesk = Space_Grotesk({
-  variable: '--font-space-grotesk',
+const poppinsHeading = Poppins({
+  variable: '--font-poppins',
+  weight: ['400', '500', '600', '700', '800'],
   subsets: ['latin'],
   display: 'swap',
 });
 
-const manrope = Manrope({
-  variable: '--font-manrope',
+const poppinsBody = Poppins({
+  variable: '--font-poppins',
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const firaCode = Fira_Code({
+  variable: '--font-fira-code',
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
   display: 'swap',
 });
@@ -91,7 +100,7 @@ export default function RootLayout({
       lang="en"
       data-scroll-behavior="smooth"
       data-theme="dark"
-      className={`${spaceGrotesk.variable} ${manrope.variable} antialiased`}
+      className={`${poppinsHeading.variable} ${poppinsBody.variable} ${firaCode.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>

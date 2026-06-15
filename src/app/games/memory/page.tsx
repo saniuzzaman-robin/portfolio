@@ -195,7 +195,7 @@ export default function MemoryPage() {
         <div className="glass-strong flex flex-wrap items-center justify-between gap-4 border-b border-white/5 px-6 py-4">
           <Link
             href="/games"
-            className="hover:text-tertiary-50 font-space-grotesk flex items-center gap-2 text-sm tracking-widest text-neutral-50 uppercase transition-colors"
+            className="hover:text-tertiary-50 font-poppins flex items-center gap-2 text-sm tracking-widest text-neutral-50 uppercase transition-colors"
           >
             <ArrowLeft className="h-4 w-4" /> Games
           </Link>
@@ -204,20 +204,20 @@ export default function MemoryPage() {
               <Timer className="text-tertiary-50 h-4 w-4" />
               <div>
                 <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">Time</p>
-                <p className="font-space-grotesk neon-purple text-xl font-bold tabular-nums">
+                <p className="font-poppins neon-purple text-xl font-bold tabular-nums">
                   {formatTime(seconds)}
                 </p>
               </div>
             </div>
             <div>
               <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">Moves</p>
-              <p className="font-space-grotesk neon-cyan text-xl font-bold tabular-nums">{moves}</p>
+              <p className="font-poppins neon-cyan text-xl font-bold tabular-nums">{moves}</p>
             </div>
             <div>
               <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">
                 Matched
               </p>
-              <p className="font-space-grotesk neon-green text-xl font-bold tabular-nums">
+              <p className="font-poppins neon-green text-xl font-bold tabular-nums">
                 {matched}/{totalPairs}
               </p>
             </div>
@@ -228,7 +228,7 @@ export default function MemoryPage() {
                   <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">
                     Best
                   </p>
-                  <p className="font-space-grotesk text-sm font-bold text-yellow-400 tabular-nums">
+                  <p className="font-poppins text-sm font-bold text-yellow-400 tabular-nums">
                     {bestMoves} moves
                   </p>
                 </div>
@@ -237,7 +237,7 @@ export default function MemoryPage() {
           </div>
           <button
             onClick={startGame}
-            className="btn-neon-purple font-space-grotesk flex items-center gap-2 rounded-sm px-4 py-2 text-xs font-bold tracking-widest uppercase lg:text-sm"
+            className="btn-neon-purple font-poppins flex items-center gap-2 rounded-sm px-4 py-2 text-xs font-bold tracking-widest uppercase lg:text-sm"
           >
             <RefreshCw className="h-3.5 w-3.5" /> New Game
           </button>
@@ -263,7 +263,7 @@ export default function MemoryPage() {
               className="absolute inset-0 z-20 flex flex-col items-center justify-center"
               style={{ background: 'rgba(8,13,26,0.9)', backdropFilter: 'blur(8px)' }}
             >
-              <p className="font-space-grotesk neon-purple animate-slide-up mb-2 text-4xl font-bold">
+              <p className="font-poppins neon-purple animate-slide-up mb-2 text-4xl font-bold">
                 YOU WIN!
               </p>
               <p className="text-neutral-70 animate-fade-in mb-1 text-sm [animation-delay:200ms]">
@@ -273,13 +273,13 @@ export default function MemoryPage() {
                 Moves: <span className="neon-green font-bold">{moves}</span>
               </p>
               {bestTime !== null && (
-                <p className="font-space-grotesk animate-fade-in mb-6 text-xs text-yellow-400 [animation-delay:400ms] lg:text-sm">
+                <p className="font-poppins animate-fade-in mb-6 text-xs text-yellow-400 [animation-delay:400ms] lg:text-sm">
                   ⭐ Best: {formatTime(bestTime)} in {bestMoves} moves
                 </p>
               )}
               <button
                 onClick={startGame}
-                className="btn-neon-purple font-space-grotesk animate-scale-in rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase [animation-delay:500ms]"
+                className="btn-neon-purple font-poppins animate-scale-in rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase [animation-delay:500ms]"
               >
                 &gt; Play Again
               </button>

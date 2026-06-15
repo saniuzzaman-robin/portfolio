@@ -11,7 +11,7 @@ export function ProjectsGrid() {
       <div className="relative z-10 mx-auto max-w-6xl">
         <div className="animate-slide-right mb-20">
           <p className="section-label mb-3">Portfolio</p>
-          <h1 className="font-space-grotesk mb-6 text-5xl font-bold md:text-6xl">
+          <h1 className="font-poppins mb-6 text-5xl font-bold md:text-6xl">
             Projects &amp; <span className="neon-green">Work</span>
           </h1>
           <p className="text-neutral-70 max-w-2xl text-base leading-relaxed">

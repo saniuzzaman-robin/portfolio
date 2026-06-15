@@ -18,7 +18,7 @@ export function ProfessionalJourney() {
         {/* Header */}
         <div className="animate-slide-right mb-20">
           <p className="section-label mb-3">Experience</p>
-          <h2 className="font-space-grotesk text-4xl font-bold md:text-5xl">
+          <h2 className="font-poppins text-4xl font-bold md:text-5xl">
             Professional <span className="neon-green">Journey</span>
           </h2>
         </div>
@@ -85,11 +85,11 @@ export function ProfessionalJourney() {
                       {/* Header row */}
                       <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
                         <div>
-                          <h3 className="font-space-grotesk text-neutral-90 mb-1 text-xl font-bold transition-colors group-hover:text-neutral-100 md:text-2xl">
+                          <h3 className="font-poppins text-neutral-90 mb-1 text-xl font-bold transition-colors group-hover:text-neutral-100 md:text-2xl">
                             {job.company}
                           </h3>
                           <p
-                            className="font-space-grotesk text-sm font-bold tracking-wider uppercase"
+                            className="font-poppins text-sm font-bold tracking-wider uppercase"
                             style={{ color: accent }}
                           >
                             {job.title}
@@ -97,7 +97,7 @@ export function ProfessionalJourney() {
                         </div>
                         <div className="flex shrink-0 flex-col items-end gap-1.5">
                           <span
-                            className="font-space-grotesk rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase lg:text-sm"
+                            className="font-poppins rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase lg:text-sm"
                             style={{
                               color: accent,
                               border: `1px solid ${accentA(0.3)}`,
@@ -106,7 +106,7 @@ export function ProfessionalJourney() {
                           >
                             {job.duration}
                           </span>
-                          <span className="text-neutral-60 font-space-grotesk text-xs lg:text-sm">
+                          <span className="text-neutral-60 font-poppins text-xs lg:text-sm">
                             {job.period.replace(' -', ' –')}
                           </span>
                         </div>
@@ -120,7 +120,7 @@ export function ProfessionalJourney() {
                       {/* Key achievements */}
                       <div className="mb-6">
                         <p
-                          className="font-space-grotesk mb-3 text-[10px] font-bold tracking-widest uppercase"
+                          className="font-poppins mb-3 text-[10px] font-bold tracking-widest uppercase"
                           style={{ color: accent }}
                         >
                           Key Contributions
@@ -148,7 +148,7 @@ export function ProfessionalJourney() {
                         {job.skills.map((skill) => (
                           <span
                             key={skill}
-                            className="font-space-grotesk rounded-sm px-2.5 py-0.5 text-[10px] font-bold tracking-wide uppercase"
+                            className="font-poppins rounded-sm px-2.5 py-0.5 text-[10px] font-bold tracking-wide uppercase"
                             style={{
                               color: accent,
                               border: `1px solid ${accentA(0.22)}`,

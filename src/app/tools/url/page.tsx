@@ -90,7 +90,7 @@ export default function URLPage() {
           <button
             onClick={process}
             disabled={!input.trim()}
-            className="hover:bg-primary-20 font-space-grotesk border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
+            className="hover:bg-primary-20 font-poppins border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             <Zap className="h-4 w-4" />
             {mode === 'encode' ? 'Encode' : mode === 'decode' ? 'Decode' : 'Parse'}
@@ -113,7 +113,7 @@ export default function URLPage() {
 
         {Object.keys(params).length > 0 && (
           <div className="mt-6">
-            <h3 className="font-space-grotesk text-neutral-90 mb-4 text-sm font-bold">
+            <h3 className="font-poppins text-neutral-90 mb-4 text-sm font-bold">
               Query Parameters
             </h3>
             <div className="space-y-3">
@@ -123,13 +123,13 @@ export default function URLPage() {
                   className="bg-neutral-10/40 grid grid-cols-2 gap-3 rounded-sm border border-white/5 p-3"
                 >
                   <div>
-                    <span className="text-neutral-60 font-space-grotesk text-[10px] tracking-widest uppercase">
+                    <span className="text-neutral-60 font-poppins text-[10px] tracking-widest uppercase">
                       Key
                     </span>
                     <div className="text-neutral-80 font-mono text-sm break-all">{key}</div>
                   </div>
                   <div>
-                    <span className="text-neutral-60 font-space-grotesk text-[10px] tracking-widest uppercase">
+                    <span className="text-neutral-60 font-poppins text-[10px] tracking-widest uppercase">
                       Value
                     </span>
                     <div className="text-neutral-80 font-mono text-sm break-all">{value}</div>

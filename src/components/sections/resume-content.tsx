@@ -33,13 +33,13 @@ export function ResumeContent() {
 
             <div className="relative z-10 flex flex-wrap items-start justify-between gap-6">
               <div>
-                <h1 className="font-space-grotesk text-neutral-90 mb-2 text-4xl font-bold md:text-5xl">
+                <h1 className="font-poppins text-neutral-90 mb-2 text-4xl font-bold md:text-5xl">
                   {CV_DATA.name}
                 </h1>
-                <p className="neon-green font-space-grotesk mb-4 text-base tracking-widest uppercase">
+                <p className="neon-green font-poppins mb-4 text-base tracking-widest uppercase">
                   {CV_DATA.title}
                 </p>
-                <div className="text-neutral-60 font-space-grotesk flex flex-wrap gap-5 text-xs lg:text-sm">
+                <div className="text-neutral-60 font-poppins flex flex-wrap gap-5 text-xs lg:text-sm">
                   <span>✉ {CV_DATA.email}</span>
                   <span>☏ {CV_DATA.phone}</span>
                   <span>⊙ {CV_DATA.location}</span>
@@ -48,7 +48,7 @@ export function ResumeContent() {
               <a
                 href="/CV_SANIUZZAMAN_ROBIN.pdf"
                 download
-                className="btn-neon-green font-space-grotesk inline-flex shrink-0 items-center gap-2 rounded-sm px-6 py-3 text-sm font-bold tracking-widest uppercase"
+                className="btn-neon-green font-poppins inline-flex shrink-0 items-center gap-2 rounded-sm px-6 py-3 text-sm font-bold tracking-widest uppercase"
               >
                 <Download className="h-4 w-4" />
                 <span>Download CV</span>
@@ -65,7 +65,7 @@ export function ResumeContent() {
         <div className="animate-slide-up mb-16 [animation-delay:100ms]">
           <div className="mb-10 flex items-center gap-3">
             <div className="from-primary-50/40 h-px flex-1 bg-linear-to-r to-transparent" />
-            <h2 className="font-space-grotesk neon-green text-2xl font-bold tracking-widest uppercase">
+            <h2 className="font-poppins neon-green text-2xl font-bold tracking-widest uppercase">
               Experience
             </h2>
             <div className="from-primary-50/40 h-px flex-1 bg-linear-to-l to-transparent" />
@@ -119,11 +119,11 @@ export function ResumeContent() {
                       <div className="relative z-10 p-6">
                         <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
                           <div>
-                            <h3 className="font-space-grotesk text-neutral-90 text-lg font-bold transition-colors group-hover:text-neutral-100">
+                            <h3 className="font-poppins text-neutral-90 text-lg font-bold transition-colors group-hover:text-neutral-100">
                               {exp.company}
                             </h3>
                             <p
-                              className="font-space-grotesk mt-0.5 text-sm font-bold tracking-wider uppercase"
+                              className="font-poppins mt-0.5 text-sm font-bold tracking-wider uppercase"
                               style={{ color: accent }}
                             >
                               {exp.title}
@@ -131,7 +131,7 @@ export function ResumeContent() {
                           </div>
                           <div className="flex shrink-0 flex-col items-end gap-1">
                             <span
-                              className="font-space-grotesk rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase lg:text-sm"
+                              className="font-poppins rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase lg:text-sm"
                               style={{
                                 color: accent,
                                 border: `1px solid ${accentA(0.28)}`,
@@ -164,7 +164,7 @@ export function ResumeContent() {
                           {exp.skills.map((skill) => (
                             <span
                               key={skill}
-                              className="font-space-grotesk rounded-sm px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase"
+                              className="font-poppins rounded-sm px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase"
                               style={{
                                 color: accent,
                                 border: `1px solid ${accentA(0.22)}`,
@@ -192,7 +192,7 @@ export function ResumeContent() {
         <div className="animate-slide-up mb-16 [animation-delay:200ms]">
           <div className="mb-10 flex items-center gap-3">
             <div className="from-secondary-50/40 h-px flex-1 bg-linear-to-r to-transparent" />
-            <h2 className="font-space-grotesk neon-cyan text-2xl font-bold tracking-widest uppercase">
+            <h2 className="font-poppins neon-cyan text-2xl font-bold tracking-widest uppercase">
               Technical Skills
             </h2>
             <div className="from-secondary-50/40 h-px flex-1 bg-linear-to-l to-transparent" />
@@ -228,7 +228,7 @@ export function ResumeContent() {
                     style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
                   />
                   <p
-                    className="font-space-grotesk mb-3 text-xs font-bold tracking-widest uppercase lg:text-sm"
+                    className="font-poppins mb-3 text-xs font-bold tracking-widest uppercase lg:text-sm"
                     style={{ color: accent }}
                   >
                     {title}
@@ -244,7 +244,7 @@ export function ResumeContent() {
         <div className="animate-slide-up mb-16 [animation-delay:300ms]">
           <div className="mb-10 flex items-center gap-3">
             <div className="from-tertiary-50/40 h-px flex-1 bg-linear-to-r to-transparent" />
-            <h2 className="font-space-grotesk neon-purple text-2xl font-bold tracking-widest uppercase">
+            <h2 className="font-poppins neon-purple text-2xl font-bold tracking-widest uppercase">
               Education & CP
             </h2>
             <div className="from-tertiary-50/40 h-px flex-1 bg-linear-to-l to-transparent" />
@@ -256,10 +256,10 @@ export function ResumeContent() {
                 className="glass border-primary-50/15 hover:border-primary-50/38 rounded-sm border p-6 transition-all duration-300"
               >
                 <div className="from-primary-50/50 mb-4 h-px bg-linear-to-r to-transparent" />
-                <h3 className="font-space-grotesk text-neutral-90 mb-1 text-base font-bold">
+                <h3 className="font-poppins text-neutral-90 mb-1 text-base font-bold">
                   {edu.degree}
                 </h3>
-                <p className="text-primary-50 font-space-grotesk mb-1 text-xs font-bold tracking-wider uppercase lg:text-sm">
+                <p className="text-primary-50 font-poppins mb-1 text-xs font-bold tracking-wider uppercase lg:text-sm">
                   {edu.institution}
                 </p>
                 <p className="text-neutral-60 text-xs lg:text-sm">
@@ -269,7 +269,7 @@ export function ResumeContent() {
             ))}
             <div className="glass border-secondary-50/15 hover:border-secondary-50/38 rounded-sm border p-6 transition-all duration-300">
               <div className="from-secondary-50/50 mb-4 h-px bg-linear-to-r to-transparent" />
-              <h3 className="font-space-grotesk text-neutral-90 mb-3 text-base font-bold">
+              <h3 className="font-poppins text-neutral-90 mb-3 text-base font-bold">
                 Competitive Programming
               </h3>
               <ul className="space-y-1.5">
@@ -283,7 +283,7 @@ export function ResumeContent() {
             </div>
             <div className="glass border-tertiary-50/15 hover:border-tertiary-50/38 rounded-sm border p-6 transition-all duration-300">
               <div className="from-tertiary-50/50 mb-4 h-px bg-linear-to-r to-transparent" />
-              <h3 className="font-space-grotesk text-neutral-90 mb-2 text-base font-bold">
+              <h3 className="font-poppins text-neutral-90 mb-2 text-base font-bold">
                 {CV_DATA.problemSetting.title}
               </h3>
               <p className="text-neutral-70 text-xs leading-relaxed lg:text-sm">
@@ -302,7 +302,7 @@ export function ResumeContent() {
                 'linear-gradient(to right, transparent, var(--color-primary-50), var(--color-secondary-50), transparent)',
             }}
           />
-          <h3 className="font-space-grotesk text-neutral-90 mb-3 text-2xl font-bold">
+          <h3 className="font-poppins text-neutral-90 mb-3 text-2xl font-bold">
             Ready to work together?
           </h3>
           <p className="text-neutral-70 mx-auto mb-8 max-w-md text-sm">
@@ -311,7 +311,7 @@ export function ResumeContent() {
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="mailto:saniuzzamanrobin07@gmail.com"
-              className="btn-neon-green font-space-grotesk inline-flex items-center gap-2 rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
+              className="btn-neon-green font-poppins inline-flex items-center gap-2 rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
             >
               <Mail className="h-4 w-4" />
               Get In Touch
@@ -320,7 +320,7 @@ export function ResumeContent() {
               href="https://linkedin.com/in/saniuzzaman-robin"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-neon-cyan font-space-grotesk inline-flex items-center gap-2 rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
+              className="btn-neon-cyan font-poppins inline-flex items-center gap-2 rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
             >
               <ExternalLink className="h-4 w-4" />
               LinkedIn

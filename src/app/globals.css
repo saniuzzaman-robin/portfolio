@@ -75,6 +75,12 @@ body {
   color: #e8f0f7;
   font-family: var(--font-manrope), sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1;
 }
 
 /* Custom cyberpunk scrollbar */
@@ -624,25 +630,29 @@ body {
    SECTION LABEL
    ============================================================ */
 .section-label {
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: var(--font-manrope), sans-serif;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #00d4ff;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ============================================================
    TERMINAL TEXT
    ============================================================ */
 .terminal-text {
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-fira-code), monospace;
   color: var(--color-primary-50);
   background: rgb(from var(--color-primary-50) r g b / 0.05);
   border: 1px solid rgb(from var(--color-primary-50) r g b / 0.2);
   border-radius: 4px;
   padding: 2px 8px;
   font-size: 0.8em;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================================

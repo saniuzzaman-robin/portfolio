@@ -59,7 +59,7 @@ function ProjectCard({
           {/* Tag + Number row */}
           <div className="relative z-10 mb-3 flex items-center justify-between">
             <span
-              className="font-space-grotesk rounded-sm px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase"
+              className="font-poppins rounded-sm px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase"
               style={{
                 color: accent,
                 background: accentA(0.09),
@@ -69,7 +69,7 @@ function ProjectCard({
               {project.tag}
             </span>
             <span
-              className="font-space-grotesk leading-none font-bold tabular-nums opacity-[0.12] transition-opacity duration-300 group-hover:opacity-[0.3]"
+              className="font-poppins leading-none font-bold tabular-nums opacity-[0.12] transition-opacity duration-300 group-hover:opacity-[0.3]"
               style={{
                 color: accent,
                 fontSize: size === 'lg' ? '2.5rem' : '1.75rem',
@@ -81,7 +81,7 @@ function ProjectCard({
 
           {/* Title */}
           <h3
-            className={`font-space-grotesk text-neutral-90 relative z-10 mb-2 leading-snug font-bold transition-colors group-hover:text-neutral-100 ${
+            className={`font-poppins text-neutral-90 relative z-10 mb-2 leading-snug font-bold transition-colors group-hover:text-neutral-100 ${
               size === 'lg' ? 'text-xl md:text-2xl' : 'text-base'
             }`}
           >
@@ -99,7 +99,7 @@ function ProjectCard({
 
           {/* Explore CTA */}
           <div
-            className="font-space-grotesk relative z-10 mt-4 flex w-fit items-center gap-1.5 text-xs tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1.5 lg:text-sm"
+            className="font-poppins relative z-10 mt-4 flex w-fit items-center gap-1.5 text-xs tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1.5 lg:text-sm"
             style={{ color: accent }}
           >
             <span>Explore</span>
@@ -130,7 +130,7 @@ export function FeaturedProjects() {
         <div className="mb-16 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <div>
             <p className="section-label animate-fade-in mb-3">Featured Work</p>
-            <h2 className="font-space-grotesk animate-slide-up text-4xl font-bold [animation-delay:80ms] md:text-5xl">
+            <h2 className="font-poppins animate-slide-up text-4xl font-bold [animation-delay:80ms] md:text-5xl">
               MuslimPro <span className="neon-cyan">Platform</span>
             </h2>
             <p className="text-neutral-70 animate-slide-up mt-3 max-w-xl text-sm leading-relaxed [animation-delay:150ms]">
@@ -140,7 +140,7 @@ export function FeaturedProjects() {
           </div>
           <Link
             href="/projects"
-            className="font-space-grotesk text-neutral-60 hover:text-primary-50 group animate-fade-in hidden shrink-0 items-center gap-2 text-xs tracking-widest uppercase transition-colors duration-200 [animation-delay:200ms] sm:flex lg:text-sm"
+            className="font-poppins text-neutral-60 hover:text-primary-50 group animate-fade-in hidden shrink-0 items-center gap-2 text-xs tracking-widest uppercase transition-colors duration-200 [animation-delay:200ms] sm:flex lg:text-sm"
           >
             <span>View all projects</span>
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -168,7 +168,7 @@ export function FeaturedProjects() {
         <div className="mt-8 flex justify-center sm:hidden">
           <Link
             href="/projects"
-            className="font-space-grotesk text-neutral-60 hover:text-primary-50 group flex items-center gap-2 text-xs tracking-widest uppercase transition-colors duration-200 lg:text-sm"
+            className="font-poppins text-neutral-60 hover:text-primary-50 group flex items-center gap-2 text-xs tracking-widest uppercase transition-colors duration-200 lg:text-sm"
           >
             <span>View all projects</span>
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />

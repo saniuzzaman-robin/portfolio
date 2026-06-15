@@ -7,7 +7,7 @@ export function BlogGrid() {
     <section className="px-6 py-24 md:px-12 lg:px-20">
       <div className="mx-auto max-w-6xl">
         <div className="animate-slide-right mb-20">
-          <h1 className="font-space-grotesk mb-6 text-5xl font-bold md:text-6xl">
+          <h1 className="font-poppins mb-6 text-5xl font-bold md:text-6xl">
             Blog & Articles
           </h1>
           <p className="text-neutral-70 max-w-2xl text-lg">
@@ -29,13 +29,13 @@ export function BlogGrid() {
                   <div className="mb-4 flex items-start justify-between">
                     <span className="text-3xl">{article.emoji}</span>
                     <span
-                      className={`font-space-grotesk text-xs tracking-widest uppercase lg:text-sm ${c.text}`}
+                      className={`font-poppins text-xs tracking-widest uppercase lg:text-sm ${c.text}`}
                     >
                       {article.category}
                     </span>
                   </div>
 
-                  <h2 className="font-space-grotesk group-hover:text-primary-50 mb-4 text-2xl font-bold transition duration-300">
+                  <h2 className="font-poppins group-hover:text-primary-50 mb-4 text-2xl font-bold transition duration-300">
                     {article.title}
                   </h2>
 
@@ -62,7 +62,7 @@ export function BlogGrid() {
                     </div>
                     <Link
                       href={`/blog/${article.slug}`}
-                      className={`font-space-grotesk inline-flex items-center gap-2 text-sm tracking-wider uppercase transition duration-300 group-hover:translate-x-2 ${c.text} ${c.textHover}`}
+                      className={`font-poppins inline-flex items-center gap-2 text-sm tracking-wider uppercase transition duration-300 group-hover:translate-x-2 ${c.text} ${c.textHover}`}
                     >
                       Read →
                     </Link>
@@ -83,7 +83,7 @@ export function BlogGrid() {
               placeholder="your@email.com"
               className="bg-neutral-10 border-neutral-20 focus:border-primary-50 text-neutral-90 flex-1 rounded-lg border px-4 py-3 transition focus:outline-none"
             />
-            <button className="bg-primary-50 text-primary-100 dark:text-primary-0 font-space-grotesk hover:bg-primary-60 rounded-lg px-6 py-3 font-bold transition duration-300 hover:scale-105">
+            <button className="bg-primary-50 text-primary-100 dark:text-primary-0 font-poppins hover:bg-primary-60 rounded-lg px-6 py-3 font-bold transition duration-300 hover:scale-105">
               Subscribe
             </button>
           </div>

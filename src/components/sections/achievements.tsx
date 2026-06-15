@@ -32,7 +32,7 @@ function AchievementRow({ item, rank }: { item: AchievementItem; rank: number })
 
         {/* Rank */}
         <span
-          className="font-space-grotesk relative z-10 w-7 shrink-0 text-xs font-bold tabular-nums opacity-35 transition-opacity duration-300 group-hover:opacity-80 lg:text-sm"
+          className="font-poppins relative z-10 w-7 shrink-0 text-xs font-bold tabular-nums opacity-35 transition-opacity duration-300 group-hover:opacity-80 lg:text-sm"
           style={{ color: accent }}
         >
           #{String(rank).padStart(2, '0')}
@@ -47,7 +47,7 @@ function AchievementRow({ item, rank }: { item: AchievementItem; rank: number })
             <Icon className="h-3.5 w-3.5" strokeWidth={1.5} />
           </div>
           <span
-            className="font-space-grotesk text-center text-[9px] leading-tight font-bold tracking-widest uppercase"
+            className="font-poppins text-center text-[9px] leading-tight font-bold tracking-widest uppercase"
             style={{ color: accent }}
           >
             {item.tag}
@@ -56,7 +56,7 @@ function AchievementRow({ item, rank }: { item: AchievementItem; rank: number })
 
         {/* Big stat */}
         <div
-          className="font-space-grotesk relative z-10 w-32 shrink-0 text-3xl leading-none font-bold tabular-nums md:w-40 md:text-4xl lg:text-5xl"
+          className="font-poppins relative z-10 w-32 shrink-0 text-3xl leading-none font-bold tabular-nums md:w-40 md:text-4xl lg:text-5xl"
           style={{ color: accent, textShadow: `0 0 24px ${accentA(0.4)}` }}
         >
           {displayStat}
@@ -64,7 +64,7 @@ function AchievementRow({ item, rank }: { item: AchievementItem; rank: number })
 
         {/* Label + description */}
         <div className="relative z-10 min-w-0 flex-1">
-          <p className="font-space-grotesk text-neutral-90 mb-1 text-sm font-bold tracking-widest uppercase transition-colors group-hover:text-neutral-100">
+          <p className="font-poppins text-neutral-90 mb-1 text-sm font-bold tracking-widest uppercase transition-colors group-hover:text-neutral-100">
             {item.label}
           </p>
           <p className="text-neutral-60 group-hover:text-neutral-70 line-clamp-2 text-xs leading-relaxed transition-colors lg:text-sm">
@@ -94,7 +94,7 @@ export function Achievements() {
         <div className="animate-slide-right mb-14 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="section-label mb-3">Career &amp; Competitive</p>
-            <h2 className="font-space-grotesk text-4xl font-bold md:text-5xl">
+            <h2 className="font-poppins text-4xl font-bold md:text-5xl">
               Achievements &amp; <span className="neon-cyan">Milestones</span>
             </h2>
           </div>
@@ -117,16 +117,16 @@ export function Achievements() {
 
           {/* Column labels */}
           <div className="flex items-center gap-3 border-b border-white/5 px-5 py-2.5 md:gap-6 md:px-7">
-            <span className="font-space-grotesk w-7 shrink-0 text-[9px] tracking-widest text-neutral-50 uppercase">
+            <span className="font-poppins w-7 shrink-0 text-[9px] tracking-widest text-neutral-50 uppercase">
               RNK
             </span>
-            <span className="font-space-grotesk hidden w-16 text-[9px] tracking-widest text-neutral-50 uppercase sm:block">
+            <span className="font-poppins hidden w-16 text-[9px] tracking-widest text-neutral-50 uppercase sm:block">
               CAT
             </span>
-            <span className="font-space-grotesk w-32 text-[9px] tracking-widest text-neutral-50 uppercase md:w-40">
+            <span className="font-poppins w-32 text-[9px] tracking-widest text-neutral-50 uppercase md:w-40">
               STAT
             </span>
-            <span className="font-space-grotesk flex-1 text-[9px] tracking-widest text-neutral-50 uppercase">
+            <span className="font-poppins flex-1 text-[9px] tracking-widest text-neutral-50 uppercase">
               ACHIEVEMENT
             </span>
           </div>
@@ -141,7 +141,7 @@ export function Achievements() {
           {/* Footer */}
           <div className="flex items-center gap-2 border-t border-white/5 bg-white/1 px-5 py-3 md:px-7">
             <span className="bg-primary-50 animate-glow inline-block h-1.5 w-1.5 rounded-full" />
-            <span className="font-space-grotesk text-neutral-60 text-[9px] tracking-widest uppercase">
+            <span className="font-poppins text-neutral-60 text-[9px] tracking-widest uppercase">
               All metrics verified · Last updated 2026
             </span>
           </div>
