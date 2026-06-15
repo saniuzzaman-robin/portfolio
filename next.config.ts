@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
 
   /* Image optimization */
   images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.qrserver.com',
+        pathname: '/v1/create-qr-code/**',
+      },
+    ],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 365, // 1 year
   },
