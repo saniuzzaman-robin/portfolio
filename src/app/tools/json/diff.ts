@@ -60,17 +60,17 @@ export function computeDiff(lines1: string[], lines2: string[]): DiffEntry[] {
 
     if (curr.type === 'delete' || curr.type === 'insert') {
       // Collect consecutive deletes and inserts
-      const deletes: DiffEntry[] = [];
-      const inserts: DiffEntry[] = [];
+      const deletes: Extract<DiffEntry, { type: 'delete' }>[] = [];
+      const inserts: Extract<DiffEntry, { type: 'insert' }>[] = [];
 
       while (
         idx < result.length &&
         (result[idx].type === 'delete' || result[idx].type === 'insert')
       ) {
         if (result[idx].type === 'delete') {
-          deletes.push(result[idx]);
+          deletes.push(result[idx] as Extract<DiffEntry, { type: 'delete' }>);
         } else {
-          inserts.push(result[idx]);
+          inserts.push(result[idx] as Extract<DiffEntry, { type: 'insert' }>);
         }
         idx++;
       }
