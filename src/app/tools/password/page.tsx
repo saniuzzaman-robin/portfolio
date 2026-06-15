@@ -93,7 +93,7 @@ export default function PasswordGeneratorPage() {
         <div className="mb-6 grid gap-6 lg:grid-cols-2">
           {/* Options */}
           <ToolPanel label="Settings" accent="secondary">
-            <div className="space-y-5">
+            <div className="space-y-5 p-4">
               {/* Length slider */}
               <div>
                 <div className="mb-2 flex items-center justify-between">
@@ -147,7 +147,7 @@ export default function PasswordGeneratorPage() {
 
           {/* Info */}
           <ToolPanel label="Info" accent="secondary">
-            <div className="text-neutral-80 space-y-4 text-sm">
+            <div className="text-neutral-80 space-y-4 p-4 text-sm">
               <div>
                 <p className="text-neutral-90 mb-2 font-medium">Recommended Length</p>
                 <ul className="list-inside list-disc space-y-1 text-xs">

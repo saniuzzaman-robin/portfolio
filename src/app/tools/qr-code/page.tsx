@@ -67,7 +67,7 @@ export default function QRCodePage() {
         <div className="mb-6 grid gap-6 lg:grid-cols-2">
           {/* Input & Settings */}
           <ToolPanel label="Input & Settings" accent="tertiary">
-            <div className="space-y-5">
+            <div className="space-y-5 p-4">
               <div>
                 <label className="text-neutral-80 mb-2 block text-sm font-medium">
                   Text or URL
@@ -124,7 +124,7 @@ export default function QRCodePage() {
           {/* Preview */}
           <ToolPanel label="QR Code Preview" accent="tertiary">
             {qrUrl ? (
-              <div className="bg-neutral-10 flex flex-col items-center justify-center gap-4 rounded-sm p-6">
+              <div className="flex flex-col items-center justify-center gap-4 p-4">
                 <Image
                   src={qrUrl}
                   alt="Generated QR Code"
@@ -137,7 +137,7 @@ export default function QRCodePage() {
                 </div>
               </div>
             ) : (
-              <div className="text-neutral-60 flex h-64 items-center justify-center text-sm">
+              <div className="text-neutral-60 flex h-64 items-center justify-center p-4 text-sm">
                 QR code preview will appear here
               </div>
             )}
@@ -146,7 +146,7 @@ export default function QRCodePage() {
 
         {/* Info */}
         <ToolPanel label="Info" accent="tertiary">
-          <div className="text-neutral-80 space-y-3 text-sm">
+          <div className="text-neutral-80 space-y-3 p-4 text-sm">
             <div>
               <p className="text-neutral-90 mb-2 font-medium">What can you encode?</p>
               <ul className="list-inside list-disc space-y-1 text-xs">
