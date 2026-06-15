@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolTextarea, CopyButton } from '@/components/tools/tool-shell';
 import { Shield, Zap } from 'lucide-react';
+import { highlightJSON } from '../../../components/tools/json-highlighter';
 
 interface JWTDecoded {
   header: Record<string, unknown>;
@@ -88,7 +89,7 @@ export default function JWTPage() {
           <button
             onClick={decodeJWT}
             disabled={!input.trim()}
-            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40"
+            className="font-poppins flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             <Zap className="h-4 w-4" />
             Decode Token
@@ -101,21 +102,21 @@ export default function JWTPage() {
           <div className="space-y-4">
             {/* Header */}
             <ToolPanel label="Header" accent="secondary">
-              <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs break-all">
-                {JSON.stringify(decoded.header, null, 2)}
+              <div className="bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
+                {highlightJSON(decoded.header)}
               </div>
             </ToolPanel>
 
             {/* Payload */}
             <ToolPanel label="Payload" accent="secondary">
-              <div className="text-neutral-70 bg-neutral-10/40 max-h-64 overflow-y-auto rounded-sm border border-white/5 px-4 py-3 font-mono text-xs break-all">
-                {JSON.stringify(decoded.payload, null, 2)}
+              <div className="bg-neutral-10/40 max-h-64 overflow-y-auto rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
+                {highlightJSON(decoded.payload)}
               </div>
             </ToolPanel>
 
             {/* Signature preview */}
             <ToolPanel label="Signature (first 32 chars)" accent="secondary">
-              <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs">
+              <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
                 {decoded.signature.slice(0, 32)}...
               </div>
             </ToolPanel>
@@ -125,7 +126,7 @@ export default function JWTPage() {
               decoded.payload !== null &&
               'exp' in decoded.payload && (
                 <div
-                  className={`font-space-grotesk rounded-sm border p-3 text-xs ${
+                  className={`font-poppins rounded-sm border p-3 text-xs lg:text-sm ${
                     isExpired(decoded)
                       ? 'border-red-900/50 bg-red-950/30 text-red-300'
                       : 'border-green-900/50 bg-green-950/30 text-green-300'

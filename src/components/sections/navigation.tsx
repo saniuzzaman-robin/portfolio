@@ -160,7 +160,7 @@ export function Navigation() {
         {/* Logo */}
         <Link
           href="/"
-          className="font-space-grotesk group relative text-lg font-bold tracking-widest uppercase"
+          className="font-poppins group relative text-lg font-bold tracking-widest uppercase"
         >
           <span className="neon-green group-hover:animate-glitch transition-all duration-300">
             ARCH
@@ -180,7 +180,7 @@ export function Navigation() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`font-space-grotesk group relative flex items-center gap-1.5 rounded-sm px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 ${
+                  className={`font-poppins group relative flex items-center gap-1.5 rounded-sm px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 lg:text-sm ${
                     active ? 'text-primary-50' : 'text-neutral-70 hover:text-neutral-100'
                   }`}
                 >
@@ -209,7 +209,7 @@ export function Navigation() {
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 <button
-                  className={`font-space-grotesk relative flex cursor-pointer items-center gap-1.5 rounded-sm px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 ${
+                  className={`font-poppins relative flex cursor-pointer items-center gap-1.5 rounded-sm px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300 lg:text-sm ${
                     groupActive || isOpen
                       ? 'text-primary-50'
                       : 'text-neutral-70 hover:text-neutral-100'
@@ -244,7 +244,7 @@ export function Navigation() {
                           <Link
                             key={child.href}
                             href={child.href}
-                            className={`font-space-grotesk group animate-dropdown-item relative flex items-center gap-3 px-4 py-3 text-xs tracking-widest uppercase transition-all duration-200 ${
+                            className={`font-poppins group animate-dropdown-item relative flex items-center gap-3 px-4 py-3 text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
                               active
                                 ? 'text-primary-50 bg-primary-50/8'
                                 : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
@@ -330,13 +330,13 @@ export function Navigation() {
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
-              className="font-space-grotesk text-base font-bold tracking-widest uppercase"
+              className="font-poppins text-base font-bold tracking-widest uppercase"
             >
               <span className="neon-green">ARCH</span>
               <span className="neon-cyan">ITECT</span>
               <span className="neon-purple">VI</span>
             </Link>
-            <p className="font-space-grotesk text-xs tracking-wider text-neutral-50">
+            <p className="font-poppins text-xs tracking-wider text-neutral-50 lg:text-sm">
               Software Engineer
             </p>
           </div>
@@ -365,7 +365,7 @@ export function Navigation() {
               <Link
                 href={homeLink.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`font-space-grotesk group relative flex items-center gap-4 overflow-hidden rounded-sm px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
+                className={`font-poppins group relative flex items-center gap-4 overflow-hidden rounded-sm px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
                   active
                     ? 'text-primary-50 bg-primary-50/8'
                     : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
@@ -388,7 +388,7 @@ export function Navigation() {
           <div className="overflow-hidden rounded-sm border border-white/5">
             <button
               onClick={() => setMobileGroupOpen((o) => !o)}
-              className={`font-space-grotesk group relative flex w-full items-center gap-4 px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
+              className={`font-poppins group relative flex w-full items-center gap-4 px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
                 isGroupActive(groupItem.children)
                   ? 'text-primary-50 bg-primary-50/8'
                   : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
@@ -418,7 +418,7 @@ export function Navigation() {
                       key={child.href}
                       href={child.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`font-space-grotesk group relative flex items-center gap-4 py-3 pr-4 pl-10 text-xs tracking-widest uppercase transition-all duration-200 ${
+                      className={`font-poppins group relative flex items-center gap-4 py-3 pr-4 pl-10 text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
                         active
                           ? 'text-primary-50 bg-primary-50/8'
                           : 'text-neutral-60 hover:bg-white/5 hover:text-neutral-100'
@@ -449,7 +449,7 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`font-space-grotesk group relative flex items-center gap-4 overflow-hidden rounded-sm px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
+                className={`font-poppins group relative flex items-center gap-4 overflow-hidden rounded-sm px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
                   active
                     ? 'text-primary-50 bg-primary-50/8'
                     : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
@@ -473,12 +473,12 @@ export function Navigation() {
         {/* Bottom section */}
         <div className="px-6 pt-4 pb-8">
           <div className="from-primary-50/30 mb-5 h-px bg-linear-to-r via-white/10 to-transparent" />
-          <p className="text-neutral-40 font-space-grotesk mb-1 text-xs tracking-widest uppercase">
+          <p className="text-neutral-40 font-poppins mb-1 text-xs tracking-widest uppercase lg:text-sm">
             Available for work
           </p>
           <div className="flex items-center gap-2">
             <span className="bg-primary-50 h-1.5 w-1.5 animate-pulse rounded-full" />
-            <span className="text-primary-50 font-space-grotesk text-xs">
+            <span className="text-primary-50 font-poppins text-xs lg:text-sm">
               Open to opportunities
             </span>
           </div>

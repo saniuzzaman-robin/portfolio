@@ -16,7 +16,7 @@ interface AccentChipProps {
 export function AccentChip({ accent, className = '', children }: AccentChipProps) {
   return (
     <span
-      className={`terminal-text text-xs ${className}`}
+      className={`terminal-text text-xs lg:text-sm ${className}`}
       style={{
         color: av(accent),
         borderColor: ava(accent, 0.25),

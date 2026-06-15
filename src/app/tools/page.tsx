@@ -37,7 +37,7 @@ export default function ToolsPage() {
               <Wrench className="text-primary-50 h-5 w-5" />
               <p className="section-label">Developer Utilities</p>
             </div>
-            <h1 className="font-space-grotesk animate-slide-up mb-5 text-5xl font-bold [animation-delay:80ms] md:text-7xl">
+            <h1 className="font-poppins animate-slide-up mb-5 text-5xl font-bold [animation-delay:80ms] md:text-7xl">
               <span className="neon-green">DEV</span> <span className="neon-cyan">TOOLS</span>
             </h1>
             <p className="text-neutral-70 animate-slide-up max-w-xl text-base leading-relaxed [animation-delay:150ms]">
@@ -94,16 +94,16 @@ export default function ToolsPage() {
                         </div>
 
                         {/* Title */}
-                        <h2 className="font-space-grotesk text-neutral-90 relative z-10 mb-0.5 text-base font-bold transition-colors group-hover:text-neutral-100">
+                        <h2 className="font-poppins text-neutral-90 relative z-10 mb-0.5 text-base font-bold transition-colors group-hover:text-neutral-100">
                           {tool.title}
                         </h2>
                         <p
-                          className="font-space-grotesk relative z-10 mb-3 text-[10px] font-bold tracking-widest uppercase"
+                          className="font-poppins relative z-10 mb-3 text-[10px] font-bold tracking-widest uppercase"
                           style={{ color: accent }}
                         >
                           {tool.subtitle}
                         </p>
-                        <p className="text-neutral-60 relative z-10 flex-1 text-xs leading-relaxed">
+                        <p className="text-neutral-60 relative z-10 flex-1 text-xs leading-relaxed lg:text-sm">
                           {tool.description}
                         </p>
 
@@ -112,7 +112,7 @@ export default function ToolsPage() {
                           {tool.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="font-space-grotesk rounded-sm px-1.5 py-0.5 text-[9px] font-bold tracking-wide uppercase"
+                              className="font-poppins rounded-sm px-1.5 py-0.5 text-[9px] font-bold tracking-wide uppercase"
                               style={{
                                 color: accent,
                                 background: accentA(0.07),

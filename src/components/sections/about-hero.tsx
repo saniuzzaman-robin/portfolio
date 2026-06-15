@@ -21,7 +21,7 @@ export function AboutHero() {
         {/* Header */}
         <div className="animate-slide-right mb-16">
           <p className="section-label mb-3">Who I Am</p>
-          <h1 className="font-space-grotesk mb-4 text-5xl font-bold md:text-7xl">
+          <h1 className="font-poppins mb-4 text-5xl font-bold md:text-7xl">
             About <span className="neon-green">Me</span>
           </h1>
           <div className="from-primary-50 via-secondary-50 h-px w-40 bg-linear-to-r to-transparent" />
@@ -62,7 +62,7 @@ export function AboutHero() {
                       }}
                     />
                     <h2
-                      className="font-space-grotesk relative z-10 mb-3 text-lg font-bold"
+                      className="font-poppins relative z-10 mb-3 text-lg font-bold"
                       style={{ color: accent }}
                     >
                       {s.title}
@@ -117,7 +117,7 @@ export function AboutHero() {
                     >
                       {h.icon}
                     </div>
-                    <h3 className={`font-space-grotesk mb-2 text-base font-bold ${ac.text}`}>
+                    <h3 className={`font-poppins mb-2 text-base font-bold ${ac.text}`}>
                       {h.title}
                     </h3>
                     <p className="text-neutral-60 mt-auto text-sm leading-relaxed">{h.desc}</p>

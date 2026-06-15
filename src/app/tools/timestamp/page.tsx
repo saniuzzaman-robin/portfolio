@@ -117,7 +117,7 @@ export default function TimestampPage() {
           <button
             onClick={convert}
             disabled={!unixInput.trim() && !humanInput.trim()}
-            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-purple-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-40"
+            className="font-poppins flex cursor-pointer items-center gap-2 rounded-sm border border-purple-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             <Zap className="h-4 w-4" />
             Convert
@@ -129,7 +129,7 @@ export default function TimestampPage() {
         {/* Quick picks */}
         {mode === 'unix-to-human' && (
           <div className="mt-6">
-            <p className="text-neutral-60 font-space-grotesk mb-3 text-xs tracking-widest uppercase">
+            <p className="text-neutral-60 font-poppins mb-3 text-xs tracking-widest uppercase lg:text-sm">
               Quick picks
             </p>
             <div className="flex flex-wrap gap-2">
@@ -142,7 +142,7 @@ export default function TimestampPage() {
                 <button
                   key={item.label}
                   onClick={item.fn}
-                  className="font-space-grotesk text-neutral-60 hover:text-tertiary-50 hover:border-tertiary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
+                  className="font-poppins text-neutral-60 hover:text-tertiary-50 hover:border-tertiary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
                 >
                   {item.label}
                 </button>

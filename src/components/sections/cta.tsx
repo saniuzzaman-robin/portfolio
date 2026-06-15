@@ -22,7 +22,7 @@ export function CTA() {
         <p className="section-label animate-slide-up mb-6">Let&apos;s Collaborate</p>
 
         {/* Heading */}
-        <h2 className="font-space-grotesk animate-slide-up mb-6 text-4xl leading-tight font-bold [animation-delay:100ms] md:text-5xl lg:text-6xl">
+        <h2 className="font-poppins animate-slide-up mb-6 text-4xl leading-tight font-bold [animation-delay:100ms] md:text-5xl lg:text-6xl">
           Ready to build <span className="neon-green">something</span>
           <br />
           <span className="neon-cyan">extraordinary?</span>
@@ -37,7 +37,7 @@ export function CTA() {
         <div className="animate-slide-up flex flex-col items-center justify-center gap-4 [animation-delay:300ms] sm:flex-row">
           <a
             href="mailto:saniuzzamanrobin07@gmail.com"
-            className="group btn-neon-green font-space-grotesk inline-flex w-full items-center justify-center gap-3 rounded-sm px-10 py-4 text-sm font-bold tracking-widest uppercase sm:w-auto"
+            className="group btn-neon-green font-poppins inline-flex w-full items-center justify-center gap-3 rounded-sm px-10 py-4 text-sm font-bold tracking-widest uppercase sm:w-auto"
           >
             <Mail className="h-4 w-4 shrink-0" />
             <span>Get In Touch</span>
@@ -47,7 +47,7 @@ export function CTA() {
             href="https://linkedin.com/in/saniuzzaman-robin"
             target="_blank"
             rel="noopener noreferrer"
-            className="group btn-neon-cyan font-space-grotesk inline-flex w-full items-center justify-center gap-3 rounded-sm px-10 py-4 text-sm font-bold tracking-widest uppercase sm:w-auto"
+            className="group btn-neon-cyan font-poppins inline-flex w-full items-center justify-center gap-3 rounded-sm px-10 py-4 text-sm font-bold tracking-widest uppercase sm:w-auto"
           >
             <Sparkles className="h-4 w-4 shrink-0" />
             <span>LinkedIn</span>

@@ -66,7 +66,7 @@ export default function Base64Page() {
           />
           <button
             onClick={swapMode}
-            className="font-space-grotesk text-neutral-60 hover:text-primary-50 hover:border-primary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
+            className="font-poppins text-neutral-60 hover:text-primary-50 hover:border-primary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
           >
             ⇄ Swap
           </button>
@@ -111,14 +111,14 @@ export default function Base64Page() {
           <button
             onClick={process}
             disabled={!input.trim()}
-            className="hover:bg-primary-20 font-space-grotesk border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40"
+            className="hover:bg-primary-20 font-poppins border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             <Zap className="h-4 w-4" />
             {mode === 'encode' ? 'Encode' : 'Decode'}
           </button>
 
           {output && !error && (
-            <div className="text-neutral-60 font-space-grotesk flex flex-wrap gap-6 text-xs">
+            <div className="text-neutral-60 font-poppins flex flex-wrap gap-6 text-xs lg:text-sm">
               <span>
                 Input: <strong className="text-neutral-80">{input.length} chars</strong>
               </span>

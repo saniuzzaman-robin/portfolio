@@ -5,8 +5,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        'space-grotesk': ['var(--font-space-grotesk)'],
-        manrope: ['var(--font-manrope)'],
+        poppins: ['var(--font-manrope)', 'sans-serif'],
+        'fira-code': ['var(--font-fira-code)', 'monospace'],
       },
       keyframes: {
         'fade-in': {

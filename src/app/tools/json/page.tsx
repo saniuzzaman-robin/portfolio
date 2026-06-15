@@ -150,7 +150,7 @@ export default function JSONPage() {
           <button
             onClick={process}
             disabled={!input1.trim() || (mode === 'diff' && !input2.trim())}
-            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40"
+            className="font-poppins flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             <Zap className="h-4 w-4" />
             {mode === 'format' ? 'Format' : mode === 'minify' ? 'Minify' : 'Compare'}
@@ -178,7 +178,7 @@ export default function JSONPage() {
         )}
 
         {mode === 'diff' && diffStats ? (
-          <div className="text-neutral-60 font-space-grotesk mt-4 text-xs">
+          <div className="text-neutral-60 font-poppins mt-4 text-xs">
             <span>JSON valid ✓</span>
             {diffStats.modified > 0 && (
               <span className="ml-4">• {diffStats.modified} modified</span>
@@ -188,7 +188,7 @@ export default function JSONPage() {
           </div>
         ) : (
           stats.valid && (
-            <div className="text-neutral-60 font-space-grotesk mt-4 text-xs">
+            <div className="text-neutral-60 font-poppins mt-4 text-xs lg:text-sm">
               <span>JSON valid ✓</span>
               {stats.keys !== undefined && (
                 <span className="ml-4">• {stats.keys} top-level keys</span>

@@ -40,7 +40,7 @@ export function Hero() {
                 <span className="h-3 w-3 rounded-full bg-yellow-400" />
                 <span className="bg-primary-50 h-3 w-3 rounded-full" />
               </div>
-              <span className="terminal-text text-xs">
+              <span className="terminal-text text-xs lg:text-sm">
                 ~/saniuzzaman &gt;&gt; init portfolio.exe
               </span>
             </div>
@@ -48,12 +48,12 @@ export function Hero() {
             {/* Name with glitch effect */}
             <div className="animate-slide-up mb-6 [animation-delay:100ms]">
               <h1
-                className="glitch font-space-grotesk text-neutral-90 text-5xl leading-none font-bold tracking-tight md:text-7xl lg:text-8xl"
+                className="glitch font-poppins text-neutral-90 text-5xl leading-none font-bold tracking-tight md:text-7xl lg:text-8xl"
                 data-text="SANIUZZAMAN"
               >
                 SANIUZZAMAN
               </h1>
-              <h2 className="font-space-grotesk neon-green animate-slide-up mt-2 text-4xl font-bold [animation-delay:200ms] md:text-5xl lg:text-6xl">
+              <h2 className="font-poppins neon-green animate-slide-up mt-2 text-4xl font-bold [animation-delay:200ms] md:text-5xl lg:text-6xl">
                 ROBIN
               </h2>
             </div>
@@ -68,7 +68,7 @@ export function Hero() {
                   'Competitive Programmer',
                   'System Design Enthusiast',
                 ]}
-                className="font-space-grotesk neon-cyan text-lg font-semibold md:text-2xl"
+                className="font-poppins neon-cyan text-lg font-semibold md:text-2xl"
                 cursorClassName="neon-cyan"
                 speed={70}
                 deleteSpeed={35}
@@ -100,19 +100,19 @@ export function Hero() {
             <div className="animate-slide-up flex flex-wrap gap-4 [animation-delay:700ms]">
               <Link
                 href="/projects"
-                className="btn-neon-green font-space-grotesk rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
+                className="btn-neon-green font-poppins rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
               >
                 &gt; View Portfolio
               </Link>
               <Link
                 href="/games"
-                className="btn-neon-cyan font-space-grotesk rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
+                className="btn-neon-cyan font-poppins rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
               >
                 &gt; Play Games
               </Link>
               <Link
                 href="/resume"
-                className="glass border-neutral-30 font-space-grotesk text-neutral-70 hover:text-neutral-90 rounded-sm border px-8 py-3 text-sm tracking-widest uppercase transition-colors duration-300 hover:border-neutral-50"
+                className="glass border-neutral-30 font-poppins text-neutral-70 hover:text-neutral-90 rounded-sm border px-8 py-3 text-sm tracking-widest uppercase transition-colors duration-300 hover:border-neutral-50"
               >
                 &gt; Resume
               </Link>
@@ -127,7 +127,7 @@ export function Hero() {
 
         {/* Scroll indicator — positioned above the ticker strip */}
         <div className="absolute bottom-12 left-1/2 flex -translate-x-1/2 animate-bounce flex-col items-center gap-2 opacity-60">
-          <span className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase">
+          <span className="text-neutral-60 font-poppins text-xs tracking-widest uppercase lg:text-sm">
             Scroll
           </span>
           <div className="from-primary-50 h-8 w-px bg-linear-to-b to-transparent" />
@@ -179,7 +179,7 @@ export function Hero() {
           ].map((tech, i) => (
             <span
               key={i}
-              className="font-space-grotesk text-neutral-60 mx-6 flex shrink-0 items-center gap-3 text-[10px] tracking-widest uppercase"
+              className="font-poppins text-neutral-60 mx-6 flex shrink-0 items-center gap-3 text-[10px] tracking-widest uppercase"
             >
               <span className="bg-primary-50/60 inline-block h-1 w-1 rounded-full" />
               {tech}

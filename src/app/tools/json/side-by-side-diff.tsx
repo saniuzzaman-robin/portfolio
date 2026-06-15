@@ -7,7 +7,7 @@ function stripTrailingComma(text: string): string {
 
 export function SideBySideDiff({ diff }: { diff: DiffEntry[] }) {
   return (
-    <div className="overflow-auto rounded-sm font-mono text-xs">
+    <div className="overflow-auto rounded-sm font-mono text-xs lg:text-sm">
       <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
         <colgroup>
           <col style={{ width: '3ch' }} />
@@ -19,7 +19,7 @@ export function SideBySideDiff({ diff }: { diff: DiffEntry[] }) {
           <tr>
             <th
               colSpan={2}
-              className="font-space-grotesk py-1.5 pr-4 text-center text-[10px] font-bold tracking-widest uppercase"
+              className="font-poppins py-1.5 pr-4 text-center text-[10px] font-bold tracking-widest uppercase"
               style={{
                 color: '#ef4444',
                 background: 'rgba(239,68,68,0.06)',
@@ -30,7 +30,7 @@ export function SideBySideDiff({ diff }: { diff: DiffEntry[] }) {
             </th>
             <th
               colSpan={2}
-              className="font-space-grotesk py-1.5 pr-4 text-center text-[10px] font-bold tracking-widest uppercase"
+              className="font-poppins py-1.5 pr-4 text-center text-[10px] font-bold tracking-widest uppercase"
               style={{
                 color: '#22c55e',
                 background: 'rgba(34,197,94,0.06)',

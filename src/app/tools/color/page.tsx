@@ -3,13 +3,17 @@
 import { useState, useRef } from 'react';
 import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, CopyButton } from '@/components/tools/tool-shell';
-import { Palette, Zap } from 'lucide-react';
+import { Palette, Zap, Copy, Check } from 'lucide-react';
 
 export default function ColorPage() {
   const pickerRef = useRef<HTMLInputElement>(null);
   const [hex, setHex] = useState('#3B82F6');
-  const [shades, setShades] = useState<string[]>([]);
-  const [showConversions, setShowConversions] = useState(false);
+  const [palette, setPalette] = useState<string[]>([]);
+  const [harmonies, setHarmonies] = useState<{ [key: string]: string }>({});
+  const [copiedColor, setCopiedColor] = useState<string | null>(null);
+  const [paletteFormat, setPaletteFormat] = useState<'hex-list' | 'css-vars' | 'json' | 'scss'>(
+    'hex-list'
+  );
 
   const hexToRgb = (hex: string): { r: number; g: number; b: number } | null => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -62,154 +66,502 @@ export default function ColorPage() {
     return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
   };
 
+  const hslToRgb = (h: number, s: number, l: number): { r: number; g: number; b: number } => {
+    h = h / 360;
+    s = s / 100;
+    l = l / 100;
+
+    let r, g, b;
+    if (s === 0) {
+      r = g = b = l;
+    } else {
+      const hue2rgb = (p: number, q: number, t: number) => {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1 / 3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1 / 3);
+    }
+
+    return {
+      r: Math.round(r * 255),
+      g: Math.round(g * 255),
+      b: Math.round(b * 255),
+    };
+  };
+
+  const rgbToCmyk = (
+    r: number,
+    g: number,
+    b: number
+  ): { c: number; m: number; y: number; k: number } => {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const k = 1 - Math.max(r, g, b);
+    const c = (1 - r - k) / (1 - k) || 0;
+    const m = (1 - g - k) / (1 - k) || 0;
+    const y = (1 - b - k) / (1 - k) || 0;
+
+    return {
+      c: Math.round(c * 100),
+      m: Math.round(m * 100),
+      y: Math.round(y * 100),
+      k: Math.round(k * 100),
+    };
+  };
+
+  const generateColorHarmonies = (baseHex: string) => {
+    const rgb = hexToRgb(baseHex);
+    if (!rgb) return;
+
+    const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+    const getHarmonyColor = (h: number): string => {
+      const harmonyRgb = hslToRgb(h, hsl.s, hsl.l);
+      return rgbToHex(harmonyRgb.r, harmonyRgb.g, harmonyRgb.b);
+    };
+
+    const harmonies: { [key: string]: string } = {
+      complementary: getHarmonyColor((hsl.h + 180) % 360),
+      triadic1: getHarmonyColor((hsl.h + 120) % 360),
+      triadic2: getHarmonyColor((hsl.h + 240) % 360),
+      analogous1: getHarmonyColor((hsl.h + 30) % 360),
+      analogous2: getHarmonyColor((hsl.h - 30 + 360) % 360),
+    };
+
+    setHarmonies(harmonies);
+  };
+
   const generatePalette = () => {
     const rgb = hexToRgb(hex);
     if (!rgb) return;
 
-    const palette = [];
+    const shades = [];
+    // Darker shades
+    for (let i = 90; i >= 10; i -= 10) {
+      const f = i / 100;
+      const r = Math.round(rgb.r * f);
+      const g = Math.round(rgb.g * f);
+      const b = Math.round(rgb.b * f);
+      shades.push(rgbToHex(r, g, b));
+    }
+    // Lighter shades
     for (let i = 10; i <= 90; i += 10) {
       const f = i / 100;
       const r = Math.round(rgb.r + (255 - rgb.r) * f);
       const g = Math.round(rgb.g + (255 - rgb.g) * f);
       const b = Math.round(rgb.b + (255 - rgb.b) * f);
-      palette.push(rgbToHex(r, g, b));
+      shades.push(rgbToHex(r, g, b));
     }
 
-    setShades(palette);
-    setShowConversions(true);
+    setPalette(shades);
+    generateColorHarmonies(hex);
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedColor(text);
+    setTimeout(() => setCopiedColor(null), 2000);
+  };
+
+  const generatePaletteCode = (format: 'hex-list' | 'css-vars' | 'json' | 'scss'): string => {
+    switch (format) {
+      case 'hex-list':
+        return palette.join('\n');
+      case 'css-vars':
+        return palette.map((color, i) => `--color-${i + 1}: ${color};`).join('\n');
+      case 'json':
+        return JSON.stringify(palette, null, 2);
+      case 'scss':
+        return palette.map((color, i) => `$color-${i + 1}: ${color};`).join('\n');
+      default:
+        return palette.join('\n');
+    }
+  };
+
+  const copyPaletteCode = () => {
+    const code = generatePaletteCode(paletteFormat);
+    copyToClipboard(code);
   };
 
   const rgb = hexToRgb(hex);
   const hsl = rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null;
+  const cmyk = rgb ? rgbToCmyk(rgb.r, rgb.g, rgb.b) : null;
 
   return (
     <>
       <Navigation />
       <ToolShell
         title="Color Converter"
-        subtitle="HEX, RGB & HSL"
-        description="Convert between HEX, RGB, and HSL color formats. Includes visual picker, palette generator, and shade variations."
+        subtitle="HEX, RGB, HSL, CMYK & More"
+        description="Advanced color tool with format conversions, palette generation, color harmony suggestions, and visual previews."
         icon={Palette}
-        accent="tertiary"
+        accent="secondary"
       >
-        {/* Color input grid */}
-        <div className="mb-6 grid gap-4 md:grid-cols-3">
-          {/* HEX Input */}
+        {/* Main color display */}
+        <div className="mb-10 rounded-xl border border-white/10 bg-linear-to-b from-white/5 to-transparent p-6">
+          <div className="grid items-end gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {/* Color Picker */}
+            <div className="md:col-span-1">
+              <label className="font-poppins text-neutral-60 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+                Pick Color
+              </label>
+              <div className="relative overflow-hidden rounded-xl shadow-xl">
+                <input
+                  ref={pickerRef}
+                  type="color"
+                  value={hex}
+                  onChange={(e) => {
+                    setHex(e.target.value);
+                    generateColorHarmonies(e.target.value);
+                  }}
+                  className="h-28 w-full cursor-pointer border-0 transition-transform outline-none hover:scale-105"
+                />
+              </div>
+            </div>
+
+            {/* HEX Input */}
+            <div className="md:col-span-1">
+              <label className="font-poppins text-neutral-60 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+                HEX Code
+              </label>
+              <button
+                onClick={() => copyToClipboard(hex)}
+                className="group relative w-full cursor-pointer"
+              >
+                <input
+                  type="text"
+                  value={hex}
+                  onChange={(e) => {
+                    if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value) || e.target.value.length === 0) {
+                      setHex(e.target.value || hex);
+                      if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+                        generateColorHarmonies(e.target.value);
+                      }
+                    }
+                  }}
+                  placeholder="#000000"
+                  className="bg-neutral-15/40 text-neutral-90 w-full rounded-lg border-2 border-cyan-400/30 px-4 py-3 font-mono text-sm uppercase transition-colors group-hover:border-cyan-400/50 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none"
+                />
+                <Copy className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-neutral-500 opacity-0 transition-all group-hover:opacity-100" />
+              </button>
+            </div>
+
+            {/* Action Button */}
+            <button
+              onClick={generatePalette}
+              className="font-poppins flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-cyan-600 bg-linear-to-r from-cyan-600/20 to-cyan-500/10 px-6 py-3 text-xs font-bold tracking-widest uppercase transition-all hover:border-cyan-500 hover:from-cyan-600/30 hover:to-cyan-500/20 active:scale-95 md:col-span-1 lg:text-sm"
+            >
+              <Zap className="h-4 w-4" />
+              Generate
+            </button>
+          </div>
+        </div>
+
+        {/* Format conversions grid */}
+        <div className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {/* HEX */}
           <ToolPanel
             label="HEX"
-            accent="tertiary"
-            action={<CopyButton text={hex} accent="tertiary" />}
+            accent="secondary"
+            action={<CopyButton text={hex} accent="secondary" />}
           >
-            <input
-              type="text"
-              value={hex}
-              onChange={(e) => setHex(e.target.value)}
-              placeholder="#000000"
-              className="bg-neutral-15/40 border-tertiary-40/30 text-neutral-90 focus:border-tertiary-50/60 w-full rounded-sm border px-4 py-2 font-mono text-sm uppercase placeholder-neutral-50 transition-colors focus:outline-none"
-            />
+            <div className="space-y-3">
+              <button
+                onClick={() => copyToClipboard(hex)}
+                className="group relative w-full cursor-pointer"
+              >
+                <div className="text-neutral-90 bg-neutral-10/40 group-hover:bg-neutral-10/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                  {hex}
+                </div>
+                <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                  {copiedColor === hex ? (
+                    <Check className="h-4 w-4 text-green-400" />
+                  ) : (
+                    <Copy className="h-4 w-4 text-neutral-500" />
+                  )}
+                </div>
+              </button>
+              <div
+                className="h-12 rounded-lg border-2 border-white/10"
+                style={{ background: hex }}
+              />
+            </div>
           </ToolPanel>
 
-          {/* RGB Input */}
+          {/* RGB */}
           {rgb && (
             <ToolPanel
               label="RGB"
-              accent="tertiary"
-              action={<CopyButton text={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} accent="tertiary" />}
+              accent="secondary"
+              action={<CopyButton text={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} accent="secondary" />}
             >
-              <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-2 font-mono text-sm">
-                rgb({rgb.r}, {rgb.g}, {rgb.b})
+              <div className="space-y-3">
+                <button
+                  onClick={() => copyToClipboard(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`)}
+                  className="group relative w-full cursor-pointer"
+                >
+                  <div className="text-neutral-70 bg-neutral-10/40 group-hover:bg-neutral-10/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                    rgb({rgb.r}, {rgb.g}, {rgb.b})
+                  </div>
+                  <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                    {copiedColor === `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` ? (
+                      <Check className="h-4 w-4 text-green-400" />
+                    ) : (
+                      <Copy className="h-4 w-4 text-neutral-500" />
+                    )}
+                  </div>
+                </button>
+                <div
+                  className="h-12 rounded-lg border-2 border-white/10"
+                  style={{ background: hex }}
+                />
               </div>
             </ToolPanel>
           )}
 
-          {/* HSL Input */}
+          {/* HSL */}
           {hsl && (
             <ToolPanel
               label="HSL"
-              accent="tertiary"
-              action={<CopyButton text={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} accent="tertiary" />}
+              accent="secondary"
+              action={
+                <CopyButton text={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} accent="secondary" />
+              }
             >
-              <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-2 font-mono text-sm">
-                hsl({hsl.h}, {hsl.s}%, {hsl.l}%)
+              <div className="space-y-3">
+                <button
+                  onClick={() => copyToClipboard(`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`)}
+                  className="group relative w-full cursor-pointer"
+                >
+                  <div className="text-neutral-70 bg-neutral-10/40 group-hover:bg-neutral-10/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                    hsl({hsl.h}, {hsl.s}%, {hsl.l}%)
+                  </div>
+                  <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                    {copiedColor === `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)` ? (
+                      <Check className="h-4 w-4 text-green-400" />
+                    ) : (
+                      <Copy className="h-4 w-4 text-neutral-500" />
+                    )}
+                  </div>
+                </button>
+                <div
+                  className="h-12 rounded-lg border-2 border-white/10"
+                  style={{ background: hex }}
+                />
+              </div>
+            </ToolPanel>
+          )}
+
+          {/* CMYK */}
+          {cmyk && (
+            <ToolPanel
+              label="CMYK"
+              accent="secondary"
+              action={
+                <CopyButton
+                  text={`cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`}
+                  accent="secondary"
+                />
+              }
+            >
+              <div className="space-y-3">
+                <button
+                  onClick={() => copyToClipboard(`${cmyk.c}% ${cmyk.m}% ${cmyk.y}% ${cmyk.k}%`)}
+                  className="group relative w-full cursor-pointer"
+                >
+                  <div className="text-neutral-70 bg-neutral-10/40 group-hover:bg-neutral-10/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                    {cmyk.c}% {cmyk.m}% {cmyk.y}% {cmyk.k}%
+                  </div>
+                  <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                    {copiedColor === `${cmyk.c}% ${cmyk.m}% ${cmyk.y}% ${cmyk.k}%` ? (
+                      <Check className="h-4 w-4 text-green-400" />
+                    ) : (
+                      <Copy className="h-4 w-4 text-neutral-500" />
+                    )}
+                  </div>
+                </button>
+                <div
+                  className="h-12 rounded-lg border-2 border-white/10"
+                  style={{ background: hex }}
+                />
+              </div>
+            </ToolPanel>
+          )}
+
+          {/* Decimal RGB */}
+          {rgb && (
+            <ToolPanel
+              label="Decimal"
+              accent="secondary"
+              action={
+                <CopyButton text={`${rgb.r * 65536 + rgb.g * 256 + rgb.b}`} accent="secondary" />
+              }
+            >
+              <div className="space-y-3">
+                <button
+                  onClick={() => copyToClipboard(`${rgb.r * 65536 + rgb.g * 256 + rgb.b}`)}
+                  className="group relative w-full cursor-pointer"
+                >
+                  <div className="text-neutral-70 bg-neutral-10/40 group-hover:bg-neutral-10/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                    {rgb.r * 65536 + rgb.g * 256 + rgb.b}
+                  </div>
+                  <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                    {copiedColor === `${rgb.r * 65536 + rgb.g * 256 + rgb.b}` ? (
+                      <Check className="h-4 w-4 text-green-400" />
+                    ) : (
+                      <Copy className="h-4 w-4 text-neutral-500" />
+                    )}
+                  </div>
+                </button>
+                <div
+                  className="h-12 rounded-lg border-2 border-white/10"
+                  style={{ background: hex }}
+                />
               </div>
             </ToolPanel>
           )}
         </div>
 
-        {/* Color Picker */}
-        <div className="mb-6 flex items-end gap-4">
-          <div>
-            <label className="font-space-grotesk text-neutral-60 mb-2 block text-xs font-bold tracking-widest uppercase">
-              Color Picker
-            </label>
-            <input
-              ref={pickerRef}
-              type="color"
-              value={hex}
-              onChange={(e) => setHex(e.target.value)}
-              className="h-12 w-16 cursor-pointer rounded-sm border border-white/10"
-            />
-          </div>
-
-          <div
-            className="h-12 w-20 rounded-sm border border-white/10"
-            style={{ background: hex }}
-          />
-
-          <button
-            onClick={generatePalette}
-            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-purple-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Zap className="h-4 w-4" />
-            Generate Palette
-          </button>
-        </div>
-
-        {/* Palette shades */}
-        {shades.length > 0 && (
-          <div className="mt-6">
-            <h3 className="font-space-grotesk text-neutral-90 mb-4 text-sm font-bold">
-              Shade Palette
+        {/* Color harmonies */}
+        {Object.keys(harmonies).length > 0 && (
+          <div className="mb-8">
+            <h3 className="font-poppins text-neutral-90 mb-4 text-sm font-bold uppercase">
+              Color Harmonies
             </h3>
-            <div className="grid gap-3 md:grid-cols-5">
-              {shades.map((shade, i) => (
-                <div
-                  key={i}
-                  className="group cursor-pointer"
-                  onClick={() => {
-                    navigator.clipboard.writeText(shade);
-                  }}
+            <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-5">
+              {[
+                { name: 'Base', color: hex },
+                { name: 'Complementary', color: harmonies.complementary },
+                { name: 'Triadic 1', color: harmonies.triadic1 },
+                { name: 'Triadic 2', color: harmonies.triadic2 },
+                { name: 'Analogous 1', color: harmonies.analogous1 },
+              ].map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => copyToClipboard(item.color)}
+                  className="group cursor-pointer rounded-sm border border-white/10 transition-all hover:border-white/30"
                 >
-                  <div
-                    className="h-20 w-full rounded-sm border border-white/10 transition-all group-hover:border-white/30"
-                    style={{ background: shade }}
-                  />
-                  <div className="text-neutral-60 group-hover:text-neutral-80 mt-2 text-center font-mono text-[10px] transition-colors">
-                    {shade}
+                  <div className="h-16 w-full rounded-t-sm" style={{ background: item.color }} />
+                  <div className="bg-neutral-10/40 flex items-center justify-between rounded-b-sm px-2 py-2">
+                    <div className="text-neutral-60 group-hover:text-neutral-80 font-mono text-[10px] transition-colors">
+                      {item.color}
+                    </div>
+                    {copiedColor === item.color ? (
+                      <Check className="h-3 w-3 text-green-400" />
+                    ) : (
+                      <Copy className="h-3 w-3 text-neutral-500 group-hover:text-neutral-300" />
+                    )}
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
         )}
 
-        {/* Conversions display */}
-        {showConversions && rgb && hsl && (
-          <div className="bg-neutral-10/40 mt-8 rounded-sm border border-white/5 p-4">
-            <h4 className="font-space-grotesk text-neutral-60 mb-3 text-xs font-bold tracking-widest uppercase">
-              All Formats
-            </h4>
-            <div className="text-neutral-70 space-y-2 font-mono text-xs">
-              <div>HEX: {hex}</div>
-              <div>
-                RGB: rgb({rgb.r}, {rgb.g}, {rgb.b})
+        {/* Palette shades */}
+        {palette.length > 0 && (
+          <div className="mb-8">
+            <h3 className="font-poppins text-neutral-90 mb-4 text-sm font-bold uppercase">
+              Shade Palette
+            </h3>
+            <div className="grid gap-2 md:grid-cols-10">
+              {palette.map((shade, i) => (
+                <div
+                  key={i}
+                  className="overflow-hidden rounded-sm border border-white/10 transition-all hover:border-white/30"
+                >
+                  <div className="h-12 w-full" style={{ background: shade }} />
+                  <button
+                    onClick={() => copyToClipboard(shade)}
+                    className="group bg-neutral-10/40 hover:bg-neutral-10/60 relative w-full cursor-pointer px-2 py-1.5 text-center transition-all"
+                  >
+                    <div className="text-neutral-60 group-hover:text-neutral-80 font-mono text-[9px] transition-colors">
+                      {shade}
+                    </div>
+                    <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                      {copiedColor === shade ? (
+                        <Check className="h-3 w-3 text-green-400" />
+                      ) : (
+                        <Copy className="h-3 w-3 text-neutral-500" />
+                      )}
+                    </div>
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* Copy Palette Code */}
+            <div className="bg-neutral-10/40 mt-6 rounded-lg border border-white/10 p-4">
+              <p className="font-poppins text-neutral-60 mb-3 text-xs font-bold tracking-widest uppercase lg:text-sm">
+                Copy Palette Code
+              </p>
+              <div className="mb-4 flex flex-wrap gap-2">
+                {(['hex-list', 'css-vars', 'json', 'scss'] as const).map((fmt) => (
+                  <button
+                    key={fmt}
+                    onClick={() => setPaletteFormat(fmt)}
+                    className={`cursor-pointer rounded-md px-3 py-1.5 text-xs font-bold uppercase transition-colors lg:text-sm ${
+                      paletteFormat === fmt
+                        ? 'border-cyan-500 bg-cyan-600/20 text-cyan-300'
+                        : 'border border-white/10 text-neutral-400 hover:border-white/20 hover:text-neutral-300'
+                    }`}
+                  >
+                    {fmt === 'hex-list'
+                      ? 'List'
+                      : fmt === 'css-vars'
+                        ? 'CSS'
+                        : fmt === 'json'
+                          ? 'JSON'
+                          : 'SCSS'}
+                  </button>
+                ))}
               </div>
-              <div>
-                HSL: hsl({hsl.h}, {hsl.s}%, {hsl.l}%)
+              <div className="bg-neutral-15/60 mb-3 max-h-48 overflow-y-auto rounded-md border border-white/5 p-3 font-mono text-xs text-neutral-400 lg:text-sm">
+                <pre className="whitespace-pre-wrap">{generatePaletteCode(paletteFormat)}</pre>
               </div>
+              <button
+                onClick={copyPaletteCode}
+                className="font-poppins flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-cyan-600/50 bg-cyan-600/10 px-4 py-2 text-xs font-bold tracking-widest uppercase transition-all hover:border-cyan-500 hover:bg-cyan-600/20 lg:text-sm"
+              >
+                {copiedColor === generatePaletteCode(paletteFormat) ? (
+                  <>
+                    <Check className="h-4 w-4 text-green-400" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4" />
+                    Copy Palette Code
+                  </>
+                )}
+              </button>
             </div>
           </div>
         )}
+
+        {/* Info section */}
+        <div className="bg-neutral-10/40 rounded-sm border border-white/5 p-4">
+          <p className="font-poppins text-neutral-60 mb-2 text-xs font-bold tracking-widest uppercase lg:text-sm">
+            ℹ Tips:
+          </p>
+          <ul className="text-neutral-70 space-y-1 text-xs lg:text-sm">
+            <li>• Click any color preview to copy to clipboard</li>
+            <li>• Use the color picker or enter HEX values directly</li>
+            <li>• Palette shows darker and lighter variations of your color</li>
+            <li>• Color harmonies help create complementary and triadic schemes</li>
+          </ul>
+        </div>
       </ToolShell>
     </>
   );

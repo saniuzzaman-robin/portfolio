@@ -37,7 +37,7 @@ export function StatCard({ number, label, color, icon: Icon, delay = 0 }: StatCa
       >
         <Icon className="h-8 w-8" strokeWidth={1.5} />
       </div>
-      <p className={`${textClass} font-space-grotesk mb-2 text-3xl font-bold md:text-4xl`}>
+      <p className={`${textClass} font-poppins mb-2 text-3xl font-bold md:text-4xl`}>
         {number}
       </p>
       <p className="text-neutral-70 text-sm font-medium">{label}</p>

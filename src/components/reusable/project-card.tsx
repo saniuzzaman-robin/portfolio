@@ -70,14 +70,14 @@ export function ProjectCard({
             <Icon className="h-5 w-5" strokeWidth={1.5} />
           </div>
           <span
-            className={`font-space-grotesk rounded-full px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase ${c.tag}`}
+            className={`font-poppins rounded-full px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase ${c.tag}`}
           >
             {category}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="font-space-grotesk text-neutral-90 mb-3 text-base leading-snug font-bold transition-colors group-hover:text-neutral-100">
+        <h3 className="font-poppins text-neutral-90 mb-3 text-base leading-snug font-bold transition-colors group-hover:text-neutral-100">
           {title}
         </h3>
 
@@ -89,7 +89,7 @@ export function ProjectCard({
           {technologies.map((tech) => (
             <span
               key={tech}
-              className="font-space-grotesk rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wide uppercase"
+              className="font-poppins rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wide uppercase"
               style={{
                 color: accent,
                 border: `1px solid ${ava(color, 0.22)}`,
@@ -106,7 +106,7 @@ export function ProjectCard({
           href={link}
           target={isExternal ? '_blank' : undefined}
           rel={isExternal ? 'noopener noreferrer' : undefined}
-          className="font-space-grotesk flex w-fit items-center gap-2 text-xs tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1"
+          className="font-poppins flex w-fit items-center gap-2 text-xs tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1 lg:text-sm"
           style={{ color: accent }}
         >
           <span>View Project</span>

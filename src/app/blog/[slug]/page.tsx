@@ -60,14 +60,14 @@ function ContentSection({ section }: { section: ArticleSectionType }) {
   switch (section.type) {
     case 'heading':
       return (
-        <h2 className="font-space-grotesk text-neutral-90 mt-12 mb-4 text-2xl font-bold md:text-3xl">
+        <h2 className="font-poppins text-neutral-90 mt-12 mb-4 text-2xl font-bold md:text-3xl">
           {section.content}
         </h2>
       );
 
     case 'subheading':
       return (
-        <h3 className="font-space-grotesk text-neutral-90 mt-8 mb-3 text-xl font-semibold">
+        <h3 className="font-poppins text-neutral-90 mt-8 mb-3 text-xl font-semibold">
           {section.content}
         </h3>
       );
@@ -83,7 +83,7 @@ function ContentSection({ section }: { section: ArticleSectionType }) {
       return (
         <div className="border-neutral-20 my-6 overflow-hidden rounded-xl border">
           <div className="bg-neutral-10 border-neutral-20 flex items-center justify-between border-b px-4 py-2">
-            <span className="text-neutral-60 font-mono text-xs tracking-wider uppercase">
+            <span className="text-neutral-60 font-mono text-xs tracking-wider uppercase lg:text-sm">
               {section.language}
             </span>
           </div>
@@ -169,7 +169,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           <div className="animate-fade-in mb-12">
             <Link
               href="/blog"
-              className={`font-space-grotesk inline-flex items-center gap-2 text-sm tracking-wider uppercase transition-all duration-200 ${c.text} ${c.textHover} hover:-translate-x-1`}
+              className={`font-poppins inline-flex items-center gap-2 text-sm tracking-wider uppercase transition-all duration-200 ${c.text} ${c.textHover} hover:-translate-x-1`}
             >
               ← Back to Blog
             </Link>
@@ -179,12 +179,14 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           <header className="animate-slide-right mb-12">
             <div className="mb-6 flex items-center gap-3">
               <span className="text-4xl">{article.emoji}</span>
-              <span className={`font-space-grotesk text-xs tracking-widest uppercase ${c.text}`}>
+              <span
+                className={`font-poppins text-xs tracking-widest uppercase lg:text-sm ${c.text}`}
+              >
                 {article.category}
               </span>
             </div>
 
-            <h1 className="font-space-grotesk mb-6 text-4xl leading-tight font-bold md:text-5xl lg:text-6xl">
+            <h1 className="font-poppins mb-6 text-4xl leading-tight font-bold md:text-5xl lg:text-6xl">
               {article.title}
             </h1>
 
@@ -203,7 +205,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               {article.tags.map((tag, i) => (
                 <span
                   key={i}
-                  className={`rounded-full border px-3 py-1 font-mono text-xs ${c.tag} ${c.borderSoft}`}
+                  className={`rounded-full border px-3 py-1 font-mono text-xs lg:text-sm ${c.tag} ${c.borderSoft}`}
                   style={{ color: av(article.color) }}
                 >
                   {tag}
@@ -229,12 +231,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           <div className="border-neutral-20 animate-fade-in mt-20 flex flex-col items-start justify-between gap-6 border-t pt-10 [animation-delay:400ms] sm:flex-row sm:items-center">
             <div>
               <p className="text-neutral-60 mb-1 text-sm">Written by</p>
-              <p className="font-space-grotesk text-neutral-90 font-semibold">{siteConfig.name}</p>
+              <p className="font-poppins text-neutral-90 font-semibold">{siteConfig.name}</p>
               <p className="text-neutral-60 text-sm">Full-Stack Software Engineer</p>
             </div>
             <Link
               href="/blog"
-              className={`font-space-grotesk inline-flex items-center gap-2 rounded-xl border px-5 py-3 text-sm tracking-wider uppercase transition-all duration-200 ${c.text} ${c.borderSoft} hover:${c.borderMedium}`}
+              className={`font-poppins inline-flex items-center gap-2 rounded-xl border px-5 py-3 text-sm tracking-wider uppercase transition-all duration-200 ${c.text} ${c.borderSoft} hover:${c.borderMedium}`}
             >
               More Articles →
             </Link>
