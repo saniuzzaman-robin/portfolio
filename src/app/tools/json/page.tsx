@@ -10,12 +10,20 @@ import {
   ToolTabs,
 } from '@/components/tools/tool-shell';
 import { Braces, Zap } from 'lucide-react';
+import { computeDiff, type DiffEntry } from './diff';
+import { SideBySideDiff } from './side-by-side-diff';
 
 export default function JSONPage() {
   const [mode, setMode] = useState<'format' | 'minify' | 'diff'>('format');
   const [input1, setInput1] = useState('');
   const [input2, setInput2] = useState('');
   const [output, setOutput] = useState('');
+  const [diffResult, setDiffResult] = useState<DiffEntry[] | null>(null);
+  const [diffStats, setDiffStats] = useState<{
+    added: number;
+    removed: number;
+    modified: number;
+  } | null>(null);
   const [error, setError] = useState('');
   const [stats, setStats] = useState<{ valid: boolean; keys?: number }>({ valid: false });
 
@@ -32,6 +40,8 @@ export default function JSONPage() {
     setError('');
     setStats({ valid: false });
     setOutput('');
+    setDiffResult(null);
+    setDiffStats(null);
 
     try {
       if (mode === 'format') {
@@ -56,24 +66,14 @@ export default function JSONPage() {
           setError('Invalid JSON in one or both inputs');
           return;
         }
-        const obj1 = JSON.stringify(JSON.parse(input1), null, 2);
-        const obj2 = JSON.stringify(JSON.parse(input2), null, 2);
-
-        // Simple diff: highlight changes
-        const lines1 = obj1.split('\n');
-        const lines2 = obj2.split('\n');
-
-        const diffOutput = lines1
-          .map((line, i) => {
-            if (lines2[i] !== line) {
-              return `- ${line}\n+ ${lines2[i] || ''}`;
-            }
-            return line;
-          })
-          .join('\n');
-
-        setOutput(diffOutput);
-        setStats({ valid: true });
+        const lines1 = JSON.stringify(JSON.parse(input1), null, 2).split('\n');
+        const lines2 = JSON.stringify(JSON.parse(input2), null, 2).split('\n');
+        const diff = computeDiff(lines1, lines2);
+        const added = diff.filter((d) => d.type === 'insert').length;
+        const removed = diff.filter((d) => d.type === 'delete').length;
+        const modified = diff.filter((d) => d.type === 'modify').length;
+        setDiffResult(diff);
+        setDiffStats({ added, removed, modified });
       }
     } catch (e) {
       setError('Processing failed: ' + (e instanceof Error ? e.message : 'Unknown error'));
@@ -150,7 +150,7 @@ export default function JSONPage() {
           <button
             onClick={process}
             disabled={!input1.trim() || (mode === 'diff' && !input2.trim())}
-            className="hover:bg-cyan-700 font-space-grotesk border-cyan-700 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40"
+            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40"
           >
             <Zap className="h-4 w-4" />
             {mode === 'format' ? 'Format' : mode === 'minify' ? 'Minify' : 'Compare'}
@@ -159,23 +159,42 @@ export default function JSONPage() {
 
         {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
 
-        {output && (
-          <ToolPanel
-            label={mode === 'diff' ? 'Diff Output' : mode === 'minify' ? 'Minified' : 'Formatted'}
-            accent="secondary"
-            action={<CopyButton text={output} accent="secondary" />}
-          >
-            <ToolTextarea value={output} readOnly placeholder="" rows={14} accent="secondary" />
+        {mode === 'diff' && diffResult ? (
+          <ToolPanel label="Diff Comparison" accent="secondary">
+            <div className="px-4 py-3">
+              <SideBySideDiff diff={diffResult} />
+            </div>
           </ToolPanel>
+        ) : (
+          output && (
+            <ToolPanel
+              label={mode === 'minify' ? 'Minified' : 'Formatted'}
+              accent="secondary"
+              action={<CopyButton text={output} accent="secondary" />}
+            >
+              <ToolTextarea value={output} readOnly placeholder="" rows={14} accent="secondary" />
+            </ToolPanel>
+          )
         )}
 
-        {stats.valid && (
+        {mode === 'diff' && diffStats ? (
           <div className="text-neutral-60 font-space-grotesk mt-4 text-xs">
             <span>JSON valid ✓</span>
-            {stats.keys !== undefined && (
-              <span className="ml-4">• {stats.keys} top-level keys</span>
+            {diffStats.modified > 0 && (
+              <span className="ml-4">• {diffStats.modified} modified</span>
             )}
+            {diffStats.removed > 0 && <span className="ml-4">• {diffStats.removed} removed</span>}
+            {diffStats.added > 0 && <span className="ml-4">• {diffStats.added} added</span>}
           </div>
+        ) : (
+          stats.valid && (
+            <div className="text-neutral-60 font-space-grotesk mt-4 text-xs">
+              <span>JSON valid ✓</span>
+              {stats.keys !== undefined && (
+                <span className="ml-4">• {stats.keys} top-level keys</span>
+              )}
+            </div>
+          )
         )}
       </ToolShell>
     </>
