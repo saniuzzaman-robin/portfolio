@@ -9,6 +9,11 @@ import {
   Regex,
   Palette,
   Fingerprint,
+  Type,
+  FileText,
+  Database,
+  Lock,
+  QrCode,
   type LucideIcon,
 } from 'lucide-react';
 import type { AccentToken } from '@/lib/accent';
@@ -132,5 +137,59 @@ export const DEV_TOOLS: DevTool[] = [
     icon: Palette,
     accent: 'primary',
     tags: ['color', 'hex', 'rgb', 'hsl'],
+  },
+  {
+    id: 'case-converter',
+    title: 'Case Converter',
+    subtitle: 'camelCase · snake_case · kebab-case',
+    description:
+      'Convert strings between camelCase, snake_case, kebab-case, PascalCase, and more formats.',
+    href: '/tools/case-converter',
+    icon: Type,
+    accent: 'secondary',
+    tags: ['case', 'convert', 'format', 'string'],
+  },
+  {
+    id: 'markdown',
+    title: 'Markdown Preview',
+    subtitle: 'Live Preview & Editor',
+    description:
+      'Write Markdown and preview the rendered HTML instantly. Perfect for documentation.',
+    href: '/tools/markdown',
+    icon: FileText,
+    accent: 'tertiary',
+    tags: ['markdown', 'preview', 'html', 'editor'],
+  },
+  {
+    id: 'csv-json',
+    title: 'CSV to JSON',
+    subtitle: 'Convert & Format',
+    description:
+      'Convert CSV data to JSON format instantly. Supports headers, custom delimiters, and bulk processing.',
+    href: '/tools/csv-json',
+    icon: Database,
+    accent: 'primary',
+    tags: ['csv', 'json', 'data', 'convert'],
+  },
+  {
+    id: 'password',
+    title: 'Password Generator',
+    subtitle: 'Secure & Customizable',
+    description:
+      'Generate strong, random passwords with customizable length and character sets. Copy with one click.',
+    href: '/tools/password',
+    icon: Lock,
+    accent: 'secondary',
+    tags: ['password', 'generator', 'secure', 'random'],
+  },
+  {
+    id: 'qr-code',
+    title: 'QR Code',
+    subtitle: 'Generator & Reader',
+    description: 'Generate QR codes from any text or URL. Download as PNG. Fast and reliable.',
+    href: '/tools/qr-code',
+    icon: QrCode,
+    accent: 'tertiary',
+    tags: ['qr', 'code', 'generator', 'barcode'],
   },
 ];

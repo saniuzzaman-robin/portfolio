@@ -22,6 +22,9 @@ import {
 import { useTheme } from '@/components/reusable/theme-provider';
 import { useNavScroll } from '@/hooks/use-nav-scroll';
 import { DEV_TOOLS } from '@/lib/data/tools';
+import { MobileNavItem } from '@/components/sections/mobile-nav-item';
+import { MobileNavMenu } from '@/components/sections/mobile-nav-menu';
+import { MobileNavList } from '@/components/sections/mobile-nav-list';
 
 type SimpleLink = {
   kind: 'link';
@@ -43,9 +46,7 @@ export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const scrolled = useNavScroll(20);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [mobileGroupOpen, setMobileGroupOpen] = useState(false);
   const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const drawerLinksRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
 
@@ -76,28 +77,6 @@ export function Navigation() {
     return () => {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
-    };
-  }, [isMenuOpen]);
-
-  // Prevent scroll propagation from drawer to body
-  useEffect(() => {
-    const drawer = drawerLinksRef.current;
-    if (!drawer) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      const isScrollingDown = e.deltaY > 0;
-      const isAtBottom = drawer.scrollHeight - drawer.scrollTop <= drawer.clientHeight + 5;
-      const isAtTop = drawer.scrollTop <= 5;
-
-      if ((isScrollingDown && isAtBottom) || (!isScrollingDown && isAtTop)) {
-        e.preventDefault();
-      }
-    };
-
-    drawer.addEventListener('wheel', handleWheel, { passive: false });
-
-    return () => {
-      drawer.removeEventListener('wheel', handleWheel);
     };
   }, [isMenuOpen]);
 
@@ -146,7 +125,10 @@ export function Navigation() {
 
   // Flat list for mobile drawer (preserving original order)
   const mobileTopLinks = navItems.filter((i) => i.kind === 'link') as SimpleLink[];
-  const groupItem = navItems.find((i) => i.kind === 'group') as GroupLink;
+  const exploreGroup = navItems.find(
+    (i) => i.kind === 'group' && i.label === 'Explore'
+  ) as GroupLink;
+  const toolsGroup = navItems.find((i) => i.kind === 'group' && i.label === 'Tools') as GroupLink;
 
   return (
     <>
@@ -230,35 +212,51 @@ export function Navigation() {
                 {isOpen && (
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1">
                     <div
-                      className="animate-dropdown-open min-w-40 overflow-hidden rounded-sm border border-white/10"
+                      className={`animate-dropdown-open overflow-hidden rounded-sm border border-white/10 ${
+                        item.label === 'Tools' ? 'w-96' : 'min-w-40'
+                      }`}
                       style={{
                         background: 'var(--nav-dropdown-bg)',
                         boxShadow: 'var(--nav-dropdown-shadow)',
                       }}
                     >
                       <div className="via-primary-50/50 h-px w-full bg-linear-to-r from-transparent to-transparent" />
-                      {item.children.map((child, idx) => {
-                        const active = isActive(child.href);
-                        const ChildIcon = child.icon;
-                        return (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className={`font-poppins group animate-dropdown-item relative flex items-center gap-3 px-4 py-3 text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
-                              active
-                                ? 'text-primary-50 bg-primary-50/8'
-                                : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
-                            }`}
-                            style={{ animationDelay: `${idx * 50}ms` }}
-                          >
-                            <span
-                              className={`absolute top-0 bottom-0 left-0 w-0.5 transition-opacity duration-200 ${active ? 'bg-primary-50 opacity-100' : 'bg-white/20 opacity-0 group-hover:opacity-100'}`}
-                            />
-                            <ChildIcon className="h-3.5 w-3.5 shrink-0" />
-                            {child.label}
-                          </Link>
-                        );
-                      })}
+                      <div
+                        className={
+                          item.label === 'Tools'
+                            ? 'grid max-h-96 grid-cols-3 gap-px overflow-auto'
+                            : 'flex flex-col'
+                        }
+                      >
+                        {item.children.map((child, idx) => {
+                          const active = isActive(child.href);
+                          const ChildIcon = child.icon;
+                          return (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              className={`font-poppins group animate-dropdown-item relative flex ${
+                                item.label === 'Tools'
+                                  ? 'flex-col items-center justify-center gap-2 px-3 py-4 text-center'
+                                  : 'items-center gap-3 px-4 py-3'
+                              } text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
+                                active
+                                  ? 'text-primary-50 bg-primary-50/8'
+                                  : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
+                              }`}
+                              style={{ animationDelay: `${idx * 50}ms` }}
+                            >
+                              {item.label !== 'Tools' && (
+                                <span
+                                  className={`absolute top-0 bottom-0 left-0 w-0.5 transition-opacity duration-200 ${active ? 'bg-primary-50 opacity-100' : 'bg-white/20 opacity-0 group-hover:opacity-100'}`}
+                                />
+                              )}
+                              <ChildIcon className="h-3.5 w-3.5 shrink-0" />
+                              {child.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -355,120 +353,44 @@ export function Navigation() {
         <div className="from-primary-50/30 mx-6 mb-4 h-px bg-linear-to-r via-white/10 to-transparent" />
 
         {/* Nav links */}
-        <div ref={drawerLinksRef} className="flex flex-1 flex-col gap-1 overflow-y-auto px-4">
-          {/* Home */}
-          {(() => {
-            const homeLink = navItems[0] as SimpleLink;
-            const active = isActive(homeLink.href);
-            const Icon = homeLink.icon;
-            return (
-              <Link
-                href={homeLink.href}
-                onClick={() => setIsMenuOpen(false)}
-                className={`font-poppins group relative flex items-center gap-4 overflow-hidden rounded-sm px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
-                  active
-                    ? 'text-primary-50 bg-primary-50/8'
-                    : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
-                }`}
-              >
-                <span
-                  className={`absolute top-0 bottom-0 left-0 w-0.5 rounded-r transition-all duration-200 ${active ? 'bg-primary-50' : 'bg-primary-50/0 group-hover:bg-white/20'}`}
-                />
-                <span
-                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${active ? 'bg-primary-50/15 text-primary-50' : 'text-neutral-60 group-hover:text-neutral-90 bg-white/5 group-hover:bg-white/8'}`}
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                </span>
-                <span className="flex-1">{homeLink.label}</span>
-              </Link>
-            );
-          })()}
+        <MobileNavList>
+          <MobileNavItem
+            href={mobileTopLinks[0].href}
+            label={mobileTopLinks[0].label}
+            icon={mobileTopLinks[0].icon}
+            active={isActive(mobileTopLinks[0].href)}
+            onClick={() => setIsMenuOpen(false)}
+          />
 
-          {/* Collapsible group */}
-          <div className="overflow-hidden rounded-sm border border-white/5">
-            <button
-              onClick={() => setMobileGroupOpen((o) => !o)}
-              className={`font-poppins group relative flex w-full items-center gap-4 px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
-                isGroupActive(groupItem.children)
-                  ? 'text-primary-50 bg-primary-50/8'
-                  : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
-              }`}
-            >
-              <span
-                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${isGroupActive(groupItem.children) ? 'bg-primary-50/15 text-primary-50' : 'text-neutral-60 group-hover:text-neutral-90 bg-white/5 group-hover:bg-white/8'}`}
-              >
-                <LayoutGrid className="h-3.5 w-3.5" />
-              </span>
-              <span className="flex-1 text-left">{groupItem.label}</span>
-              <ChevronDown
-                className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileGroupOpen ? 'rotate-180' : ''}`}
-              />
-            </button>
+          <MobileNavMenu
+            label={exploreGroup.label}
+            icon={exploreGroup.icon}
+            items={exploreGroup.children}
+            isItemActive={isActive}
+            isGroupActive={isGroupActive}
+            closeDrawer={() => setIsMenuOpen(false)}
+          />
 
-            {/* Nested items */}
-            <div
-              className={`overflow-hidden transition-all duration-300 ${mobileGroupOpen ? 'max-h-60' : 'max-h-0'}`}
-            >
-              <div className="border-t border-white/5">
-                {groupItem.children.map((child) => {
-                  const active = isActive(child.href);
-                  const ChildIcon = child.icon;
-                  return (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className={`font-poppins group relative flex items-center gap-4 py-3 pr-4 pl-10 text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
-                        active
-                          ? 'text-primary-50 bg-primary-50/8'
-                          : 'text-neutral-60 hover:bg-white/5 hover:text-neutral-100'
-                      }`}
-                    >
-                      <span
-                        className={`absolute top-0 bottom-0 left-0 w-0.5 rounded-r transition-all duration-200 ${active ? 'bg-primary-50' : 'opacity-0 group-hover:bg-white/20 group-hover:opacity-100'}`}
-                      />
-                      <span
-                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${active ? 'bg-primary-50/15 text-primary-50' : 'group-hover:text-neutral-90 bg-white/5 text-neutral-50 group-hover:bg-white/8'}`}
-                      >
-                        <ChildIcon className="h-3 w-3" />
-                      </span>
-                      <span className="flex-1">{child.label}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+          <MobileNavMenu
+            label={toolsGroup.label}
+            icon={toolsGroup.icon}
+            items={toolsGroup.children}
+            isItemActive={isActive}
+            isGroupActive={isGroupActive}
+            closeDrawer={() => setIsMenuOpen(false)}
+          />
 
-          {/* Remaining top-level links */}
-          {mobileTopLinks.slice(1).map((link, i) => {
-            const active = isActive(link.href);
-            const Icon = link.icon;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMenuOpen(false)}
-                className={`font-poppins group relative flex items-center gap-4 overflow-hidden rounded-sm px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
-                  active
-                    ? 'text-primary-50 bg-primary-50/8'
-                    : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
-                }`}
-                style={{ animationDelay: `${(i + 2) * 40}ms` }}
-              >
-                <span
-                  className={`absolute top-0 bottom-0 left-0 w-0.5 rounded-r transition-all duration-200 ${active ? 'bg-primary-50' : 'bg-primary-50/0 group-hover:bg-white/20'}`}
-                />
-                <span
-                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${active ? 'bg-primary-50/15 text-primary-50' : 'text-neutral-60 group-hover:text-neutral-90 bg-white/5 group-hover:bg-white/8'}`}
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                </span>
-                <span className="flex-1">{link.label}</span>
-              </Link>
-            );
-          })}
-        </div>
+          {mobileTopLinks.slice(1).map((link) => (
+            <MobileNavItem
+              key={link.href}
+              href={link.href}
+              label={link.label}
+              icon={link.icon}
+              active={isActive(link.href)}
+              onClick={() => setIsMenuOpen(false)}
+            />
+          ))}
+        </MobileNavList>
 
         {/* Bottom section */}
         <div className="px-6 pt-4 pb-8">
