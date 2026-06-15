@@ -57,7 +57,7 @@ export function ToolShell({
                   {title}
                 </h1>
                 <span
-                  className="font-space-grotesk text-xs tracking-widest uppercase"
+                  className="font-space-grotesk text-xs tracking-widest uppercase lg:text-sm"
                   style={{ color: accentColor }}
                 >
                   {subtitle}
@@ -208,7 +208,7 @@ export function ToolTabs({ tabs, active, onChange, accent = 'primary' }: ToolTab
         <button
           key={tab}
           onClick={() => onChange(tab)}
-          className="font-space-grotesk rounded-sm px-4 py-1.5 text-xs font-bold tracking-widest uppercase transition-all duration-200"
+          className="font-space-grotesk cursor-pointer rounded-sm px-4 py-1.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 lg:text-sm"
           style={
             active === tab
               ? {

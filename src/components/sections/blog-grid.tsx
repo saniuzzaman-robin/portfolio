@@ -29,7 +29,7 @@ export function BlogGrid() {
                   <div className="mb-4 flex items-start justify-between">
                     <span className="text-3xl">{article.emoji}</span>
                     <span
-                      className={`font-space-grotesk text-xs tracking-widest uppercase ${c.text}`}
+                      className={`font-space-grotesk text-xs tracking-widest uppercase lg:text-sm ${c.text}`}
                     >
                       {article.category}
                     </span>
@@ -47,7 +47,7 @@ export function BlogGrid() {
                     {article.tags.map((tag, i) => (
                       <span
                         key={i}
-                        className="bg-neutral-5 text-neutral-70 rounded-full px-2 py-1 text-xs transition-transform duration-200 hover:scale-105"
+                        className="bg-neutral-5 text-neutral-70 rounded-full px-2 py-1 text-xs transition-transform duration-200 hover:scale-105 lg:text-sm"
                       >
                         {tag}
                       </span>
@@ -55,7 +55,7 @@ export function BlogGrid() {
                   </div>
 
                   <div className="border-neutral-20 flex items-center justify-between border-t pt-6">
-                    <div className="text-neutral-70 text-xs">
+                    <div className="text-neutral-70 text-xs lg:text-sm">
                       <span>{article.date}</span>
                       <span className="mx-2">•</span>
                       <span>{article.readTime}</span>

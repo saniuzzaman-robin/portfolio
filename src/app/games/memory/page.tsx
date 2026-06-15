@@ -203,18 +203,20 @@ export default function MemoryPage() {
             <div className="flex items-center gap-2">
               <Timer className="text-tertiary-50 h-4 w-4" />
               <div>
-                <p className="text-neutral-60 text-xs tracking-widest uppercase">Time</p>
+                <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">Time</p>
                 <p className="font-space-grotesk neon-purple text-xl font-bold tabular-nums">
                   {formatTime(seconds)}
                 </p>
               </div>
             </div>
             <div>
-              <p className="text-neutral-60 text-xs tracking-widest uppercase">Moves</p>
+              <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">Moves</p>
               <p className="font-space-grotesk neon-cyan text-xl font-bold tabular-nums">{moves}</p>
             </div>
             <div>
-              <p className="text-neutral-60 text-xs tracking-widest uppercase">Matched</p>
+              <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">
+                Matched
+              </p>
               <p className="font-space-grotesk neon-green text-xl font-bold tabular-nums">
                 {matched}/{totalPairs}
               </p>
@@ -223,7 +225,9 @@ export default function MemoryPage() {
               <div className="flex items-center gap-1">
                 <Star className="h-3.5 w-3.5 text-yellow-400" />
                 <div>
-                  <p className="text-neutral-60 text-xs tracking-widest uppercase">Best</p>
+                  <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">
+                    Best
+                  </p>
                   <p className="font-space-grotesk text-sm font-bold text-yellow-400 tabular-nums">
                     {bestMoves} moves
                   </p>
@@ -233,7 +237,7 @@ export default function MemoryPage() {
           </div>
           <button
             onClick={startGame}
-            className="btn-neon-purple font-space-grotesk flex items-center gap-2 rounded-sm px-4 py-2 text-xs font-bold tracking-widest uppercase"
+            className="btn-neon-purple font-space-grotesk flex items-center gap-2 rounded-sm px-4 py-2 text-xs font-bold tracking-widest uppercase lg:text-sm"
           >
             <RefreshCw className="h-3.5 w-3.5" /> New Game
           </button>
@@ -269,7 +273,7 @@ export default function MemoryPage() {
                 Moves: <span className="neon-green font-bold">{moves}</span>
               </p>
               {bestTime !== null && (
-                <p className="font-space-grotesk animate-fade-in mb-6 text-xs text-yellow-400 [animation-delay:400ms]">
+                <p className="font-space-grotesk animate-fade-in mb-6 text-xs text-yellow-400 [animation-delay:400ms] lg:text-sm">
                   ⭐ Best: {formatTime(bestTime)} in {bestMoves} moves
                 </p>
               )}

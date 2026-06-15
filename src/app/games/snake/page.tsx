@@ -261,22 +261,22 @@ export default function SnakePage() {
         <div className="border-neutral-30 bg-neutral-10/50 flex items-center justify-between border-b px-4 py-3">
           <Link
             href="/games"
-            className="hover:text-primary-50 font-space-grotesk flex items-center gap-2 text-xs tracking-wider text-neutral-50 uppercase transition-colors"
+            className="hover:text-primary-50 font-space-grotesk flex items-center gap-2 text-xs tracking-wider text-neutral-50 uppercase transition-colors lg:text-sm"
           >
             <ArrowLeft className="h-4 w-4" />
             Games
           </Link>
           <div className="flex items-center gap-4 text-center">
             <div>
-              <p className="text-neutral-60 text-xs tracking-wider uppercase">Score</p>
+              <p className="text-neutral-60 text-xs tracking-wider uppercase lg:text-sm">Score</p>
               <p className="neon-green text-lg font-bold">{score}</p>
             </div>
             <div>
-              <p className="text-neutral-60 text-xs tracking-wider uppercase">Best</p>
+              <p className="text-neutral-60 text-xs tracking-wider uppercase lg:text-sm">Best</p>
               <p className="neon-cyan text-lg font-bold">{best}</p>
             </div>
             <div className="hidden sm:block">
-              <p className="text-neutral-60 text-xs tracking-wider uppercase">Mode</p>
+              <p className="text-neutral-60 text-xs tracking-wider uppercase lg:text-sm">Mode</p>
               <p className="text-lg font-bold" style={{ color: DIFFICULTIES[difficulty].color }}>
                 {difficulty}
               </p>
@@ -284,7 +284,7 @@ export default function SnakePage() {
           </div>
           <button
             onClick={start}
-            className="border-primary-50 text-primary-50 hover:bg-primary-50/10 font-space-grotesk flex items-center gap-2 rounded border px-4 py-2 text-xs tracking-wider uppercase transition-colors"
+            className="border-primary-50 text-primary-50 hover:bg-primary-50/10 font-space-grotesk flex items-center gap-2 rounded border px-4 py-2 text-xs tracking-wider uppercase transition-colors lg:text-sm"
           >
             <RefreshCw className="h-4 w-4" />
             {started ? 'Restart' : 'Start'}
@@ -336,7 +336,7 @@ export default function SnakePage() {
                 ) : (
                   <>
                     <p className="font-space-grotesk neon-green mb-1 text-4xl font-bold">SNAKE</p>
-                    <p className="text-neutral-70 mb-6 text-center text-xs">
+                    <p className="text-neutral-70 mb-6 text-center text-xs lg:text-sm">
                       Collect cyan packets. Avoid walls &amp; yourself.
                     </p>
                   </>
@@ -344,7 +344,7 @@ export default function SnakePage() {
 
                 {/* Difficulty selector */}
                 <div className="mb-4 w-full max-w-xs px-2 md:px-4">
-                  <p className="text-neutral-60 font-space-grotesk mb-2 text-center text-[10px] tracking-widest uppercase md:mb-3 md:text-xs">
+                  <p className="text-neutral-60 font-space-grotesk mb-2 text-center text-[10px] tracking-widest uppercase md:mb-3 md:text-xs lg:text-[11px] lg:md:text-sm">
                     Difficulty
                   </p>
                   <div className="grid grid-cols-3 gap-1.5 md:gap-2">
@@ -366,7 +366,7 @@ export default function SnakePage() {
                           }}
                         >
                           <span
-                            className="text-[9px] leading-tight font-bold tracking-widest uppercase md:text-xs"
+                            className="text-[9px] leading-tight font-bold tracking-widest uppercase md:text-xs lg:text-[10px] lg:md:text-sm"
                             style={{ color: active ? d.color : '#6b8299' }}
                           >
                             {d.label}
@@ -383,7 +383,7 @@ export default function SnakePage() {
                 <button onClick={start} className="btn-game font-space-grotesk px-8 py-3 text-sm">
                   {dead ? '▶ Play Again' : '▶ Start Game'}
                 </button>
-                <p className="text-neutral-60 font-space-grotesk mt-4 text-xs">
+                <p className="text-neutral-60 font-space-grotesk mt-4 text-xs lg:text-sm">
                   Arrow Keys / WASD / Swipe
                 </p>
               </div>

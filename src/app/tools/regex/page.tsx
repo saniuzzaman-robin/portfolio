@@ -77,7 +77,7 @@ export default function RegexPage() {
           </ToolPanel>
 
           <div>
-            <label className="font-space-grotesk text-neutral-60 mb-2 block text-xs font-bold tracking-widest uppercase">
+            <label className="font-space-grotesk text-neutral-60 mb-2 block text-xs font-bold tracking-widest uppercase lg:text-sm">
               Flags
             </label>
             <div className="flex gap-2">
@@ -87,7 +87,7 @@ export default function RegexPage() {
                   onClick={() =>
                     setFlags((f) => (f.includes(flag) ? f.replace(flag, '') : f + flag))
                   }
-                  className={`rounded-sm border px-3 py-2 text-xs font-bold transition-all ${
+                  className={`rounded-sm border px-3 py-2 text-xs font-bold transition-all lg:text-sm ${
                     flags.includes(flag)
                       ? 'bg-primary-50/20 border-primary-50/50 text-primary-50'
                       : 'bg-neutral-20/20 text-neutral-60 hover:border-primary-40/50 border-white/10'
@@ -119,7 +119,7 @@ export default function RegexPage() {
           <button
             onClick={test}
             disabled={!pattern.trim() || !testString.trim()}
-            className="hover:bg-primary-20 font-space-grotesk border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40"
+            className="hover:bg-primary-20 font-space-grotesk border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             <Zap className="h-4 w-4" />
             Test Pattern
@@ -131,7 +131,7 @@ export default function RegexPage() {
         {matches.length > 0 && (
           <div className="space-y-4">
             <div className="rounded-sm border border-green-900/40 bg-green-950/20 p-3">
-              <p className="font-space-grotesk text-xs text-green-300">
+              <p className="font-space-grotesk text-xs text-green-300 lg:text-sm">
                 ✓ Found <strong>{matches.length}</strong> match{matches.length !== 1 ? 'es' : ''}
               </p>
             </div>
@@ -141,7 +141,9 @@ export default function RegexPage() {
               <div className="max-h-64 space-y-2 overflow-y-auto">
                 {matches.map((match, i) => (
                   <div key={i} className="bg-neutral-10/40 rounded-sm border border-white/5 p-3">
-                    <div className="text-primary-50 font-mono text-xs break-all">{match.text}</div>
+                    <div className="text-primary-50 font-mono text-xs break-all lg:text-sm">
+                      {match.text}
+                    </div>
                     <div className="text-neutral-60 mt-1 text-[10px]">Position: {match.index}</div>
                   </div>
                 ))}
@@ -150,7 +152,7 @@ export default function RegexPage() {
 
             {/* Highlighted preview */}
             <ToolPanel label="Highlighted Text" accent="secondary">
-              <div className="text-neutral-70 bg-neutral-10/40 max-h-48 overflow-y-auto rounded-sm border border-white/5 px-4 py-3 font-mono text-xs break-all whitespace-pre-wrap">
+              <div className="text-neutral-70 bg-neutral-10/40 max-h-48 overflow-y-auto rounded-sm border border-white/5 px-4 py-3 font-mono text-xs break-all whitespace-pre-wrap lg:text-sm">
                 {highlightMatches()
                   .split('[MATCH]')
                   .map((part, i) => (

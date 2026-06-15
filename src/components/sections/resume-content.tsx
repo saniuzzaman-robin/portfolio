@@ -39,7 +39,7 @@ export function ResumeContent() {
                 <p className="neon-green font-space-grotesk mb-4 text-base tracking-widest uppercase">
                   {CV_DATA.title}
                 </p>
-                <div className="text-neutral-60 font-space-grotesk flex flex-wrap gap-5 text-xs">
+                <div className="text-neutral-60 font-space-grotesk flex flex-wrap gap-5 text-xs lg:text-sm">
                   <span>✉ {CV_DATA.email}</span>
                   <span>☏ {CV_DATA.phone}</span>
                   <span>⊙ {CV_DATA.location}</span>
@@ -131,7 +131,7 @@ export function ResumeContent() {
                           </div>
                           <div className="flex shrink-0 flex-col items-end gap-1">
                             <span
-                              className="font-space-grotesk rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase"
+                              className="font-space-grotesk rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase lg:text-sm"
                               style={{
                                 color: accent,
                                 border: `1px solid ${accentA(0.28)}`,
@@ -140,7 +140,7 @@ export function ResumeContent() {
                             >
                               {exp.duration}
                             </span>
-                            <span className="text-neutral-60 text-xs">
+                            <span className="text-neutral-60 text-xs lg:text-sm">
                               {exp.period.replace(' -', ' –')}
                             </span>
                           </div>
@@ -150,7 +150,7 @@ export function ResumeContent() {
                           {exp.achievements.map((ach, i) => (
                             <li
                               key={i}
-                              className="text-neutral-70 flex items-start gap-2 text-xs leading-relaxed"
+                              className="text-neutral-70 flex items-start gap-2 text-xs leading-relaxed lg:text-sm"
                             >
                               <span className="mt-0.5 shrink-0" style={{ color: accent }}>
                                 ▸
@@ -228,7 +228,7 @@ export function ResumeContent() {
                     style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
                   />
                   <p
-                    className="font-space-grotesk mb-3 text-xs font-bold tracking-widest uppercase"
+                    className="font-space-grotesk mb-3 text-xs font-bold tracking-widest uppercase lg:text-sm"
                     style={{ color: accent }}
                   >
                     {title}
@@ -259,10 +259,10 @@ export function ResumeContent() {
                 <h3 className="font-space-grotesk text-neutral-90 mb-1 text-base font-bold">
                   {edu.degree}
                 </h3>
-                <p className="text-primary-50 font-space-grotesk mb-1 text-xs font-bold tracking-wider uppercase">
+                <p className="text-primary-50 font-space-grotesk mb-1 text-xs font-bold tracking-wider uppercase lg:text-sm">
                   {edu.institution}
                 </p>
-                <p className="text-neutral-60 text-xs">
+                <p className="text-neutral-60 text-xs lg:text-sm">
                   {edu.period} · {edu.location}
                 </p>
               </div>
@@ -274,7 +274,7 @@ export function ResumeContent() {
               </h3>
               <ul className="space-y-1.5">
                 {CV_DATA.competitiveProgramming.achievements.map((a, i) => (
-                  <li key={i} className="text-neutral-70 flex items-start gap-2 text-xs">
+                  <li key={i} className="text-neutral-70 flex items-start gap-2 text-xs lg:text-sm">
                     <span className="text-secondary-50 mt-0.5 shrink-0">▸</span>
                     {a}
                   </li>
@@ -286,7 +286,7 @@ export function ResumeContent() {
               <h3 className="font-space-grotesk text-neutral-90 mb-2 text-base font-bold">
                 {CV_DATA.problemSetting.title}
               </h3>
-              <p className="text-neutral-70 text-xs leading-relaxed">
+              <p className="text-neutral-70 text-xs leading-relaxed lg:text-sm">
                 {CV_DATA.problemSetting.description}
               </p>
             </div>

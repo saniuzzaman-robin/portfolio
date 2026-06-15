@@ -53,14 +53,14 @@ export function Footer() {
               <span className="neon-cyan">ITECT</span>
               <span className="neon-purple">VI</span>
             </div>
-            <p className="text-neutral-70 mb-6 max-w-xs text-xs leading-relaxed">
+            <p className="text-neutral-70 mb-6 max-w-xs text-xs leading-relaxed lg:text-sm">
               Full-stack software engineer crafting scalable applications with NestJS, Next.js &
               Angular. Open to opportunities worldwide.
             </p>
             <a
               href="/CV_SANIUZZAMAN_ROBIN.pdf"
               download
-              className="btn-neon-green font-space-grotesk inline-flex items-center gap-2 rounded-sm px-5 py-2.5 text-xs font-bold tracking-widest uppercase"
+              className="btn-neon-green font-space-grotesk inline-flex items-center gap-2 rounded-sm px-5 py-2.5 text-xs font-bold tracking-widest uppercase lg:text-sm"
             >
               <Download className="h-3.5 w-3.5" />
               <span>Download CV</span>
@@ -75,7 +75,7 @@ export function Footer() {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="text-neutral-60 hover:text-primary-50 font-space-grotesk group flex items-center gap-1 text-xs tracking-wider uppercase transition-colors duration-200"
+                  className="text-neutral-60 hover:text-primary-50 font-space-grotesk group flex items-center gap-1 text-xs tracking-wider uppercase transition-colors duration-200 lg:text-sm"
                 >
                   <span className="text-primary-50/0 group-hover:text-primary-50/60 transition-colors">
                     &gt;
@@ -103,7 +103,7 @@ export function Footer() {
                     icon={l.icon}
                     className="group-hover:neon-green h-4 w-4 transition-all"
                   />
-                  <span className="font-space-grotesk text-xs tracking-wider uppercase">
+                  <span className="font-space-grotesk text-xs tracking-wider uppercase lg:text-sm">
                     {l.label}
                   </span>
                 </Link>

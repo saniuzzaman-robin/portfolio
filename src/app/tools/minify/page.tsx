@@ -120,7 +120,7 @@ export default function MinifyPage() {
           <button
             onClick={minify}
             disabled={!input.trim()}
-            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40"
+            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             <Zap className="h-4 w-4" />
             Minify
@@ -128,7 +128,7 @@ export default function MinifyPage() {
           <button
             onClick={beautify}
             disabled={!input.trim()}
-            className="font-space-grotesk text-neutral-60 hover:text-secondary-50 hover:border-secondary-50/30 flex cursor-pointer items-center gap-2 rounded-sm border border-white/20 px-6 py-2.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40"
+            className="font-space-grotesk text-neutral-60 hover:text-secondary-50 hover:border-secondary-50/30 flex cursor-pointer items-center gap-2 rounded-sm border border-white/20 px-6 py-2.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             Format
           </button>
@@ -147,7 +147,7 @@ export default function MinifyPage() {
         )}
 
         {output && !error && (
-          <div className="text-neutral-60 font-space-grotesk mt-4 flex flex-wrap gap-6 text-xs">
+          <div className="text-neutral-60 font-space-grotesk mt-4 flex flex-wrap gap-6 text-xs lg:text-sm">
             <span>
               Input: <strong className="text-neutral-80">{input.length} chars</strong>
             </span>

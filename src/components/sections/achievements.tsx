@@ -32,7 +32,7 @@ function AchievementRow({ item, rank }: { item: AchievementItem; rank: number })
 
         {/* Rank */}
         <span
-          className="font-space-grotesk relative z-10 w-7 shrink-0 text-xs font-bold tabular-nums opacity-35 transition-opacity duration-300 group-hover:opacity-80"
+          className="font-space-grotesk relative z-10 w-7 shrink-0 text-xs font-bold tabular-nums opacity-35 transition-opacity duration-300 group-hover:opacity-80 lg:text-sm"
           style={{ color: accent }}
         >
           #{String(rank).padStart(2, '0')}
@@ -67,7 +67,7 @@ function AchievementRow({ item, rank }: { item: AchievementItem; rank: number })
           <p className="font-space-grotesk text-neutral-90 mb-1 text-sm font-bold tracking-widest uppercase transition-colors group-hover:text-neutral-100">
             {item.label}
           </p>
-          <p className="text-neutral-60 group-hover:text-neutral-70 line-clamp-2 text-xs leading-relaxed transition-colors">
+          <p className="text-neutral-60 group-hover:text-neutral-70 line-clamp-2 text-xs leading-relaxed transition-colors lg:text-sm">
             {item.description}
           </p>
         </div>
@@ -98,7 +98,7 @@ export function Achievements() {
               Achievements &amp; <span className="neon-cyan">Milestones</span>
             </h2>
           </div>
-          <div className="terminal-text shrink-0 self-start text-xs sm:self-auto">
+          <div className="terminal-text shrink-0 self-start text-xs sm:self-auto lg:text-sm">
             <span className="neon-green">5</span> records loaded
           </div>
         </div>

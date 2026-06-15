@@ -101,13 +101,13 @@ export default function UuidPage() {
           />
 
           <div className="flex items-center gap-2">
-            <label className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase">
+            <label className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase lg:text-sm">
               Count
             </label>
             <select
               value={count}
               onChange={(e) => setCount(Number(e.target.value))}
-              className="bg-neutral-10 text-neutral-80 font-space-grotesk focus:border-secondary-50/40 rounded-sm border border-white/10 px-2 py-1.5 text-xs focus:outline-none"
+              className="bg-neutral-10 text-neutral-80 font-space-grotesk focus:border-secondary-50/40 rounded-sm border border-white/10 px-2 py-1.5 text-xs focus:outline-none lg:text-sm"
             >
               {[1, 5, 10, 25, 50, 100].map((n) => (
                 <option key={n} value={n}>
@@ -119,7 +119,7 @@ export default function UuidPage() {
 
           <button
             onClick={generate}
-            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40"
+            className="font-space-grotesk flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             <RefreshCw className="h-3.5 w-3.5" />
             Generate
@@ -174,7 +174,7 @@ export default function UuidPage() {
               <p className="text-secondary-50 font-space-grotesk mb-1 text-[10px] font-bold tracking-widest uppercase">
                 {name}
               </p>
-              <p className="text-neutral-60 text-xs leading-relaxed">{desc}</p>
+              <p className="text-neutral-60 text-xs leading-relaxed lg:text-sm">{desc}</p>
             </div>
           ))}
         </div>

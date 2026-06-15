@@ -21,7 +21,7 @@ function SkillBar({ name, level, accent, delay }: SkillBarProps) {
           {name}
         </span>
         <span
-          className="font-space-grotesk text-xs font-bold tabular-nums"
+          className="font-space-grotesk text-xs font-bold tabular-nums lg:text-sm"
           style={{ color: av(accent) }}
         >
           {level}%
@@ -129,7 +129,7 @@ export function SkillsShowcase() {
                 'Problem setter & judge for university contests',
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2">
-                  <span className="text-primary-50 text-xs">▸</span>
+                  <span className="text-primary-50 text-xs lg:text-sm">▸</span>
                   {item}
                 </li>
               ))}
@@ -148,7 +148,7 @@ export function SkillsShowcase() {
                 'Team Leadership & Code Reviews',
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2">
-                  <span className="text-secondary-50 text-xs">▸</span>
+                  <span className="text-secondary-50 text-xs lg:text-sm">▸</span>
                   {item}
                 </li>
               ))}

@@ -73,7 +73,7 @@ export function GameCardGrid() {
                   </div>
 
                   {/* Title */}
-                  <p className="font-space-grotesk text-neutral-60 mb-1 text-xs tracking-widest uppercase">
+                  <p className="font-space-grotesk text-neutral-60 mb-1 text-xs tracking-widest uppercase lg:text-sm">
                     {game.subtitle}
                   </p>
                   <h2 className="font-space-grotesk text-neutral-90 mb-3 text-2xl font-bold transition-colors group-hover:text-neutral-100">
@@ -91,7 +91,7 @@ export function GameCardGrid() {
                       {game.controls.map((c) => (
                         <span
                           key={c}
-                          className="glass text-neutral-70 rounded-sm border border-white/10 px-2 py-1 text-xs"
+                          className="glass text-neutral-70 rounded-sm border border-white/10 px-2 py-1 text-xs lg:text-sm"
                         >
                           {c}
                         </span>
@@ -108,7 +108,7 @@ export function GameCardGrid() {
                       {game.tech.map((t) => (
                         <span
                           key={t}
-                          className="rounded-sm px-2 py-1 text-xs"
+                          className="rounded-sm px-2 py-1 text-xs lg:text-sm"
                           style={{
                             color: av(game.accent),
                             border: `1px solid ${ava(game.accent, 0.19)}`,
@@ -123,7 +123,7 @@ export function GameCardGrid() {
 
                   {/* Play CTA */}
                   <div
-                    className="font-space-grotesk flex items-center gap-2 text-xs font-bold tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1"
+                    className="font-space-grotesk flex items-center gap-2 text-xs font-bold tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1 lg:text-sm"
                     style={{ color: av(game.accent) }}
                   >
                     <span>&gt; Play Now</span>
@@ -145,7 +145,7 @@ export function GameCardGrid() {
 
       {/* Footer note */}
       <div className="animate-fade-in mt-12 text-center [animation-delay:600ms]">
-        <p className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase">
+        <p className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase lg:text-sm">
           All games built with zero game engines — pure web APIs &amp; React
         </p>
       </div>

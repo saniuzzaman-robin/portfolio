@@ -97,7 +97,7 @@ export function ProfessionalJourney() {
                         </div>
                         <div className="flex shrink-0 flex-col items-end gap-1.5">
                           <span
-                            className="font-space-grotesk rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase"
+                            className="font-space-grotesk rounded-sm px-3 py-1 text-xs font-bold tracking-widest uppercase lg:text-sm"
                             style={{
                               color: accent,
                               border: `1px solid ${accentA(0.3)}`,
@@ -106,7 +106,7 @@ export function ProfessionalJourney() {
                           >
                             {job.duration}
                           </span>
-                          <span className="text-neutral-60 font-space-grotesk text-xs">
+                          <span className="text-neutral-60 font-space-grotesk text-xs lg:text-sm">
                             {job.period.replace(' -', ' –')}
                           </span>
                         </div>
@@ -129,7 +129,7 @@ export function ProfessionalJourney() {
                           {job.achievements.slice(0, 6).map((ach, i) => (
                             <li
                               key={i}
-                              className="text-neutral-70 flex items-start gap-2 text-xs leading-relaxed"
+                              className="text-neutral-70 flex items-start gap-2 text-xs leading-relaxed lg:text-sm"
                             >
                               <span
                                 className="mt-0.5 shrink-0 text-[10px]"

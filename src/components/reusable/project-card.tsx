@@ -106,7 +106,7 @@ export function ProjectCard({
           href={link}
           target={isExternal ? '_blank' : undefined}
           rel={isExternal ? 'noopener noreferrer' : undefined}
-          className="font-space-grotesk flex w-fit items-center gap-2 text-xs tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1"
+          className="font-space-grotesk flex w-fit items-center gap-2 text-xs tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1 lg:text-sm"
           style={{ color: accent }}
         >
           <span>View Project</span>

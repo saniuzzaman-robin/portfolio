@@ -99,7 +99,7 @@ function ProjectCard({
 
           {/* Explore CTA */}
           <div
-            className="font-space-grotesk relative z-10 mt-4 flex w-fit items-center gap-1.5 text-xs tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1.5"
+            className="font-space-grotesk relative z-10 mt-4 flex w-fit items-center gap-1.5 text-xs tracking-widest uppercase transition-transform duration-300 group-hover:translate-x-1.5 lg:text-sm"
             style={{ color: accent }}
           >
             <span>Explore</span>
@@ -140,7 +140,7 @@ export function FeaturedProjects() {
           </div>
           <Link
             href="/projects"
-            className="font-space-grotesk text-neutral-60 hover:text-primary-50 group animate-fade-in hidden shrink-0 items-center gap-2 text-xs tracking-widest uppercase transition-colors duration-200 [animation-delay:200ms] sm:flex"
+            className="font-space-grotesk text-neutral-60 hover:text-primary-50 group animate-fade-in hidden shrink-0 items-center gap-2 text-xs tracking-widest uppercase transition-colors duration-200 [animation-delay:200ms] sm:flex lg:text-sm"
           >
             <span>View all projects</span>
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -168,7 +168,7 @@ export function FeaturedProjects() {
         <div className="mt-8 flex justify-center sm:hidden">
           <Link
             href="/projects"
-            className="font-space-grotesk text-neutral-60 hover:text-primary-50 group flex items-center gap-2 text-xs tracking-widest uppercase transition-colors duration-200"
+            className="font-space-grotesk text-neutral-60 hover:text-primary-50 group flex items-center gap-2 text-xs tracking-widest uppercase transition-colors duration-200 lg:text-sm"
           >
             <span>View all projects</span>
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />

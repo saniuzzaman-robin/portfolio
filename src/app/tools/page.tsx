@@ -103,7 +103,7 @@ export default function ToolsPage() {
                         >
                           {tool.subtitle}
                         </p>
-                        <p className="text-neutral-60 relative z-10 flex-1 text-xs leading-relaxed">
+                        <p className="text-neutral-60 relative z-10 flex-1 text-xs leading-relaxed lg:text-sm">
                           {tool.description}
                         </p>
 

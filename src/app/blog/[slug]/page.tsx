@@ -83,7 +83,7 @@ function ContentSection({ section }: { section: ArticleSectionType }) {
       return (
         <div className="border-neutral-20 my-6 overflow-hidden rounded-xl border">
           <div className="bg-neutral-10 border-neutral-20 flex items-center justify-between border-b px-4 py-2">
-            <span className="text-neutral-60 font-mono text-xs tracking-wider uppercase">
+            <span className="text-neutral-60 font-mono text-xs tracking-wider uppercase lg:text-sm">
               {section.language}
             </span>
           </div>
@@ -179,7 +179,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           <header className="animate-slide-right mb-12">
             <div className="mb-6 flex items-center gap-3">
               <span className="text-4xl">{article.emoji}</span>
-              <span className={`font-space-grotesk text-xs tracking-widest uppercase ${c.text}`}>
+              <span
+                className={`font-space-grotesk text-xs tracking-widest uppercase lg:text-sm ${c.text}`}
+              >
                 {article.category}
               </span>
             </div>
@@ -203,7 +205,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               {article.tags.map((tag, i) => (
                 <span
                   key={i}
-                  className={`rounded-full border px-3 py-1 font-mono text-xs ${c.tag} ${c.borderSoft}`}
+                  className={`rounded-full border px-3 py-1 font-mono text-xs lg:text-sm ${c.tag} ${c.borderSoft}`}
                   style={{ color: av(article.color) }}
                 >
                   {tag}

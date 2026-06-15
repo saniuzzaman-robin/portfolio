@@ -17,7 +17,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
   return (
     <main className="flex min-h-dvh items-center justify-center px-6">
       <div className="max-w-md text-center">
-        <p className="font-space-grotesk neon-green mb-4 text-xs tracking-widest uppercase">
+        <p className="font-space-grotesk neon-green mb-4 text-xs tracking-widest uppercase lg:text-sm">
           Error
         </p>
         <h1 className="font-space-grotesk mb-4 text-5xl font-bold">

@@ -40,7 +40,7 @@ export function Hero() {
                 <span className="h-3 w-3 rounded-full bg-yellow-400" />
                 <span className="bg-primary-50 h-3 w-3 rounded-full" />
               </div>
-              <span className="terminal-text text-xs">
+              <span className="terminal-text text-xs lg:text-sm">
                 ~/saniuzzaman &gt;&gt; init portfolio.exe
               </span>
             </div>
@@ -127,7 +127,7 @@ export function Hero() {
 
         {/* Scroll indicator — positioned above the ticker strip */}
         <div className="absolute bottom-12 left-1/2 flex -translate-x-1/2 animate-bounce flex-col items-center gap-2 opacity-60">
-          <span className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase">
+          <span className="text-neutral-60 font-space-grotesk text-xs tracking-widest uppercase lg:text-sm">
             Scroll
           </span>
           <div className="from-primary-50 h-8 w-px bg-linear-to-b to-transparent" />
