@@ -1,66 +1,93 @@
 'use client';
 
-import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolTextarea } from '@/components/tools/tool-shell';
 import { QrCode, Download } from 'lucide-react';
-
-// Simple QR code generator using canvas
-const generateQRCode = (text: string, size: number = 300): string => {
-  try {
-    const encoded = encodeURIComponent(text);
-    // Using a simple QR code API
-    return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encoded}`;
-  } catch {
-    return '';
-  }
-};
+import QRCode from 'qrcode';
 
 export default function QRCodePage() {
   const [input, setInput] = useState('https://saniuzzaman.dev');
   const [size, setSize] = useState(300);
-  const [qrUrl, setQrUrl] = useState(generateQRCode('https://saniuzzaman.dev', 300));
   const [error, setError] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     setError('');
     if (!input.trim()) {
       setError('Please enter text or URL');
       return;
     }
+
+    if (!canvasRef.current) return;
+
+    setIsGenerating(true);
     try {
-      const url = generateQRCode(input, size);
-      setQrUrl(url);
+      await QRCode.toCanvas(canvasRef.current, input, {
+        width: size,
+        margin: 2,
+        color: {
+          dark: '#0F172A', // Dark navy
+          light: '#F8FAFC', // Light background
+        },
+      });
     } catch (e) {
       setError('Failed to generate QR code' + (e instanceof Error ? `: ${e.message}` : ''));
+    } finally {
+      setIsGenerating(false);
     }
   };
 
-  const handleDownload = async () => {
+  const handleDownload = () => {
+    if (!canvasRef.current) return;
+
     try {
-      const response = await fetch(qrUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      const url = canvasRef.current.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = url;
       a.download = `qrcode-${Date.now()}.png`;
       document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     } catch (e) {
       setError('Failed to download QR code' + (e instanceof Error ? `: ${e.message}` : ''));
     }
   };
 
+  // Generate on mount
+  useEffect(() => {
+    const generateInitialQR = async () => {
+      if (!canvasRef.current || !input.trim()) return;
+
+      setIsGenerating(true);
+      try {
+        await QRCode.toCanvas(canvasRef.current, input, {
+          width: size,
+          margin: 2,
+          color: {
+            dark: '#0F172A',
+            light: '#F8FAFC',
+          },
+        });
+      } catch (e) {
+        setError('Failed to generate QR code' + (e instanceof Error ? `: ${e.message}` : ''));
+      } finally {
+        setIsGenerating(false);
+      }
+    };
+
+    generateInitialQR();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Navigation />
       <ToolShell
         title="QR Code"
-        subtitle="Generator & Decoder"
-        description="Generate QR codes from any text or URL. Download as PNG. Perfect for sharing links and contact info."
+        subtitle="Generator · Local"
+        description="Generate QR codes from any text or URL locally in your browser. Download as PNG. Perfect for sharing links and contact info."
         icon={QrCode}
         accent="tertiary"
       >
@@ -69,7 +96,7 @@ export default function QRCodePage() {
           <ToolPanel label="Input & Settings" accent="tertiary">
             <div className="space-y-5 p-4">
               <div>
-                <label className="text-neutral-80 mb-2 block text-sm font-medium">
+                <label className="text-neutral-70 mb-2 block text-sm font-medium">
                   Text or URL
                 </label>
                 <ToolTextarea
@@ -83,8 +110,8 @@ export default function QRCodePage() {
 
               <div>
                 <div className="mb-2 flex items-center justify-between">
-                  <label className="text-neutral-80 text-sm font-medium">QR Code Size</label>
-                  <span className="text-lg font-bold text-cyan-400">{size}px</span>
+                  <label className="text-neutral-70 text-sm font-medium">QR Code Size</label>
+                  <span className="text-tertiary-50 text-lg font-bold">{size}px</span>
                 </div>
                 <input
                   type="range"
@@ -93,7 +120,7 @@ export default function QRCodePage() {
                   step="50"
                   value={size}
                   onChange={(e) => setSize(parseInt(e.target.value))}
-                  className="w-full cursor-pointer accent-cyan-500"
+                  className="accent-tertiary-50 w-full cursor-pointer"
                 />
                 <div className="text-neutral-60 mt-1 text-xs">Min: 150px, Max: 800px</div>
               </div>
@@ -101,69 +128,74 @@ export default function QRCodePage() {
               <div className="flex gap-3">
                 <button
                   onClick={handleGenerate}
-                  className="font-poppins flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 lg:text-sm"
+                  disabled={isGenerating}
+                  className="font-poppins bg-tertiary-50 hover:bg-tertiary-60 flex flex-1 items-center justify-center gap-2 rounded-sm px-6 py-2.5 text-sm font-bold text-black uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  <QrCode className="h-4 w-4" />
-                  Generate
+                  {isGenerating ? (
+                    <>
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-black border-t-transparent" />
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <QrCode className="h-4 w-4" />
+                      Generate
+                    </>
+                  )}
                 </button>
-                {qrUrl && (
-                  <button
-                    onClick={handleDownload}
-                    className="font-poppins flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-sm border border-green-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-green-700 lg:text-sm"
-                  >
-                    <Download className="h-4 w-4" />
-                    Download
-                  </button>
-                )}
+                <button
+                  onClick={handleDownload}
+                  className="font-poppins border-tertiary-50/30 text-tertiary-50 hover:bg-tertiary-50/10 flex flex-1 items-center justify-center gap-2 rounded-sm border px-6 py-2.5 text-sm font-bold uppercase transition-colors"
+                >
+                  <Download className="h-4 w-4" />
+                  Download
+                </button>
               </div>
 
-              {error && <div className="text-sm text-red-400">{error}</div>}
+              {error && (
+                <div className="animate-shake rounded-sm bg-red-500/10 px-4 py-2 text-sm text-red-400">
+                  {error}
+                </div>
+              )}
             </div>
           </ToolPanel>
 
           {/* Preview */}
-          <ToolPanel label="QR Code Preview" accent="tertiary">
-            {qrUrl ? (
-              <div className="flex flex-col items-center justify-center gap-4 p-4">
-                <Image
-                  src={qrUrl}
-                  alt="Generated QR Code"
-                  width={Math.min(size, 300)}
-                  height={Math.min(size, 300)}
-                  className="border-neutral-20 rounded-sm border-2"
-                />
-                <div className="text-neutral-60 text-center text-xs">
-                  Actual size: {size}x{size}px
-                </div>
+          <ToolPanel label="QR Code Preview · Generated Locally" accent="tertiary">
+            <div className="flex flex-col items-center justify-center gap-4 p-8">
+              <canvas
+                ref={canvasRef}
+                className="rounded-sm border-2 border-white/10 bg-white p-2 shadow-lg"
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />
+              <div className="text-neutral-60 text-center text-xs">
+                Actual size: {size}x{size}px · Generated in browser
               </div>
-            ) : (
-              <div className="text-neutral-60 flex h-64 items-center justify-center p-4 text-sm">
-                QR code preview will appear here
-              </div>
-            )}
+            </div>
           </ToolPanel>
         </div>
 
         {/* Info */}
         <ToolPanel label="Info" accent="tertiary">
-          <div className="text-neutral-80 space-y-3 p-4 text-sm">
+          <div className="text-neutral-70 space-y-3 p-4 text-sm">
             <div>
-              <p className="text-neutral-90 mb-2 font-medium">What can you encode?</p>
+              <p className="text-neutral-90 mb-2 font-medium">✨ What can you encode?</p>
               <ul className="list-inside list-disc space-y-1 text-xs">
                 <li>URLs and website links</li>
                 <li>Email addresses (mailto:)</li>
                 <li>Phone numbers (tel:)</li>
                 <li>WiFi credentials</li>
                 <li>Contact information (vCard)</li>
-                <li>Plain text</li>
+                <li>Plain text messages</li>
               </ul>
             </div>
             <div>
-              <p className="text-neutral-90 mb-2 font-medium">Tips</p>
+              <p className="text-neutral-90 mb-2 font-medium">💡 Tips</p>
               <ul className="list-inside list-disc space-y-1 text-xs">
-                <li>Larger QR codes are easier to scan</li>
-                <li>Keep text content under 3000 characters</li>
-                <li>Use full URLs for web links</li>
+                <li>Larger QR codes are easier to scan from distance</li>
+                <li>Keep text content under 3000 characters for best results</li>
+                <li>Use full URLs for web links (include https://)</li>
+                <li>Generated locally - no data sent to external servers</li>
               </ul>
             </div>
           </div>

@@ -170,21 +170,28 @@ export function CopyButton({ text, accent = 'primary', label = 'Copy' }: CopyBut
     if (!text) return;
     navigator.clipboard.writeText(text);
     setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <button
       onClick={copy}
-      className="font-poppins rounded-sm px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200 hover:scale-105"
+      disabled={!text}
+      className="font-poppins group relative rounded-sm px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
       style={{
         color: copied ? accentColor : accentColor,
-        border: `1px solid ${accentA(0.35)}`,
+        border: `1px solid ${accentA(copied ? 0.5 : 0.35)}`,
         background: copied ? accentA(0.2) : accentA(0.08),
-        boxShadow: copied ? `0 0 12px ${accentA(0.3)}` : 'none',
+        boxShadow: copied ? `0 0 20px ${accentA(0.4)}` : 'none',
       }}
     >
-      {copied ? '✓ Copied' : label}
+      <span className={copied ? 'animate-bounce-subtle' : ''}>{copied ? '✓ Copied!' : label}</span>
+      {copied && (
+        <span
+          className="pointer-events-none absolute inset-0 animate-ping rounded-sm"
+          style={{ border: `1px solid ${accentColor}`, opacity: 0.5 }}
+        />
+      )}
     </button>
   );
 }
@@ -197,18 +204,19 @@ interface ToolTabsProps {
   active: string;
   onChange: (t: string) => void;
   accent?: AccentToken;
+  labels?: Record<string, string>;
 }
 
-export function ToolTabs({ tabs, active, onChange, accent = 'primary' }: ToolTabsProps) {
+export function ToolTabs({ tabs, active, onChange, accent = 'primary', labels }: ToolTabsProps) {
   const accentColor = av(accent);
   const accentA = (a: number) => ava(accent, a);
   return (
-    <div className="glass flex w-fit gap-1 rounded-sm border border-white/8 p-1">
+    <div className="glass flex w-fit flex-wrap gap-1 rounded-sm border border-white/8 p-1">
       {tabs.map((tab) => (
         <button
           key={tab}
           onClick={() => onChange(tab)}
-          className="font-poppins cursor-pointer rounded-sm px-4 py-1.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 lg:text-sm"
+          className="font-poppins cursor-pointer rounded-sm px-4 py-1.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 hover:opacity-80 lg:text-sm"
           style={
             active === tab
               ? {
@@ -219,7 +227,7 @@ export function ToolTabs({ tabs, active, onChange, accent = 'primary' }: ToolTab
               : { color: '#8da3b3', background: 'transparent', border: '1px solid transparent' }
           }
         >
-          {tab}
+          {labels?.[tab] || tab}
         </button>
       ))}
     </div>

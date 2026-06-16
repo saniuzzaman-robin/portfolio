@@ -106,11 +106,14 @@ export function Navigation() {
       kind: 'group',
       label: 'Tools',
       icon: Wrench,
-      children: DEV_TOOLS.map((tool) => ({
-        label: tool.title,
-        href: tool.href,
-        icon: tool.icon,
-      })),
+      children: [
+        { label: 'All Tools', href: '/tools', icon: LayoutGrid },
+        ...DEV_TOOLS.map((tool) => ({
+          label: tool.title,
+          href: tool.href,
+          icon: tool.icon,
+        })),
+      ],
     },
     { kind: 'link', label: 'Resume', href: '/resume', icon: FileText },
     { kind: 'link', label: 'Games', href: '/games', icon: Gamepad2 },
@@ -118,6 +121,8 @@ export function Navigation() {
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
+    // For /tools page, only match exactly (not sub-pages like /tools/base64)
+    if (href === '/tools') return pathname === '/tools';
     return pathname.startsWith(href);
   };
 
@@ -133,7 +138,7 @@ export function Navigation() {
   return (
     <>
       <nav
-        className={`fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-500 xl:px-12 lg:px-20 ${
+        className={`fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-500 lg:px-20 xl:px-12 ${
           scrolled
             ? 'bg-neutral-5/95 border-b border-white/8 shadow-xl shadow-black/40 backdrop-blur-xl'
             : 'bg-neutral-5/60 backdrop-blur-md'
@@ -221,42 +226,78 @@ export function Navigation() {
                       }}
                     >
                       <div className="via-primary-50/50 h-px w-full bg-linear-to-r from-transparent to-transparent" />
-                      <div
-                        className={
-                          item.label === 'Tools'
-                            ? 'grid max-h-96 grid-cols-3 gap-px overflow-auto'
-                            : 'flex flex-col'
-                        }
-                      >
-                        {item.children.map((child, idx) => {
-                          const active = isActive(child.href);
-                          const ChildIcon = child.icon;
-                          return (
-                            <Link
-                              key={child.href}
-                              href={child.href}
-                              className={`font-poppins group animate-dropdown-item relative flex ${
-                                item.label === 'Tools'
-                                  ? 'flex-col items-center justify-center gap-2 px-3 py-4 text-center'
-                                  : 'items-center gap-3 px-4 py-3'
-                              } text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
-                                active
-                                  ? 'text-primary-50 bg-primary-50/8'
-                                  : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
-                              }`}
-                              style={{ animationDelay: `${idx * 50}ms` }}
-                            >
-                              {item.label !== 'Tools' && (
+                      {item.label === 'Tools' ? (
+                        <>
+                          {/* All Tools link - full width */}
+                          {(() => {
+                            const AllToolsIcon = item.children[0].icon;
+                            const allToolsActive = isActive(item.children[0].href);
+                            return (
+                              <Link
+                                href={item.children[0].href}
+                                className={`font-poppins group animate-dropdown-item relative flex items-center justify-center gap-2 border-b border-white/8 px-4 py-4 text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
+                                  allToolsActive
+                                    ? 'text-primary-50 bg-primary-50/12'
+                                    : 'text-neutral-70 hover:bg-white/8 hover:text-neutral-100'
+                                }`}
+                              >
+                                <AllToolsIcon className="h-4 w-4 shrink-0" />
+                                {item.children[0].label}
+                                <span className="text-neutral-60 ml-1 text-[10px] font-normal">
+                                  ({item.children.length - 1} tools)
+                                </span>
+                              </Link>
+                            );
+                          })()}
+                          {/* Individual tools grid */}
+                          <div className="grid max-h-96 grid-cols-3 gap-px overflow-auto">
+                            {item.children.slice(1).map((child, idx) => {
+                              const active = isActive(child.href);
+                              const ChildIcon = child.icon;
+                              return (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  className={`font-poppins group animate-dropdown-item relative flex flex-col items-center justify-center gap-2 px-3 py-4 text-center text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
+                                    active
+                                      ? 'text-primary-50 bg-primary-50/8'
+                                      : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
+                                  }`}
+                                  style={{ animationDelay: `${(idx + 1) * 50}ms` }}
+                                >
+                                  <ChildIcon className="h-3.5 w-3.5 shrink-0" />
+                                  {child.label}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </>
+                      ) : (
+                        <div className="flex flex-col">
+                          {item.children.map((child, idx) => {
+                            const active = isActive(child.href);
+                            const ChildIcon = child.icon;
+                            return (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                className={`font-poppins group animate-dropdown-item relative flex items-center gap-3 px-4 py-3 text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
+                                  active
+                                    ? 'text-primary-50 bg-primary-50/8'
+                                    : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
+                                }`}
+                                style={{ animationDelay: `${idx * 50}ms` }}
+                              >
                                 <span
                                   className={`absolute top-0 bottom-0 left-0 w-0.5 transition-opacity duration-200 ${active ? 'bg-primary-50 opacity-100' : 'bg-white/20 opacity-0 group-hover:opacity-100'}`}
                                 />
-                              )}
-                              <ChildIcon className="h-3.5 w-3.5 shrink-0" />
-                              {child.label}
-                            </Link>
-                          );
-                        })}
-                      </div>
+                                <ChildIcon className="h-3.5 w-3.5 shrink-0" />
+                                {child.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
