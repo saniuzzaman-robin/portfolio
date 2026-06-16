@@ -14,6 +14,11 @@ import {
   Database,
   Lock,
   QrCode,
+  FileCode2,
+  CalendarClock,
+  Code2,
+  FileImage,
+  Code,
   type LucideIcon,
 } from 'lucide-react';
 import type { AccentToken } from '@/lib/accent';
@@ -191,5 +196,93 @@ export const DEV_TOOLS: DevTool[] = [
     icon: QrCode,
     accent: 'tertiary',
     tags: ['qr', 'code', 'generator', 'barcode'],
+  },
+  {
+    id: 'diff',
+    title: 'Diff Viewer',
+    subtitle: 'Text Comparison',
+    description:
+      'Compare two texts side-by-side with line-by-line highlighting. Perfect for comparing code, configs, or documents.',
+    href: '/tools/diff',
+    icon: FileCode2,
+    accent: 'primary',
+    tags: ['diff', 'compare', 'text', 'code'],
+  },
+  {
+    id: 'lorem',
+    title: 'Lorem Ipsum',
+    subtitle: 'Placeholder Generator',
+    description:
+      'Generate placeholder text in various styles (Lorem, Bacon, Hipster, Corporate). Perfect for mockups and testing.',
+    href: '/tools/lorem',
+    icon: FileText,
+    accent: 'secondary',
+    tags: ['lorem', 'placeholder', 'text', 'generator'],
+  },
+  {
+    id: 'cron',
+    title: 'Cron Expression',
+    subtitle: 'Builder & Tester',
+    description:
+      'Build and test cron expressions visually. Get human-readable explanations and preview execution schedules.',
+    href: '/tools/cron',
+    icon: CalendarClock,
+    accent: 'tertiary',
+    tags: ['cron', 'schedule', 'timer', 'expression'],
+  },
+  {
+    id: 'sql',
+    title: 'SQL Formatter',
+    subtitle: 'Format & Minify',
+    description:
+      'Format SQL queries for readability or minify them for production. Supports common SQL dialects.',
+    href: '/tools/sql',
+    icon: Database,
+    accent: 'primary',
+    tags: ['sql', 'format', 'database', 'query'],
+  },
+  {
+    id: 'html-entities',
+    title: 'HTML Entities',
+    subtitle: 'Encode / Decode',
+    description:
+      'Encode special characters to HTML entities or decode them back. Essential for safe HTML display.',
+    href: '/tools/html-entities',
+    icon: Code2,
+    accent: 'secondary',
+    tags: ['html', 'entities', 'encode', 'decode'],
+  },
+  {
+    id: 'slug',
+    title: 'Text Transform',
+    subtitle: 'Slug · Case Converter',
+    description:
+      'Transform text between different formats: URL slugs, camelCase, snake_case, kebab-case, and more.',
+    href: '/tools/slug',
+    icon: Type,
+    accent: 'primary',
+    tags: ['slug', 'case', 'transform', 'convert'],
+  },
+  {
+    id: 'image-base64',
+    title: 'Image to Base64',
+    subtitle: 'Convert & Embed',
+    description:
+      'Convert images to Base64 encoding. Perfect for embedding images in HTML, CSS, or JSON.',
+    href: '/tools/image-base64',
+    icon: FileImage,
+    accent: 'primary',
+    tags: ['image', 'base64', 'encode', 'embed'],
+  },
+  {
+    id: 'yaml-json',
+    title: 'YAML ↔ JSON',
+    subtitle: 'Converter',
+    description:
+      'Convert between YAML and JSON formats. Perfect for config files, Kubernetes manifests, and CI/CD pipelines.',
+    href: '/tools/yaml-json',
+    icon: Code,
+    accent: 'secondary',
+    tags: ['yaml', 'json', 'convert', 'config'],
   },
 ];
