@@ -25,6 +25,7 @@ import { DEV_TOOLS } from '@/lib/data/tools';
 import { MobileNavItem } from '@/components/sections/mobile-nav-item';
 import { MobileNavMenu } from '@/components/sections/mobile-nav-menu';
 import { MobileNavList } from '@/components/sections/mobile-nav-list';
+import { MultilingualLogo } from '@/components/reusable/multilingual-logo';
 
 type SimpleLink = {
   kind: 'link';
@@ -149,12 +150,7 @@ export function Navigation() {
           href="/"
           className="font-poppins group relative text-lg font-bold tracking-widest uppercase"
         >
-          <span className="neon-green group-hover:animate-glitch transition-all duration-300">
-            ARCH
-          </span>
-          <span className="neon-cyan">ITECT</span>
-          <span className="neon-purple">VI</span>
-          <span className="from-primary-50 via-secondary-50 to-tertiary-50 absolute -bottom-1 left-0 h-px w-0 bg-linear-to-r transition-all duration-500 group-hover:w-full" />
+          <MultilingualLogo showDevSuffix={true} />
         </Link>
 
         {/* Desktop Nav */}
@@ -369,11 +365,9 @@ export function Navigation() {
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
-              className="font-poppins text-base font-bold tracking-widest uppercase"
+              className="font-poppins group text-base font-bold tracking-widest uppercase"
             >
-              <span className="neon-green">ARCH</span>
-              <span className="neon-cyan">ITECT</span>
-              <span className="neon-purple">VI</span>
+              <MultilingualLogo showDevSuffix={true} />
             </Link>
             <p className="font-poppins text-xs tracking-wider text-neutral-50 lg:text-sm">
               Software Engineer
