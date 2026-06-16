@@ -5,12 +5,86 @@ import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolTextarea, CopyButton } from '@/components/tools/tool-shell';
 import { FileCode2 } from 'lucide-react';
 
-// Simple diff algorithm (LCS-based)
-interface DiffLine {
+// Character-level diff segment
+interface CharSegment {
+  text: string;
   type: 'equal' | 'added' | 'removed';
+}
+
+// Line diff with character-level details
+interface DiffLine {
+  type: 'equal' | 'added' | 'removed' | 'modified';
   content: string;
   lineNum1?: number;
   lineNum2?: number;
+  charDiff?: {
+    left: CharSegment[];
+    right: CharSegment[];
+  };
+}
+
+// Compute character-level diff using LCS
+function computeCharDiff(
+  str1: string,
+  str2: string
+): { left: CharSegment[]; right: CharSegment[] } {
+  const m = str1.length;
+  const n = str2.length;
+  const dp: number[][] = Array(m + 1)
+    .fill(null)
+    .map(() => Array(n + 1).fill(0));
+
+  // Build LCS table
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (str1[i - 1] === str2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+  }
+
+  // Backtrack to get diff segments
+  const left: CharSegment[] = [];
+  const right: CharSegment[] = [];
+  let i = m;
+  let j = n;
+
+  while (i > 0 || j > 0) {
+    if (i > 0 && j > 0 && str1[i - 1] === str2[j - 1]) {
+      left.unshift({ text: str1[i - 1], type: 'equal' });
+      right.unshift({ text: str2[j - 1], type: 'equal' });
+      i--;
+      j--;
+    } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+      right.unshift({ text: str2[j - 1], type: 'added' });
+      j--;
+    } else if (i > 0) {
+      left.unshift({ text: str1[i - 1], type: 'removed' });
+      i--;
+    }
+  }
+
+  // Merge consecutive segments of same type
+  const mergeSegments = (segments: CharSegment[]): CharSegment[] => {
+    if (segments.length === 0) return [];
+    const merged: CharSegment[] = [segments[0]];
+    for (let k = 1; k < segments.length; k++) {
+      const last = merged[merged.length - 1];
+      if (last.type === segments[k].type) {
+        last.text += segments[k].text;
+      } else {
+        merged.push(segments[k]);
+      }
+    }
+    return merged;
+  };
+
+  return {
+    left: mergeSegments(left),
+    right: mergeSegments(right),
+  };
 }
 
 function computeDiff(text1: string, text2: string, ignoreWhitespace: boolean): DiffLine[] {
@@ -19,68 +93,40 @@ function computeDiff(text1: string, text2: string, ignoreWhitespace: boolean): D
 
   const processLine = (line: string) => (ignoreWhitespace ? line.trim() : line);
 
-  const lcs = computeLCS(lines1.map(processLine), lines2.map(processLine));
-
   const result: DiffLine[] = [];
-  let i = 0,
-    j = 0,
-    lcsIdx = 0;
+  const maxLines = Math.max(lines1.length, lines2.length);
 
-  while (i < lines1.length || j < lines2.length) {
-    const l1 = i < lines1.length ? processLine(lines1[i]) : null;
-    const l2 = j < lines2.length ? processLine(lines2[j]) : null;
-    const lcsLine = lcsIdx < lcs.length ? lcs[lcsIdx] : null;
+  for (let i = 0; i < maxLines; i++) {
+    const line1 = i < lines1.length ? lines1[i] : null;
+    const line2 = i < lines2.length ? lines2[i] : null;
+    const proc1 = line1 !== null ? processLine(line1) : null;
+    const proc2 = line2 !== null ? processLine(line2) : null;
 
-    if (l1 !== null && l1 === lcsLine) {
-      result.push({ type: 'equal', content: lines1[i], lineNum1: i + 1, lineNum2: j + 1 });
-      i++;
-      j++;
-      lcsIdx++;
-    } else if (l1 !== null && (l2 === null || l1 !== l2)) {
-      result.push({ type: 'removed', content: lines1[i], lineNum1: i + 1 });
-      i++;
-    } else if (l2 !== null) {
-      result.push({ type: 'added', content: lines2[j], lineNum2: j + 1 });
-      j++;
+    if (line1 !== null && line2 !== null) {
+      if (proc1 === proc2) {
+        // Lines are identical
+        result.push({ type: 'equal', content: line1, lineNum1: i + 1, lineNum2: i + 1 });
+      } else {
+        // Lines exist but differ - show character-level diff
+        const charDiff = computeCharDiff(line1, line2);
+        result.push({
+          type: 'modified',
+          content: line1,
+          lineNum1: i + 1,
+          lineNum2: i + 1,
+          charDiff,
+        });
+      }
+    } else if (line1 !== null) {
+      // Line only in original (removed)
+      result.push({ type: 'removed', content: line1, lineNum1: i + 1 });
+    } else if (line2 !== null) {
+      // Line only in modified (added)
+      result.push({ type: 'added', content: line2, lineNum2: i + 1 });
     }
   }
 
   return result;
-}
-
-function computeLCS(arr1: string[], arr2: string[]): string[] {
-  const m = arr1.length;
-  const n = arr2.length;
-  const dp: number[][] = Array(m + 1)
-    .fill(null)
-    .map(() => Array(n + 1).fill(0));
-
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      if (arr1[i - 1] === arr2[j - 1]) {
-        dp[i][j] = dp[i - 1][j - 1] + 1;
-      } else {
-        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-      }
-    }
-  }
-
-  const lcs: string[] = [];
-  let i = m,
-    j = n;
-  while (i > 0 && j > 0) {
-    if (arr1[i - 1] === arr2[j - 1]) {
-      lcs.unshift(arr1[i - 1]);
-      i--;
-      j--;
-    } else if (dp[i - 1][j] > dp[i][j - 1]) {
-      i--;
-    } else {
-      j--;
-    }
-  }
-
-  return lcs;
 }
 
 export default function DiffPage() {
@@ -98,6 +144,7 @@ export default function DiffPage() {
   const stats = {
     added: diff.filter((d) => d.type === 'added').length,
     removed: diff.filter((d) => d.type === 'removed').length,
+    modified: diff.filter((d) => d.type === 'modified').length,
     equal: diff.filter((d) => d.type === 'equal').length,
   };
 
@@ -107,7 +154,7 @@ export default function DiffPage() {
       <ToolShell
         title="Diff Viewer"
         subtitle="Text Comparison"
-        description="Compare two texts side-by-side with line-by-line highlighting. Perfect for comparing code, configs, or any text documents."
+        description="Compare two texts with character-level precision. See exactly which characters changed within modified lines. Perfect for code review and config comparison."
         icon={FileCode2}
         accent="primary"
       >
@@ -127,6 +174,7 @@ export default function DiffPage() {
             <div className="font-poppins text-neutral-60 flex gap-4 text-xs">
               <span className="text-green-400">+{stats.added}</span>
               <span className="text-red-400">-{stats.removed}</span>
+              <span className="text-yellow-400">~{stats.modified}</span>
               <span className="text-neutral-50">={stats.equal}</span>
             </div>
           )}
@@ -167,29 +215,84 @@ export default function DiffPage() {
         {diff.length > 0 && (
           <ToolPanel label="Differences" accent="tertiary">
             <div className="max-h-96 overflow-y-auto font-mono text-[13px] leading-relaxed">
-              {diff.map((line, idx) => (
-                <div
-                  key={idx}
-                  className={`flex gap-3 px-4 py-1 ${
-                    line.type === 'added'
-                      ? 'bg-green-500/10 text-green-300'
-                      : line.type === 'removed'
-                        ? 'bg-red-500/10 text-red-300'
-                        : 'text-neutral-70'
-                  }`}
-                >
-                  <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
-                    {line.lineNum1 || ''}
-                  </span>
-                  <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
-                    {line.lineNum2 || ''}
-                  </span>
-                  <span className="w-4 shrink-0 font-bold">
-                    {line.type === 'added' ? '+' : line.type === 'removed' ? '-' : ' '}
-                  </span>
-                  <span className="flex-1 break-all whitespace-pre-wrap">{line.content}</span>
-                </div>
-              ))}
+              {diff.map((line, idx) => {
+                if (line.type === 'modified' && line.charDiff) {
+                  // Show character-level diff for modified lines
+                  return (
+                    <div key={idx}>
+                      {/* Original line (left) */}
+                      <div className="flex gap-3 bg-red-500/10 px-4 py-1">
+                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                          {line.lineNum1}
+                        </span>
+                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none"></span>
+                        <span className="w-4 shrink-0 font-bold text-red-300">-</span>
+                        <span className="flex-1 break-all whitespace-pre-wrap">
+                          {line.charDiff.left.map((seg, segIdx) => (
+                            <span
+                              key={segIdx}
+                              className={
+                                seg.type === 'removed'
+                                  ? 'bg-red-500/30 text-red-200'
+                                  : 'text-red-300'
+                              }
+                            >
+                              {seg.text}
+                            </span>
+                          ))}
+                        </span>
+                      </div>
+                      {/* Modified line (right) */}
+                      <div className="flex gap-3 bg-green-500/10 px-4 py-1">
+                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none"></span>
+                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                          {line.lineNum2}
+                        </span>
+                        <span className="w-4 shrink-0 font-bold text-green-300">+</span>
+                        <span className="flex-1 break-all whitespace-pre-wrap">
+                          {line.charDiff.right.map((seg, segIdx) => (
+                            <span
+                              key={segIdx}
+                              className={
+                                seg.type === 'added'
+                                  ? 'bg-green-500/30 text-green-200'
+                                  : 'text-green-300'
+                              }
+                            >
+                              {seg.text}
+                            </span>
+                          ))}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                }
+
+                // Regular line-level diff
+                return (
+                  <div
+                    key={idx}
+                    className={`flex gap-3 px-4 py-1 ${
+                      line.type === 'added'
+                        ? 'bg-green-500/10 text-green-300'
+                        : line.type === 'removed'
+                          ? 'bg-red-500/10 text-red-300'
+                          : 'text-neutral-70'
+                    }`}
+                  >
+                    <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                      {line.lineNum1 || ''}
+                    </span>
+                    <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                      {line.lineNum2 || ''}
+                    </span>
+                    <span className="w-4 shrink-0 font-bold">
+                      {line.type === 'added' ? '+' : line.type === 'removed' ? '-' : ' '}
+                    </span>
+                    <span className="flex-1 break-all whitespace-pre-wrap">{line.content}</span>
+                  </div>
+                );
+              })}
             </div>
           </ToolPanel>
         )}
