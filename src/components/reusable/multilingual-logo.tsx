@@ -39,7 +39,6 @@ export function MultilingualLogo({ className = '', showDevSuffix = true }: Multi
 
   // Split name for coloring
   const name = current.text;
-  const mid = Math.ceil(name.length / 2);
   const firstPart = name.slice(0, Math.ceil(name.length / 3));
   const middlePart = name.slice(Math.ceil(name.length / 3), Math.ceil((2 * name.length) / 3));
   const lastPart = name.slice(Math.ceil((2 * name.length) / 3));
