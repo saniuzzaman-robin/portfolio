@@ -133,7 +133,7 @@ export function Navigation() {
   return (
     <>
       <nav
-        className={`fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-500 md:px-12 lg:px-20 ${
+        className={`fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-500 xl:px-12 lg:px-20 ${
           scrolled
             ? 'bg-neutral-5/95 border-b border-white/8 shadow-xl shadow-black/40 backdrop-blur-xl'
             : 'bg-neutral-5/60 backdrop-blur-md'
@@ -153,7 +153,7 @@ export function Navigation() {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => {
             if (item.kind === 'link') {
               const active = isActive(item.href);
@@ -268,14 +268,14 @@ export function Navigation() {
         {/* Theme Toggle (desktop) */}
         <button
           onClick={toggleTheme}
-          className="text-neutral-60 hover:text-primary-50 hover:border-primary-50/40 hover:bg-primary-50/5 ml-2 hidden h-8 w-8 cursor-pointer items-center justify-center rounded-sm border border-white/10 transition-all duration-200 md:flex"
+          className="text-neutral-60 hover:text-primary-50 hover:border-primary-50/40 hover:bg-primary-50/5 ml-2 hidden h-8 w-8 cursor-pointer items-center justify-center rounded-sm border border-white/10 transition-all duration-200 xl:flex"
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
         >
           {theme === 'dark' ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
         </button>
 
         {/* Mobile controls */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <button
             onClick={toggleTheme}
             className="text-neutral-60 hover:text-primary-50 hover:border-primary-50/40 hover:bg-primary-50/5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-sm border border-white/10 transition-all duration-200"
@@ -302,19 +302,19 @@ export function Navigation() {
       </nav>
 
       {/* Spacer */}
-      <div className="h-16" />
+      <div className="hidden h-16 xl:block" />
 
       {/* Mobile Overlay */}
       {isMenuOpen && (
         <div
-          className="animate-fade-in fixed inset-0 z-40 bg-black/70 backdrop-blur-md md:hidden"
+          className="animate-fade-in fixed inset-0 z-40 bg-black/70 backdrop-blur-md xl:hidden"
           onClick={() => setIsMenuOpen(false)}
         />
       )}
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 z-50 flex h-dvh w-80 flex-col transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed top-0 right-0 z-50 flex h-dvh w-80 flex-col transition-transform duration-300 ease-in-out xl:hidden ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         style={{ background: 'var(--nav-drawer-bg)' }}
