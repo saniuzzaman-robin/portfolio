@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
 import { MobileNavItem } from './mobile-nav-item';
@@ -18,6 +19,15 @@ type MobileNavMenuProps = {
   isItemActive: (href: string) => boolean;
   isGroupActive: (items: NavMenuItem[]) => boolean;
   closeDrawer: () => void;
+};
+
+const subItemsVariants = {
+  hidden: { height: 0, opacity: 0 },
+  visible: {
+    height: 'auto',
+    opacity: 1,
+    transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] as const },
+  },
 };
 
 export function MobileNavMenu({
@@ -61,30 +71,36 @@ export function MobileNavMenu({
           <Icon className="h-3.5 w-3.5" />
         </span>
         <span className="flex-1 text-left">{label}</span>
-        <ChevronDown
-          className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-        />
+        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+          <ChevronDown className="h-3.5 w-3.5" />
+        </motion.div>
       </button>
 
-      {/* Nested items container */}
-      <div
-        className={`transition-all duration-200 ${isOpen ? 'overflow-y-auto' : 'max-h-0 overflow-hidden'}`}
-        style={{ WebkitOverflowScrolling: 'touch' }}
-      >
-        <div className="my-1 flex flex-col gap-1 border-l border-white/5 pl-2">
-          {items.map((item) => (
-            <MobileNavItem
-              key={item.href}
-              href={item.href}
-              label={item.label}
-              icon={item.icon}
-              active={isItemActive(item.href)}
-              onClick={handleItemClick}
-              nested
-            />
-          ))}
-        </div>
-      </div>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            variants={subItemsVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            className="overflow-hidden"
+          >
+            <div className="my-1 flex flex-col gap-1 border-l border-white/5 pl-2">
+              {items.map((item) => (
+                <MobileNavItem
+                  key={item.href}
+                  href={item.href}
+                  label={item.label}
+                  icon={item.icon}
+                  active={isItemActive(item.href)}
+                  onClick={handleItemClick}
+                  nested
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

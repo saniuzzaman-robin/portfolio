@@ -197,7 +197,7 @@ export default function TetrisPage() {
     const piece = pieceRef.current;
     const CELL = cellRef.current;
 
-    ctx.fillStyle = '#080d1a';
+    ctx.fillStyle = '#080a1a';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Grid lines
@@ -502,7 +502,7 @@ export default function TetrisPage() {
 
           <button
             onClick={startGame}
-            className="btn-neon-cyan font-poppins flex items-center gap-1 rounded-sm px-2 py-1 text-[10px] font-bold tracking-widest whitespace-nowrap uppercase md:gap-2 md:px-4 md:py-2 md:text-xs lg:text-[11px]"
+            className="btn-neon font-poppins flex items-center gap-1 rounded-sm px-2 py-1 text-[10px] font-bold tracking-widest whitespace-nowrap uppercase md:gap-2 md:px-4 md:py-2 md:text-xs lg:text-[11px]"
           >
             <RefreshCw className="h-3 w-3 md:h-4 md:w-4" />
             <span className="hidden md:inline">{started ? 'Restart' : 'Start'}</span>
@@ -591,7 +591,7 @@ export default function TetrisPage() {
 
                   <button
                     onClick={startGame}
-                    className="btn-neon-cyan font-poppins rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
+                    className="btn-neon font-poppins rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
                   >
                     {gameOver ? '> Play Again' : '> Start Game'}
                   </button>
@@ -620,7 +620,7 @@ export default function TetrisPage() {
                   if (!ctx) return;
                   const p = nextRef.current;
                   const CELL = cellSize;
-                  ctx.fillStyle = '#080d1a';
+                  ctx.fillStyle = '#080a1a';
                   ctx.fillRect(0, 0, 4 * CELL, 4 * CELL);
                   const ox = Math.floor((4 - p.shape[0].length) / 2);
                   const oy = Math.floor((4 - p.shape.length) / 2);

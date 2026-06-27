@@ -1,41 +1,54 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ARTICLES } from '@/lib/data/blog';
 import { ACCENT_CLASSES } from '@/lib/accent';
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
+  }),
+};
+
 export function BlogGrid() {
   return (
-    <section className="px-6 py-24 md:px-12 lg:px-20">
+    <section className="px-6 py-24 md:px-12 lg:px-16">
       <div className="mx-auto max-w-6xl">
-        <div className="animate-slide-right mb-20">
-          <h1 className="font-poppins mb-6 text-5xl font-bold md:text-6xl">
+        <motion.div custom={0} variants={fadeUp} initial="hidden" animate="visible" className="mb-16">
+          <h1 className="font-poppins mb-4 text-5xl font-bold md:text-6xl">
             Blog & Articles
           </h1>
           <p className="text-neutral-70 max-w-2xl text-lg">
             Technical insights, tutorials, and thoughts on software engineering, system design, and
             competitive programming.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-2">
           {ARTICLES.map((article, index) => {
             const c = ACCENT_CLASSES[article.color];
             return (
-              <article
+              <motion.article
                 key={article.id}
-                className="bg-neutral-10 border-neutral-20 hover:border-neutral-30 group animate-scale-in overflow-hidden rounded-2xl border transition-all duration-300 hover:shadow-lg"
-                style={{ animationDelay: `${index * 75}ms` }}
+                custom={index + 1}
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                className="glass card-shine group overflow-hidden rounded-xl border border-white/8 transition-all duration-300 hover:shadow-lg hover:border-white/20"
               >
                 <div className="flex h-full flex-col p-8">
                   <div className="mb-4 flex items-start justify-between">
                     <span className="text-3xl">{article.emoji}</span>
-                    <span
-                      className={`font-poppins text-xs tracking-widest uppercase lg:text-sm ${c.text}`}
-                    >
+                    <span className={`font-poppins text-xs tracking-widest uppercase ${c.text}`}>
                       {article.category}
                     </span>
                   </div>
 
-                  <h2 className="font-poppins group-hover:text-primary-50 mb-4 text-2xl font-bold transition duration-300">
+                  <h2 className="font-poppins text-neutral-90 group-hover:text-primary-50 mb-4 text-2xl font-bold transition duration-300">
                     {article.title}
                   </h2>
 
@@ -47,15 +60,15 @@ export function BlogGrid() {
                     {article.tags.map((tag, i) => (
                       <span
                         key={i}
-                        className="bg-neutral-5 text-neutral-70 rounded-full px-2 py-1 text-xs transition-transform duration-200 hover:scale-105 lg:text-sm"
+                        className="bg-neutral-10 text-neutral-60 rounded-full px-2.5 py-1 text-xs transition-transform duration-200 hover:scale-105"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <div className="border-neutral-20 flex items-center justify-between border-t pt-6">
-                    <div className="text-neutral-70 text-xs lg:text-sm">
+                  <div className="border-white/8 flex items-center justify-between border-t pt-5">
+                    <div className="text-neutral-60 text-xs">
                       <span>{article.date}</span>
                       <span className="mx-2">•</span>
                       <span>{article.readTime}</span>
@@ -68,26 +81,26 @@ export function BlogGrid() {
                     </Link>
                   </div>
                 </div>
-              </article>
+              </motion.article>
             );
           })}
         </div>
 
-        <div className="animate-fade-in mt-20 text-center [animation-delay:600ms]">
-          <p className="text-neutral-70 mb-6">
+        <motion.div custom={100} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="mt-16 text-center">
+          <p className="text-neutral-70 mb-5 text-sm">
             Subscribe to get notified about new articles and insights
           </p>
           <div className="mx-auto flex max-w-md gap-2">
             <input
               type="email"
               placeholder="your@email.com"
-              className="bg-neutral-10 border-neutral-20 focus:border-primary-50 text-neutral-90 flex-1 rounded-lg border px-4 py-3 transition focus:outline-none"
+              className="bg-neutral-10 border border-white/10 focus:border-primary-50/50 text-neutral-90 flex-1 rounded-lg px-4 py-3 text-sm transition focus:outline-none focus:ring-2 focus:ring-primary-50/20"
             />
-            <button className="bg-primary-50 text-primary-100 dark:text-primary-0 font-poppins hover:bg-primary-60 rounded-lg px-6 py-3 font-bold transition duration-300 hover:scale-105">
+            <button className="btn-neon font-poppins rounded-lg px-6 py-3 text-sm font-bold tracking-widest uppercase">
               Subscribe
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

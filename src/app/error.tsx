@@ -29,7 +29,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         <div className="flex justify-center gap-4">
           <button
             onClick={reset}
-            className="btn-neon-cyan font-poppins px-6 py-3 text-sm tracking-widest uppercase"
+            className="btn-neon font-poppins px-6 py-3 text-sm tracking-widest uppercase"
           >
             Try again
           </button>

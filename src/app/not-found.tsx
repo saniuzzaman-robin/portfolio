@@ -15,7 +15,7 @@ export default function NotFoundPage() {
         </p>
         <Link
           href="/"
-          className="btn-neon-cyan font-poppins inline-block px-6 py-3 text-sm tracking-widest uppercase"
+          className="btn-neon font-poppins inline-block px-6 py-3 text-sm tracking-widest uppercase"
         >
           Go home
         </Link>

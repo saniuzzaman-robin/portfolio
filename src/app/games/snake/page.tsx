@@ -70,7 +70,7 @@ export default function SnakePage() {
     if (!ctx) return;
     const { snake, food } = stateRef.current;
 
-    ctx.fillStyle = '#080d1a';
+    ctx.fillStyle = '#080a1a';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Grid

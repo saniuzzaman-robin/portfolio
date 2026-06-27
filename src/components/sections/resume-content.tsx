@@ -48,7 +48,7 @@ export function ResumeContent() {
               <a
                 href="/CV_SANIUZZAMAN_ROBIN.pdf"
                 download
-                className="btn-neon-green font-poppins inline-flex shrink-0 items-center gap-2 rounded-sm px-6 py-3 text-sm font-bold tracking-widest uppercase"
+                className="btn-neon font-poppins inline-flex shrink-0 items-center gap-2 rounded-lg px-6 py-3 text-sm font-bold tracking-widest uppercase"
               >
                 <Download className="h-4 w-4" />
                 <span>Download CV</span>
@@ -94,7 +94,7 @@ export function ResumeContent() {
                       className="absolute top-5 left-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-full border-2"
                       style={{
                         borderColor: accent,
-                        backgroundColor: '#080d1a',
+                        backgroundColor: '#080a1a',
                         boxShadow: `0 0 8px ${accent}`,
                       }}
                     >
@@ -311,7 +311,7 @@ export function ResumeContent() {
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="mailto:saniuzzamanrobin07@gmail.com"
-              className="btn-neon-green font-poppins inline-flex items-center gap-2 rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
+              className="btn-neon font-poppins inline-flex items-center gap-2 rounded-lg px-8 py-3 text-sm font-bold tracking-widest uppercase"
             >
               <Mail className="h-4 w-4" />
               Get In Touch
@@ -320,7 +320,7 @@ export function ResumeContent() {
               href="https://linkedin.com/in/saniuzzaman-robin"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-neon-cyan font-poppins inline-flex items-center gap-2 rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase"
+              className="bg-white/5 hover:bg-secondary-50/10 border-white/10 hover:border-secondary-50/30 font-poppins inline-flex items-center gap-2 rounded-lg border px-8 py-3 text-sm font-bold tracking-widest uppercase text-neutral-70 transition-all duration-300 hover:text-neutral-90"
             >
               <ExternalLink className="h-4 w-4" />
               LinkedIn

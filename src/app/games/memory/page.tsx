@@ -237,7 +237,7 @@ export default function MemoryPage() {
           </div>
           <button
             onClick={startGame}
-            className="btn-neon-purple font-poppins flex items-center gap-2 rounded-sm px-4 py-2 text-xs font-bold tracking-widest uppercase lg:text-sm"
+            className="btn-neon font-poppins flex items-center gap-2 rounded-sm px-4 py-2 text-xs font-bold tracking-widest uppercase lg:text-sm"
           >
             <RefreshCw className="h-3.5 w-3.5" /> New Game
           </button>
@@ -279,7 +279,7 @@ export default function MemoryPage() {
               )}
               <button
                 onClick={startGame}
-                className="btn-neon-purple font-poppins animate-scale-in rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase [animation-delay:500ms]"
+                className="btn-neon font-poppins animate-scale-in rounded-sm px-8 py-3 text-sm font-bold tracking-widest uppercase [animation-delay:500ms]"
               >
                 &gt; Play Again
               </button>

@@ -45,7 +45,6 @@ describe('ACCENT_CLASSES', () => {
     expect(classes).toHaveProperty('borderSoft');
     expect(classes).toHaveProperty('borderMedium');
     expect(classes).toHaveProperty('tag');
-    expect(classes).toHaveProperty('glow');
   });
 
   it('primary text class is text-primary-50', () => {
