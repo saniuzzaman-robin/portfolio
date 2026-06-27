@@ -27,13 +27,13 @@ export default function ToolsPage() {
       <section className="relative overflow-hidden px-6 pt-24 pb-16 md:px-12 lg:px-20">
         {/* Background blobs */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="aurora-blob aurora-blob-primary absolute top-0 left-1/2 h-[300px] w-[500px] -translate-x-1/2 opacity-10" />
+          <div className="aurora-blob aurora-blob-primary absolute top-0 left-1/2 h-75 w-125 -translate-x-1/2 opacity-10" />
           <div
-            className="aurora-blob aurora-blob-secondary absolute top-20 right-0 h-[200px] w-[200px] opacity-10"
+            className="aurora-blob aurora-blob-secondary absolute top-20 right-0 h-50 w-50 opacity-10"
             style={{ animationDelay: '-3s' }}
           />
           <div
-            className="aurora-blob aurora-blob-tertiary absolute bottom-0 left-0 h-[200px] w-[200px] opacity-10"
+            className="aurora-blob aurora-blob-tertiary absolute bottom-0 left-0 h-50 w-50 opacity-10"
             style={{ animationDelay: '-7s' }}
           />
         </div>

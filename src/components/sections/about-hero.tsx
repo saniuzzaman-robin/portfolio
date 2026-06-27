@@ -22,9 +22,9 @@ export function AboutHero() {
     <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
       {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="aurora-blob aurora-blob-primary absolute top-0 right-0 h-[400px] w-[400px] opacity-10" />
+        <div className="aurora-blob aurora-blob-primary absolute top-0 right-0 h-100 w-100 opacity-10" />
         <div
-          className="aurora-blob aurora-blob-secondary absolute bottom-0 left-1/3 h-[350px] w-[350px] opacity-10"
+          className="aurora-blob aurora-blob-secondary absolute bottom-0 left-1/3 h-87.5 w-87.5 opacity-10"
           style={{ animationDelay: '-5s' }}
         />
       </div>

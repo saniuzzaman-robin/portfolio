@@ -128,9 +128,9 @@ export function ProfessionalJourney() {
     <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
       {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="aurora-blob aurora-blob-primary absolute top-1/4 left-1/3 h-[400px] w-[400px] opacity-10" />
+        <div className="aurora-blob aurora-blob-primary absolute top-1/4 left-1/3 h-100 w-100 opacity-10" />
         <div
-          className="aurora-blob aurora-blob-secondary absolute right-1/4 bottom-1/3 h-[350px] w-[350px] opacity-10"
+          className="aurora-blob aurora-blob-secondary absolute right-1/4 bottom-1/3 h-87.5 w-87.5 opacity-10"
           style={{ animationDelay: '-6s' }}
         />
       </div>
@@ -150,7 +150,7 @@ export function ProfessionalJourney() {
         <div className="relative">
           {/* Vertical line */}
           <div
-            className="absolute top-0 bottom-0 left-[22px] w-0.5 md:left-1/2 md:-translate-x-px"
+            className="absolute top-0 bottom-0 left-5.5 w-0.5 md:left-1/2 md:-translate-x-px"
             style={{
               background:
                 'linear-gradient(to bottom, var(--color-primary-40), var(--color-secondary-50), var(--color-tertiary-40))',
@@ -164,7 +164,7 @@ export function ProfessionalJourney() {
               return (
                 <div key={i} className="relative">
                   {/* Timeline dot */}
-                  <div className="absolute top-8 left-[18px] z-10 md:left-1/2 md:-translate-x-1/2">
+                  <div className="absolute top-8 left-4.5 z-10 md:left-1/2 md:-translate-x-1/2">
                     <div className="relative">
                       <div
                         className="h-3 w-3 rounded-full border-2"

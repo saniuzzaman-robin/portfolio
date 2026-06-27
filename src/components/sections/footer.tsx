@@ -33,8 +33,8 @@ export function Footer() {
     <footer className="relative overflow-hidden border-t border-midnight-200 px-6 pt-16 pb-8 md:px-12 lg:px-20">
       {/* Subtle aurora gradient */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="aurora-blob aurora-blob-primary absolute -bottom-32 -left-32 h-[300px] w-[300px] opacity-10" />
-        <div className="aurora-blob aurora-blob-secondary absolute -bottom-32 -right-32 h-[250px] w-[250px] opacity-10" style={{ animationDelay: '-7s' }} />
+        <div className="aurora-blob aurora-blob-primary absolute -bottom-32 -left-32 h-75 w-75 opacity-10" />
+        <div className="aurora-blob aurora-blob-secondary absolute -bottom-32 -right-32 h-62.5 w-62.5 opacity-10" style={{ animationDelay: '-7s' }} />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl">

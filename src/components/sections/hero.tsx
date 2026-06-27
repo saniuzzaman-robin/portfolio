@@ -20,13 +20,13 @@ export function Hero() {
     <section className="relative flex min-h-[90vh] items-center overflow-hidden">
       {/* Aurora gradient blobs */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="aurora-blob aurora-blob-primary absolute -top-32 -left-32 h-[500px] w-[500px] opacity-30" />
+        <div className="aurora-blob aurora-blob-primary absolute -top-32 -left-32 h-125 w-125 opacity-30" />
         <div
-          className="aurora-blob aurora-blob-secondary absolute top-1/4 right-1/4 h-[400px] w-[400px] opacity-20"
+          className="aurora-blob aurora-blob-secondary absolute top-1/4 right-1/4 h-100 w-100 opacity-20"
           style={{ animationDelay: '-5s' }}
         />
         <div
-          className="aurora-blob aurora-blob-tertiary absolute bottom-1/4 left-1/3 h-[350px] w-[350px] opacity-15"
+          className="aurora-blob aurora-blob-tertiary absolute bottom-1/4 left-1/3 h-87.5 w-87.5 opacity-15"
           style={{ animationDelay: '-10s' }}
         />
       </div>
@@ -140,7 +140,7 @@ export function Hero() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="hidden h-[450px] w-full lg:block xl:h-[550px]"
+              className="hidden h-112.5 w-full lg:block xl:h-137.5"
             >
               <OrbitalVisualization />
             </motion.div>

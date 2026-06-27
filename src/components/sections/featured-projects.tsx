@@ -95,9 +95,9 @@ export function FeaturedProjects() {
     <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="aurora-blob aurora-blob-secondary absolute top-10 right-1/4 h-[350px] w-[350px] opacity-10" />
+        <div className="aurora-blob aurora-blob-secondary absolute top-10 right-1/4 h-87.5 w-87.5 opacity-10" />
         <div
-          className="aurora-blob aurora-blob-primary absolute bottom-10 left-1/3 h-[300px] w-[300px] opacity-10"
+          className="aurora-blob aurora-blob-primary absolute bottom-10 left-1/3 h-75 w-75 opacity-10"
           style={{ animationDelay: '-5s' }}
         />
       </div>

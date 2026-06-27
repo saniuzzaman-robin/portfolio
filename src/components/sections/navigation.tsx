@@ -166,7 +166,7 @@ export function Navigation() {
       <motion.nav
         className={`fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-300 lg:px-12 xl:px-16 ${
           scrolled
-            ? 'bg-(--glass-bg) border-(--glass-border) border-b py-3 shadow-lg shadow-black/10 backdrop-blur-xl'
+            ? 'border-b border-(--glass-border) bg-(--glass-bg) py-3 shadow-lg shadow-black/10 backdrop-blur-xl'
             : 'bg-transparent py-4'
         }`}
       >
@@ -184,9 +184,7 @@ export function Navigation() {
                   <Link
                     href={item.href}
                     className={`relative rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
-                      active
-                        ? 'text-aurora-green'
-                        : 'text-midnight-500 hover:text-midnight-950'
+                      active ? 'text-aurora-green' : 'text-midnight-500 hover:text-midnight-950'
                     }`}
                   >
                     {item.label}
@@ -240,11 +238,11 @@ export function Navigation() {
                         className="absolute top-full left-1/2 -translate-x-1/2 pt-2"
                       >
                         <div
-                          className={`overflow-hidden rounded-xl border border-midnight-200 bg-midnight-50 shadow-xl ${
+                          className={`border-midnight-200 bg-midnight-50 overflow-hidden rounded-xl border shadow-xl ${
                             item.label === 'Tools' ? 'w-96' : 'min-w-48'
                           }`}
                         >
-                          <div className="via-aurora-green/20 h-px w-full bg-gradient-to-r from-transparent to-transparent" />
+                          <div className="via-aurora-green/20 h-px w-full bg-linear-to-r from-transparent to-transparent" />
                           {item.label === 'Tools' ? (
                             <>
                               {(() => {
@@ -253,7 +251,7 @@ export function Navigation() {
                                 return (
                                   <Link
                                     href={item.children[0].href}
-                                    className={`flex items-center justify-center gap-2 border-b border-midnight-200 px-4 py-3.5 text-sm font-medium transition-all duration-200 ${
+                                    className={`border-midnight-200 flex items-center justify-center gap-2 border-b px-4 py-3.5 text-sm font-medium transition-all duration-200 ${
                                       allToolsActive
                                         ? 'text-aurora-green bg-aurora-green/5'
                                         : 'text-midnight-500 hover:text-midnight-950 hover:bg-midnight-100'
@@ -377,7 +375,7 @@ export function Navigation() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="bg-black/60 fixed inset-0 z-40 backdrop-blur-md lg:hidden"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-md lg:hidden"
             onClick={() => setIsMenuOpen(false)}
           />
         )}
@@ -393,7 +391,7 @@ export function Navigation() {
             exit="hidden"
             className="bg-midnight-50 border-midnight-200 fixed top-0 right-0 z-50 flex h-dvh w-80 flex-col border-l lg:hidden"
           >
-            <div className="via-aurora-green/30 h-px w-full bg-gradient-to-r from-transparent to-transparent" />
+            <div className="via-aurora-green/30 h-px w-full bg-linear-to-r from-transparent to-transparent" />
 
             <div className="flex items-center justify-between px-6 py-5">
               <div>
@@ -404,13 +402,11 @@ export function Navigation() {
                 >
                   <MultilingualLogo showDevSuffix={true} />
                 </Link>
-                <p className="text-midnight-500 text-sm">
-                  Software Engineer
-                </p>
+                <p className="text-midnight-500 text-sm">Software Engineer</p>
               </div>
             </div>
 
-            <div className="mx-6 mb-3 h-px bg-gradient-to-r from-midnight-200 via-midnight-200 to-transparent" />
+            <div className="from-midnight-200 via-midnight-200 mx-6 mb-3 h-px bg-linear-to-r to-transparent" />
 
             <MobileNavList>
               {mobileTopLinks.slice(0, 1).map((link) => (
@@ -466,7 +462,7 @@ export function Navigation() {
             </MobileNavList>
 
             <div className="px-6 pt-3 pb-6">
-              <div className="mb-4 h-px bg-linear-to-r from-midnight-200 via-midnight-200 to-transparent" />
+              <div className="from-midnight-200 via-midnight-200 mb-4 h-px bg-linear-to-r to-transparent" />
               <div className="flex items-center gap-2">
                 <span className="bg-aurora-green h-2.5 w-2.5 animate-pulse rounded-full shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                 <span className="text-aurora-green text-sm font-medium">Open to opportunities</span>

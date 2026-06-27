@@ -17,9 +17,9 @@ export function CTA() {
     <section className="relative overflow-hidden px-6 py-28 md:px-12 lg:px-20">
       {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="aurora-blob aurora-blob-primary absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 opacity-15" />
-        <div className="aurora-blob aurora-blob-secondary absolute top-1/2 left-1/3 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 opacity-10" style={{ animationDelay: '-5s' }} />
-        <div className="aurora-blob aurora-blob-tertiary absolute top-1/2 right-1/3 h-[400px] w-[400px] translate-x-1/2 -translate-y-1/2 opacity-10" style={{ animationDelay: '-10s' }} />
+        <div className="aurora-blob aurora-blob-primary absolute top-1/2 left-1/2 h-125 w-125 -translate-x-1/2 -translate-y-1/2 opacity-15" />
+        <div className="aurora-blob aurora-blob-secondary absolute top-1/2 left-1/3 h-100 w-100 -translate-x-1/2 -translate-y-1/2 opacity-10" style={{ animationDelay: '-5s' }} />
+        <div className="aurora-blob aurora-blob-tertiary absolute top-1/2 right-1/3 h-100 w-100 translate-x-1/2 -translate-y-1/2 opacity-10" style={{ animationDelay: '-10s' }} />
       </div>
 
       {/* Grid pattern */}

@@ -74,8 +74,8 @@ export function Achievements() {
     <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
       {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="aurora-blob aurora-blob-primary absolute top-20 right-1/4 h-[400px] w-[400px] opacity-10" />
-        <div className="aurora-blob aurora-blob-secondary absolute -bottom-20 left-1/4 h-[350px] w-[350px] opacity-10" style={{ animationDelay: '-8s' }} />
+        <div className="aurora-blob aurora-blob-primary absolute top-20 right-1/4 h-100 w-100 opacity-10" />
+        <div className="aurora-blob aurora-blob-secondary absolute -bottom-20 left-1/4 h-87.5 w-87.5 opacity-10" style={{ animationDelay: '-8s' }} />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl">

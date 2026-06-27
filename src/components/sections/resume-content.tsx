@@ -9,7 +9,7 @@ export function ResumeContent() {
     <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-20">
       {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="aurora-blob aurora-blob-primary absolute top-0 right-0 h-[400px] w-[400px] opacity-10" />
+        <div className="aurora-blob aurora-blob-primary absolute top-0 right-0 h-100 w-100 opacity-10" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-5xl">
@@ -52,14 +52,14 @@ export function ResumeContent() {
         {/* Experience */}
         <div className="mb-16">
           <div className="mb-10 flex items-center gap-3">
-            <div className="from-primary-40/40 h-px flex-1 bg-gradient-to-r to-transparent" />
+            <div className="from-primary-40/40 h-px flex-1 bg-linear-to-r to-transparent" />
             <h2
               className="text-2xl font-bold tracking-widest uppercase"
               style={{ color: av('primary') }}
             >
               Experience
             </h2>
-            <div className="from-primary-40/40 h-px flex-1 bg-gradient-to-l to-transparent" />
+            <div className="from-primary-40/40 h-px flex-1 bg-linear-to-l to-transparent" />
           </div>
 
           <div className="relative">
@@ -166,14 +166,14 @@ export function ResumeContent() {
         {/* Technical Skills */}
         <div className="mb-16">
           <div className="mb-10 flex items-center gap-3">
-            <div className="from-secondary-40/40 h-px flex-1 bg-gradient-to-r to-transparent" />
+            <div className="from-secondary-40/40 h-px flex-1 bg-linear-to-r to-transparent" />
             <h2
               className="text-2xl font-bold tracking-widest uppercase"
               style={{ color: av('secondary') }}
             >
               Technical Skills
             </h2>
-            <div className="from-secondary-40/40 h-px flex-1 bg-gradient-to-l to-transparent" />
+            <div className="from-secondary-40/40 h-px flex-1 bg-linear-to-l to-transparent" />
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {[
@@ -216,14 +216,14 @@ export function ResumeContent() {
         {/* Education & Achievements */}
         <div className="mb-16">
           <div className="mb-10 flex items-center gap-3">
-            <div className="from-tertiary-40/40 h-px flex-1 bg-gradient-to-r to-transparent" />
+            <div className="from-tertiary-40/40 h-px flex-1 bg-linear-to-r to-transparent" />
             <h2
               className="text-2xl font-bold tracking-widest uppercase"
               style={{ color: av('tertiary') }}
             >
               Education & CP
             </h2>
-            <div className="from-tertiary-40/40 h-px flex-1 bg-gradient-to-l to-transparent" />
+            <div className="from-tertiary-40/40 h-px flex-1 bg-linear-to-l to-transparent" />
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {CV_DATA.education.map((edu, i) => (
