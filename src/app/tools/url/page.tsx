@@ -8,8 +8,10 @@ import {
   ToolTextarea,
   CopyButton,
   ToolTabs,
+  ToolActionButton,
+  ToolError,
 } from '@/components/tools/tool-shell';
-import { Link as LinkIcon, Zap } from 'lucide-react';
+import { Link } from 'lucide-react';
 
 export default function URLPage() {
   const [mode, setMode] = useState<'encode' | 'decode' | 'parse'>('encode');
@@ -58,7 +60,7 @@ export default function URLPage() {
         title="URL Tools"
         subtitle="Encode, Decode & Parse"
         description="Encode/decode URLs and parse query parameters visually. Break down URL components instantly."
-        icon={LinkIcon}
+        icon={Link}
         accent="primary"
       >
         {/* Mode tabs */}
@@ -87,17 +89,16 @@ export default function URLPage() {
 
         {/* Action button */}
         <div className="mb-6">
-          <button
+          <ToolActionButton
             onClick={process}
             disabled={!input.trim()}
-            className="hover:bg-primary-20 font-poppins border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
-          >
-            <Zap className="h-4 w-4" />
-            {mode === 'encode' ? 'Encode' : mode === 'decode' ? 'Decode' : 'Parse'}
-          </button>
+            accent="primary"
+            icon={Link}
+            label={mode === 'encode' ? 'Encode' : mode === 'decode' ? 'Decode' : 'Parse URL'}
+          />
         </div>
 
-        {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
+        {error && <ToolError message={error} />}
 
         {output && (
           <ToolPanel
@@ -105,7 +106,7 @@ export default function URLPage() {
             accent="secondary"
             action={<CopyButton text={output} accent="secondary" />}
           >
-            <div className="text-midnight-700 bg-midnight-100/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-sm break-all">
+            <div className="text-midnight-500 bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-sm break-all">
               {output}
             </div>
           </ToolPanel>
@@ -113,23 +114,21 @@ export default function URLPage() {
 
         {Object.keys(params).length > 0 && (
           <div className="mt-6">
-            <h3 className="font-poppins text-midnight-900 mb-4 text-sm font-bold">
-              Query Parameters
-            </h3>
+            <h3 className="text-midnight-950 mb-4 font-sans text-sm font-bold">Query Parameters</h3>
             <div className="space-y-3">
               {Object.entries(params).map(([key, value]) => (
                 <div
                   key={key}
-                  className="bg-midnight-100/40 grid grid-cols-2 gap-3 rounded-sm border border-white/5 p-3"
+                  className="bg-midnight-100 border-midnight-200 grid grid-cols-2 gap-3 rounded-sm border p-3"
                 >
                   <div>
-                    <span className="text-midnight-500 font-poppins text-[10px] tracking-widest uppercase">
+                    <span className="text-midnight-500 font-sans text-[10px] tracking-widest uppercase">
                       Key
                     </span>
                     <div className="text-midnight-950 font-mono text-sm break-all">{key}</div>
                   </div>
                   <div>
-                    <span className="text-midnight-500 font-poppins text-[10px] tracking-widest uppercase">
+                    <span className="text-midnight-500 font-sans text-[10px] tracking-widest uppercase">
                       Value
                     </span>
                     <div className="text-midnight-950 font-mono text-sm break-all">{value}</div>

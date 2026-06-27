@@ -103,14 +103,15 @@ export default function ImageBase64Page() {
               {fileName && (
                 <div className="bg-primary-50/10 border-primary-50/20 mt-4 flex items-center justify-between rounded-sm border p-3">
                   <div className="flex-1">
-                    <p className="text-midnight-900 text-sm font-medium">{fileName}</p>
+                    <p className="text-midnight-950 text-sm font-medium">{fileName}</p>
                     <p className="text-midnight-500 text-xs">
                       {mimeType} · {formatFileSize(fileSize)}
                     </p>
                   </div>
                   <button
                     onClick={clearImage}
-                    className="text-midnight-500 transition-colors hover:text-red-400"
+                    className="text-midnight-500 hover:text-midnight-500 transition-colors"
+                    aria-label="Clear selected image"
                   >
                     <X className="h-5 w-5" />
                   </button>
@@ -135,7 +136,7 @@ export default function ImageBase64Page() {
           </ToolPanel>
 
           {/* Preview */}
-          <ToolPanel label="Image Preview" accent="secondary">
+          <ToolPanel label="Image Preview" accent="primary">
             <div className="flex min-h-75 items-center justify-center p-4">
               {imageData ? (
                 <div className="relative max-h-70 max-w-full">
@@ -144,7 +145,7 @@ export default function ImageBase64Page() {
                     alt="Preview"
                     width={500}
                     height={280}
-                    className="h-auto max-h-70 w-auto max-w-full rounded-sm border border-white/10 object-contain"
+                    className="border-midnight-200 h-auto max-h-70 w-auto max-w-full rounded-sm border object-contain"
                     unoptimized
                   />
                 </div>
@@ -161,34 +162,34 @@ export default function ImageBase64Page() {
         {imageData && (
           <ToolPanel
             label="Base64 Output"
-            accent="tertiary"
-            action={<CopyButton text={getOutput()} accent="tertiary" />}
+            accent="primary"
+            action={<CopyButton text={getOutput()} accent="primary" />}
           >
-            <ToolTextarea value={getOutput()} readOnly rows={8} accent="tertiary" mono />
-            <div className="text-midnight-500 border-t border-white/5 px-4 py-2 text-xs">
+            <ToolTextarea value={getOutput()} readOnly rows={8} mono />
+            <div className="text-midnight-500 border-midnight-200 border-t px-4 py-2 text-xs">
               {getOutput().length.toLocaleString()} characters
             </div>
           </ToolPanel>
         )}
 
-        {/* Info */}
+        {/* Usage Examples */}
         <ToolPanel label="Usage Examples" accent="primary">
           <div className="text-midnight-700 space-y-3 p-4 text-sm">
             <div>
-              <p className="text-midnight-900 mb-2 font-medium">HTML:</p>
+              <p className="text-midnight-950 mb-2 font-medium">HTML:</p>
               <code className="bg-midnight-100 text-primary-50 block rounded-sm p-2 text-xs">
                 {'<img src="data:image/png;base64,..." alt="Embedded" />'}
               </code>
             </div>
             <div>
-              <p className="text-midnight-900 mb-2 font-medium">CSS:</p>
+              <p className="text-midnight-950 mb-2 font-medium">CSS:</p>
               <code className="bg-midnight-100 text-primary-50 block rounded-sm p-2 text-xs">
                 {'background-image: url(data:image/png;base64,...);'}
               </code>
             </div>
             <div>
-              <p className="text-midnight-900 mb-2 font-medium">💡 Benefits:</p>
-              <ul className="list-inside list-disc space-y-1 text-xs">
+              <p className="text-midnight-950 mb-2 font-medium">Benefits:</p>
+              <ul className="text-midnight-950 list-inside  list-disc space-y-1 text-xs">
                 <li>No external file dependencies</li>
                 <li>Single HTTP request</li>
                 <li>Works in emails and offline apps</li>

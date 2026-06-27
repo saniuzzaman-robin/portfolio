@@ -2,8 +2,17 @@
 
 import { useState, useRef } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, CopyButton } from '@/components/tools/tool-shell';
-import { Palette, Zap, Copy, Check } from 'lucide-react';
+import {
+  ToolShell,
+  ToolPanel,
+  ToolTabs,
+  ToolActionButton,
+  ToolSecondaryButton,
+  ToolInfo,
+  CopyButton,
+} from '@/components/tools/tool-shell';
+import { av, ava } from '@/lib/accent';
+import { Palette, Copy, Check } from 'lucide-react';
 
 export default function ColorPage() {
   const pickerRef = useRef<HTMLInputElement>(null);
@@ -147,7 +156,6 @@ export default function ColorPage() {
     if (!rgb) return;
 
     const shades = [];
-    // Darker shades
     for (let i = 90; i >= 10; i -= 10) {
       const f = i / 100;
       const r = Math.round(rgb.r * f);
@@ -155,7 +163,6 @@ export default function ColorPage() {
       const b = Math.round(rgb.b * f);
       shades.push(rgbToHex(r, g, b));
     }
-    // Lighter shades
     for (let i = 10; i <= 90; i += 10) {
       const f = i / 100;
       const r = Math.round(rgb.r + (255 - rgb.r) * f);
@@ -189,7 +196,7 @@ export default function ColorPage() {
     }
   };
 
-  const copyPaletteCode = () => {
+  const copyPalette = () => {
     const code = generatePaletteCode(paletteFormat);
     copyToClipboard(code);
   };
@@ -209,11 +216,17 @@ export default function ColorPage() {
         accent="secondary"
       >
         {/* Main color display */}
-        <div className="mb-10 rounded-xl border border-white/10 bg-linear-to-b from-white/5 to-transparent p-6">
+        <div
+          className="mb-10 rounded-xl p-6"
+          style={{
+            border: `1px solid ${ava('secondary', 0.2)}`,
+            background: ava('secondary', 0.04),
+          }}
+        >
           <div className="grid items-end gap-6 md:grid-cols-2 lg:grid-cols-3">
             {/* Color Picker */}
             <div className="md:col-span-1">
-              <label className="font-poppins text-midnight-500 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+              <label className="text-midnight-500 mb-3 block font-sans text-xs font-bold tracking-widest uppercase lg:text-sm">
                 Pick Color
               </label>
               <div className="relative overflow-hidden rounded-xl shadow-xl">
@@ -232,12 +245,13 @@ export default function ColorPage() {
 
             {/* HEX Input */}
             <div className="md:col-span-1">
-              <label className="font-poppins text-midnight-500 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+              <label className="text-midnight-500 mb-3 block font-sans text-xs font-bold tracking-widest uppercase lg:text-sm">
                 HEX Code
               </label>
               <button
                 onClick={() => copyToClipboard(hex)}
                 className="group relative w-full cursor-pointer"
+                aria-label="Copy HEX color code"
               >
                 <input
                   type="text"
@@ -251,20 +265,31 @@ export default function ColorPage() {
                     }
                   }}
                   placeholder="#000000"
-                  className="bg-midnight-100/40 text-midnight-900 w-full rounded-lg border-2 border-cyan-400/30 px-4 py-3 font-mono text-sm uppercase transition-colors group-hover:border-cyan-400/50 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none"
+                  className="bg-midnight-100 text-midnight-950 w-full rounded-lg border-2 px-4 py-3 font-mono text-sm uppercase transition-colors focus:ring-2 focus:outline-none"
+                  style={{
+                    borderColor: ava('secondary', 0.3),
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = ava('secondary', 0.6);
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = ava('secondary', 0.3);
+                  }}
                 />
                 <Copy className="text-midnight-500 absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 opacity-0 transition-all group-hover:opacity-100" />
               </button>
             </div>
 
             {/* Action Button */}
-            <button
-              onClick={generatePalette}
-              className="font-poppins flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-cyan-600 bg-linear-to-r from-cyan-600/20 to-cyan-500/10 px-6 py-3 text-xs font-bold tracking-widest uppercase transition-all hover:border-cyan-500 hover:from-cyan-600/30 hover:to-cyan-500/20 active:scale-95 md:col-span-1 lg:text-sm"
-            >
-              <Zap className="h-4 w-4" />
-              Generate
-            </button>
+            <div className="md:col-span-1">
+              <ToolActionButton
+                onClick={generatePalette}
+                accent="secondary"
+                icon={Palette}
+                label="Generate Palette"
+                fullWidth={true}
+              />
+            </div>
           </div>
         </div>
 
@@ -280,8 +305,9 @@ export default function ColorPage() {
               <button
                 onClick={() => copyToClipboard(hex)}
                 className="group relative w-full cursor-pointer"
+                aria-label="Copy HEX color"
               >
-                <div className="text-midnight-900 bg-midnight-100/40 group-hover:bg-midnight-100/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                <div className="text-midnight-950 bg-midnight-100 group-hover:bg-midnight-100 border-midnight-200 group-hover:border-midnight-300 rounded-lg border-2 px-4 py-3 font-mono text-sm transition-all">
                   {hex}
                 </div>
                 <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
@@ -293,7 +319,7 @@ export default function ColorPage() {
                 </div>
               </button>
               <div
-                className="h-12 rounded-lg border-2 border-white/10"
+                className="border-midnight-200 h-12 rounded-lg border-2"
                 style={{ background: hex }}
               />
             </div>
@@ -310,8 +336,9 @@ export default function ColorPage() {
                 <button
                   onClick={() => copyToClipboard(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`)}
                   className="group relative w-full cursor-pointer"
+                  aria-label="Copy RGB color"
                 >
-                  <div className="text-midnight-700 bg-midnight-100/40 group-hover:bg-midnight-100/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                  <div className="text-midnight-500 bg-midnight-100 group-hover:bg-midnight-100 border-midnight-200 group-hover:border-midnight-300 rounded-lg border-2 px-4 py-3 font-mono text-sm transition-all">
                     rgb({rgb.r}, {rgb.g}, {rgb.b})
                   </div>
                   <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
@@ -323,7 +350,7 @@ export default function ColorPage() {
                   </div>
                 </button>
                 <div
-                  className="h-12 rounded-lg border-2 border-white/10"
+                  className="border-midnight-200 h-12 rounded-lg border-2"
                   style={{ background: hex }}
                 />
               </div>
@@ -343,8 +370,9 @@ export default function ColorPage() {
                 <button
                   onClick={() => copyToClipboard(`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`)}
                   className="group relative w-full cursor-pointer"
+                  aria-label="Copy HSL color"
                 >
-                  <div className="text-midnight-700 bg-midnight-100/40 group-hover:bg-midnight-100/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                  <div className="text-midnight-500 bg-midnight-100 group-hover:bg-midnight-100 border-midnight-200 group-hover:border-midnight-300 rounded-lg border-2 px-4 py-3 font-mono text-sm transition-all">
                     hsl({hsl.h}, {hsl.s}%, {hsl.l}%)
                   </div>
                   <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
@@ -356,7 +384,7 @@ export default function ColorPage() {
                   </div>
                 </button>
                 <div
-                  className="h-12 rounded-lg border-2 border-white/10"
+                  className="border-midnight-200 h-12 rounded-lg border-2"
                   style={{ background: hex }}
                 />
               </div>
@@ -379,8 +407,9 @@ export default function ColorPage() {
                 <button
                   onClick={() => copyToClipboard(`${cmyk.c}% ${cmyk.m}% ${cmyk.y}% ${cmyk.k}%`)}
                   className="group relative w-full cursor-pointer"
+                  aria-label="Copy CMYK color"
                 >
-                  <div className="text-midnight-700 bg-midnight-100/40 group-hover:bg-midnight-100/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                  <div className="text-midnight-500 bg-midnight-100 group-hover:bg-midnight-100 border-midnight-200 group-hover:border-midnight-300 rounded-lg border-2 px-4 py-3 font-mono text-sm transition-all">
                     {cmyk.c}% {cmyk.m}% {cmyk.y}% {cmyk.k}%
                   </div>
                   <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
@@ -392,7 +421,7 @@ export default function ColorPage() {
                   </div>
                 </button>
                 <div
-                  className="h-12 rounded-lg border-2 border-white/10"
+                  className="border-midnight-200 h-12 rounded-lg border-2"
                   style={{ background: hex }}
                 />
               </div>
@@ -412,8 +441,9 @@ export default function ColorPage() {
                 <button
                   onClick={() => copyToClipboard(`${rgb.r * 65536 + rgb.g * 256 + rgb.b}`)}
                   className="group relative w-full cursor-pointer"
+                  aria-label="Copy decimal RGB value"
                 >
-                  <div className="text-midnight-700 bg-midnight-100/40 group-hover:bg-midnight-100/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                  <div className="text-midnight-500 bg-midnight-100 group-hover:bg-midnight-100 border-midnight-200 group-hover:border-midnight-300 rounded-lg border-2 px-4 py-3 font-mono text-sm transition-all">
                     {rgb.r * 65536 + rgb.g * 256 + rgb.b}
                   </div>
                   <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
@@ -425,7 +455,7 @@ export default function ColorPage() {
                   </div>
                 </button>
                 <div
-                  className="h-12 rounded-lg border-2 border-white/10"
+                  className="border-midnight-200 h-12 rounded-lg border-2"
                   style={{ background: hex }}
                 />
               </div>
@@ -436,7 +466,7 @@ export default function ColorPage() {
         {/* Color harmonies */}
         {Object.keys(harmonies).length > 0 && (
           <div className="mb-8">
-            <h3 className="font-poppins text-midnight-900 mb-4 text-sm font-bold uppercase">
+            <h3 className="text-midnight-950 mb-4 font-sans text-sm font-bold uppercase">
               Color Harmonies
             </h3>
             <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-5">
@@ -450,17 +480,18 @@ export default function ColorPage() {
                 <button
                   key={item.name}
                   onClick={() => copyToClipboard(item.color)}
-                  className="group cursor-pointer rounded-sm border border-white/10 transition-all hover:border-white/30"
+                  className="group border-midnight-200 hover:border-midnight-300 cursor-pointer rounded-sm border transition-all"
+                  aria-label={`Copy ${item.name} color`}
                 >
                   <div className="h-16 w-full rounded-t-sm" style={{ background: item.color }} />
-                  <div className="bg-midnight-100/40 flex items-center justify-between rounded-b-sm px-2 py-2">
+                  <div className="bg-midnight-100 flex items-center justify-between rounded-b-sm px-2 py-2">
                     <div className="text-midnight-500 group-hover:text-midnight-950 font-mono text-[10px] transition-colors">
                       {item.color}
                     </div>
                     {copiedColor === item.color ? (
                       <Check className="h-3 w-3 text-green-400" />
                     ) : (
-                      <Copy className="text-midnight-500 group-hover:text-midnight-300 h-3 w-3" />
+                      <Copy className="text-midnight-500 group-hover:text-midnight-500 h-3 w-3" />
                     )}
                   </div>
                 </button>
@@ -472,19 +503,20 @@ export default function ColorPage() {
         {/* Palette shades */}
         {palette.length > 0 && (
           <div className="mb-8">
-            <h3 className="font-poppins text-midnight-900 mb-4 text-sm font-bold uppercase">
+            <h3 className="text-midnight-950 mb-4 font-sans text-sm font-bold uppercase">
               Shade Palette
             </h3>
             <div className="grid gap-2 md:grid-cols-10">
               {palette.map((shade, i) => (
                 <div
                   key={i}
-                  className="overflow-hidden rounded-sm border border-white/10 transition-all hover:border-white/30"
+                  className="border-midnight-200 hover:border-midnight-300 overflow-hidden rounded-sm border transition-all"
                 >
                   <div className="h-12 w-full" style={{ background: shade }} />
                   <button
                     onClick={() => copyToClipboard(shade)}
-                    className="group bg-midnight-100/40 hover:bg-midnight-100/60 relative w-full cursor-pointer px-2 py-1.5 text-center transition-all"
+                    className="group bg-midnight-100 hover:bg-midnight-100 relative w-full cursor-pointer px-2 py-1.5 text-center transition-all"
+                    aria-label={`Copy shade ${shade}`}
                   >
                     <div className="text-midnight-500 group-hover:text-midnight-950 font-mono text-[9px] transition-colors">
                       {shade}
@@ -502,66 +534,51 @@ export default function ColorPage() {
             </div>
 
             {/* Copy Palette Code */}
-            <div className="bg-midnight-100/40 mt-6 rounded-lg border border-white/10 p-4">
-              <p className="font-poppins text-midnight-500 mb-3 text-xs font-bold tracking-widest uppercase lg:text-sm">
+            <div
+              className="mt-6 rounded-lg p-4"
+              style={{
+                background: ava('secondary', 0.03),
+                border: `1px solid ${ava('secondary', 0.15)}`,
+              }}
+            >
+              <p
+                className="mb-3 font-sans text-xs font-bold tracking-widest uppercase lg:text-sm"
+                style={{ color: av('secondary') }}
+              >
                 Copy Palette Code
               </p>
-              <div className="mb-4 flex flex-wrap gap-2">
-                {(['hex-list', 'css-vars', 'json', 'scss'] as const).map((fmt) => (
-                  <button
-                    key={fmt}
-                    onClick={() => setPaletteFormat(fmt)}
-                    className={`cursor-pointer rounded-md px-3 py-1.5 text-xs font-bold uppercase transition-colors lg:text-sm ${
-                      paletteFormat === fmt
-                        ? 'border-cyan-500 bg-cyan-600/20 text-cyan-300'
-                        : 'text-midnight-400 hover:text-midnight-300 border border-white/10 hover:border-white/20'
-                    }`}
-                  >
-                    {fmt === 'hex-list'
-                      ? 'List'
-                      : fmt === 'css-vars'
-                        ? 'CSS'
-                        : fmt === 'json'
-                          ? 'JSON'
-                          : 'SCSS'}
-                  </button>
-                ))}
+              <div className="mb-4">
+                <ToolTabs
+                  tabs={['hex-list', 'css-vars', 'json', 'scss']}
+                  active={paletteFormat}
+                  onChange={(t) => setPaletteFormat(t as 'hex-list' | 'css-vars' | 'json' | 'scss')}
+                  accent="secondary"
+                  labels={{ 'hex-list': 'List', 'css-vars': 'CSS', json: 'JSON', scss: 'SCSS' }}
+                />
               </div>
-              <div className="bg-midnight-100/60 text-midnight-400 mb-3 max-h-48 overflow-y-auto rounded-md border border-white/5 p-3 font-mono text-xs lg:text-sm">
+              <div className="bg-midnight-100 text-midnight-500 border-midnight-200 mb-3 max-h-48 overflow-y-auto rounded-md border p-3 font-mono text-xs lg:text-sm">
                 <pre className="whitespace-pre-wrap">{generatePaletteCode(paletteFormat)}</pre>
               </div>
-              <button
-                onClick={copyPaletteCode}
-                className="font-poppins flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-cyan-600/50 bg-cyan-600/10 px-4 py-2 text-xs font-bold tracking-widest uppercase transition-all hover:border-cyan-500 hover:bg-cyan-600/20 lg:text-sm"
-              >
-                {copiedColor === generatePaletteCode(paletteFormat) ? (
-                  <>
-                    <Check className="h-4 w-4 text-green-400" />
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-4 w-4" />
-                    Copy Palette Code
-                  </>
-                )}
-              </button>
+              <ToolSecondaryButton
+                onClick={copyPalette}
+                label={
+                  copiedColor === generatePaletteCode(paletteFormat) ? 'Copied!' : 'Copy Palette'
+                }
+                icon={copiedColor === generatePaletteCode(paletteFormat) ? Check : Copy}
+              />
             </div>
           </div>
         )}
 
         {/* Info section */}
-        <div className="bg-midnight-100/40 rounded-sm border border-white/5 p-4">
-          <p className="font-poppins text-midnight-500 mb-2 text-xs font-bold tracking-widest uppercase lg:text-sm">
-            ℹ Tips:
-          </p>
-          <ul className="text-midnight-700 space-y-1 text-xs lg:text-sm">
+        <ToolInfo title="Tips" accent="secondary">
+          <ul className="text-midnight-500 space-y-1 text-xs lg:text-sm">
             <li>• Click any color preview to copy to clipboard</li>
             <li>• Use the color picker or enter HEX values directly</li>
             <li>• Palette shows darker and lighter variations of your color</li>
             <li>• Color harmonies help create complementary and triadic schemes</li>
           </ul>
-        </div>
+        </ToolInfo>
       </ToolShell>
     </>
   );

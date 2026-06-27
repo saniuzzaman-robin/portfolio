@@ -8,8 +8,12 @@ import {
   ToolTextarea,
   CopyButton,
   ToolTabs,
+  ToolActionButton,
+  ToolSecondaryButton,
+  ToolError,
+  ToolInfo,
 } from '@/components/tools/tool-shell';
-import { Code } from 'lucide-react';
+import { Code, ArrowRightLeft } from 'lucide-react';
 import * as yaml from 'js-yaml';
 
 export default function YAMLJSONPage() {
@@ -18,7 +22,7 @@ export default function YAMLJSONPage() {
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
 
-  const process = () => {
+  const convert = () => {
     setError('');
     if (!input.trim()) {
       setOutput('');
@@ -101,24 +105,22 @@ address:
             accent="secondary"
             labels={{ 'yaml-to-json': 'YAML → JSON', 'json-to-yaml': 'JSON → YAML' }}
           />
-          <button
+          <ToolSecondaryButton
             onClick={swapMode}
-            className="font-poppins text-midnight-500 hover:text-secondary-50 hover:border-secondary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all"
-          >
-            ⇄ Swap
-          </button>
-          <button
-            onClick={process}
-            className="font-poppins bg-secondary-50 hover:bg-secondary-60 rounded-sm px-4 py-2 text-sm font-bold text-black transition-colors"
-          >
-            Convert
-          </button>
-          <button
+            icon={ArrowRightLeft}
+            label="Swap"
+          />
+          <ToolActionButton
+            onClick={convert}
+            disabled={!input.trim()}
+            accent="secondary"
+            icon={ArrowRightLeft}
+            label="Convert"
+          />
+          <ToolSecondaryButton
             onClick={loadExample}
-            className="font-poppins text-midnight-500 hover:text-midnight-900 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all"
-          >
-            Load Example
-          </button>
+            label="Load Example"
+          />
         </div>
 
         {/* Input/Output */}
@@ -147,11 +149,7 @@ address:
             action={<CopyButton text={output} accent="secondary" />}
           >
             {error ? (
-              <div className="animate-shake flex h-full items-center justify-center p-4">
-                <div className="rounded-sm bg-red-500/10 px-4 py-3 text-sm text-red-400">
-                  {error}
-                </div>
-              </div>
+              <ToolError message={error} />
             ) : (
               <ToolTextarea value={output} readOnly rows={16} accent="secondary" />
             )}
@@ -160,10 +158,10 @@ address:
 
         {/* Info */}
         <div className="grid gap-4 md:grid-cols-2">
-          <ToolPanel label="YAML Features" accent="tertiary">
+          <ToolInfo title="YAML Features" accent="tertiary">
             <div className="text-midnight-700 space-y-2 p-4 text-sm">
-              <p className="text-midnight-900 mb-2 font-medium">✨ Benefits:</p>
-              <ul className="list-inside list-disc space-y-1 text-xs">
+              <p className="text-midnight-950 mb-2 font-medium">✨ Benefits:</p>
+              <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
                 <li>More readable and concise than JSON</li>
                 <li>Supports comments (# comment)</li>
                 <li>No need for quotes around strings</li>
@@ -171,12 +169,12 @@ address:
                 <li>Widely used in DevOps and configuration</li>
               </ul>
             </div>
-          </ToolPanel>
+          </ToolInfo>
 
-          <ToolPanel label="Common Use Cases" accent="tertiary">
+          <ToolInfo title="Common Use Cases" accent="tertiary">
             <div className="text-midnight-700 space-y-2 p-4 text-sm">
-              <p className="text-midnight-900 mb-2 font-medium">💡 When to use:</p>
-              <ul className="list-inside list-disc space-y-1 text-xs">
+              <p className="text-midnight-950 mb-2 font-medium">💡 When to use:</p>
+              <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
                 <li>Kubernetes manifests and Helm charts</li>
                 <li>Docker Compose and CI/CD configs</li>
                 <li>Application configuration files</li>
@@ -185,7 +183,7 @@ address:
                 <li>Converting for API consumption</li>
               </ul>
             </div>
-          </ToolPanel>
+          </ToolInfo>
         </div>
       </ToolShell>
     </>

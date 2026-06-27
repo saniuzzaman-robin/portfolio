@@ -190,7 +190,7 @@ export default function MemoryPage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="bg-midnight-50 text-midnight-900 flex h-dvh flex-col overflow-hidden">
+      <div className="bg-midnight-50 text-midnight-950 flex h-dvh flex-col overflow-hidden">
         {/* Header */}
         <div className="glass-strong flex flex-wrap items-center justify-between gap-4 border-b border-white/5 px-6 py-4">
           <Link

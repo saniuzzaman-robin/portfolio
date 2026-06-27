@@ -2,8 +2,15 @@
 
 import { useState } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, CopyButton, ToolTabs } from '@/components/tools/tool-shell';
-import { Clock, Zap } from 'lucide-react';
+import {
+  ToolShell,
+  ToolPanel,
+  CopyButton,
+  ToolTabs,
+  ToolActionButton,
+  ToolError,
+} from '@/components/tools/tool-shell';
+import { Clock } from 'lucide-react';
 
 export default function TimestampPage() {
   const [mode, setMode] = useState<'unix-to-human' | 'human-to-unix'>('unix-to-human');
@@ -11,6 +18,8 @@ export default function TimestampPage() {
   const [humanInput, setHumanInput] = useState('');
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
+
+  const input = mode === 'unix-to-human' ? unixInput : humanInput;
 
   const convert = () => {
     setError('');
@@ -82,7 +91,7 @@ export default function TimestampPage() {
                 value={unixInput}
                 onChange={(e) => setUnixInput(e.target.value)}
                 placeholder="Enter Unix timestamp (seconds)…"
-                className="bg-midnight-100/40 border-tertiary-40/30 text-midnight-900 focus:border-tertiary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
+                className="bg-midnight-100 border-tertiary-40/30 text-midnight-950 focus:border-tertiary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
               />
             </ToolPanel>
           ) : (
@@ -96,7 +105,7 @@ export default function TimestampPage() {
                 value={humanInput}
                 onChange={(e) => setHumanInput(e.target.value)}
                 placeholder="e.g., 2024-12-25 or Jan 1, 2025…"
-                className="bg-midnight-100/40 border-tertiary-40/30 text-midnight-900 focus:border-tertiary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
+                className="bg-midnight-100 border-tertiary-40/30 text-midnight-950 focus:border-tertiary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
               />
             </ToolPanel>
           )}
@@ -106,7 +115,7 @@ export default function TimestampPage() {
             accent="secondary"
             action={<CopyButton text={output} accent="secondary" />}
           >
-            <div className="text-midnight-700 bg-midnight-100/40 rounded-sm border border-white/5 px-4 py-2 font-mono text-sm">
+            <div className="text-midnight-500 bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-2 font-mono text-sm">
               {output || 'Result appears here…'}
             </div>
           </ToolPanel>
@@ -114,22 +123,21 @@ export default function TimestampPage() {
 
         {/* Action button */}
         <div className="mb-6">
-          <button
+          <ToolActionButton
             onClick={convert}
-            disabled={!unixInput.trim() && !humanInput.trim()}
-            className="font-poppins flex cursor-pointer items-center gap-2 rounded-sm border border-purple-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
-          >
-            <Zap className="h-4 w-4" />
-            Convert
-          </button>
+            disabled={!input.trim()}
+            accent="tertiary"
+            icon={Clock}
+            label="Convert"
+          />
         </div>
 
-        {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
+        {error && <ToolError message={error} />}
 
         {/* Quick picks */}
         {mode === 'unix-to-human' && (
           <div className="mt-6">
-            <p className="text-midnight-500 font-poppins mb-3 text-xs tracking-widest uppercase lg:text-sm">
+            <p className="text-midnight-500 mb-3 font-sans text-xs tracking-widest uppercase lg:text-sm">
               Quick picks
             </p>
             <div className="flex flex-wrap gap-2">
@@ -142,7 +150,8 @@ export default function TimestampPage() {
                 <button
                   key={item.label}
                   onClick={item.fn}
-                  className="font-poppins text-midnight-500 hover:text-tertiary-50 hover:border-tertiary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
+                  aria-label={`Quick pick: ${item.label}`}
+                  className="text-midnight-500 hover:text-tertiary-50 hover:border-tertiary-50/30 border-midnight-200 rounded-sm border px-3 py-1.5 font-sans text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
                 >
                   {item.label}
                 </button>

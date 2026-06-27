@@ -2,7 +2,15 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, ToolTextarea } from '@/components/tools/tool-shell';
+import {
+  ToolShell,
+  ToolPanel,
+  ToolTextarea,
+  ToolActionButton,
+  ToolSecondaryButton,
+  ToolError,
+  ToolInfo,
+} from '@/components/tools/tool-shell';
 import { QrCode, Download } from 'lucide-react';
 import QRCode from 'qrcode';
 
@@ -28,8 +36,8 @@ export default function QRCodePage() {
         width: size,
         margin: 2,
         color: {
-          dark: '#0F172A', // Dark navy
-          light: '#F8FAFC', // Light background
+          dark: '#0F172A',
+          light: '#F8FAFC',
         },
       });
     } catch (e) {
@@ -55,7 +63,6 @@ export default function QRCodePage() {
     }
   };
 
-  // Generate on mount
   useEffect(() => {
     const generateInitialQR = async () => {
       if (!canvasRef.current || !input.trim()) return;
@@ -92,7 +99,6 @@ export default function QRCodePage() {
         accent="tertiary"
       >
         <div className="mb-6 grid gap-6 lg:grid-cols-2">
-          {/* Input & Settings */}
           <ToolPanel label="Input & Settings" accent="tertiary">
             <div className="space-y-5 p-4">
               <div>
@@ -125,47 +131,37 @@ export default function QRCodePage() {
                 <div className="text-midnight-500 mt-1 text-xs">Min: 150px, Max: 800px</div>
               </div>
 
-              <div className="flex gap-3">
-                <button
+              <div className="flex flex-col gap-3">
+                <ToolActionButton
                   onClick={handleGenerate}
-                  disabled={isGenerating}
-                  className="font-poppins bg-tertiary-50 hover:bg-tertiary-60 flex flex-1 items-center justify-center gap-2 rounded-sm px-6 py-2.5 text-sm font-bold text-black uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {isGenerating ? (
-                    <>
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-black border-t-transparent" />
-                      Generating...
-                    </>
-                  ) : (
-                    <>
-                      <QrCode className="h-4 w-4" />
-                      Generate
-                    </>
-                  )}
-                </button>
-                <button
+                  disabled={!input.trim() || isGenerating}
+                  accent="tertiary"
+                  icon={QrCode}
+                  label="Generate QR Code"
+                  fullWidth
+                />
+                <ToolSecondaryButton
                   onClick={handleDownload}
-                  className="font-poppins border-tertiary-50/30 text-tertiary-50 hover:bg-tertiary-50/10 flex flex-1 items-center justify-center gap-2 rounded-sm border px-6 py-2.5 text-sm font-bold uppercase transition-colors"
-                >
-                  <Download className="h-4 w-4" />
-                  Download
-                </button>
+                  icon={Download}
+                  label="Download PNG"
+                />
               </div>
 
-              {error && (
-                <div className="animate-shake rounded-sm bg-red-500/10 px-4 py-2 text-sm text-red-400">
-                  {error}
-                </div>
-              )}
+              {error && <ToolError message={error} />}
             </div>
           </ToolPanel>
 
-          {/* Preview */}
           <ToolPanel label="QR Code Preview · Generated Locally" accent="tertiary">
             <div className="flex flex-col items-center justify-center gap-4 p-8">
+              {isGenerating && (
+                <div className="flex items-center gap-2 text-sm text-tertiary-50">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-tertiary-50 border-t-transparent" />
+                  Generating...
+                </div>
+              )}
               <canvas
                 ref={canvasRef}
-                className="rounded-sm border-2 border-white/10 bg-white p-2 shadow-lg"
+                className="rounded-sm border-2 border-midnight-200 bg-white p-2 shadow-lg"
                 style={{ maxWidth: '100%', height: 'auto' }}
               />
               <div className="text-midnight-500 text-center text-xs">
@@ -175,31 +171,25 @@ export default function QRCodePage() {
           </ToolPanel>
         </div>
 
-        {/* Info */}
-        <ToolPanel label="Info" accent="tertiary">
-          <div className="text-midnight-700 space-y-3 p-4 text-sm">
-            <div>
-              <p className="text-midnight-900 mb-2 font-medium">✨ What can you encode?</p>
-              <ul className="list-inside list-disc space-y-1 text-xs">
-                <li>URLs and website links</li>
-                <li>Email addresses (mailto:)</li>
-                <li>Phone numbers (tel:)</li>
-                <li>WiFi credentials</li>
-                <li>Contact information (vCard)</li>
-                <li>Plain text messages</li>
-              </ul>
-            </div>
-            <div>
-              <p className="text-midnight-900 mb-2 font-medium">💡 Tips</p>
-              <ul className="list-inside list-disc space-y-1 text-xs">
-                <li>Larger QR codes are easier to scan from distance</li>
-                <li>Keep text content under 3000 characters for best results</li>
-                <li>Use full URLs for web links (include https://)</li>
-                <li>Generated locally - no data sent to external servers</li>
-              </ul>
-            </div>
-          </div>
-        </ToolPanel>
+        <ToolInfo title="What can you encode?" accent="tertiary">
+          <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
+            <li>URLs and website links</li>
+            <li>Email addresses (mailto:)</li>
+            <li>Phone numbers (tel:)</li>
+            <li>WiFi credentials</li>
+            <li>Contact information (vCard)</li>
+            <li>Plain text messages</li>
+          </ul>
+        </ToolInfo>
+
+        <ToolInfo title="Tips" accent="tertiary">
+          <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
+            <li>Larger QR codes are easier to scan from distance</li>
+            <li>Keep text content under 3000 characters for best results</li>
+            <li>Use full URLs for web links (include https://)</li>
+            <li>Generated locally - no data sent to external servers</li>
+          </ul>
+        </ToolInfo>
       </ToolShell>
     </>
   );

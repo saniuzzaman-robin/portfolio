@@ -256,7 +256,7 @@ export default function SnakePage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="bg-midnight-50 text-midnight-900 flex h-dvh flex-col overflow-hidden">
+      <div className="bg-midnight-50 text-midnight-950 flex h-dvh flex-col overflow-hidden">
         {/* Header */}
         <div className="border-midnight-300 bg-midnight-100/50 flex items-center justify-between border-b px-4 py-3">
           <Link

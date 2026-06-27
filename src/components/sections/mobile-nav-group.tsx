@@ -40,7 +40,7 @@ export function MobileNavGroup({
           className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${
             isActive
               ? 'bg-primary-50/15 text-primary-50'
-              : 'text-midnight-500 group-hover:text-midnight-900 bg-white/5 group-hover:bg-white/8'
+              : 'text-midnight-500 group-hover:text-midnight-950 bg-white/5 group-hover:bg-white/8'
           }`}
         >
           <Icon className="h-3.5 w-3.5" />
@@ -75,7 +75,7 @@ export function MobileNavGroup({
                   className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${
                     active
                       ? 'bg-primary-50/15 text-primary-50'
-                      : 'group-hover:text-midnight-900 text-midnight-50 bg-white/5 group-hover:bg-white/8'
+                      : 'group-hover:text-midnight-950 text-midnight-50 bg-white/5 group-hover:bg-white/8'
                   }`}
                 >
                   <ChildIcon className="h-3 w-3" />

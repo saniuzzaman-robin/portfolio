@@ -2,7 +2,13 @@
 
 import { useState, useMemo } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, ToolTextarea, CopyButton } from '@/components/tools/tool-shell';
+import {
+  ToolShell,
+  ToolPanel,
+  ToolTextarea,
+  ToolInfo,
+  CopyButton,
+} from '@/components/tools/tool-shell';
 import { Type } from 'lucide-react';
 
 type TransformMode =
@@ -104,10 +110,11 @@ export default function SlugPage() {
               <button
                 key={value}
                 onClick={() => setMode(value)}
-                className={`font-poppins rounded-sm px-3 py-2 text-xs font-bold transition-all ${
+                aria-label={`Transform to ${label}`}
+                className={`font-sans rounded-sm px-3 py-2 text-xs font-bold transition-all ${
                   mode === value
                     ? 'bg-primary-50 text-black'
-                    : 'bg-midnight-100 text-midnight-500 hover:text-midnight-900 border border-white/10'
+                    : 'bg-midnight-100 text-midnight-500 hover:text-midnight-950 border border-midnight-200'
                 }`}
               >
                 {label}
@@ -141,48 +148,44 @@ export default function SlugPage() {
           </ToolPanel>
         </div>
 
-        {/* Examples & Info */}
+        {/* Info panels */}
         <div className="grid gap-4 md:grid-cols-2">
-          <ToolPanel label="Format Examples" accent="tertiary">
-            <div className="space-y-2 p-4 text-sm">
+          <ToolInfo title="Format Examples" accent="primary">
+            <div className="space-y-2">
               {modes.map(({ value, label }) => (
                 <div key={value} className="flex items-center justify-between">
-                  <span className="text-midnight-700">{label}:</span>
-                  <code className="text-tertiary-50 font-mono text-xs">{examples[value]}</code>
+                  <span>{label}:</span>
+                  <code className="text-midnight-950 font-mono text-xs">{examples[value]}</code>
                 </div>
               ))}
             </div>
-          </ToolPanel>
+          </ToolInfo>
 
-          <ToolPanel label="Common Use Cases" accent="tertiary">
-            <div className="text-midnight-700 space-y-3 p-4 text-sm">
-              <div>
-                <p className="text-midnight-900 mb-2 font-medium">💡 When to use each format:</p>
-                <ul className="list-inside list-disc space-y-1 text-xs">
-                  <li>
-                    <strong className="text-midnight-950">URL Slug:</strong> Blog posts, page URLs
-                  </li>
-                  <li>
-                    <strong className="text-midnight-950">camelCase:</strong> JavaScript variables
-                  </li>
-                  <li>
-                    <strong className="text-midnight-950">PascalCase:</strong> React components,
-                    classes
-                  </li>
-                  <li>
-                    <strong className="text-midnight-950">snake_case:</strong> Python, Ruby, SQL
-                  </li>
-                  <li>
-                    <strong className="text-midnight-950">kebab-case:</strong> CSS classes, URLs
-                  </li>
-                  <li>
-                    <strong className="text-midnight-950">CONSTANT_CASE:</strong> Environment
-                    variables
-                  </li>
-                </ul>
-              </div>
+          <ToolInfo title="Common Use Cases" accent="primary">
+            <div className="space-y-3">
+              <p className="mb-2 font-medium">When to use each format:</p>
+              <ul className="list-inside  list-disc space-y-1 text-xs">
+                <li>
+                  <strong className="text-midnight-950">URL Slug:</strong> Blog posts, page URLs
+                </li>
+                <li>
+                  <strong className="text-midnight-950">camelCase:</strong> JavaScript variables
+                </li>
+                <li>
+                  <strong className="text-midnight-950">PascalCase:</strong> React components, classes
+                </li>
+                <li>
+                  <strong className="text-midnight-950">snake_case:</strong> Python, Ruby, SQL
+                </li>
+                <li>
+                  <strong className="text-midnight-950">kebab-case:</strong> CSS classes, URLs
+                </li>
+                <li>
+                  <strong className="text-midnight-950">CONSTANT_CASE:</strong> Environment variables
+                </li>
+              </ul>
             </div>
-          </ToolPanel>
+          </ToolInfo>
         </div>
       </ToolShell>
     </>

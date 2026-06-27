@@ -56,3 +56,13 @@ Apply these rules to reduce token consumption during code operations:
 ## Git Next.js Notice
 
 This is NOT the Next.js you know. This version has breaking changes — APIs, conventions, and file structure may differ from training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing code. Heed deprecation notices.
+
+## Recent Changes
+
+### 2026-06-28: Timestamp Tool Redesign
+- Replaced manual action button with `ToolActionButton` component
+- Replaced manual error div with `ToolError` component
+- Updated import to include `ToolActionButton` and `ToolError` from tool-shell
+- Used `Clock` icon instead of `Zap` for the action button
+- Removed `Zap` import (no longer needed)
+- Added `input` variable for cleaner disabled state logic

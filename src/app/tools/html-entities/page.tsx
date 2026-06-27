@@ -8,8 +8,11 @@ import {
   ToolTextarea,
   CopyButton,
   ToolTabs,
+  ToolActionButton,
+  ToolSecondaryButton,
+  ToolError,
 } from '@/components/tools/tool-shell';
-import { Code2 } from 'lucide-react';
+import { Code2, ArrowRightLeft } from 'lucide-react';
 
 const COMMON_ENTITIES: Record<string, string> = {
   '<': '&lt;',
@@ -36,7 +39,6 @@ function encodeHTMLEntities(text: string, encodeAll: boolean = false): string {
       .split('')
       .map((char) => {
         const code = char.charCodeAt(0);
-        // Encode non-ASCII and special characters
         if (code > 127 || COMMON_ENTITIES[char]) {
           return COMMON_ENTITIES[char] || `&#${code};`;
         }
@@ -44,7 +46,6 @@ function encodeHTMLEntities(text: string, encodeAll: boolean = false): string {
       })
       .join('');
   } else {
-    // Only encode essential characters
     return text
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -65,8 +66,10 @@ export default function HTMLEntitiesPage() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [encodeAll, setEncodeAll] = useState(false);
+  const [error, setError] = useState('');
 
   const process = () => {
+    setError('');
     if (!input) {
       setOutput('');
       return;
@@ -76,7 +79,8 @@ export default function HTMLEntitiesPage() {
         mode === 'encode' ? encodeHTMLEntities(input, encodeAll) : decodeHTMLEntities(input);
       setOutput(result);
     } catch (e) {
-      setOutput('Error processing text' + (e instanceof Error ? ': ' + e.message : ''));
+      const msg = 'Error processing text' + (e instanceof Error ? ': ' + e.message : '');
+      setError(msg);
     }
   };
 
@@ -84,6 +88,7 @@ export default function HTMLEntitiesPage() {
     setMode((m) => (m === 'encode' ? 'decode' : 'encode'));
     setInput(output);
     setOutput('');
+    setError('');
   };
 
   return (
@@ -96,7 +101,6 @@ export default function HTMLEntitiesPage() {
         icon={Code2}
         accent="secondary"
       >
-        {/* Controls */}
         <div className="mb-6 space-y-4">
           <div className="flex flex-wrap items-center gap-4">
             <ToolTabs
@@ -105,18 +109,18 @@ export default function HTMLEntitiesPage() {
               onChange={(t) => setMode(t as typeof mode)}
               accent="secondary"
             />
-            <button
+            <ToolSecondaryButton
               onClick={swapMode}
-              className="font-poppins text-midnight-500 hover:text-secondary-50 hover:border-secondary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all"
-            >
-              ⇄ Swap
-            </button>
-            <button
+              icon={ArrowRightLeft}
+              label="Swap"
+            />
+            <ToolActionButton
               onClick={process}
-              className="font-poppins bg-secondary-50 hover:bg-secondary-60 rounded-sm px-4 py-2 text-sm font-bold text-black transition-colors"
-            >
-              Process
-            </button>
+              disabled={!input.trim()}
+              accent="secondary"
+              icon={ArrowRightLeft}
+              label="Process"
+            />
           </div>
 
           {mode === 'encode' && (
@@ -134,7 +138,8 @@ export default function HTMLEntitiesPage() {
           )}
         </div>
 
-        {/* Input/Output */}
+        {error && <ToolError message={error} />}
+
         <div className="mb-6 grid gap-4 md:grid-cols-2">
           <ToolPanel
             label={mode === 'encode' ? 'Plain Text' : 'HTML Entities'}
@@ -163,7 +168,6 @@ export default function HTMLEntitiesPage() {
           </ToolPanel>
         </div>
 
-        {/* Common entities reference */}
         <div className="bg-midnight-100 border-midnight-200 rounded-sm border p-4">
           <h3 className="text-midnight-700 mb-3 text-sm font-medium">Common HTML Entities</h3>
           <div className="grid gap-2 text-xs sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

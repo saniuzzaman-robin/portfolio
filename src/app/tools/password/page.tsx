@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, CopyButton } from '@/components/tools/tool-shell';
-import { Lock, RotateCw } from 'lucide-react';
+import { ToolShell, ToolPanel, ToolActionButton, CopyButton } from '@/components/tools/tool-shell';
+import { Lock, RefreshCw } from 'lucide-react';
 
 interface PasswordOptions {
   length: number;
@@ -48,7 +48,7 @@ const calculateStrength = (
   if (/[0-9]/.test(password)) score++;
   if (/[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]/.test(password)) score++;
 
-  if (score <= 2) return { strength: 'Weak', score, color: 'text-red-400' };
+  if (score <= 2) return { strength: 'Weak', score, color: 'text-midnight-500' };
   if (score <= 4) return { strength: 'Fair', score, color: 'text-yellow-400' };
   if (score <= 6) return { strength: 'Good', score, color: 'text-blue-400' };
   return { strength: 'Strong', score, color: 'text-green-400' };
@@ -137,13 +137,13 @@ export default function PasswordGeneratorPage() {
                 ))}
               </div>
 
-              <button
+              <ToolActionButton
                 onClick={handleGenerate}
-                className="font-poppins flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-cyan-700 px-6 py-3 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 lg:text-sm"
-              >
-                <RotateCw className="h-4 w-4" />
-                Generate Passwords
-              </button>
+                accent="secondary"
+                icon={RefreshCw}
+                label="Generate Passwords"
+                fullWidth={true}
+              />
             </div>
           </ToolPanel>
 
@@ -151,16 +151,16 @@ export default function PasswordGeneratorPage() {
           <ToolPanel label="Info" accent="secondary">
             <div className="text-midnight-950 space-y-4 p-4 text-sm">
               <div>
-                <p className="text-midnight-900 mb-2 font-medium">Recommended Length</p>
-                <ul className="list-inside list-disc space-y-1 text-xs">
+                <p className="text-midnight-950 mb-2 font-medium">Recommended Length</p>
+                <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
                   <li>Social media: 12-16 characters</li>
                   <li>Email/banking: 16-20 characters</li>
                   <li>Critical systems: 20+ characters</li>
                 </ul>
               </div>
               <div>
-                <p className="text-midnight-900 mb-2 font-medium">Best Practices</p>
-                <ul className="list-inside list-disc space-y-1 text-xs">
+                <p className="text-midnight-950 mb-2 font-medium">Best Practices</p>
+                <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
                   <li>Use all character types</li>
                   <li>Avoid dictionary words</li>
                   <li>Never reuse passwords</li>
@@ -174,7 +174,7 @@ export default function PasswordGeneratorPage() {
         {/* Generated passwords */}
         {passwords.length > 0 && (
           <div>
-            <h3 className="text-midnight-900 mb-4 text-sm font-semibold">Generated Passwords</h3>
+            <h3 className="text-midnight-950 mb-4 text-sm font-semibold">Generated Passwords</h3>
             <div className="grid gap-3">
               {passwords.map((password, index) => {
                 const strength = calculateStrength(password);
@@ -184,7 +184,7 @@ export default function PasswordGeneratorPage() {
                     className="border-midnight-200 bg-midnight-100 flex items-center gap-3 rounded-sm border p-3"
                   >
                     <div className="flex-1">
-                      <div className="text-midnight-900 mb-1 font-mono text-sm break-all">
+                      <div className="text-midnight-950 mb-1 font-mono text-sm break-all">
                         {password}
                       </div>
                       <div className={`text-xs font-medium ${strength.color}`}>

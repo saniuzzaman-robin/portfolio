@@ -36,7 +36,6 @@ export function ToolsGrid() {
 
   return (
     <>
-      {/* Section Header */}
       <div className="mb-10">
         <h2 className="text-midnight-950 mb-3 text-2xl font-bold md:text-3xl">
           All Developer Tools
@@ -48,9 +47,7 @@ export function ToolsGrid() {
         </p>
       </div>
 
-      {/* Search and Filter */}
       <div className="mb-10 space-y-4">
-        {/* Search bar */}
         <div className="relative">
           <Search className="text-midnight-500 pointer-events-none absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2" />
           <input
@@ -71,7 +68,6 @@ export function ToolsGrid() {
           )}
         </div>
 
-        {/* Tag filter */}
         <div>
           <p className="text-midnight-500 mb-3 text-xs font-medium tracking-wider uppercase">
             Filter by Category
@@ -85,7 +81,7 @@ export function ToolsGrid() {
               className={`cursor-pointer rounded-full px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-all ${
                 !selectedTag && !showFavoritesOnly
                   ? 'bg-aurora-green text-midnight-950 shadow-lg'
-                  : 'glass text-midnight-500 hover:text-midnight-950'
+                  : 'bg-midnight-100 text-midnight-500 hover:text-midnight-950 border-midnight-200 border'
               }`}
             >
               All Tools
@@ -99,7 +95,7 @@ export function ToolsGrid() {
                 className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-all ${
                   showFavoritesOnly
                     ? 'text-midnight-950 bg-yellow-500 shadow-lg'
-                    : 'glass text-midnight-500 hover:text-midnight-900'
+                    : 'bg-midnight-100 text-midnight-500 hover:text-midnight-950 border-midnight-200 border'
                 }`}
               >
                 <Star className="h-3 w-3" fill={showFavoritesOnly ? 'currentColor' : 'none'} />
@@ -116,7 +112,7 @@ export function ToolsGrid() {
                 className={`cursor-pointer rounded-full px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-all ${
                   selectedTag === tag
                     ? 'bg-aurora-green text-midnight-950 shadow-lg'
-                    : 'glass text-midnight-500 hover:text-midnight-950'
+                    : 'bg-midnight-100 text-midnight-500 hover:text-midnight-950 border-midnight-200 border'
                 }`}
               >
                 {tag}
@@ -125,8 +121,7 @@ export function ToolsGrid() {
           </div>
         </div>
 
-        {/* Results count */}
-        <div className="glass flex items-center justify-between rounded-2xl px-5 py-3">
+        <div className="bg-midnight-100 border-midnight-200 flex items-center justify-between rounded-2xl border px-5 py-3">
           <p className="text-midnight-950 text-sm font-medium">
             <span className="text-aurora-green font-bold">{filteredTools.length}</span>{' '}
             {filteredTools.length === 1 ? 'tool' : 'tools'}
@@ -147,11 +142,10 @@ export function ToolsGrid() {
         </div>
       </div>
 
-      {/* Tools grid */}
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {filteredTools.length === 0 ? (
           <div className="col-span-full py-20 text-center">
-            <div className="glass mx-auto max-w-md rounded-2xl p-8">
+            <div className="bg-midnight-100 border-midnight-200 mx-auto max-w-md rounded-2xl border p-8">
               <p className="text-midnight-950 mb-2 text-lg font-semibold">No tools found</p>
               <p className="text-midnight-500 mb-4 text-sm">
                 Try adjusting your search or filter criteria
@@ -176,11 +170,10 @@ export function ToolsGrid() {
             return (
               <Link key={tool.id} href={tool.href} className="group block">
                 <div
-                  className="glass relative flex h-full overflow-hidden rounded-2xl transition-all duration-400 hover:scale-[1.03] hover:shadow-xl"
+                  className="border-midnight-200 bg-midnight-900 relative flex h-full overflow-hidden rounded-2xl border transition-all duration-400 hover:scale-[1.03] hover:shadow-xl"
                   style={{ borderLeft: `3px solid ${accent}` }}
                 >
                   <div className="relative flex flex-1 flex-col overflow-hidden p-6">
-                    {/* Favorite star */}
                     <button
                       onClick={(e) => {
                         e.preventDefault();
@@ -199,7 +192,6 @@ export function ToolsGrid() {
                       />
                     </button>
 
-                    {/* Icon */}
                     <div
                       className="relative z-10 mb-5 flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
                       style={{ background: accentA(0.1) }}
@@ -207,7 +199,6 @@ export function ToolsGrid() {
                       <Icon className="h-5 w-5" style={{ color: accent }} strokeWidth={1.8} />
                     </div>
 
-                    {/* Title */}
                     <h2 className="text-midnight-950 group-hover:text-aurora-green relative z-10 mb-1 text-lg font-bold transition-colors">
                       {tool.title}
                     </h2>
@@ -217,11 +208,10 @@ export function ToolsGrid() {
                     >
                       {tool.subtitle}
                     </p>
-                    <p className="text-midnight-950 relative z-10 mb-5 flex-1 text-sm leading-relaxed">
+                    <p className="text-midnight-500 relative z-10 mb-5 flex-1 text-sm leading-relaxed">
                       {tool.description}
                     </p>
 
-                    {/* Tags */}
                     <div className="relative z-10 flex flex-wrap gap-1.5">
                       {tool.tags.slice(0, 3).map((tag) => (
                         <span

@@ -2,8 +2,15 @@
 
 import { useState } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, ToolTextarea, CopyButton } from '@/components/tools/tool-shell';
-import { Shield, Zap } from 'lucide-react';
+import {
+  ToolShell,
+  ToolPanel,
+  ToolTextarea,
+  ToolActionButton,
+  ToolError,
+  CopyButton,
+} from '@/components/tools/tool-shell';
+import { Shield, Key } from 'lucide-react';
 import { highlightJSON } from '../../../components/tools/json-highlighter';
 
 interface JWTDecoded {
@@ -17,7 +24,7 @@ export default function JWTPage() {
   const [decoded, setDecoded] = useState<JWTDecoded | null>(null);
   const [error, setError] = useState('');
 
-  const decodeJWT = () => {
+  const decode = () => {
     setError('');
     setDecoded(null);
 
@@ -30,7 +37,7 @@ export default function JWTPage() {
         return;
       }
 
-      const decode = (str: string) => {
+      const decodePart = (str: string) => {
         try {
           return JSON.parse(atob(str.replace(/-/g, '+').replace(/_/g, '/')));
         } catch {
@@ -39,8 +46,8 @@ export default function JWTPage() {
       };
 
       setDecoded({
-        header: decode(parts[0]),
-        payload: decode(parts[1]),
+        header: decodePart(parts[0]),
+        payload: decodePart(parts[1]),
         signature: parts[2],
       });
     } catch (e) {
@@ -86,37 +93,38 @@ export default function JWTPage() {
 
         {/* Action button */}
         <div className="mt-6 mb-6">
-          <button
-            onClick={decodeJWT}
+          <ToolActionButton
+            onClick={decode}
             disabled={!input.trim()}
-            className="font-poppins flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
-          >
-            <Zap className="h-4 w-4" />
-            Decode Token
-          </button>
+            accent="secondary"
+            icon={Key}
+            label="Decode JWT"
+          />
         </div>
 
-        {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
+        {error && <ToolError message={error} />}
 
         {decoded && (
           <div className="space-y-4">
-            {/* Header */}
-            <ToolPanel label="Header" accent="secondary">
-              <div className="bg-midnight-100/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
-                {highlightJSON(decoded.header)}
-              </div>
-            </ToolPanel>
+            <div className="grid gap-4 md:grid-cols-2">
+              {/* Header */}
+              <ToolPanel label="Header" accent="secondary">
+                <div className="bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-xs lg:text-sm">
+                  {highlightJSON(decoded.header)}
+                </div>
+              </ToolPanel>
 
-            {/* Payload */}
-            <ToolPanel label="Payload" accent="secondary">
-              <div className="bg-midnight-100/40 max-h-64 overflow-y-auto rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
-                {highlightJSON(decoded.payload)}
-              </div>
-            </ToolPanel>
+              {/* Payload */}
+              <ToolPanel label="Payload" accent="secondary">
+                <div className="bg-midnight-100 border-midnight-200 max-h-64 overflow-y-auto rounded-sm border px-4 py-3 font-mono text-xs lg:text-sm">
+                  {highlightJSON(decoded.payload)}
+                </div>
+              </ToolPanel>
+            </div>
 
             {/* Signature preview */}
             <ToolPanel label="Signature (first 32 chars)" accent="secondary">
-              <div className="text-midnight-700 bg-midnight-100/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
+              <div className="text-midnight-500 bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-xs lg:text-sm">
                 {decoded.signature.slice(0, 32)}...
               </div>
             </ToolPanel>
@@ -126,7 +134,7 @@ export default function JWTPage() {
               decoded.payload !== null &&
               'exp' in decoded.payload && (
                 <div
-                  className={`font-poppins rounded-sm border p-3 text-xs lg:text-sm ${
+                  className={`rounded-sm border p-3 font-sans text-xs lg:text-sm ${
                     isExpired(decoded)
                       ? 'border-red-900/50 bg-red-950/30 text-red-300'
                       : 'border-green-900/50 bg-green-950/30 text-green-300'

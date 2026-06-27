@@ -77,7 +77,7 @@ export function ProjectCard({
         </div>
 
         {/* Title */}
-        <h3 className="font-poppins text-midnight-900 mb-3 text-base leading-snug font-bold transition-colors">
+        <h3 className="font-poppins text-midnight-950 mb-3 text-base leading-snug font-bold transition-colors">
           {title}
         </h3>
 
