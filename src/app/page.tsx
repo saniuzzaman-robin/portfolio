@@ -58,7 +58,7 @@ export default function Home() {
           url: 'https://saniuzzaman.dev',
         })}
       />
-      <main className="bg-neutral-5 text-neutral-90 min-h-dvh">
+      <main className="bg-midnight-900 text-midnight-950 min-h-dvh">
         <Navigation />
         <Hero />
         <Achievements />

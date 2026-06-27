@@ -72,12 +72,12 @@ export default function RegexPage() {
               value={pattern}
               onChange={(e) => setPattern(e.target.value)}
               placeholder="e.g., \\d{3}-\\d{4}"
-              className="bg-neutral-15/40 border-primary-40/30 text-neutral-90 focus:border-primary-50/60 w-full rounded-sm border px-4 py-2 font-mono text-sm placeholder-neutral-50 transition-colors focus:outline-none"
+              className="bg-midnight-100/40 border-primary-40/30 text-midnight-900 focus:border-primary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
             />
           </ToolPanel>
 
           <div>
-            <label className="font-poppins text-neutral-60 mb-2 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+            <label className="font-poppins text-midnight-500 mb-2 block text-xs font-bold tracking-widest uppercase lg:text-sm">
               Flags
             </label>
             <div className="flex gap-2">
@@ -90,7 +90,7 @@ export default function RegexPage() {
                   className={`rounded-sm border px-3 py-2 text-xs font-bold transition-all lg:text-sm ${
                     flags.includes(flag)
                       ? 'bg-primary-50/20 border-primary-50/50 text-primary-50'
-                      : 'bg-neutral-20/20 text-neutral-60 hover:border-primary-40/50 border-white/10'
+                      : 'bg-midnight-200/20 text-midnight-500 hover:border-primary-40/50 border-white/10'
                   }`}
                 >
                   {flag}
@@ -137,14 +137,16 @@ export default function RegexPage() {
             </div>
 
             <div>
-              <h3 className="font-poppins text-neutral-90 mb-3 text-sm font-bold">Matches</h3>
+              <h3 className="font-poppins text-midnight-900 mb-3 text-sm font-bold">Matches</h3>
               <div className="max-h-64 space-y-2 overflow-y-auto">
                 {matches.map((match, i) => (
-                  <div key={i} className="bg-neutral-10/40 rounded-sm border border-white/5 p-3">
+                  <div key={i} className="bg-midnight-100/40 rounded-sm border border-white/5 p-3">
                     <div className="text-primary-50 font-mono text-xs break-all lg:text-sm">
                       {match.text}
                     </div>
-                    <div className="text-neutral-60 mt-1 text-[10px]">Position: {match.index}</div>
+                    <div className="text-midnight-500 mt-1 text-[10px]">
+                      Position: {match.index}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -152,7 +154,7 @@ export default function RegexPage() {
 
             {/* Highlighted preview */}
             <ToolPanel label="Highlighted Text" accent="secondary">
-              <div className="text-neutral-70 bg-neutral-10/40 max-h-48 overflow-y-auto rounded-sm border border-white/5 px-4 py-3 font-mono text-xs break-all whitespace-pre-wrap lg:text-sm">
+              <div className="text-midnight-700 bg-midnight-100/40 max-h-48 overflow-y-auto rounded-sm border border-white/5 px-4 py-3 font-mono text-xs break-all whitespace-pre-wrap lg:text-sm">
                 {highlightMatches()
                   .split('[MATCH]')
                   .map((part, i) => (

@@ -1,9 +1,9 @@
 export type AccentToken = 'primary' | 'secondary' | 'tertiary';
 
 const ACCENT_VAR: Record<AccentToken, string> = {
-  primary: 'var(--color-primary-50)',
+  primary: 'var(--color-primary-40)',
   secondary: 'var(--color-secondary-50)',
-  tertiary: 'var(--color-tertiary-50)',
+  tertiary: 'var(--color-tertiary-40)',
 };
 
 export function av(token: AccentToken): string {
@@ -19,7 +19,6 @@ export const ACCENT_CLASSES: Record<
   {
     text: string;
     textHover: string;
-    neon: string;
     border: string;
     borderSoft: string;
     borderMedium: string;
@@ -27,30 +26,27 @@ export const ACCENT_CLASSES: Record<
   }
 > = {
   primary: {
-    text: 'text-primary-50',
-    textHover: 'hover:text-primary-60',
-    neon: 'neon-green',
-    border: 'border-primary-50',
-    borderSoft: 'border-primary-50/20 hover:border-primary-50/40',
-    borderMedium: 'border-primary-50/25 hover:border-primary-50/70',
-    tag: 'bg-primary-50/10 text-primary-50',
+    text: 'text-aurora-green',
+    textHover: 'hover:text-aurora-green-light',
+    border: 'border-aurora-green',
+    borderSoft: 'border-aurora-green/20 hover:border-aurora-green/40',
+    borderMedium: 'border-aurora-green/25 hover:border-aurora-green/70',
+    tag: 'bg-aurora-green/10 text-aurora-green',
   },
   secondary: {
-    text: 'text-secondary-50',
-    textHover: 'hover:text-secondary-60',
-    neon: 'neon-cyan',
-    border: 'border-secondary-50',
-    borderSoft: 'border-secondary-50/20 hover:border-secondary-50/40',
-    borderMedium: 'border-secondary-50/25 hover:border-secondary-50/70',
-    tag: 'bg-secondary-50/10 text-secondary-50',
+    text: 'text-aurora-purple',
+    textHover: 'hover:text-aurora-purple-light',
+    border: 'border-aurora-purple',
+    borderSoft: 'border-aurora-purple/20 hover:border-aurora-purple/40',
+    borderMedium: 'border-aurora-purple/25 hover:border-aurora-purple/70',
+    tag: 'bg-aurora-purple/10 text-aurora-purple',
   },
   tertiary: {
-    text: 'text-tertiary-50',
-    textHover: 'hover:text-tertiary-60',
-    neon: 'neon-purple',
-    border: 'border-tertiary-50',
-    borderSoft: 'border-tertiary-50/20 hover:border-tertiary-50/40',
-    borderMedium: 'border-tertiary-50/25 hover:border-tertiary-50/70',
-    tag: 'bg-tertiary-50/10 text-tertiary-50',
+    text: 'text-aurora-pink',
+    textHover: 'hover:text-aurora-pink-light',
+    border: 'border-aurora-pink',
+    borderSoft: 'border-aurora-pink/20 hover:border-aurora-pink/40',
+    borderMedium: 'border-aurora-pink/25 hover:border-aurora-pink/70',
+    tag: 'bg-aurora-pink/10 text-aurora-pink',
   },
 };

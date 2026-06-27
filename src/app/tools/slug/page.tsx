@@ -98,7 +98,7 @@ export default function SlugPage() {
       >
         {/* Mode selector */}
         <div className="mb-6">
-          <label className="text-neutral-70 mb-3 block text-sm font-medium">Transform Type</label>
+          <label className="text-midnight-700 mb-3 block text-sm font-medium">Transform Type</label>
           <div className="grid gap-2 sm:grid-cols-4 md:grid-cols-8">
             {modes.map(({ value, label }) => (
               <button
@@ -107,7 +107,7 @@ export default function SlugPage() {
                 className={`font-poppins rounded-sm px-3 py-2 text-xs font-bold transition-all ${
                   mode === value
                     ? 'bg-primary-50 text-black'
-                    : 'bg-neutral-10 text-neutral-60 hover:text-neutral-90 border border-white/10'
+                    : 'bg-midnight-100 text-midnight-500 hover:text-midnight-900 border border-white/10'
                 }`}
               >
                 {label}
@@ -147,7 +147,7 @@ export default function SlugPage() {
             <div className="space-y-2 p-4 text-sm">
               {modes.map(({ value, label }) => (
                 <div key={value} className="flex items-center justify-between">
-                  <span className="text-neutral-70">{label}:</span>
+                  <span className="text-midnight-700">{label}:</span>
                   <code className="text-tertiary-50 font-mono text-xs">{examples[value]}</code>
                 </div>
               ))}
@@ -155,28 +155,28 @@ export default function SlugPage() {
           </ToolPanel>
 
           <ToolPanel label="Common Use Cases" accent="tertiary">
-            <div className="text-neutral-70 space-y-3 p-4 text-sm">
+            <div className="text-midnight-700 space-y-3 p-4 text-sm">
               <div>
-                <p className="text-neutral-90 mb-2 font-medium">💡 When to use each format:</p>
+                <p className="text-midnight-900 mb-2 font-medium">💡 When to use each format:</p>
                 <ul className="list-inside list-disc space-y-1 text-xs">
                   <li>
-                    <strong className="text-neutral-80">URL Slug:</strong> Blog posts, page URLs
+                    <strong className="text-midnight-950">URL Slug:</strong> Blog posts, page URLs
                   </li>
                   <li>
-                    <strong className="text-neutral-80">camelCase:</strong> JavaScript variables
+                    <strong className="text-midnight-950">camelCase:</strong> JavaScript variables
                   </li>
                   <li>
-                    <strong className="text-neutral-80">PascalCase:</strong> React components,
+                    <strong className="text-midnight-950">PascalCase:</strong> React components,
                     classes
                   </li>
                   <li>
-                    <strong className="text-neutral-80">snake_case:</strong> Python, Ruby, SQL
+                    <strong className="text-midnight-950">snake_case:</strong> Python, Ruby, SQL
                   </li>
                   <li>
-                    <strong className="text-neutral-80">kebab-case:</strong> CSS classes, URLs
+                    <strong className="text-midnight-950">kebab-case:</strong> CSS classes, URLs
                   </li>
                   <li>
-                    <strong className="text-neutral-80">CONSTANT_CASE:</strong> Environment
+                    <strong className="text-midnight-950">CONSTANT_CASE:</strong> Environment
                     variables
                   </li>
                 </ul>

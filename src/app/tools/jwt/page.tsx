@@ -102,21 +102,21 @@ export default function JWTPage() {
           <div className="space-y-4">
             {/* Header */}
             <ToolPanel label="Header" accent="secondary">
-              <div className="bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
+              <div className="bg-midnight-100/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
                 {highlightJSON(decoded.header)}
               </div>
             </ToolPanel>
 
             {/* Payload */}
             <ToolPanel label="Payload" accent="secondary">
-              <div className="bg-neutral-10/40 max-h-64 overflow-y-auto rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
+              <div className="bg-midnight-100/40 max-h-64 overflow-y-auto rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
                 {highlightJSON(decoded.payload)}
               </div>
             </ToolPanel>
 
             {/* Signature preview */}
             <ToolPanel label="Signature (first 32 chars)" accent="secondary">
-              <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
+              <div className="text-midnight-700 bg-midnight-100/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs lg:text-sm">
                 {decoded.signature.slice(0, 32)}...
               </div>
             </ToolPanel>

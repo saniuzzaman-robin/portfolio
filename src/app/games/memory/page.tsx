@@ -190,12 +190,12 @@ export default function MemoryPage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="bg-neutral-5 text-neutral-90 flex h-dvh flex-col overflow-hidden">
+      <div className="bg-midnight-50 text-midnight-900 flex h-dvh flex-col overflow-hidden">
         {/* Header */}
         <div className="glass-strong flex flex-wrap items-center justify-between gap-4 border-b border-white/5 px-6 py-4">
           <Link
             href="/games"
-            className="hover:text-tertiary-50 font-poppins flex items-center gap-2 text-sm tracking-widest text-neutral-50 uppercase transition-colors"
+            className="hover:text-tertiary-50 font-poppins text-midnight-50 flex items-center gap-2 text-sm tracking-widest uppercase transition-colors"
           >
             <ArrowLeft className="h-4 w-4" /> Games
           </Link>
@@ -203,18 +203,22 @@ export default function MemoryPage() {
             <div className="flex items-center gap-2">
               <Timer className="text-tertiary-50 h-4 w-4" />
               <div>
-                <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">Time</p>
+                <p className="text-midnight-500 text-xs tracking-widest uppercase lg:text-sm">
+                  Time
+                </p>
                 <p className="font-poppins neon-purple text-xl font-bold tabular-nums">
                   {formatTime(seconds)}
                 </p>
               </div>
             </div>
             <div>
-              <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">Moves</p>
+              <p className="text-midnight-500 text-xs tracking-widest uppercase lg:text-sm">
+                Moves
+              </p>
               <p className="font-poppins neon-cyan text-xl font-bold tabular-nums">{moves}</p>
             </div>
             <div>
-              <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">
+              <p className="text-midnight-500 text-xs tracking-widest uppercase lg:text-sm">
                 Matched
               </p>
               <p className="font-poppins neon-green text-xl font-bold tabular-nums">
@@ -225,7 +229,7 @@ export default function MemoryPage() {
               <div className="flex items-center gap-1">
                 <Star className="h-3.5 w-3.5 text-yellow-400" />
                 <div>
-                  <p className="text-neutral-60 text-xs tracking-widest uppercase lg:text-sm">
+                  <p className="text-midnight-500 text-xs tracking-widest uppercase lg:text-sm">
                     Best
                   </p>
                   <p className="font-poppins text-sm font-bold text-yellow-400 tabular-nums">
@@ -244,7 +248,7 @@ export default function MemoryPage() {
         </div>
 
         {/* Progress bar */}
-        <div className="bg-neutral-10 h-1">
+        <div className="bg-midnight-100 h-1">
           <div
             className="h-full transition-all duration-500"
             style={{
@@ -266,10 +270,10 @@ export default function MemoryPage() {
               <p className="font-poppins neon-purple animate-slide-up mb-2 text-4xl font-bold">
                 YOU WIN!
               </p>
-              <p className="text-neutral-70 animate-fade-in mb-1 text-sm [animation-delay:200ms]">
+              <p className="text-midnight-700 animate-fade-in mb-1 text-sm [animation-delay:200ms]">
                 Time: <span className="neon-cyan font-bold">{formatTime(seconds)}</span>
               </p>
-              <p className="text-neutral-70 animate-fade-in mb-6 text-sm [animation-delay:300ms]">
+              <p className="text-midnight-700 animate-fade-in mb-6 text-sm [animation-delay:300ms]">
                 Moves: <span className="neon-green font-bold">{moves}</span>
               </p>
               {bestTime !== null && (

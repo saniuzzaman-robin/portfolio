@@ -213,7 +213,7 @@ export default function ColorPage() {
           <div className="grid items-end gap-6 md:grid-cols-2 lg:grid-cols-3">
             {/* Color Picker */}
             <div className="md:col-span-1">
-              <label className="font-poppins text-neutral-60 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+              <label className="font-poppins text-midnight-500 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
                 Pick Color
               </label>
               <div className="relative overflow-hidden rounded-xl shadow-xl">
@@ -232,7 +232,7 @@ export default function ColorPage() {
 
             {/* HEX Input */}
             <div className="md:col-span-1">
-              <label className="font-poppins text-neutral-60 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+              <label className="font-poppins text-midnight-500 mb-3 block text-xs font-bold tracking-widest uppercase lg:text-sm">
                 HEX Code
               </label>
               <button
@@ -251,9 +251,9 @@ export default function ColorPage() {
                     }
                   }}
                   placeholder="#000000"
-                  className="bg-neutral-15/40 text-neutral-90 w-full rounded-lg border-2 border-cyan-400/30 px-4 py-3 font-mono text-sm uppercase transition-colors group-hover:border-cyan-400/50 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none"
+                  className="bg-midnight-100/40 text-midnight-900 w-full rounded-lg border-2 border-cyan-400/30 px-4 py-3 font-mono text-sm uppercase transition-colors group-hover:border-cyan-400/50 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none"
                 />
-                <Copy className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-neutral-500 opacity-0 transition-all group-hover:opacity-100" />
+                <Copy className="text-midnight-500 absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 opacity-0 transition-all group-hover:opacity-100" />
               </button>
             </div>
 
@@ -281,14 +281,14 @@ export default function ColorPage() {
                 onClick={() => copyToClipboard(hex)}
                 className="group relative w-full cursor-pointer"
               >
-                <div className="text-neutral-90 bg-neutral-10/40 group-hover:bg-neutral-10/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                <div className="text-midnight-900 bg-midnight-100/40 group-hover:bg-midnight-100/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
                   {hex}
                 </div>
                 <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
                   {copiedColor === hex ? (
                     <Check className="h-4 w-4 text-green-400" />
                   ) : (
-                    <Copy className="h-4 w-4 text-neutral-500" />
+                    <Copy className="text-midnight-500 h-4 w-4" />
                   )}
                 </div>
               </button>
@@ -311,14 +311,14 @@ export default function ColorPage() {
                   onClick={() => copyToClipboard(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`)}
                   className="group relative w-full cursor-pointer"
                 >
-                  <div className="text-neutral-70 bg-neutral-10/40 group-hover:bg-neutral-10/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                  <div className="text-midnight-700 bg-midnight-100/40 group-hover:bg-midnight-100/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
                     rgb({rgb.r}, {rgb.g}, {rgb.b})
                   </div>
                   <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
                     {copiedColor === `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` ? (
                       <Check className="h-4 w-4 text-green-400" />
                     ) : (
-                      <Copy className="h-4 w-4 text-neutral-500" />
+                      <Copy className="text-midnight-500 h-4 w-4" />
                     )}
                   </div>
                 </button>
@@ -344,14 +344,14 @@ export default function ColorPage() {
                   onClick={() => copyToClipboard(`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`)}
                   className="group relative w-full cursor-pointer"
                 >
-                  <div className="text-neutral-70 bg-neutral-10/40 group-hover:bg-neutral-10/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                  <div className="text-midnight-700 bg-midnight-100/40 group-hover:bg-midnight-100/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
                     hsl({hsl.h}, {hsl.s}%, {hsl.l}%)
                   </div>
                   <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
                     {copiedColor === `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)` ? (
                       <Check className="h-4 w-4 text-green-400" />
                     ) : (
-                      <Copy className="h-4 w-4 text-neutral-500" />
+                      <Copy className="text-midnight-500 h-4 w-4" />
                     )}
                   </div>
                 </button>
@@ -380,14 +380,14 @@ export default function ColorPage() {
                   onClick={() => copyToClipboard(`${cmyk.c}% ${cmyk.m}% ${cmyk.y}% ${cmyk.k}%`)}
                   className="group relative w-full cursor-pointer"
                 >
-                  <div className="text-neutral-70 bg-neutral-10/40 group-hover:bg-neutral-10/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                  <div className="text-midnight-700 bg-midnight-100/40 group-hover:bg-midnight-100/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
                     {cmyk.c}% {cmyk.m}% {cmyk.y}% {cmyk.k}%
                   </div>
                   <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
                     {copiedColor === `${cmyk.c}% ${cmyk.m}% ${cmyk.y}% ${cmyk.k}%` ? (
                       <Check className="h-4 w-4 text-green-400" />
                     ) : (
-                      <Copy className="h-4 w-4 text-neutral-500" />
+                      <Copy className="text-midnight-500 h-4 w-4" />
                     )}
                   </div>
                 </button>
@@ -413,14 +413,14 @@ export default function ColorPage() {
                   onClick={() => copyToClipboard(`${rgb.r * 65536 + rgb.g * 256 + rgb.b}`)}
                   className="group relative w-full cursor-pointer"
                 >
-                  <div className="text-neutral-70 bg-neutral-10/40 group-hover:bg-neutral-10/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
+                  <div className="text-midnight-700 bg-midnight-100/40 group-hover:bg-midnight-100/60 rounded-lg border-2 border-white/10 px-4 py-3 font-mono text-sm transition-all group-hover:border-white/30">
                     {rgb.r * 65536 + rgb.g * 256 + rgb.b}
                   </div>
                   <div className="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
                     {copiedColor === `${rgb.r * 65536 + rgb.g * 256 + rgb.b}` ? (
                       <Check className="h-4 w-4 text-green-400" />
                     ) : (
-                      <Copy className="h-4 w-4 text-neutral-500" />
+                      <Copy className="text-midnight-500 h-4 w-4" />
                     )}
                   </div>
                 </button>
@@ -436,7 +436,7 @@ export default function ColorPage() {
         {/* Color harmonies */}
         {Object.keys(harmonies).length > 0 && (
           <div className="mb-8">
-            <h3 className="font-poppins text-neutral-90 mb-4 text-sm font-bold uppercase">
+            <h3 className="font-poppins text-midnight-900 mb-4 text-sm font-bold uppercase">
               Color Harmonies
             </h3>
             <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-5">
@@ -453,14 +453,14 @@ export default function ColorPage() {
                   className="group cursor-pointer rounded-sm border border-white/10 transition-all hover:border-white/30"
                 >
                   <div className="h-16 w-full rounded-t-sm" style={{ background: item.color }} />
-                  <div className="bg-neutral-10/40 flex items-center justify-between rounded-b-sm px-2 py-2">
-                    <div className="text-neutral-60 group-hover:text-neutral-80 font-mono text-[10px] transition-colors">
+                  <div className="bg-midnight-100/40 flex items-center justify-between rounded-b-sm px-2 py-2">
+                    <div className="text-midnight-500 group-hover:text-midnight-950 font-mono text-[10px] transition-colors">
                       {item.color}
                     </div>
                     {copiedColor === item.color ? (
                       <Check className="h-3 w-3 text-green-400" />
                     ) : (
-                      <Copy className="h-3 w-3 text-neutral-500 group-hover:text-neutral-300" />
+                      <Copy className="text-midnight-500 group-hover:text-midnight-300 h-3 w-3" />
                     )}
                   </div>
                 </button>
@@ -472,7 +472,7 @@ export default function ColorPage() {
         {/* Palette shades */}
         {palette.length > 0 && (
           <div className="mb-8">
-            <h3 className="font-poppins text-neutral-90 mb-4 text-sm font-bold uppercase">
+            <h3 className="font-poppins text-midnight-900 mb-4 text-sm font-bold uppercase">
               Shade Palette
             </h3>
             <div className="grid gap-2 md:grid-cols-10">
@@ -484,16 +484,16 @@ export default function ColorPage() {
                   <div className="h-12 w-full" style={{ background: shade }} />
                   <button
                     onClick={() => copyToClipboard(shade)}
-                    className="group bg-neutral-10/40 hover:bg-neutral-10/60 relative w-full cursor-pointer px-2 py-1.5 text-center transition-all"
+                    className="group bg-midnight-100/40 hover:bg-midnight-100/60 relative w-full cursor-pointer px-2 py-1.5 text-center transition-all"
                   >
-                    <div className="text-neutral-60 group-hover:text-neutral-80 font-mono text-[9px] transition-colors">
+                    <div className="text-midnight-500 group-hover:text-midnight-950 font-mono text-[9px] transition-colors">
                       {shade}
                     </div>
                     <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
                       {copiedColor === shade ? (
                         <Check className="h-3 w-3 text-green-400" />
                       ) : (
-                        <Copy className="h-3 w-3 text-neutral-500" />
+                        <Copy className="text-midnight-500 h-3 w-3" />
                       )}
                     </div>
                   </button>
@@ -502,8 +502,8 @@ export default function ColorPage() {
             </div>
 
             {/* Copy Palette Code */}
-            <div className="bg-neutral-10/40 mt-6 rounded-lg border border-white/10 p-4">
-              <p className="font-poppins text-neutral-60 mb-3 text-xs font-bold tracking-widest uppercase lg:text-sm">
+            <div className="bg-midnight-100/40 mt-6 rounded-lg border border-white/10 p-4">
+              <p className="font-poppins text-midnight-500 mb-3 text-xs font-bold tracking-widest uppercase lg:text-sm">
                 Copy Palette Code
               </p>
               <div className="mb-4 flex flex-wrap gap-2">
@@ -514,7 +514,7 @@ export default function ColorPage() {
                     className={`cursor-pointer rounded-md px-3 py-1.5 text-xs font-bold uppercase transition-colors lg:text-sm ${
                       paletteFormat === fmt
                         ? 'border-cyan-500 bg-cyan-600/20 text-cyan-300'
-                        : 'border border-white/10 text-neutral-400 hover:border-white/20 hover:text-neutral-300'
+                        : 'text-midnight-400 hover:text-midnight-300 border border-white/10 hover:border-white/20'
                     }`}
                   >
                     {fmt === 'hex-list'
@@ -527,7 +527,7 @@ export default function ColorPage() {
                   </button>
                 ))}
               </div>
-              <div className="bg-neutral-15/60 mb-3 max-h-48 overflow-y-auto rounded-md border border-white/5 p-3 font-mono text-xs text-neutral-400 lg:text-sm">
+              <div className="bg-midnight-100/60 text-midnight-400 mb-3 max-h-48 overflow-y-auto rounded-md border border-white/5 p-3 font-mono text-xs lg:text-sm">
                 <pre className="whitespace-pre-wrap">{generatePaletteCode(paletteFormat)}</pre>
               </div>
               <button
@@ -551,11 +551,11 @@ export default function ColorPage() {
         )}
 
         {/* Info section */}
-        <div className="bg-neutral-10/40 rounded-sm border border-white/5 p-4">
-          <p className="font-poppins text-neutral-60 mb-2 text-xs font-bold tracking-widest uppercase lg:text-sm">
+        <div className="bg-midnight-100/40 rounded-sm border border-white/5 p-4">
+          <p className="font-poppins text-midnight-500 mb-2 text-xs font-bold tracking-widest uppercase lg:text-sm">
             ℹ Tips:
           </p>
-          <ul className="text-neutral-70 space-y-1 text-xs lg:text-sm">
+          <ul className="text-midnight-700 space-y-1 text-xs lg:text-sm">
             <li>• Click any color preview to copy to clipboard</li>
             <li>• Use the color picker or enter HEX values directly</li>
             <li>• Palette shows darker and lighter variations of your color</li>

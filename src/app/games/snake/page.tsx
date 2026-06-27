@@ -256,27 +256,27 @@ export default function SnakePage() {
   return (
     <>
       <SchemaScript schema={schema} />
-      <div className="bg-neutral-5 text-neutral-90 flex h-dvh flex-col overflow-hidden">
+      <div className="bg-midnight-50 text-midnight-900 flex h-dvh flex-col overflow-hidden">
         {/* Header */}
-        <div className="border-neutral-30 bg-neutral-10/50 flex items-center justify-between border-b px-4 py-3">
+        <div className="border-midnight-300 bg-midnight-100/50 flex items-center justify-between border-b px-4 py-3">
           <Link
             href="/games"
-            className="hover:text-primary-50 font-poppins flex items-center gap-2 text-xs tracking-wider text-neutral-50 uppercase transition-colors lg:text-sm"
+            className="hover:text-primary-50 font-poppins text-midnight-50 flex items-center gap-2 text-xs tracking-wider uppercase transition-colors lg:text-sm"
           >
             <ArrowLeft className="h-4 w-4" />
             Games
           </Link>
           <div className="flex items-center gap-4 text-center">
             <div>
-              <p className="text-neutral-60 text-xs tracking-wider uppercase lg:text-sm">Score</p>
+              <p className="text-midnight-500 text-xs tracking-wider uppercase lg:text-sm">Score</p>
               <p className="neon-green text-lg font-bold">{score}</p>
             </div>
             <div>
-              <p className="text-neutral-60 text-xs tracking-wider uppercase lg:text-sm">Best</p>
+              <p className="text-midnight-500 text-xs tracking-wider uppercase lg:text-sm">Best</p>
               <p className="neon-cyan text-lg font-bold">{best}</p>
             </div>
             <div className="hidden sm:block">
-              <p className="text-neutral-60 text-xs tracking-wider uppercase lg:text-sm">Mode</p>
+              <p className="text-midnight-500 text-xs tracking-wider uppercase lg:text-sm">Mode</p>
               <p className="text-lg font-bold" style={{ color: DIFFICULTIES[difficulty].color }}>
                 {difficulty}
               </p>
@@ -323,20 +323,18 @@ export default function SnakePage() {
               >
                 {dead ? (
                   <>
-                    <p className="font-poppins neon-green mb-2 text-3xl font-bold">
-                      GAME OVER
-                    </p>
-                    <p className="text-neutral-70 mb-1 text-sm">
+                    <p className="font-poppins neon-green mb-2 text-3xl font-bold">GAME OVER</p>
+                    <p className="text-midnight-700 mb-1 text-sm">
                       Score: <span className="neon-cyan font-bold">{score}</span>
                     </p>
-                    <p className="text-neutral-70 mb-6 text-sm">
+                    <p className="text-midnight-700 mb-6 text-sm">
                       Best: <span className="neon-green font-bold">{best}</span>
                     </p>
                   </>
                 ) : (
                   <>
                     <p className="font-poppins neon-green mb-1 text-4xl font-bold">SNAKE</p>
-                    <p className="text-neutral-70 mb-6 text-center text-xs lg:text-sm">
+                    <p className="text-midnight-700 mb-6 text-center text-xs lg:text-sm">
                       Collect cyan packets. Avoid walls &amp; yourself.
                     </p>
                   </>
@@ -344,7 +342,7 @@ export default function SnakePage() {
 
                 {/* Difficulty selector */}
                 <div className="mb-4 w-full max-w-xs px-2 md:px-4">
-                  <p className="text-neutral-60 font-poppins mb-2 text-center text-[10px] tracking-widest uppercase md:mb-3 md:text-xs lg:text-[11px] lg:md:text-sm">
+                  <p className="text-midnight-500 font-poppins mb-2 text-center text-[10px] tracking-widest uppercase md:mb-3 md:text-xs lg:text-[11px] lg:md:text-sm">
                     Difficulty
                   </p>
                   <div className="grid grid-cols-3 gap-1.5 md:gap-2">
@@ -371,7 +369,7 @@ export default function SnakePage() {
                           >
                             {d.label}
                           </span>
-                          <span className="hidden text-[10px] text-neutral-50 md:inline">
+                          <span className="text-midnight-50 hidden text-[10px] md:inline">
                             {d.desc}
                           </span>
                         </button>
@@ -383,7 +381,7 @@ export default function SnakePage() {
                 <button onClick={start} className="btn-game font-poppins px-8 py-3 text-sm">
                   {dead ? '▶ Play Again' : '▶ Start Game'}
                 </button>
-                <p className="text-neutral-60 font-poppins mt-4 text-xs lg:text-sm">
+                <p className="text-midnight-500 font-poppins mt-4 text-xs lg:text-sm">
                   Arrow Keys / WASD / Swipe
                 </p>
               </div>

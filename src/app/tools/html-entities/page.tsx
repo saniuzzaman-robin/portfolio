@@ -107,7 +107,7 @@ export default function HTMLEntitiesPage() {
             />
             <button
               onClick={swapMode}
-              className="font-poppins text-neutral-60 hover:text-secondary-50 hover:border-secondary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all"
+              className="font-poppins text-midnight-500 hover:text-secondary-50 hover:border-secondary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all"
             >
               ⇄ Swap
             </button>
@@ -127,7 +127,7 @@ export default function HTMLEntitiesPage() {
                 onChange={(e) => setEncodeAll(e.target.checked)}
                 className="accent-secondary-50 h-4 w-4"
               />
-              <span className="text-neutral-70 text-sm">
+              <span className="text-midnight-700 text-sm">
                 Encode all non-ASCII characters (including symbols like ©, €, etc.)
               </span>
             </label>
@@ -164,14 +164,14 @@ export default function HTMLEntitiesPage() {
         </div>
 
         {/* Common entities reference */}
-        <div className="bg-neutral-10 border-neutral-20 rounded-sm border p-4">
-          <h3 className="text-neutral-70 mb-3 text-sm font-medium">Common HTML Entities</h3>
+        <div className="bg-midnight-100 border-midnight-200 rounded-sm border p-4">
+          <h3 className="text-midnight-700 mb-3 text-sm font-medium">Common HTML Entities</h3>
           <div className="grid gap-2 text-xs sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {Object.entries(COMMON_ENTITIES).map(([char, entity]) => (
-              <div key={entity} className="text-neutral-60 flex items-center gap-2 font-mono">
+              <div key={entity} className="text-midnight-500 flex items-center gap-2 font-mono">
                 <span className="text-secondary-50">{char}</span>
                 <span>→</span>
-                <code className="text-neutral-70">{entity}</code>
+                <code className="text-midnight-700">{entity}</code>
               </div>
             ))}
           </div>

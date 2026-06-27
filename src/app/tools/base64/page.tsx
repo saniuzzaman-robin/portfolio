@@ -66,7 +66,7 @@ export default function Base64Page() {
           />
           <button
             onClick={swapMode}
-            className="font-poppins text-neutral-60 hover:text-primary-50 hover:border-primary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
+            className="font-poppins text-midnight-500 hover:text-primary-50 hover:border-primary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
           >
             ⇄ Swap
           </button>
@@ -118,12 +118,12 @@ export default function Base64Page() {
           </button>
 
           {output && !error && (
-            <div className="text-neutral-60 font-poppins flex flex-wrap gap-6 text-xs lg:text-sm">
+            <div className="text-midnight-500 font-poppins flex flex-wrap gap-6 text-xs lg:text-sm">
               <span>
-                Input: <strong className="text-neutral-80">{input.length} chars</strong>
+                Input: <strong className="text-midnight-950">{input.length} chars</strong>
               </span>
               <span>
-                Output: <strong className="text-neutral-80">{output.length} chars</strong>
+                Output: <strong className="text-midnight-950">{output.length} chars</strong>
               </span>
               {mode === 'encode' && (
                 <span>

@@ -148,7 +148,7 @@ Just start typing in the editor to see the preview update instantly.
           <ToolPanel label="Live Preview" accent="tertiary">
             <div className="p-4">
               <div
-                className="prose prose-invert text-neutral-80 max-w-none space-y-2 text-sm leading-relaxed"
+                className="prose prose-invert text-midnight-950 max-w-none space-y-2 text-sm leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: html }}
                 style={{ wordBreak: 'break-word' }}
               />
@@ -156,7 +156,7 @@ Just start typing in the editor to see the preview update instantly.
           </ToolPanel>
         </div>
 
-        <div className="bg-neutral-10 text-neutral-70 mt-6 rounded-sm p-4 text-xs">
+        <div className="bg-midnight-100 text-midnight-700 mt-6 rounded-sm p-4 text-xs">
           <p className="mb-2 font-semibold">Supported Markdown:</p>
           <ul className="list-inside list-disc space-y-1">
             <li># Headings (h1-h3)</li>

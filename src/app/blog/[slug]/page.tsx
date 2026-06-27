@@ -60,35 +60,35 @@ function ContentSection({ section }: { section: ArticleSectionType }) {
   switch (section.type) {
     case 'heading':
       return (
-        <h2 className="font-poppins text-neutral-90 mt-12 mb-4 text-2xl font-bold md:text-3xl">
+        <h2 className="font-poppins text-midnight-950 mt-12 mb-4 text-2xl font-bold md:text-3xl">
           {section.content}
         </h2>
       );
 
     case 'subheading':
       return (
-        <h3 className="font-poppins text-neutral-90 mt-8 mb-3 text-xl font-semibold">
+        <h3 className="font-poppins text-midnight-950 mt-8 mb-3 text-xl font-semibold">
           {section.content}
         </h3>
       );
 
     case 'paragraph':
       return (
-        <p className="text-neutral-70 mb-6 text-base leading-relaxed md:text-lg">
+        <p className="text-midnight-500 mb-6 text-base leading-relaxed md:text-lg">
           {section.content}
         </p>
       );
 
     case 'code':
       return (
-        <div className="border-neutral-20 my-6 overflow-hidden rounded-xl border">
-          <div className="bg-neutral-10 border-neutral-20 flex items-center justify-between border-b px-4 py-2">
-            <span className="text-neutral-60 font-mono text-xs tracking-wider uppercase lg:text-sm">
+        <div className="border-midnight-200 my-6 overflow-hidden rounded-xl border">
+          <div className="bg-midnight-100 border-midnight-200 flex items-center justify-between border-b px-4 py-2">
+            <span className="text-midnight-500 font-mono text-xs tracking-wider uppercase lg:text-sm">
               {section.language}
             </span>
           </div>
-          <pre className="bg-neutral-5 overflow-x-auto p-5">
-            <code className="text-neutral-80 font-mono text-sm leading-relaxed whitespace-pre">
+          <pre className="bg-midnight-50 overflow-x-auto p-5">
+            <code className="text-midnight-950 font-mono text-sm leading-relaxed whitespace-pre">
               {section.content}
             </code>
           </pre>
@@ -100,7 +100,7 @@ function ContentSection({ section }: { section: ArticleSectionType }) {
       return (
         <Tag className={`mb-6 space-y-2 pl-6 ${section.ordered ? 'list-decimal' : 'list-disc'}`}>
           {section.items.map((item, i) => (
-            <li key={i} className="text-neutral-70 text-base leading-relaxed md:text-lg">
+            <li key={i} className="text-midnight-500 text-base leading-relaxed md:text-lg">
               {item}
             </li>
           ))}
@@ -121,7 +121,7 @@ function ContentSection({ section }: { section: ArticleSectionType }) {
       return (
         <div className={`my-6 rounded-r-xl border-l-4 px-5 py-4 ${styles[section.variant]}`}>
           <span className="mr-2 font-bold">{icons[section.variant]}</span>
-          <span className="text-neutral-70">{section.content}</span>
+          <span className="text-midnight-950">{section.content}</span>
         </div>
       );
     }
@@ -161,7 +161,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   return (
     <>
       <SchemaScript schema={schema} />
-      <main className="bg-neutral-5 text-neutral-90 min-h-screen">
+      <main className="bg-midnight-900 text-midnight-950 min-h-screen">
         <Navigation />
 
         <article className="mx-auto max-w-4xl px-6 py-24 md:px-12 lg:px-20">
@@ -190,11 +190,11 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               {article.title}
             </h1>
 
-            <p className="text-neutral-70 mb-8 max-w-2xl text-lg leading-relaxed md:text-xl">
+            <p className="text-midnight-500 mb-8 max-w-2xl text-lg leading-relaxed md:text-xl">
               {article.excerpt}
             </p>
 
-            <div className="text-neutral-60 flex flex-wrap items-center gap-4 text-sm">
+            <div className="text-midnight-500 flex flex-wrap items-center gap-4 text-sm">
               <span>{article.date}</span>
               <span>·</span>
               <span>{article.readTime}</span>
@@ -228,11 +228,11 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           </div>
 
           {/* Footer nav */}
-          <div className="border-neutral-20 animate-fade-in mt-20 flex flex-col items-start justify-between gap-6 border-t pt-10 [animation-delay:400ms] sm:flex-row sm:items-center">
+          <div className="border-midnight-200 animate-fade-in mt-20 flex flex-col items-start justify-between gap-6 border-t pt-10 [animation-delay:400ms] sm:flex-row sm:items-center">
             <div>
-              <p className="text-neutral-60 mb-1 text-sm">Written by</p>
-              <p className="font-poppins text-neutral-90 font-semibold">{siteConfig.name}</p>
-              <p className="text-neutral-60 text-sm">Full-Stack Software Engineer</p>
+              <p className="text-midnight-500 mb-1 text-sm">Written by</p>
+              <p className="font-poppins text-midnight-950 font-semibold">{siteConfig.name}</p>
+              <p className="text-midnight-500 text-sm">Full-Stack Software Engineer</p>
             </div>
             <Link
               href="/blog"

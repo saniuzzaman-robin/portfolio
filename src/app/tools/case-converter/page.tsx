@@ -205,7 +205,7 @@ export default function CaseConverterPage() {
                 ) : undefined
               }
             >
-              <div className="bg-neutral-10 text-neutral-80 min-h-10 rounded p-3 font-mono text-sm break-all">
+              <div className="bg-midnight-100 text-midnight-950 min-h-10 rounded p-3 font-mono text-sm break-all">
                 {outputs[caseType] || '—'}
               </div>
             </ToolPanel>

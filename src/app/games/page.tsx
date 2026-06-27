@@ -42,7 +42,7 @@ export default function GamesPage() {
   });
 
   return (
-    <main className="bg-neutral-5 text-neutral-90 min-h-dvh">
+    <main className="bg-midnight-900 text-midnight-950 min-h-dvh">
       <SchemaScript schema={schema} />
       <Navigation />
 

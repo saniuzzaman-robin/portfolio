@@ -97,7 +97,7 @@ export default function PasswordGeneratorPage() {
               {/* Length slider */}
               <div>
                 <div className="mb-2 flex items-center justify-between">
-                  <label className="text-neutral-80 text-sm font-medium">Length</label>
+                  <label className="text-midnight-950 text-sm font-medium">Length</label>
                   <span className="text-lg font-bold text-cyan-400">{options.length}</span>
                 </div>
                 <input
@@ -108,12 +108,14 @@ export default function PasswordGeneratorPage() {
                   onChange={(e) => handleOptionChange('length', parseInt(e.target.value))}
                   className="w-full cursor-pointer accent-cyan-500"
                 />
-                <div className="text-neutral-60 mt-1 text-xs">Min: 4, Max: 64</div>
+                <div className="text-midnight-500 mt-1 text-xs">Min: 4, Max: 64</div>
               </div>
 
               {/* Character sets */}
-              <div className="border-neutral-20 space-y-3 border-t pt-2">
-                <label className="text-neutral-80 block text-sm font-medium">Character Sets</label>
+              <div className="border-midnight-200 space-y-3 border-t pt-2">
+                <label className="text-midnight-950 block text-sm font-medium">
+                  Character Sets
+                </label>
 
                 {[
                   { key: 'uppercase', label: 'Uppercase (A-Z)' },
@@ -130,7 +132,7 @@ export default function PasswordGeneratorPage() {
                       }
                       className="h-4 w-4 cursor-pointer rounded"
                     />
-                    <span className="text-neutral-80 text-sm">{label}</span>
+                    <span className="text-midnight-950 text-sm">{label}</span>
                   </label>
                 ))}
               </div>
@@ -147,9 +149,9 @@ export default function PasswordGeneratorPage() {
 
           {/* Info */}
           <ToolPanel label="Info" accent="secondary">
-            <div className="text-neutral-80 space-y-4 p-4 text-sm">
+            <div className="text-midnight-950 space-y-4 p-4 text-sm">
               <div>
-                <p className="text-neutral-90 mb-2 font-medium">Recommended Length</p>
+                <p className="text-midnight-900 mb-2 font-medium">Recommended Length</p>
                 <ul className="list-inside list-disc space-y-1 text-xs">
                   <li>Social media: 12-16 characters</li>
                   <li>Email/banking: 16-20 characters</li>
@@ -157,7 +159,7 @@ export default function PasswordGeneratorPage() {
                 </ul>
               </div>
               <div>
-                <p className="text-neutral-90 mb-2 font-medium">Best Practices</p>
+                <p className="text-midnight-900 mb-2 font-medium">Best Practices</p>
                 <ul className="list-inside list-disc space-y-1 text-xs">
                   <li>Use all character types</li>
                   <li>Avoid dictionary words</li>
@@ -172,17 +174,17 @@ export default function PasswordGeneratorPage() {
         {/* Generated passwords */}
         {passwords.length > 0 && (
           <div>
-            <h3 className="text-neutral-90 mb-4 text-sm font-semibold">Generated Passwords</h3>
+            <h3 className="text-midnight-900 mb-4 text-sm font-semibold">Generated Passwords</h3>
             <div className="grid gap-3">
               {passwords.map((password, index) => {
                 const strength = calculateStrength(password);
                 return (
                   <div
                     key={index}
-                    className="border-neutral-20 bg-neutral-10 flex items-center gap-3 rounded-sm border p-3"
+                    className="border-midnight-200 bg-midnight-100 flex items-center gap-3 rounded-sm border p-3"
                   >
                     <div className="flex-1">
-                      <div className="text-neutral-90 mb-1 font-mono text-sm break-all">
+                      <div className="text-midnight-900 mb-1 font-mono text-sm break-all">
                         {password}
                       </div>
                       <div className={`text-xs font-medium ${strength.color}`}>

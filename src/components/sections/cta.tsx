@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Mail, ArrowRight, Sparkles } from 'lucide-react';
+import { Mail, ArrowRight } from 'lucide-react';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -14,31 +14,18 @@ const fadeUp = {
 
 export function CTA() {
   return (
-    <section className="relative overflow-hidden px-6 py-28 md:px-12 lg:px-16">
-      {/* Background glow blobs */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="bg-primary-50/4 absolute top-1/2 left-1/2 h-80 w-160 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl" />
-        <div className="bg-secondary-50/3 absolute top-1/2 left-1/3 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl" />
-        <div className="bg-tertiary-50/3 absolute top-1/2 right-1/3 h-80 w-80 translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl" />
+    <section className="relative overflow-hidden px-6 py-28 md:px-12 lg:px-20">
+      {/* Background blobs */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="aurora-blob aurora-blob-primary absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 opacity-15" />
+        <div className="aurora-blob aurora-blob-secondary absolute top-1/2 left-1/3 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 opacity-10" style={{ animationDelay: '-5s' }} />
+        <div className="aurora-blob aurora-blob-tertiary absolute top-1/2 right-1/3 h-[400px] w-[400px] translate-x-1/2 -translate-y-1/2 opacity-10" style={{ animationDelay: '-10s' }} />
       </div>
 
-      <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-20" />
+      {/* Grid pattern */}
+      <div className="grid-pattern pointer-events-none absolute inset-0 opacity-30" />
 
       <div className="relative z-10 mx-auto max-w-3xl text-center">
-        {/* Decorative corners */}
-        <motion.div
-          initial={{ opacity: 0, x: -20, y: -20 }}
-          whileInView={{ opacity: 1, x: 0, y: 0 }}
-          viewport={{ once: true }}
-          className="border-primary-50/30 absolute -top-4 -left-4 h-8 w-8 border-t-2 border-l-2"
-        />
-        <motion.div
-          initial={{ opacity: 0, x: 20, y: 20 }}
-          whileInView={{ opacity: 1, x: 0, y: 0 }}
-          viewport={{ once: true }}
-          className="border-secondary-50/30 absolute -right-4 -bottom-4 h-8 w-8 border-r-2 border-b-2"
-        />
-
         <motion.p
           custom={0}
           variants={fadeUp}
@@ -56,11 +43,12 @@ export function CTA() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="font-poppins mb-5 text-4xl leading-tight font-bold md:text-5xl lg:text-6xl"
+          className="mb-5 text-4xl font-extrabold leading-tight tracking-tight text-midnight-950 md:text-5xl lg:text-6xl"
         >
-          Ready to build <span className="gradient-text">something</span>
+          Ready to build{' '}
+          <span className="gradient-text">something</span>
           <br />
-          <span className="text-secondary-50">extraordinary?</span>
+          <span className="text-aurora-purple">extraordinary?</span>
         </motion.h2>
 
         <motion.p
@@ -69,7 +57,7 @@ export function CTA() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="text-neutral-70 mx-auto mb-10 max-w-xl text-sm leading-relaxed"
+          className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-midnight-500"
         >
           I&apos;m open to new projects, full-time roles, and exciting collaborations. If you have
           an idea that needs a battle-tested full-stack engineer — let&apos;s talk.
@@ -81,25 +69,24 @@ export function CTA() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="flex flex-col items-center justify-center gap-3 sm:flex-row"
+          className="flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
           <a
             href="mailto:saniuzzamanrobin07@gmail.com"
-            className="btn-neon font-poppins inline-flex w-full items-center justify-center gap-3 rounded-lg px-8 py-3.5 text-sm font-bold tracking-widest uppercase sm:w-auto"
+            className="btn-primary group inline-flex w-full items-center justify-center gap-2 sm:w-auto"
           >
-            <Mail className="h-4 w-4 shrink-0" />
-            <span>Get In Touch</span>
-            <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
+            <Mail className="h-4 w-4" />
+            Get In Touch
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </a>
           <a
             href="https://linkedin.com/in/saniuzzaman-robin"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white/5 hover:bg-primary-50/10 border-white/10 hover:border-primary-50/30 font-poppins inline-flex w-full items-center justify-center gap-3 rounded-lg border px-8 py-3.5 text-sm font-bold tracking-widest uppercase text-neutral-70 transition-all duration-300 hover:text-neutral-90 sm:w-auto"
+            className="btn-secondary group inline-flex w-full items-center justify-center gap-2 sm:w-auto"
           >
-            <Sparkles className="h-4 w-4 shrink-0" />
-            <span>LinkedIn</span>
-            <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
+            LinkedIn
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </a>
         </motion.div>
       </div>

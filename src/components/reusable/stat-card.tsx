@@ -14,8 +14,8 @@ interface StatCardProps {
 }
 
 const NEUTRAL_CLASSES = {
-  text: 'text-neutral-70',
-  background: 'from-neutral-50/10 to-neutral-50/5',
+  text: 'text-midnight-700',
+  background: 'from-midnight-50/10 to-midnight-50/5',
 };
 const BG_MAP: Record<AccentToken, string> = {
   primary: 'from-primary-50/10 to-primary-50/5',
@@ -29,7 +29,7 @@ export function StatCard({ number, label, color, icon: Icon, delay = 0 }: StatCa
 
   return (
     <div
-      className={`bg-linear-to-br ${bgClass} border-neutral-20 hover:border-neutral-30 animate-scale-in group rounded-2xl border p-8 transition-all duration-300 will-change-transform hover:shadow-lg`}
+      className={`bg-linear-to-br ${bgClass} border-midnight-200 hover:border-midnight-300 animate-scale-in group rounded-2xl border p-8 transition-all duration-300 will-change-transform hover:shadow-lg`}
       style={{ animationDelay: `${delay}ms` }}
     >
       <div
@@ -40,7 +40,7 @@ export function StatCard({ number, label, color, icon: Icon, delay = 0 }: StatCa
       <p className={`${textClass} font-poppins mb-2 text-3xl font-bold md:text-4xl`}>
         {number}
       </p>
-      <p className="text-neutral-70 text-sm font-medium">{label}</p>
+      <p className="text-midnight-700 text-sm font-medium">{label}</p>
     </div>
   );
 }

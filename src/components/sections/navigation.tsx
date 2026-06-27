@@ -71,9 +71,16 @@ const mobileDrawerVariants = {
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
   const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const pathname = usePathname();
   const { theme, toggleTheme, isDark } = useTheme();
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -157,35 +164,37 @@ export function Navigation() {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 py-3 lg:px-12 xl:px-16 ${'bg-neutral-5/90 border-b border-white/6 shadow-2xs shadow-black/30 backdrop-blur-2xl'}`}
+        className={`fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-300 lg:px-12 xl:px-16 ${
+          scrolled
+            ? 'bg-(--glass-bg) border-(--glass-border) border-b py-3 shadow-lg shadow-black/10 backdrop-blur-xl'
+            : 'bg-transparent py-4'
+        }`}
       >
-        <Link
-          href="/"
-          className="font-poppins group relative text-lg font-bold tracking-widest uppercase"
-        >
+        <Link href="/" className="font-heading group relative text-lg font-bold tracking-wide">
           <MultilingualLogo showDevSuffix={true} />
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden items-center gap-0.5 lg:flex">
+        <div className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => {
             if (item.kind === 'link') {
               const active = isActive(item.href);
-              const Icon = item.icon;
               return (
                 <div key={item.href}>
                   <Link
                     href={item.href}
-                    className={`font-poppins group relative flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs tracking-widest uppercase transition-all duration-300 ${
-                      active ? 'text-primary-50' : 'text-neutral-60 hover:text-neutral-90'
+                    className={`relative rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                      active
+                        ? 'text-aurora-green'
+                        : 'text-midnight-500 hover:text-midnight-950'
                     }`}
                   >
-                    <Icon className="h-3.5 w-3.5" />
                     {item.label}
                     {active && (
                       <motion.span
                         layoutId="nav-indicator"
-                        className="from-primary-50 to-secondary-50 absolute right-2 -bottom-0.5 left-2 h-0.5 rounded-full bg-linear-to-r"
+                        className="bg-aurora-green absolute inset-x-2 -bottom-1 h-0.5 rounded-full"
+                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                       />
                     )}
                   </Link>
@@ -194,7 +203,6 @@ export function Navigation() {
             }
 
             const groupActive = isGroupActive(item.children);
-            const Icon = item.icon;
             const isOpen = openDropdown === item.label;
             return (
               <div key={item.label}>
@@ -207,19 +215,18 @@ export function Navigation() {
                   onMouseLeave={() => setOpenDropdown(null)}
                 >
                   <button
-                    className={`font-poppins group relative flex cursor-pointer items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs tracking-widest uppercase transition-all duration-300 ${
+                    className={`flex cursor-pointer items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                       groupActive || isOpen
-                        ? 'text-primary-50'
-                        : 'text-neutral-60 hover:text-neutral-90'
+                        ? 'text-aurora-green'
+                        : 'text-midnight-500 hover:text-midnight-950'
                     }`}
                   >
-                    <Icon className="h-3.5 w-3.5" />
                     {item.label}
                     <motion.div
                       animate={{ rotate: isOpen ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <ChevronDown className="h-3 w-3" />
+                      <ChevronDown className="h-3.5 w-3.5" />
                     </motion.div>
                   </button>
 
@@ -230,18 +237,14 @@ export function Navigation() {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5"
+                        className="absolute top-full left-1/2 -translate-x-1/2 pt-2"
                       >
                         <div
-                          className={`overflow-hidden rounded-xl border border-white/8 ${
-                            item.label === 'Tools' ? 'w-96' : 'min-w-44'
+                          className={`overflow-hidden rounded-xl border border-midnight-200 bg-midnight-50 shadow-xl ${
+                            item.label === 'Tools' ? 'w-96' : 'min-w-48'
                           }`}
-                          style={{
-                            background: 'var(--nav-dropdown-bg)',
-                            boxShadow: 'var(--nav-dropdown-shadow)',
-                          }}
                         >
-                          <div className="via-primary-50/40 h-px w-full bg-linear-to-r from-transparent to-transparent" />
+                          <div className="via-aurora-green/20 h-px w-full bg-gradient-to-r from-transparent to-transparent" />
                           {item.label === 'Tools' ? (
                             <>
                               {(() => {
@@ -250,16 +253,16 @@ export function Navigation() {
                                 return (
                                   <Link
                                     href={item.children[0].href}
-                                    className={`font-poppins group relative flex items-center justify-center gap-2 border-b border-white/6 px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 ${
+                                    className={`flex items-center justify-center gap-2 border-b border-midnight-200 px-4 py-3.5 text-sm font-medium transition-all duration-200 ${
                                       allToolsActive
-                                        ? 'text-primary-50 bg-primary-50/10'
-                                        : 'text-neutral-60 hover:text-neutral-90 hover:bg-white/5'
+                                        ? 'text-aurora-green bg-aurora-green/5'
+                                        : 'text-midnight-500 hover:text-midnight-950 hover:bg-midnight-100'
                                     }`}
                                   >
                                     <AllToolsIcon className="h-4 w-4 shrink-0" />
                                     {item.children[0].label}
-                                    <span className="ml-1 text-[10px] font-normal text-neutral-50">
-                                      ({item.children.length - 1} tools)
+                                    <span className="text-midnight-500 ml-1 text-xs font-normal">
+                                      ({item.children.length - 1})
                                     </span>
                                   </Link>
                                 );
@@ -272,10 +275,10 @@ export function Navigation() {
                                     <Link
                                       key={child.href}
                                       href={child.href}
-                                      className={`font-poppins group relative flex flex-col items-center justify-center gap-1.5 rounded-lg px-2 py-3 text-[10px] tracking-widest uppercase transition-all duration-200 ${
+                                      className={`flex flex-col items-center justify-center gap-1.5 rounded-lg px-2 py-3 text-xs font-medium transition-all duration-200 ${
                                         active
-                                          ? 'text-primary-50 bg-primary-50/8'
-                                          : 'text-neutral-60 hover:text-neutral-90 hover:bg-white/5'
+                                          ? 'text-aurora-green bg-aurora-green/5'
+                                          : 'text-midnight-500 hover:text-midnight-950 hover:bg-midnight-100'
                                       }`}
                                     >
                                       <ChildIcon className="h-3.5 w-3.5 shrink-0" />
@@ -294,17 +297,17 @@ export function Navigation() {
                                   <Link
                                     key={child.href}
                                     href={child.href}
-                                    className={`font-poppins group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs tracking-widest uppercase transition-all duration-200 ${
+                                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
                                       active
-                                        ? 'text-primary-50 bg-primary-50/8'
-                                        : 'text-neutral-60 hover:text-neutral-90 hover:bg-white/5'
+                                        ? 'text-aurora-green bg-aurora-green/5'
+                                        : 'text-midnight-500 hover:text-midnight-950 hover:bg-midnight-100'
                                     }`}
                                   >
                                     <span
                                       className={`absolute top-0 bottom-0 left-0 w-0.5 rounded-r transition-opacity duration-200 ${
                                         active
-                                          ? 'bg-primary-50 opacity-100'
-                                          : 'bg-white/20 opacity-0 group-hover:opacity-100'
+                                          ? 'bg-aurora-green opacity-100'
+                                          : 'bg-midnight-300 opacity-0 group-hover:opacity-100'
                                       }`}
                                     />
                                     <ChildIcon className="h-3.5 w-3.5 shrink-0" />
@@ -330,35 +333,33 @@ export function Navigation() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleTheme}
-            className="hover:text-primary-50 hover:border-primary-50/30 hover:bg-primary-50/5 hidden h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-white/8 text-neutral-50 transition-all duration-200 xl:flex"
+            className="text-midnight-500 hover:text-aurora-green hover:bg-midnight-100 hidden h-9 w-9 cursor-pointer items-center justify-center rounded-full transition-all duration-200 xl:flex"
             aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            <div>{isDark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}</div>
+            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </motion.button>
 
-          <div className="flex items-center gap-1.5 lg:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleTheme}
-              className="hover:text-primary-50 hover:border-primary-50/30 hover:bg-primary-50/5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-white/8 text-neutral-50 transition-all duration-200"
+              className="text-midnight-500 hover:text-aurora-green hover:bg-midnight-100 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full transition-all duration-200"
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              <div>
-                {isDark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
-              </div>
+              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-white/8 transition-all duration-200 hover:border-white/20"
+              className="hover:bg-midnight-100 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full transition-all duration-200"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? (
-                <X className="h-4 w-4 text-neutral-50" />
+                <X className="text-midnight-500 h-4 w-4" />
               ) : (
-                <Menu className="h-4 w-4 text-neutral-50" />
+                <Menu className="text-midnight-500 h-4 w-4" />
               )}
             </motion.button>
           </div>
@@ -366,7 +367,7 @@ export function Navigation() {
       </motion.nav>
 
       {/* Spacer */}
-      <div className="h-14" />
+      <div className="h-16" />
 
       {/* Mobile Overlay */}
       <AnimatePresence>
@@ -376,7 +377,7 @@ export function Navigation() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-md lg:hidden"
+            className="bg-black/60 fixed inset-0 z-40 backdrop-blur-md lg:hidden"
             onClick={() => setIsMenuOpen(false)}
           />
         )}
@@ -390,27 +391,26 @@ export function Navigation() {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            className="fixed top-0 right-0 z-50 flex h-dvh w-80 flex-col shadow-2xl lg:hidden"
-            style={{ background: 'var(--nav-drawer-bg)' }}
+            className="bg-midnight-50 border-midnight-200 fixed top-0 right-0 z-50 flex h-dvh w-80 flex-col border-l lg:hidden"
           >
-            <div className="via-primary-50 h-px w-full bg-linear-to-r from-transparent to-transparent" />
+            <div className="via-aurora-green/30 h-px w-full bg-gradient-to-r from-transparent to-transparent" />
 
-            <div className="flex items-center justify-between px-5 py-4">
-              <div className="flex flex-col gap-0.5">
+            <div className="flex items-center justify-between px-6 py-5">
+              <div>
                 <Link
                   href="/"
                   onClick={() => setIsMenuOpen(false)}
-                  className="font-poppins group text-base font-bold tracking-widest uppercase"
+                  className="font-heading text-lg font-bold tracking-wide"
                 >
                   <MultilingualLogo showDevSuffix={true} />
                 </Link>
-                <p className="font-poppins text-xs tracking-wider text-neutral-50">
+                <p className="text-midnight-500 text-sm">
                   Software Engineer
                 </p>
               </div>
             </div>
 
-            <div className="from-primary-50/20 mx-5 mb-3 h-px bg-linear-to-r via-white/8 to-transparent" />
+            <div className="mx-6 mb-3 h-px bg-gradient-to-r from-midnight-200 via-midnight-200 to-transparent" />
 
             <MobileNavList>
               {mobileTopLinks.slice(0, 1).map((link) => (
@@ -465,18 +465,13 @@ export function Navigation() {
               ))}
             </MobileNavList>
 
-            <div className="px-5 pt-3 pb-6">
-              <div className="from-primary-50/20 mb-4 h-px bg-linear-to-r via-white/8 to-transparent" />
-              <p className="font-poppins mb-1 text-xs tracking-widest text-neutral-50 uppercase">
-                Available for work
-              </p>
+            <div className="px-6 pt-3 pb-6">
+              <div className="mb-4 h-px bg-linear-to-r from-midnight-200 via-midnight-200 to-transparent" />
               <div className="flex items-center gap-2">
-                <span className="bg-primary-50 h-1.5 w-1.5 animate-pulse rounded-full" />
-                <span className="text-primary-50 font-poppins text-xs">Open to opportunities</span>
+                <span className="bg-aurora-green h-2.5 w-2.5 animate-pulse rounded-full shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+                <span className="text-aurora-green text-sm font-medium">Open to opportunities</span>
               </div>
             </div>
-
-            <div className="via-secondary-50/30 h-px w-full bg-linear-to-r from-transparent to-transparent" />
           </motion.div>
         )}
       </AnimatePresence>

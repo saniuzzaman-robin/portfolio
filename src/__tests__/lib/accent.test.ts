@@ -3,7 +3,7 @@ import { av, ava, ACCENT_CLASSES, type AccentToken } from '@/lib/accent';
 
 describe('av', () => {
   it('returns the CSS variable for primary', () => {
-    expect(av('primary')).toBe('var(--color-primary-50)');
+    expect(av('primary')).toBe('var(--color-primary-40)');
   });
 
   it('returns the CSS variable for secondary', () => {
@@ -11,13 +11,13 @@ describe('av', () => {
   });
 
   it('returns the CSS variable for tertiary', () => {
-    expect(av('tertiary')).toBe('var(--color-tertiary-50)');
+    expect(av('tertiary')).toBe('var(--color-tertiary-40)');
   });
 });
 
 describe('ava', () => {
   it('wraps the CSS variable in an rgb() with the given alpha', () => {
-    expect(ava('primary', 0.5)).toBe('rgb(from var(--color-primary-50) r g b / 0.5)');
+    expect(ava('primary', 0.5)).toBe('rgb(from var(--color-primary-40) r g b / 0.5)');
   });
 
   it('handles alpha = 0', () => {
@@ -25,7 +25,7 @@ describe('ava', () => {
   });
 
   it('handles alpha = 1', () => {
-    expect(ava('tertiary', 1)).toBe('rgb(from var(--color-tertiary-50) r g b / 1)');
+    expect(ava('tertiary', 1)).toBe('rgb(from var(--color-tertiary-40) r g b / 1)');
   });
 });
 
@@ -40,19 +40,18 @@ describe('ACCENT_CLASSES', () => {
     const classes = ACCENT_CLASSES[token];
     expect(classes).toHaveProperty('text');
     expect(classes).toHaveProperty('textHover');
-    expect(classes).toHaveProperty('neon');
     expect(classes).toHaveProperty('border');
     expect(classes).toHaveProperty('borderSoft');
     expect(classes).toHaveProperty('borderMedium');
     expect(classes).toHaveProperty('tag');
   });
 
-  it('primary text class is text-primary-50', () => {
-    expect(ACCENT_CLASSES.primary.text).toBe('text-primary-50');
+  it('primary text class is text-aurora-green', () => {
+    expect(ACCENT_CLASSES.primary.text).toBe('text-aurora-green');
   });
 
   it('secondary tag class contains background and text', () => {
-    expect(ACCENT_CLASSES.secondary.tag).toContain('bg-secondary-50');
-    expect(ACCENT_CLASSES.secondary.tag).toContain('text-secondary-50');
+    expect(ACCENT_CLASSES.secondary.tag).toContain('bg-aurora-purple');
+    expect(ACCENT_CLASSES.secondary.tag).toContain('text-aurora-purple');
   });
 });

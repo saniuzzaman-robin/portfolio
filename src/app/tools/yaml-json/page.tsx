@@ -103,7 +103,7 @@ address:
           />
           <button
             onClick={swapMode}
-            className="font-poppins text-neutral-60 hover:text-secondary-50 hover:border-secondary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all"
+            className="font-poppins text-midnight-500 hover:text-secondary-50 hover:border-secondary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all"
           >
             ⇄ Swap
           </button>
@@ -115,7 +115,7 @@ address:
           </button>
           <button
             onClick={loadExample}
-            className="font-poppins text-neutral-60 hover:text-neutral-90 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all"
+            className="font-poppins text-midnight-500 hover:text-midnight-900 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all"
           >
             Load Example
           </button>
@@ -161,8 +161,8 @@ address:
         {/* Info */}
         <div className="grid gap-4 md:grid-cols-2">
           <ToolPanel label="YAML Features" accent="tertiary">
-            <div className="text-neutral-70 space-y-2 p-4 text-sm">
-              <p className="text-neutral-90 mb-2 font-medium">✨ Benefits:</p>
+            <div className="text-midnight-700 space-y-2 p-4 text-sm">
+              <p className="text-midnight-900 mb-2 font-medium">✨ Benefits:</p>
               <ul className="list-inside list-disc space-y-1 text-xs">
                 <li>More readable and concise than JSON</li>
                 <li>Supports comments (# comment)</li>
@@ -174,8 +174,8 @@ address:
           </ToolPanel>
 
           <ToolPanel label="Common Use Cases" accent="tertiary">
-            <div className="text-neutral-70 space-y-2 p-4 text-sm">
-              <p className="text-neutral-90 mb-2 font-medium">💡 When to use:</p>
+            <div className="text-midnight-700 space-y-2 p-4 text-sm">
+              <p className="text-midnight-900 mb-2 font-medium">💡 When to use:</p>
               <ul className="list-inside list-disc space-y-1 text-xs">
                 <li>Kubernetes manifests and Helm charts</li>
                 <li>Docker Compose and CI/CD configs</li>

@@ -77,12 +77,12 @@ export function ProjectCard({
         </div>
 
         {/* Title */}
-        <h3 className="font-poppins text-neutral-90 mb-3 text-base leading-snug font-bold transition-colors group-hover:text-neutral-100">
+        <h3 className="font-poppins text-midnight-900 mb-3 text-base leading-snug font-bold transition-colors">
           {title}
         </h3>
 
         {/* Description */}
-        <p className="text-neutral-60 mb-5 flex-1 text-sm leading-relaxed">{description}</p>
+        <p className="text-midnight-500 mb-5 flex-1 text-sm leading-relaxed">{description}</p>
 
         {/* Tech tags */}
         <div className="mb-5 flex flex-wrap gap-1.5">

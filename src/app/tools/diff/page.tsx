@@ -167,15 +167,15 @@ export default function DiffPage() {
               onChange={(e) => setIgnoreWhitespace(e.target.checked)}
               className="accent-primary-50 h-4 w-4"
             />
-            <span className="text-neutral-70 text-sm">Ignore whitespace</span>
+            <span className="text-midnight-700 text-sm">Ignore whitespace</span>
           </label>
 
           {diff.length > 0 && (
-            <div className="font-poppins text-neutral-60 flex gap-4 text-xs">
+            <div className="font-poppins text-midnight-500 flex gap-4 text-xs">
               <span className="text-green-400">+{stats.added}</span>
               <span className="text-red-400">-{stats.removed}</span>
               <span className="text-yellow-400">~{stats.modified}</span>
-              <span className="text-neutral-50">={stats.equal}</span>
+              <span className="text-midnight-50">={stats.equal}</span>
             </div>
           )}
         </div>
@@ -222,10 +222,10 @@ export default function DiffPage() {
                     <div key={idx}>
                       {/* Original line (left) */}
                       <div className="flex gap-3 bg-red-500/10 px-4 py-1">
-                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                        <span className="text-midnight-500 w-10 shrink-0 text-right select-none">
                           {line.lineNum1}
                         </span>
-                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none"></span>
+                        <span className="text-midnight-500 w-10 shrink-0 text-right select-none"></span>
                         <span className="w-4 shrink-0 font-bold text-red-300">-</span>
                         <span className="flex-1 break-all whitespace-pre-wrap">
                           {line.charDiff.left.map((seg, segIdx) => (
@@ -244,8 +244,8 @@ export default function DiffPage() {
                       </div>
                       {/* Modified line (right) */}
                       <div className="flex gap-3 bg-green-500/10 px-4 py-1">
-                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none"></span>
-                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                        <span className="text-midnight-500 w-10 shrink-0 text-right select-none"></span>
+                        <span className="text-midnight-500 w-10 shrink-0 text-right select-none">
                           {line.lineNum2}
                         </span>
                         <span className="w-4 shrink-0 font-bold text-green-300">+</span>
@@ -277,13 +277,13 @@ export default function DiffPage() {
                         ? 'bg-green-500/10 text-green-300'
                         : line.type === 'removed'
                           ? 'bg-red-500/10 text-red-300'
-                          : 'text-neutral-70'
+                          : 'text-midnight-700'
                     }`}
                   >
-                    <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                    <span className="text-midnight-500 w-10 shrink-0 text-right select-none">
                       {line.lineNum1 || ''}
                     </span>
-                    <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                    <span className="text-midnight-500 w-10 shrink-0 text-right select-none">
                       {line.lineNum2 || ''}
                     </span>
                     <span className="w-4 shrink-0 font-bold">

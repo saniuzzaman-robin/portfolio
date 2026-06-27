@@ -105,7 +105,7 @@ export default function URLPage() {
             accent="secondary"
             action={<CopyButton text={output} accent="secondary" />}
           >
-            <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-sm break-all">
+            <div className="text-midnight-700 bg-midnight-100/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-sm break-all">
               {output}
             </div>
           </ToolPanel>
@@ -113,26 +113,26 @@ export default function URLPage() {
 
         {Object.keys(params).length > 0 && (
           <div className="mt-6">
-            <h3 className="font-poppins text-neutral-90 mb-4 text-sm font-bold">
+            <h3 className="font-poppins text-midnight-900 mb-4 text-sm font-bold">
               Query Parameters
             </h3>
             <div className="space-y-3">
               {Object.entries(params).map(([key, value]) => (
                 <div
                   key={key}
-                  className="bg-neutral-10/40 grid grid-cols-2 gap-3 rounded-sm border border-white/5 p-3"
+                  className="bg-midnight-100/40 grid grid-cols-2 gap-3 rounded-sm border border-white/5 p-3"
                 >
                   <div>
-                    <span className="text-neutral-60 font-poppins text-[10px] tracking-widest uppercase">
+                    <span className="text-midnight-500 font-poppins text-[10px] tracking-widest uppercase">
                       Key
                     </span>
-                    <div className="text-neutral-80 font-mono text-sm break-all">{key}</div>
+                    <div className="text-midnight-950 font-mono text-sm break-all">{key}</div>
                   </div>
                   <div>
-                    <span className="text-neutral-60 font-poppins text-[10px] tracking-widest uppercase">
+                    <span className="text-midnight-500 font-poppins text-[10px] tracking-widest uppercase">
                       Value
                     </span>
-                    <div className="text-neutral-80 font-mono text-sm break-all">{value}</div>
+                    <div className="text-midnight-950 font-mono text-sm break-all">{value}</div>
                   </div>
                 </div>
               ))}

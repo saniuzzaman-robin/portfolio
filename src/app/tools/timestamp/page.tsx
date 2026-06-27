@@ -82,7 +82,7 @@ export default function TimestampPage() {
                 value={unixInput}
                 onChange={(e) => setUnixInput(e.target.value)}
                 placeholder="Enter Unix timestamp (seconds)…"
-                className="bg-neutral-15/40 border-tertiary-40/30 text-neutral-90 focus:border-tertiary-50/60 w-full rounded-sm border px-4 py-2 font-mono text-sm placeholder-neutral-50 transition-colors focus:outline-none"
+                className="bg-midnight-100/40 border-tertiary-40/30 text-midnight-900 focus:border-tertiary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
               />
             </ToolPanel>
           ) : (
@@ -96,7 +96,7 @@ export default function TimestampPage() {
                 value={humanInput}
                 onChange={(e) => setHumanInput(e.target.value)}
                 placeholder="e.g., 2024-12-25 or Jan 1, 2025…"
-                className="bg-neutral-15/40 border-tertiary-40/30 text-neutral-90 focus:border-tertiary-50/60 w-full rounded-sm border px-4 py-2 font-mono text-sm placeholder-neutral-50 transition-colors focus:outline-none"
+                className="bg-midnight-100/40 border-tertiary-40/30 text-midnight-900 focus:border-tertiary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
               />
             </ToolPanel>
           )}
@@ -106,7 +106,7 @@ export default function TimestampPage() {
             accent="secondary"
             action={<CopyButton text={output} accent="secondary" />}
           >
-            <div className="text-neutral-70 bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-2 font-mono text-sm">
+            <div className="text-midnight-700 bg-midnight-100/40 rounded-sm border border-white/5 px-4 py-2 font-mono text-sm">
               {output || 'Result appears here…'}
             </div>
           </ToolPanel>
@@ -129,7 +129,7 @@ export default function TimestampPage() {
         {/* Quick picks */}
         {mode === 'unix-to-human' && (
           <div className="mt-6">
-            <p className="text-neutral-60 font-poppins mb-3 text-xs tracking-widest uppercase lg:text-sm">
+            <p className="text-midnight-500 font-poppins mb-3 text-xs tracking-widest uppercase lg:text-sm">
               Quick picks
             </p>
             <div className="flex flex-wrap gap-2">
@@ -142,7 +142,7 @@ export default function TimestampPage() {
                 <button
                   key={item.label}
                   onClick={item.fn}
-                  className="font-poppins text-neutral-60 hover:text-tertiary-50 hover:border-tertiary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
+                  className="font-poppins text-midnight-500 hover:text-tertiary-50 hover:border-tertiary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
                 >
                   {item.label}
                 </button>

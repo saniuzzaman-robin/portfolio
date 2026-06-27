@@ -129,19 +129,19 @@ Bob Johnson,bob@example.com,Manager`);
                 onChange={(e) => setHasHeader(e.target.checked)}
                 className="h-4 w-4 cursor-pointer"
               />
-              <span className="text-neutral-80 text-sm">First row is header</span>
+              <span className="text-midnight-950 text-sm">First row is header</span>
             </label>
           )}
 
           <div className="flex items-center gap-2">
-            <label htmlFor="delimiter" className="text-neutral-80 text-sm">
+            <label htmlFor="delimiter" className="text-midnight-950 text-sm">
               Delimiter:
             </label>
             <select
               id="delimiter"
               value={delimiter}
               onChange={(e) => setDelimiter(e.target.value)}
-              className="border-neutral-30 bg-neutral-10 text-neutral-90 rounded border px-2 py-1 text-sm"
+              className="border-midnight-300 bg-midnight-100 text-midnight-900 rounded border px-2 py-1 text-sm"
             >
               <option value=",">,</option>
               <option value=";">;</option>
@@ -182,7 +182,7 @@ Bob Johnson,bob@example.com,Manager`);
         </div>
 
         {output && (
-          <div className="text-neutral-60 font-poppins text-xs">
+          <div className="text-midnight-500 font-poppins text-xs">
             <span>✓ Conversion successful</span>
             {mode === 'csv-to-json' && (
               <span className="ml-4">• {output.split('\n').length} lines</span>

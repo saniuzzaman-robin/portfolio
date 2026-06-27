@@ -21,68 +21,115 @@ export default function ToolsPage() {
   const totalTags = new Set(DEV_TOOLS.flatMap((t) => t.tags)).size;
 
   return (
-    <main className="bg-neutral-5 text-neutral-90 min-h-screen">
+    <main className="bg-midnight-900 text-midnight-950 min-h-screen">
       <Navigation />
 
-      <section className="relative overflow-hidden px-6 pt-24 pb-16 md:px-12 lg:px-16">
-        <div className="cyber-grid-dense pointer-events-none absolute inset-0 opacity-15" />
-        <div className="bg-primary-50/3 pointer-events-none absolute top-0 left-1/2 h-64 w-96 -translate-x-1/2 rounded-full blur-3xl" />
-        <div className="bg-secondary-50/2 pointer-events-none absolute top-20 right-0 h-48 w-48 rounded-full blur-3xl" />
-        <div className="bg-tertiary-50/2 pointer-events-none absolute bottom-0 left-0 h-48 w-48 rounded-full blur-3xl" />
+      <section className="relative overflow-hidden px-6 pt-24 pb-16 md:px-12 lg:px-20">
+        {/* Background blobs */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="aurora-blob aurora-blob-primary absolute top-0 left-1/2 h-[300px] w-[500px] -translate-x-1/2 opacity-10" />
+          <div
+            className="aurora-blob aurora-blob-secondary absolute top-20 right-0 h-[200px] w-[200px] opacity-10"
+            style={{ animationDelay: '-3s' }}
+          />
+          <div
+            className="aurora-blob aurora-blob-tertiary absolute bottom-0 left-0 h-[200px] w-[200px] opacity-10"
+            style={{ animationDelay: '-7s' }}
+          />
+        </div>
 
         <div className="relative z-10 mx-auto max-w-6xl">
-          <motion.div custom={0} variants={fadeUp} initial="hidden" animate="visible" className="mb-4 flex items-center gap-3">
-            <Wrench className="text-primary-50 h-5 w-5" />
+          <motion.div
+            custom={0}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mb-4 flex items-center gap-3"
+          >
+            <Wrench className="text-aurora-green h-5 w-5" />
             <p className="section-label">Developer Utilities</p>
           </motion.div>
 
-          <motion.h1 custom={1} variants={fadeUp} initial="hidden" animate="visible" className="font-poppins mb-5 text-5xl font-bold md:text-7xl lg:text-8xl">
-            <span className="text-primary-50">DEV</span> <span className="text-secondary-50">TOOLS</span>
+          <motion.h1
+            custom={1}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mb-5 text-5xl font-bold md:text-7xl lg:text-8xl"
+          >
+            <span className="gradient-text">DEV</span> TOOLS
           </motion.h1>
 
-          <motion.p custom={2} variants={fadeUp} initial="hidden" animate="visible" className="text-neutral-70 mb-8 max-w-2xl text-base leading-relaxed md:text-lg">
+          <motion.p
+            custom={2}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="text-midnight-500 mb-8 max-w-2xl text-base leading-relaxed md:text-lg"
+          >
             {toolCount} essential utilities that run entirely in your browser — no installs, no
             external APIs, no telemetry. All tools work{' '}
-            <span className="text-primary-50 font-semibold">100% locally</span> with instant results.
+            <span className="text-aurora-green font-semibold">100% locally</span> with instant
+            results.
           </motion.p>
 
-          <motion.div custom={3} variants={fadeUp} initial="hidden" animate="visible" className="mb-10 flex flex-wrap gap-3">
-            <div className="glass flex items-center gap-2 rounded-full border border-white/8 px-4 py-2">
-              <Zap className="text-primary-50 h-4 w-4" />
-              <span className="text-neutral-90 text-sm font-medium">Instant Processing</span>
+          <motion.div
+            custom={3}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mb-10 flex flex-wrap gap-3"
+          >
+            <div className="glass flex items-center gap-2 rounded-full px-4 py-2">
+              <Zap className="text-aurora-green h-4 w-4" />
+              <span className="text-midnight-950 text-sm font-medium">Instant Processing</span>
             </div>
-            <div className="glass flex items-center gap-2 rounded-full border border-white/8 px-4 py-2">
-              <Shield className="text-secondary-50 h-4 w-4" />
-              <span className="text-neutral-90 text-sm font-medium">100% Private</span>
+            <div className="glass flex items-center gap-2 rounded-full px-4 py-2">
+              <Shield className="text-aurora-purple h-4 w-4" />
+              <span className="text-midnight-950 text-sm font-medium">100% Private</span>
             </div>
-            <div className="glass flex items-center gap-2 rounded-full border border-white/8 px-4 py-2">
-              <Laptop className="text-tertiary-50 h-4 w-4" />
-              <span className="text-neutral-90 text-sm font-medium">Works Offline</span>
+            <div className="glass flex items-center gap-2 rounded-full px-4 py-2">
+              <Laptop className="text-aurora-pink h-4 w-4" />
+              <span className="text-midnight-950 text-sm font-medium">Works Offline</span>
             </div>
           </motion.div>
 
-          <motion.div custom={4} variants={fadeUp} initial="hidden" animate="visible" className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <div className="glass rounded-xl border border-white/8 p-5">
-              <div className="font-poppins text-primary-50 mb-1 text-3xl font-black">{toolCount}</div>
-              <div className="text-neutral-60 text-xs font-medium tracking-wider uppercase">Tools</div>
+          <motion.div
+            custom={4}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-2 gap-4 sm:grid-cols-4"
+          >
+            <div className="glass rounded-2xl p-5">
+              <div className="text-aurora-green mb-1 text-3xl font-black">{toolCount}</div>
+              <div className="text-midnight-500 text-xs font-medium tracking-wider uppercase">
+                Tools
+              </div>
             </div>
-            <div className="glass rounded-xl border border-white/8 p-5">
-              <div className="font-poppins text-secondary-50 mb-1 text-3xl font-black">{totalTags}</div>
-              <div className="text-neutral-60 text-xs font-medium tracking-wider uppercase">Categories</div>
+            <div className="glass rounded-2xl p-5">
+              <div className="text-aurora-purple mb-1 text-3xl font-black">{totalTags}</div>
+              <div className="text-midnight-500 text-xs font-medium tracking-wider uppercase">
+                Categories
+              </div>
             </div>
-            <div className="glass rounded-xl border border-white/8 p-5">
-              <div className="font-poppins text-tertiary-50 mb-1 text-3xl font-black">0ms</div>
-              <div className="text-neutral-60 text-xs font-medium tracking-wider uppercase">Server Calls</div>
+            <div className="glass rounded-2xl p-5">
+              <div className="text-aurora-pink mb-1 text-3xl font-black">0ms</div>
+              <div className="text-midnight-500 text-xs font-medium tracking-wider uppercase">
+                Server Calls
+              </div>
             </div>
-            <div className="glass rounded-xl border border-white/8 p-5">
-              <div className="font-poppins text-primary-50 mb-1 text-3xl font-black">∞</div>
-              <div className="text-neutral-60 text-xs font-medium tracking-wider uppercase">Free Forever</div>
+            <div className="glass rounded-2xl p-5">
+              <div className="text-aurora-green mb-1 text-3xl font-black">∞</div>
+              <div className="text-midnight-500 text-xs font-medium tracking-wider uppercase">
+                Free Forever
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <section className="px-6 pb-24 md:px-12 lg:px-16">
+      <section className="px-6 pb-24 md:px-12 lg:px-20">
         <div className="mx-auto max-w-6xl">
           <ToolsGrid />
         </div>

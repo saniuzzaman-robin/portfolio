@@ -128,7 +128,7 @@ export default function MinifyPage() {
           <button
             onClick={beautify}
             disabled={!input.trim()}
-            className="font-poppins text-neutral-60 hover:text-secondary-50 hover:border-secondary-50/30 flex cursor-pointer items-center gap-2 rounded-sm border border-white/20 px-6 py-2.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
+            className="font-poppins text-midnight-500 hover:text-secondary-50 hover:border-secondary-50/30 flex cursor-pointer items-center gap-2 rounded-sm border border-white/20 px-6 py-2.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
           >
             Format
           </button>
@@ -147,12 +147,12 @@ export default function MinifyPage() {
         )}
 
         {output && !error && (
-          <div className="text-neutral-60 font-poppins mt-4 flex flex-wrap gap-6 text-xs lg:text-sm">
+          <div className="text-midnight-500 font-poppins mt-4 flex flex-wrap gap-6 text-xs lg:text-sm">
             <span>
-              Input: <strong className="text-neutral-80">{input.length} chars</strong>
+              Input: <strong className="text-midnight-950">{input.length} chars</strong>
             </span>
             <span>
-              Output: <strong className="text-neutral-80">{output.length} chars</strong>
+              Output: <strong className="text-midnight-950">{output.length} chars</strong>
             </span>
             <span>
               Saved:{' '}

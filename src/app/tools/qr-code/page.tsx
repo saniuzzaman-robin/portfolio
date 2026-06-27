@@ -96,7 +96,7 @@ export default function QRCodePage() {
           <ToolPanel label="Input & Settings" accent="tertiary">
             <div className="space-y-5 p-4">
               <div>
-                <label className="text-neutral-70 mb-2 block text-sm font-medium">
+                <label className="text-midnight-700 mb-2 block text-sm font-medium">
                   Text or URL
                 </label>
                 <ToolTextarea
@@ -110,7 +110,7 @@ export default function QRCodePage() {
 
               <div>
                 <div className="mb-2 flex items-center justify-between">
-                  <label className="text-neutral-70 text-sm font-medium">QR Code Size</label>
+                  <label className="text-midnight-700 text-sm font-medium">QR Code Size</label>
                   <span className="text-tertiary-50 text-lg font-bold">{size}px</span>
                 </div>
                 <input
@@ -122,7 +122,7 @@ export default function QRCodePage() {
                   onChange={(e) => setSize(parseInt(e.target.value))}
                   className="accent-tertiary-50 w-full cursor-pointer"
                 />
-                <div className="text-neutral-60 mt-1 text-xs">Min: 150px, Max: 800px</div>
+                <div className="text-midnight-500 mt-1 text-xs">Min: 150px, Max: 800px</div>
               </div>
 
               <div className="flex gap-3">
@@ -168,7 +168,7 @@ export default function QRCodePage() {
                 className="rounded-sm border-2 border-white/10 bg-white p-2 shadow-lg"
                 style={{ maxWidth: '100%', height: 'auto' }}
               />
-              <div className="text-neutral-60 text-center text-xs">
+              <div className="text-midnight-500 text-center text-xs">
                 Actual size: {size}x{size}px · Generated in browser
               </div>
             </div>
@@ -177,9 +177,9 @@ export default function QRCodePage() {
 
         {/* Info */}
         <ToolPanel label="Info" accent="tertiary">
-          <div className="text-neutral-70 space-y-3 p-4 text-sm">
+          <div className="text-midnight-700 space-y-3 p-4 text-sm">
             <div>
-              <p className="text-neutral-90 mb-2 font-medium">✨ What can you encode?</p>
+              <p className="text-midnight-900 mb-2 font-medium">✨ What can you encode?</p>
               <ul className="list-inside list-disc space-y-1 text-xs">
                 <li>URLs and website links</li>
                 <li>Email addresses (mailto:)</li>
@@ -190,7 +190,7 @@ export default function QRCodePage() {
               </ul>
             </div>
             <div>
-              <p className="text-neutral-90 mb-2 font-medium">💡 Tips</p>
+              <p className="text-midnight-900 mb-2 font-medium">💡 Tips</p>
               <ul className="list-inside list-disc space-y-1 text-xs">
                 <li>Larger QR codes are easier to scan from distance</li>
                 <li>Keep text content under 3000 characters for best results</li>

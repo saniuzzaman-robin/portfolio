@@ -178,7 +178,7 @@ export default function JSONPage() {
         )}
 
         {mode === 'diff' && diffStats ? (
-          <div className="text-neutral-60 font-poppins mt-4 text-xs">
+          <div className="text-midnight-500 font-poppins mt-4 text-xs">
             <span>JSON valid ✓</span>
             {diffStats.modified > 0 && (
               <span className="ml-4">• {diffStats.modified} modified</span>
@@ -188,7 +188,7 @@ export default function JSONPage() {
           </div>
         ) : (
           stats.valid && (
-            <div className="text-neutral-60 font-poppins mt-4 text-xs lg:text-sm">
+            <div className="text-midnight-500 font-poppins mt-4 text-xs lg:text-sm">
               <span>JSON valid ✓</span>
               {stats.keys !== undefined && (
                 <span className="ml-4">• {stats.keys} top-level keys</span>

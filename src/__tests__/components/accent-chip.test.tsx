@@ -25,7 +25,7 @@ describe('AccentChip', () => {
   it('sets the color inline style to the primary CSS variable', () => {
     render(<AccentChip accent="primary">Primary</AccentChip>);
     expect(screen.getByText('Primary')).toHaveStyle({
-      color: 'var(--color-primary-50)',
+      color: 'var(--color-primary-40)',
     });
   });
 

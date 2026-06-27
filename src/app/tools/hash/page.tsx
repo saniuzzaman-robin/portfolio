@@ -168,7 +168,7 @@ export default function HashPage() {
               className={`font-poppins pb-2 text-xs font-bold tracking-widest uppercase transition-colors lg:text-sm ${
                 mode === m
                   ? 'border-b-2 border-purple-500 text-purple-300'
-                  : 'text-neutral-500 hover:text-neutral-300'
+                  : 'text-midnight-500 hover:text-midnight-300'
               }`}
             >
               {m === 'simple' ? 'Simple Hash' : 'HMAC'}
@@ -210,7 +210,7 @@ export default function HashPage() {
 
         {/* Output Format Selector */}
         <div className="my-4 flex items-center gap-4">
-          <label className="font-poppins text-xs font-bold tracking-widest text-neutral-400 uppercase lg:text-sm">
+          <label className="font-poppins text-midnight-400 text-xs font-bold tracking-widest uppercase lg:text-sm">
             Output Format:
           </label>
           <div className="flex gap-2">
@@ -221,7 +221,7 @@ export default function HashPage() {
                 className={`rounded-sm border px-4 py-1.5 text-xs font-bold uppercase transition-colors lg:text-sm ${
                   format === fmt
                     ? 'border-purple-500 bg-purple-500/20 text-purple-300'
-                    : 'border-white/10 text-neutral-400 hover:border-white/20'
+                    : 'text-midnight-400 border-white/10 hover:border-white/20'
                 }`}
               >
                 {fmt.toUpperCase()}
@@ -258,7 +258,7 @@ export default function HashPage() {
                     />
                   }
                 >
-                  <div className="bg-neutral-10/40 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs break-all text-neutral-300 lg:text-sm">
+                  <div className="bg-midnight-100/40 text-midnight-300 rounded-sm border border-white/5 px-4 py-3 font-mono text-xs break-all lg:text-sm">
                     {format === 'hex' ? result.hex : result.base64}
                   </div>
                 </ToolPanel>
@@ -268,7 +268,7 @@ export default function HashPage() {
         )}
 
         {/* Info note */}
-        <div className="bg-neutral-10/40 text-neutral-60 mt-8 rounded-sm border border-white/5 p-3 text-xs lg:text-sm">
+        <div className="bg-midnight-100/40 text-midnight-500 mt-8 rounded-sm border border-white/5 p-3 text-xs lg:text-sm">
           <p className="font-poppins mb-2 font-bold tracking-widest uppercase">ℹ Info:</p>
           <ul className="list-inside list-disc space-y-1">
             <li>

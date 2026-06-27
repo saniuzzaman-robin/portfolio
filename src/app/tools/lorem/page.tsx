@@ -102,7 +102,7 @@ export default function LoremPage() {
         <div className="mb-6 space-y-4">
           {/* Type selector */}
           <div>
-            <label className="text-neutral-70 mb-2 block text-sm font-medium">Text Style</label>
+            <label className="text-midnight-700 mb-2 block text-sm font-medium">Text Style</label>
             <ToolTabs
               tabs={['lorem', 'bacon', 'hipster', 'corporate']}
               active={type}
@@ -114,11 +114,11 @@ export default function LoremPage() {
           {/* Unit and count */}
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
-              <label className="text-neutral-70 mb-2 block text-sm font-medium">Unit</label>
+              <label className="text-midnight-700 mb-2 block text-sm font-medium">Unit</label>
               <select
                 value={unit}
                 onChange={(e) => setUnit(e.target.value as typeof unit)}
-                className="bg-neutral-10 border-neutral-20 text-neutral-90 focus:border-secondary-50/50 w-full rounded-sm border px-3 py-2 text-sm focus:outline-none"
+                className="bg-midnight-100 border-midnight-200 text-midnight-900 focus:border-secondary-50/50 w-full rounded-sm border px-3 py-2 text-sm focus:outline-none"
               >
                 <option value="paragraphs">Paragraphs</option>
                 <option value="sentences">Sentences</option>
@@ -127,14 +127,14 @@ export default function LoremPage() {
             </div>
 
             <div>
-              <label className="text-neutral-70 mb-2 block text-sm font-medium">Count</label>
+              <label className="text-midnight-700 mb-2 block text-sm font-medium">Count</label>
               <input
                 type="number"
                 min="1"
                 max="50"
                 value={count}
                 onChange={(e) => setCount(Number(e.target.value))}
-                className="bg-neutral-10 border-neutral-20 text-neutral-90 focus:border-secondary-50/50 w-full rounded-sm border px-3 py-2 text-sm focus:outline-none"
+                className="bg-midnight-100 border-midnight-200 text-midnight-900 focus:border-secondary-50/50 w-full rounded-sm border px-3 py-2 text-sm focus:outline-none"
               />
             </div>
 
@@ -156,7 +156,7 @@ export default function LoremPage() {
               onChange={(e) => setHtmlWrap(e.target.checked)}
               className="accent-secondary-50 h-4 w-4"
             />
-            <span className="text-neutral-70 text-sm">
+            <span className="text-midnight-700 text-sm">
               Wrap paragraphs in <code className="text-secondary-50">&lt;p&gt;</code> tags
             </span>
           </label>

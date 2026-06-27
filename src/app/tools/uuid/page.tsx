@@ -101,13 +101,13 @@ export default function UuidPage() {
           />
 
           <div className="flex items-center gap-2">
-            <label className="text-neutral-60 font-poppins text-xs tracking-widest uppercase lg:text-sm">
+            <label className="text-midnight-500 font-poppins text-xs tracking-widest uppercase lg:text-sm">
               Count
             </label>
             <select
               value={count}
               onChange={(e) => setCount(Number(e.target.value))}
-              className="bg-neutral-10 text-neutral-80 font-poppins focus:border-secondary-50/40 rounded-sm border border-white/10 px-2 py-1.5 text-xs focus:outline-none lg:text-sm"
+              className="bg-midnight-100 text-midnight-950 font-poppins focus:border-secondary-50/40 rounded-sm border border-white/10 px-2 py-1.5 text-xs focus:outline-none lg:text-sm"
             >
               {[1, 5, 10, 25, 50, 100].map((n) => (
                 <option key={n} value={n}>
@@ -144,7 +144,7 @@ export default function UuidPage() {
                 key={i}
                 className="group/row flex items-center justify-between px-4 py-2.5 transition-colors hover:bg-white/2"
               >
-                <span className="text-neutral-80 font-mono text-sm tracking-wide select-all">
+                <span className="text-midnight-950 font-mono text-sm tracking-wide select-all">
                   {id}
                 </span>
                 <div className="ml-3 flex shrink-0 items-center gap-2 opacity-0 transition-opacity group-hover/row:opacity-100">
@@ -174,7 +174,7 @@ export default function UuidPage() {
               <p className="text-secondary-50 font-poppins mb-1 text-[10px] font-bold tracking-widest uppercase">
                 {name}
               </p>
-              <p className="text-neutral-60 text-xs leading-relaxed lg:text-sm">{desc}</p>
+              <p className="text-midnight-500 text-xs leading-relaxed lg:text-sm">{desc}</p>
             </div>
           ))}
         </div>
