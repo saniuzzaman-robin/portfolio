@@ -8,8 +8,10 @@ import {
   ToolTextarea,
   CopyButton,
   ToolTabs,
+  ToolActionButton,
+  ToolError,
 } from '@/components/tools/tool-shell';
-import { Database } from 'lucide-react';
+import { ArrowRightLeft, Database } from 'lucide-react';
 
 const csvToJson = (csv: string, hasHeader: boolean, delimiter: string = ','): string => {
   const lines = csv.trim().split('\n');
@@ -18,12 +20,10 @@ const csvToJson = (csv: string, hasHeader: boolean, delimiter: string = ','): st
   const data: Record<string, string>[] = [];
   let headers: string[] = [];
 
-  // Parse header if present
   if (hasHeader && lines.length > 0) {
     headers = lines[0].split(delimiter).map((h) => h.trim().replace(/^["']|["']$/g, ''));
   }
 
-  // Parse rows
   const startIndex = hasHeader ? 1 : 0;
   for (let i = startIndex; i < lines.length; i++) {
     const values = lines[i].split(delimiter).map((v) => v.trim().replace(/^["']|["']$/g, ''));
@@ -55,10 +55,8 @@ const jsonToCsv = (json: string, delimiter: string = ','): string => {
     const headers = Object.keys(data[0]);
     const rows: string[] = [];
 
-    // Add header row
     rows.push(headers.map((h) => `"${h}"`).join(delimiter));
 
-    // Add data rows
     for (const row of data) {
       const values = headers.map((header) => {
         const value = row[header] ?? '';
@@ -84,7 +82,7 @@ Bob Johnson,bob@example.com,Manager`);
   const [delimiter, setDelimiter] = useState(',');
   const [error, setError] = useState('');
 
-  const handleProcess = () => {
+  const convert = () => {
     setError('');
     try {
       if (mode === 'csv-to-json') {
@@ -128,20 +126,21 @@ Bob Johnson,bob@example.com,Manager`);
                 checked={hasHeader}
                 onChange={(e) => setHasHeader(e.target.checked)}
                 className="h-4 w-4 cursor-pointer"
+                aria-label="Treat first row as header"
               />
-              <span className="text-neutral-80 text-sm">First row is header</span>
+              <span className="text-midnight-950 text-sm">First row is header</span>
             </label>
           )}
 
           <div className="flex items-center gap-2">
-            <label htmlFor="delimiter" className="text-neutral-80 text-sm">
+            <label htmlFor="delimiter" className="text-midnight-950 text-sm">
               Delimiter:
             </label>
             <select
               id="delimiter"
               value={delimiter}
               onChange={(e) => setDelimiter(e.target.value)}
-              className="border-neutral-30 bg-neutral-10 text-neutral-90 rounded border px-2 py-1 text-sm"
+              className="border-midnight-300 bg-midnight-100 text-midnight-950 rounded border px-2 py-1 text-sm"
             >
               <option value=",">,</option>
               <option value=";">;</option>
@@ -150,16 +149,18 @@ Bob Johnson,bob@example.com,Manager`);
             </select>
           </div>
 
-          <button
-            onClick={handleProcess}
-            disabled={!input.trim()}
-            className="font-poppins ml-auto flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
-          >
-            Convert
-          </button>
+          <div className="ml-auto">
+            <ToolActionButton
+              onClick={convert}
+              disabled={!input.trim()}
+              accent="primary"
+              icon={ArrowRightLeft}
+              label="Convert"
+            />
+          </div>
         </div>
 
-        {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
+        {error && <ToolError message={error} />}
 
         <div className="mb-6 grid gap-6 lg:grid-cols-2">
           <ToolPanel label={mode === 'csv-to-json' ? 'CSV Input' : 'JSON Input'} accent="primary">
@@ -182,7 +183,7 @@ Bob Johnson,bob@example.com,Manager`);
         </div>
 
         {output && (
-          <div className="text-neutral-60 font-poppins text-xs">
+          <div className="text-midnight-500 font-sans text-xs">
             <span>✓ Conversion successful</span>
             {mode === 'csv-to-json' && (
               <span className="ml-4">• {output.split('\n').length} lines</span>

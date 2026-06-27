@@ -5,13 +5,11 @@ import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolTextarea, CopyButton } from '@/components/tools/tool-shell';
 import { FileCode2 } from 'lucide-react';
 
-// Character-level diff segment
 interface CharSegment {
   text: string;
   type: 'equal' | 'added' | 'removed';
 }
 
-// Line diff with character-level details
 interface DiffLine {
   type: 'equal' | 'added' | 'removed' | 'modified';
   content: string;
@@ -23,7 +21,6 @@ interface DiffLine {
   };
 }
 
-// Compute character-level diff using LCS
 function computeCharDiff(
   str1: string,
   str2: string
@@ -34,7 +31,6 @@ function computeCharDiff(
     .fill(null)
     .map(() => Array(n + 1).fill(0));
 
-  // Build LCS table
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
       if (str1[i - 1] === str2[j - 1]) {
@@ -45,7 +41,6 @@ function computeCharDiff(
     }
   }
 
-  // Backtrack to get diff segments
   const left: CharSegment[] = [];
   const right: CharSegment[] = [];
   let i = m;
@@ -66,7 +61,6 @@ function computeCharDiff(
     }
   }
 
-  // Merge consecutive segments of same type
   const mergeSegments = (segments: CharSegment[]): CharSegment[] => {
     if (segments.length === 0) return [];
     const merged: CharSegment[] = [segments[0]];
@@ -104,10 +98,8 @@ function computeDiff(text1: string, text2: string, ignoreWhitespace: boolean): D
 
     if (line1 !== null && line2 !== null) {
       if (proc1 === proc2) {
-        // Lines are identical
         result.push({ type: 'equal', content: line1, lineNum1: i + 1, lineNum2: i + 1 });
       } else {
-        // Lines exist but differ - show character-level diff
         const charDiff = computeCharDiff(line1, line2);
         result.push({
           type: 'modified',
@@ -118,10 +110,8 @@ function computeDiff(text1: string, text2: string, ignoreWhitespace: boolean): D
         });
       }
     } else if (line1 !== null) {
-      // Line only in original (removed)
       result.push({ type: 'removed', content: line1, lineNum1: i + 1 });
     } else if (line2 !== null) {
-      // Line only in modified (added)
       result.push({ type: 'added', content: line2, lineNum2: i + 1 });
     }
   }
@@ -166,16 +156,19 @@ export default function DiffPage() {
               checked={ignoreWhitespace}
               onChange={(e) => setIgnoreWhitespace(e.target.checked)}
               className="accent-primary-50 h-4 w-4"
+              aria-label="Ignore whitespace"
             />
-            <span className="text-neutral-70 text-sm">Ignore whitespace</span>
+            <span className="text-midnight-500 font-sans text-xs tracking-widest uppercase lg:text-sm">
+              Ignore whitespace
+            </span>
           </label>
 
           {diff.length > 0 && (
-            <div className="font-poppins text-neutral-60 flex gap-4 text-xs">
+            <div className="text-midnight-500 flex gap-4 font-sans text-xs">
               <span className="text-green-400">+{stats.added}</span>
-              <span className="text-red-400">-{stats.removed}</span>
+              <span className="text-midnight-500">-{stats.removed}</span>
               <span className="text-yellow-400">~{stats.modified}</span>
-              <span className="text-neutral-50">={stats.equal}</span>
+              <span className="text-midnight-50">={stats.equal}</span>
             </div>
           )}
         </div>
@@ -214,18 +207,16 @@ export default function DiffPage() {
         {/* Diff output */}
         {diff.length > 0 && (
           <ToolPanel label="Differences" accent="tertiary">
-            <div className="max-h-96 overflow-y-auto font-mono text-[13px] leading-relaxed">
+            <div className="bg-midnight-100 max-h-96 overflow-y-auto font-mono text-[13px] leading-relaxed">
               {diff.map((line, idx) => {
                 if (line.type === 'modified' && line.charDiff) {
-                  // Show character-level diff for modified lines
                   return (
                     <div key={idx}>
-                      {/* Original line (left) */}
                       <div className="flex gap-3 bg-red-500/10 px-4 py-1">
-                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                        <span className="text-midnight-500 w-10 shrink-0 text-right select-none">
                           {line.lineNum1}
                         </span>
-                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none"></span>
+                        <span className="text-midnight-500 w-10 shrink-0 text-right select-none" />
                         <span className="w-4 shrink-0 font-bold text-red-300">-</span>
                         <span className="flex-1 break-all whitespace-pre-wrap">
                           {line.charDiff.left.map((seg, segIdx) => (
@@ -242,10 +233,9 @@ export default function DiffPage() {
                           ))}
                         </span>
                       </div>
-                      {/* Modified line (right) */}
                       <div className="flex gap-3 bg-green-500/10 px-4 py-1">
-                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none"></span>
-                        <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                        <span className="text-midnight-500 w-10 shrink-0 text-right select-none" />
+                        <span className="text-midnight-500 w-10 shrink-0 text-right select-none">
                           {line.lineNum2}
                         </span>
                         <span className="w-4 shrink-0 font-bold text-green-300">+</span>
@@ -268,7 +258,6 @@ export default function DiffPage() {
                   );
                 }
 
-                // Regular line-level diff
                 return (
                   <div
                     key={idx}
@@ -277,13 +266,13 @@ export default function DiffPage() {
                         ? 'bg-green-500/10 text-green-300'
                         : line.type === 'removed'
                           ? 'bg-red-500/10 text-red-300'
-                          : 'text-neutral-70'
+                          : 'text-midnight-700'
                     }`}
                   >
-                    <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                    <span className="text-midnight-500 w-10 shrink-0 text-right select-none">
                       {line.lineNum1 || ''}
                     </span>
-                    <span className="text-neutral-60 w-10 shrink-0 text-right select-none">
+                    <span className="text-midnight-500 w-10 shrink-0 text-right select-none">
                       {line.lineNum2 || ''}
                     </span>
                     <span className="w-4 shrink-0 font-bold">

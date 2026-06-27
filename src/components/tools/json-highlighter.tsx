@@ -20,7 +20,7 @@ function renderJSON(json: string): React.ReactNode {
     <div className="space-y-0">
       {lines.map((line, idx) => (
         <div key={idx} className="flex">
-          <span className="mr-3 w-8 text-right text-neutral-500/40 select-none">{idx + 1}</span>
+          <span className="text-midnight-500/40 mr-3 w-8 text-right select-none">{idx + 1}</span>
           <span className="flex-1 whitespace-pre-wrap">{highlightLine(line)}</span>
         </div>
       ))}
@@ -40,7 +40,7 @@ function highlightLine(line: string): React.ReactNode {
         i++;
       }
       elements.push(
-        <span key={`ws-${i}`} className="text-neutral-600">
+        <span key={`ws-${i}`} className="text-midnight-500">
           {line.slice(start, i)}
         </span>
       );
@@ -132,7 +132,7 @@ function highlightLine(line: string): React.ReactNode {
 
     // Default: just add the character
     elements.push(
-      <span key={`char-${i}`} className="text-neutral-400">
+      <span key={`char-${i}`} className="text-midnight-400">
         {line[i]}
       </span>
     );

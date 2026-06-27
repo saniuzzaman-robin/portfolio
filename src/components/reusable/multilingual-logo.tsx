@@ -46,7 +46,7 @@ export function MultilingualLogo({ className = '', showDevSuffix = true }: Multi
   return (
     <div className={`relative ${className}`}>
       <div
-        className={`inline-flex min-w-50 items-center justify-center ${isRTL ? 'flex-row-reverse' : ''}`}
+        className={`inline-flex min-w-50 items-center justify-left ${isRTL ? 'flex-row-reverse' : ''}`}
         style={{
           direction: isRTL ? 'rtl' : 'ltr',
         }}
@@ -85,7 +85,7 @@ export function MultilingualLogo({ className = '', showDevSuffix = true }: Multi
 
       {/* Language indicator tooltip */}
       <span
-        className={`font-poppins pointer-events-none absolute -bottom-5 left-0 text-[9px] tracking-wider text-neutral-50 opacity-0 transition-all duration-300 group-hover:opacity-60 ${
+        className={`font-poppins pointer-events-none absolute bottom-0 right-0 text-[9px] tracking-wider text-midnight-50 opacity-0 transition-all duration-300 group-hover:opacity-60 ${
           isRTL ? 'right-0 left-auto' : ''
         }`}
       >

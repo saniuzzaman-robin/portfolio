@@ -8,11 +8,10 @@ import { CTA } from '@/components/sections/cta';
 import { Footer } from '@/components/sections/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
 
-// Achievements is a client component (uses hooks) — split its bundle so it
-// doesn't block the above-fold paint.
 const Achievements = dynamic(() =>
   import('@/components/sections/achievements').then((m) => m.Achievements)
 );
+
 import { generatePersonSchema, generateWebPageSchema } from '@/lib/schema';
 import { CV_DATA } from '@/lib/cv-data';
 
@@ -28,9 +27,7 @@ export const metadata: Metadata = {
     'angular',
     'web development',
   ],
-  alternates: {
-    canonical: 'https://saniuzzaman.dev',
-  },
+  alternates: { canonical: 'https://saniuzzaman.dev' },
   openGraph: {
     type: 'website',
     url: 'https://saniuzzaman.dev',
@@ -38,12 +35,7 @@ export const metadata: Metadata = {
     description: `${CV_DATA.title} with expertise in Next.js, NestJS, Angular, and system architecture.`,
     siteName: 'Saniuzzaman Robin Portfolio',
     images: [
-      {
-        url: 'https://saniuzzaman.dev/og_image.png',
-        width: 1200,
-        height: 630,
-        alt: CV_DATA.name,
-      },
+      { url: 'https://saniuzzaman.dev/og_image.png', width: 1200, height: 630, alt: CV_DATA.name },
     ],
   },
   twitter: {
@@ -66,7 +58,7 @@ export default function Home() {
           url: 'https://saniuzzaman.dev',
         })}
       />
-      <main className="bg-neutral-5 text-neutral-90">
+      <main className="bg-midnight-900 text-midnight-950 min-h-dvh">
         <Navigation />
         <Hero />
         <Achievements />

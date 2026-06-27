@@ -56,7 +56,7 @@ export default function Resume() {
           url: 'https://saniuzzaman.dev/resume',
         })}
       />
-      <main className="bg-neutral-5 text-neutral-90">
+      <main className="bg-midnight-900 text-midnight-950">
         <Navigation />
         <ResumeContent />
         <Footer />

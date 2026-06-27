@@ -33,14 +33,14 @@ export function MobileNavGroup({
         className={`font-poppins group relative flex w-full items-center gap-4 px-4 py-3.5 text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
           isActive
             ? 'text-primary-50 bg-primary-50/8'
-            : 'text-neutral-70 hover:bg-white/5 hover:text-neutral-100'
+            : 'text-midnight-700 hover:text-midnight-100 hover:bg-white/5'
         }`}
       >
         <span
           className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${
             isActive
               ? 'bg-primary-50/15 text-primary-50'
-              : 'text-neutral-60 group-hover:text-neutral-90 bg-white/5 group-hover:bg-white/8'
+              : 'text-midnight-500 group-hover:text-midnight-950 bg-white/5 group-hover:bg-white/8'
           }`}
         >
           <Icon className="h-3.5 w-3.5" />
@@ -68,14 +68,14 @@ export function MobileNavGroup({
                 className={`font-poppins group relative flex items-center gap-4 rounded-sm px-4 py-3 text-xs tracking-widest uppercase transition-all duration-200 lg:text-sm ${
                   active
                     ? 'text-primary-50 bg-primary-50/8'
-                    : 'text-neutral-60 hover:bg-white/5 hover:text-neutral-100'
+                    : 'text-midnight-500 hover:text-midnight-100 hover:bg-white/5'
                 }`}
               >
                 <span
                   className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-sm transition-all duration-200 ${
                     active
                       ? 'bg-primary-50/15 text-primary-50'
-                      : 'group-hover:text-neutral-90 bg-white/5 text-neutral-50 group-hover:bg-white/8'
+                      : 'group-hover:text-midnight-950 text-midnight-50 bg-white/5 group-hover:bg-white/8'
                   }`}
                 >
                   <ChildIcon className="h-3 w-3" />

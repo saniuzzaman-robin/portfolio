@@ -2,7 +2,14 @@
 
 import { useState } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, ToolTextarea, CopyButton } from '@/components/tools/tool-shell';
+import {
+  ToolShell,
+  ToolPanel,
+  ToolTextarea,
+  ToolActionButton,
+  ToolError,
+  CopyButton,
+} from '@/components/tools/tool-shell';
 import { Wand2, Zap } from 'lucide-react';
 
 export default function RegexPage() {
@@ -12,7 +19,7 @@ export default function RegexPage() {
   const [matches, setMatches] = useState<Array<{ text: string; index: number }>>([]);
   const [error, setError] = useState('');
 
-  const test = () => {
+  const testRegex = () => {
     setError('');
     setMatches([]);
 
@@ -72,25 +79,26 @@ export default function RegexPage() {
               value={pattern}
               onChange={(e) => setPattern(e.target.value)}
               placeholder="e.g., \\d{3}-\\d{4}"
-              className="bg-neutral-15/40 border-primary-40/30 text-neutral-90 focus:border-primary-50/60 w-full rounded-sm border px-4 py-2 font-mono text-sm placeholder-neutral-50 transition-colors focus:outline-none"
+              className="bg-midnight-100 border-primary-40/30 text-midnight-950 focus:border-primary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
             />
           </ToolPanel>
 
           <div>
-            <label className="font-poppins text-neutral-60 mb-2 block text-xs font-bold tracking-widest uppercase lg:text-sm">
+            <label className="text-midnight-500 mb-2 block font-sans text-xs font-bold tracking-widest uppercase lg:text-sm">
               Flags
             </label>
             <div className="flex gap-2">
               {['g', 'i', 'm', 's'].map((flag) => (
                 <button
                   key={flag}
+                  aria-label={`Toggle regex flag ${flag}`}
                   onClick={() =>
                     setFlags((f) => (f.includes(flag) ? f.replace(flag, '') : f + flag))
                   }
                   className={`rounded-sm border px-3 py-2 text-xs font-bold transition-all lg:text-sm ${
                     flags.includes(flag)
                       ? 'bg-primary-50/20 border-primary-50/50 text-primary-50'
-                      : 'bg-neutral-20/20 text-neutral-60 hover:border-primary-40/50 border-white/10'
+                      : 'bg-midnight-100 text-midnight-500 hover:border-primary-40/50 border-midnight-200'
                   }`}
                 >
                   {flag}
@@ -114,45 +122,47 @@ export default function RegexPage() {
           />
         </ToolPanel>
 
-        {/* Action button */}
         <div className="mt-6 mb-6">
-          <button
-            onClick={test}
-            disabled={!pattern.trim() || !testString.trim()}
-            className="hover:bg-primary-20 font-poppins border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
-          >
-            <Zap className="h-4 w-4" />
-            Test Pattern
-          </button>
+          <ToolActionButton
+            onClick={testRegex}
+            disabled={!pattern.trim()}
+            accent="primary"
+            icon={Zap}
+            label="Test Pattern"
+          />
         </div>
 
-        {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
+        {error && <ToolError message={error} />}
 
         {matches.length > 0 && (
           <div className="space-y-4">
             <div className="rounded-sm border border-green-900/40 bg-green-950/20 p-3">
-              <p className="font-poppins text-xs text-green-300 lg:text-sm">
+              <p className="font-sans text-xs text-green-300 lg:text-sm">
                 ✓ Found <strong>{matches.length}</strong> match{matches.length !== 1 ? 'es' : ''}
               </p>
             </div>
 
             <div>
-              <h3 className="font-poppins text-neutral-90 mb-3 text-sm font-bold">Matches</h3>
+              <h3 className="text-midnight-950 mb-3 font-sans text-sm font-bold">Matches</h3>
               <div className="max-h-64 space-y-2 overflow-y-auto">
                 {matches.map((match, i) => (
-                  <div key={i} className="bg-neutral-10/40 rounded-sm border border-white/5 p-3">
+                  <div
+                    key={i}
+                    className="bg-midnight-100 border-midnight-200 rounded-sm border p-3"
+                  >
                     <div className="text-primary-50 font-mono text-xs break-all lg:text-sm">
                       {match.text}
                     </div>
-                    <div className="text-neutral-60 mt-1 text-[10px]">Position: {match.index}</div>
+                    <div className="text-midnight-500 mt-1 text-[10px]">
+                      Position: {match.index}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Highlighted preview */}
             <ToolPanel label="Highlighted Text" accent="secondary">
-              <div className="text-neutral-70 bg-neutral-10/40 max-h-48 overflow-y-auto rounded-sm border border-white/5 px-4 py-3 font-mono text-xs break-all whitespace-pre-wrap lg:text-sm">
+              <div className="text-midnight-700 bg-midnight-100 border-midnight-200 max-h-48 overflow-y-auto rounded-sm border px-4 py-3 font-mono text-xs break-all whitespace-pre-wrap lg:text-sm">
                 {highlightMatches()
                   .split('[MATCH]')
                   .map((part, i) => (

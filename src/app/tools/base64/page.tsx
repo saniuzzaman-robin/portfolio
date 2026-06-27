@@ -8,6 +8,8 @@ import {
   ToolTextarea,
   CopyButton,
   ToolTabs,
+  ToolActionButton,
+  ToolError,
 } from '@/components/tools/tool-shell';
 import { Binary, Zap } from 'lucide-react';
 
@@ -66,7 +68,8 @@ export default function Base64Page() {
           />
           <button
             onClick={swapMode}
-            className="font-poppins text-neutral-60 hover:text-primary-50 hover:border-primary-50/30 rounded-sm border border-white/10 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
+            aria-label="Swap encode and decode modes"
+            className="font-sans text-midnight-500 hover:text-primary-50 hover:border-primary-50/30 rounded-sm border border-midnight-200 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
           >
             ⇄ Swap
           </button>
@@ -93,7 +96,7 @@ export default function Base64Page() {
             action={<CopyButton text={output} accent="secondary" />}
           >
             {error ? (
-              <div className="px-4 py-3 font-mono text-sm text-red-400">{error}</div>
+              <ToolError message={error} />
             ) : (
               <ToolTextarea
                 value={output}
@@ -108,22 +111,21 @@ export default function Base64Page() {
 
         {/* Action button + stats */}
         <div className="mt-6 flex flex-wrap items-center gap-6">
-          <button
+          <ToolActionButton
             onClick={process}
             disabled={!input.trim()}
-            className="hover:bg-primary-20 font-poppins border-primary-30 flex cursor-pointer items-center gap-2 rounded-sm border px-6 py-2.5 text-xs font-bold tracking-widest uppercase disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
-          >
-            <Zap className="h-4 w-4" />
-            {mode === 'encode' ? 'Encode' : 'Decode'}
-          </button>
+            accent="primary"
+            icon={Zap}
+            label={mode === 'encode' ? 'Encode' : 'Decode'}
+          />
 
           {output && !error && (
-            <div className="text-neutral-60 font-poppins flex flex-wrap gap-6 text-xs lg:text-sm">
+            <div className="text-midnight-500 font-sans flex flex-wrap gap-6 text-xs lg:text-sm">
               <span>
-                Input: <strong className="text-neutral-80">{input.length} chars</strong>
+                Input: <strong className="text-midnight-950">{input.length} chars</strong>
               </span>
               <span>
-                Output: <strong className="text-neutral-80">{output.length} chars</strong>
+                Output: <strong className="text-midnight-950">{output.length} chars</strong>
               </span>
               {mode === 'encode' && (
                 <span>

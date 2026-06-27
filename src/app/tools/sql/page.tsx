@@ -8,8 +8,9 @@ import {
   ToolTextarea,
   CopyButton,
   ToolTabs,
+  ToolActionButton,
 } from '@/components/tools/tool-shell';
-import { Database } from 'lucide-react';
+import { Database, Play } from 'lucide-react';
 import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts';
 
 // Simple SQL formatter
@@ -186,12 +187,12 @@ export default function SQLPage() {
             onChange={(t) => setMode(t as typeof mode)}
             accent="primary"
           />
-          <button
+          <ToolActionButton
             onClick={process}
-            className="font-poppins bg-primary-50 hover:bg-primary-60 rounded-sm px-4 py-2 text-sm font-bold text-black transition-colors"
-          >
-            Process (⌘/Ctrl+Enter)
-          </button>
+            accent="primary"
+            icon={Play}
+            label="Process (⌘/Ctrl+Enter)"
+          />
         </div>
 
         {/* Input/Output */}

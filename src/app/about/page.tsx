@@ -55,7 +55,7 @@ export default function About() {
           url: 'https://saniuzzaman.dev/about',
         })}
       />
-      <main className="bg-neutral-5 text-neutral-90">
+      <main className="bg-midnight-900 text-midnight-950">
         <Navigation />
         <AboutHero />
         <Footer />

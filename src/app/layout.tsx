@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Poppins, Fira_Code } from 'next/font/google';
+import { Plus_Jakarta_Sans, Inter, JetBrains_Mono } from 'next/font/google';
 import { SkipLink } from '@/components/reusable/skip-link';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { GoogleAnalytics } from '@/components/reusable/google-analytics';
@@ -7,23 +7,23 @@ import { ThemeProvider } from '@/components/reusable/theme-provider';
 import { generateOrganizationSchema } from '@/lib/schema';
 import './globals.css';
 
-const poppinsHeading = Poppins({
-  variable: '--font-poppins',
-  weight: ['400', '500', '600', '700', '800'],
+const jakartaSans = Plus_Jakarta_Sans({
+  variable: '--font-heading',
+  weight: ['700', '800'],
   subsets: ['latin'],
   display: 'swap',
 });
 
-const poppinsBody = Poppins({
-  variable: '--font-poppins',
+const inter = Inter({
+  variable: '--font-body',
   weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
   display: 'swap',
 });
 
-const firaCode = Fira_Code({
-  variable: '--font-fira-code',
-  weight: ['400', '500', '600', '700'],
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--font-mono',
+  weight: ['400', '500'],
   subsets: ['latin'],
   display: 'swap',
 });
@@ -100,14 +100,13 @@ export default function RootLayout({
       lang="en"
       data-scroll-behavior="smooth"
       data-theme="dark"
-      className={`${poppinsHeading.variable} ${poppinsBody.variable} ${firaCode.variable} antialiased`}
+      className={`${jakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#080d1a" />
-        {/* Prevent flash of wrong theme before hydration */}
+        <meta name="theme-color" content="#0f172a" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`,

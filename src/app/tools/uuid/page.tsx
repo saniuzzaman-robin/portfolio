@@ -2,10 +2,9 @@
 
 import { useState, useCallback } from 'react';
 import { Navigation } from '@/components/sections/navigation';
-import { ToolShell, ToolPanel, ToolTabs } from '@/components/tools/tool-shell';
+import { ToolShell, ToolPanel, ToolTabs, ToolActionButton } from '@/components/tools/tool-shell';
 import { Fingerprint, RefreshCw } from 'lucide-react';
 
-// ── ID generators (pure browser, no deps) ───────────────────────
 function uuidv4(): string {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -101,13 +100,13 @@ export default function UuidPage() {
           />
 
           <div className="flex items-center gap-2">
-            <label className="text-neutral-60 font-poppins text-xs tracking-widest uppercase lg:text-sm">
+            <label className="text-midnight-500 font-sans text-xs tracking-widest uppercase lg:text-sm">
               Count
             </label>
             <select
               value={count}
               onChange={(e) => setCount(Number(e.target.value))}
-              className="bg-neutral-10 text-neutral-80 font-poppins focus:border-secondary-50/40 rounded-sm border border-white/10 px-2 py-1.5 text-xs focus:outline-none lg:text-sm"
+              className="bg-midnight-100 text-midnight-950 font-sans focus:border-secondary-50/40 rounded-sm border border-midnight-200 px-2 py-1.5 text-xs focus:outline-none lg:text-sm"
             >
               {[1, 5, 10, 25, 50, 100].map((n) => (
                 <option key={n} value={n}>
@@ -117,13 +116,12 @@ export default function UuidPage() {
             </select>
           </div>
 
-          <button
+          <ToolActionButton
             onClick={generate}
-            className="font-poppins flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
-          >
-            <RefreshCw className="h-3.5 w-3.5" />
-            Generate
-          </button>
+            accent="secondary"
+            icon={RefreshCw}
+            label="Generate UUIDs"
+          />
         </div>
 
         <ToolPanel
@@ -132,7 +130,8 @@ export default function UuidPage() {
           action={
             <button
               onClick={copyAll}
-              className="font-poppins text-secondary-50 border-secondary-50/25 hover:bg-secondary-50/10 rounded-sm border px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
+              aria-label="Copy all IDs"
+              className="font-sans text-secondary-50 border-secondary-50/25 hover:bg-secondary-50/10 rounded-sm border px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
             >
               {copied === -1 ? '✓ Copied all' : 'Copy all'}
             </button>
@@ -144,13 +143,14 @@ export default function UuidPage() {
                 key={i}
                 className="group/row flex items-center justify-between px-4 py-2.5 transition-colors hover:bg-white/2"
               >
-                <span className="text-neutral-80 font-mono text-sm tracking-wide select-all">
+                <span className="text-midnight-950 font-mono text-sm tracking-wide select-all">
                   {id}
                 </span>
                 <div className="ml-3 flex shrink-0 items-center gap-2 opacity-0 transition-opacity group-hover/row:opacity-100">
                   <button
                     onClick={() => copyOne(id, i)}
-                    className="font-poppins border-secondary-50/25 text-secondary-50 hover:bg-secondary-50/10 rounded-sm border px-2 py-1 text-[9px] font-bold tracking-widest uppercase transition-colors"
+                    aria-label={`Copy ID ${i + 1}`}
+                    className="font-sans border-secondary-50/25 text-secondary-50 hover:bg-secondary-50/10 rounded-sm border px-2 py-1 text-[9px] font-bold tracking-widest uppercase transition-colors"
                   >
                     {copied === i ? '✓' : 'Copy'}
                   </button>
@@ -170,11 +170,11 @@ export default function UuidPage() {
               ['NanoID', '21-char URL-safe, ~twice smaller than UUID'],
             ] as const
           ).map(([name, desc]) => (
-            <div key={name} className="glass rounded-sm border border-white/8 p-3">
-              <p className="text-secondary-50 font-poppins mb-1 text-[10px] font-bold tracking-widest uppercase">
+            <div key={name} className="bg-midnight-100 rounded-sm border border-midnight-200 p-3">
+              <p className="text-secondary-50 font-sans mb-1 text-[10px] font-bold tracking-widest uppercase">
                 {name}
               </p>
-              <p className="text-neutral-60 text-xs leading-relaxed lg:text-sm">{desc}</p>
+              <p className="text-midnight-500 text-xs leading-relaxed lg:text-sm">{desc}</p>
             </div>
           ))}
         </div>

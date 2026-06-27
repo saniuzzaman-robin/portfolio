@@ -8,8 +8,11 @@ import {
   ToolTextarea,
   CopyButton,
   ToolTabs,
+  ToolActionButton,
+  ToolSecondaryButton,
+  ToolError,
 } from '@/components/tools/tool-shell';
-import { Zap as ZapIcon, Zap } from 'lucide-react';
+import { Minimize2, Maximize2, Zap as ZapIcon } from 'lucide-react';
 
 export default function MinifyPage() {
   const [language, setLanguage] = useState<'html' | 'css' | 'js' | 'json'>('html');
@@ -17,7 +20,7 @@ export default function MinifyPage() {
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
 
-  const minify = () => {
+  const process = (mode: 'minify' | 'format') => {
     setError('');
     setOutput('');
 
@@ -25,54 +28,41 @@ export default function MinifyPage() {
 
     try {
       let result = '';
-      if (language === 'html') {
-        result = input
-          .replace(/<!--[\s\S]*?-->/g, '')
-          .replace(/\s+/g, ' ')
-          .trim();
-      } else if (language === 'css') {
-        result = input
-          .replace(/\/\*[\s\S]*?\*\//g, '')
-          .replace(/\s+/g, ' ')
-          .replace(/\s*([{}:;,])\s*/g, '$1')
-          .trim();
-      } else if (language === 'js') {
-        result = input
-          .replace(/\/\/.*$/gm, '')
-          .replace(/\/\*[\s\S]*?\*\//g, '')
-          .replace(/\s+/g, ' ')
-          .trim();
-      } else if (language === 'json') {
-        result = JSON.stringify(JSON.parse(input));
-      }
-
-      setOutput(result);
-    } catch (e) {
-      setError('Processing failed: ' + (e instanceof Error ? e.message : 'Unknown error'));
-    }
-  };
-
-  const beautify = () => {
-    setError('');
-    setOutput('');
-
-    if (!input.trim()) return;
-
-    try {
-      let result = '';
-
-      if (language === 'json') {
-        result = JSON.stringify(JSON.parse(input), null, 2);
-      } else if (language === 'html' || language === 'css') {
-        result = input
-          .replace(/([{};])\s*/g, '$1\n  ')
-          .replace(/\n\s*\n/g, '\n')
-          .trim();
-      } else if (language === 'js') {
-        result = input
-          .replace(/([{};])\s*/g, '$1\n  ')
-          .replace(/;\s*/g, ';\n  ')
-          .trim();
+      if (mode === 'minify') {
+        if (language === 'html') {
+          result = input
+            .replace(/<!--[\s\S]*?-->/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        } else if (language === 'css') {
+          result = input
+            .replace(/\/\*[\s\S]*?\*\//g, '')
+            .replace(/\s+/g, ' ')
+            .replace(/\s*([{}:;,])\s*/g, '$1')
+            .trim();
+        } else if (language === 'js') {
+          result = input
+            .replace(/\/\/.*$/gm, '')
+            .replace(/\/\*[\s\S]*?\*\//g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        } else if (language === 'json') {
+          result = JSON.stringify(JSON.parse(input));
+        }
+      } else {
+        if (language === 'json') {
+          result = JSON.stringify(JSON.parse(input), null, 2);
+        } else if (language === 'html' || language === 'css') {
+          result = input
+            .replace(/([{};])\s*/g, '$1\n  ')
+            .replace(/\n\s*\n/g, '\n')
+            .trim();
+        } else if (language === 'js') {
+          result = input
+            .replace(/([{};])\s*/g, '$1\n  ')
+            .replace(/;\s*/g, ';\n  ')
+            .trim();
+        }
       }
 
       setOutput(result);
@@ -91,7 +81,6 @@ export default function MinifyPage() {
         icon={ZapIcon}
         accent="secondary"
       >
-        {/* Language selector */}
         <ToolTabs
           tabs={['html', 'css', 'js', 'json']}
           active={language}
@@ -115,26 +104,23 @@ export default function MinifyPage() {
           </ToolPanel>
         </div>
 
-        {/* Action buttons */}
         <div className="mb-6 flex flex-wrap gap-3">
-          <button
-            onClick={minify}
+          <ToolActionButton
+            onClick={() => process('minify')}
             disabled={!input.trim()}
-            className="font-poppins flex cursor-pointer items-center gap-2 rounded-sm border border-cyan-700 px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
-          >
-            <Zap className="h-4 w-4" />
-            Minify
-          </button>
-          <button
-            onClick={beautify}
+            accent="secondary"
+            icon={Minimize2}
+            label="Minify"
+          />
+          <ToolSecondaryButton
+            onClick={() => process('format')}
             disabled={!input.trim()}
-            className="font-poppins text-neutral-60 hover:text-secondary-50 hover:border-secondary-50/30 flex cursor-pointer items-center gap-2 rounded-sm border border-white/20 px-6 py-2.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40 lg:text-sm"
-          >
-            Format
-          </button>
+            icon={Maximize2}
+            label="Format"
+          />
         </div>
 
-        {error && <div className="mb-4 font-mono text-sm text-red-400">{error}</div>}
+        <ToolError message={error} />
 
         {output && (
           <ToolPanel
@@ -147,12 +133,12 @@ export default function MinifyPage() {
         )}
 
         {output && !error && (
-          <div className="text-neutral-60 font-poppins mt-4 flex flex-wrap gap-6 text-xs lg:text-sm">
+          <div className="text-midnight-500 font-sans mt-4 flex flex-wrap gap-6 text-xs lg:text-sm">
             <span>
-              Input: <strong className="text-neutral-80">{input.length} chars</strong>
+              Input: <strong className="text-midnight-950">{input.length} chars</strong>
             </span>
             <span>
-              Output: <strong className="text-neutral-80">{output.length} chars</strong>
+              Output: <strong className="text-midnight-950">{output.length} chars</strong>
             </span>
             <span>
               Saved:{' '}
