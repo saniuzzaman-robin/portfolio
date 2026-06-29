@@ -74,11 +74,10 @@ export default function ImageBase64Page() {
         subtitle="Convert & Embed"
         description="Convert images to Base64 encoding. Perfect for embedding images in HTML, CSS, or JSON without external files."
         icon={FileImage}
-        accent="primary"
       >
         <div className="mb-6 grid gap-6 lg:grid-cols-2">
           {/* Upload */}
-          <ToolPanel label="Upload Image" accent="primary">
+          <ToolPanel label="Upload Image">
             <div className="p-4">
               <div
                 onDrop={handleDrop}
@@ -87,7 +86,7 @@ export default function ImageBase64Page() {
                 onClick={() => fileInputRef.current?.click()}
               >
                 <Upload className="text-primary-50 mb-4 h-12 w-12" />
-                <p className="text-midnight-700 mb-2 text-sm font-medium">
+                <p className="text-midnight-950 mb-2 text-sm font-medium">
                   Drop an image here or click to browse
                 </p>
                 <p className="text-midnight-500 text-xs">Supports: PNG, JPG, GIF, WebP, SVG</p>
@@ -126,7 +125,7 @@ export default function ImageBase64Page() {
                     onChange={(e) => setDataUri(e.target.checked)}
                     className="accent-primary-50 h-4 w-4"
                   />
-                  <span className="text-midnight-700 text-sm">
+                  <span className="text-midnight-950 text-sm">
                     Include Data URI prefix{' '}
                     <code className="text-primary-50 text-xs">data:image/...;base64,</code>
                   </span>
@@ -136,7 +135,7 @@ export default function ImageBase64Page() {
           </ToolPanel>
 
           {/* Preview */}
-          <ToolPanel label="Image Preview" accent="primary">
+          <ToolPanel label="Image Preview">
             <div className="flex min-h-75 items-center justify-center p-4">
               {imageData ? (
                 <div className="relative max-h-70 max-w-full">
@@ -162,8 +161,7 @@ export default function ImageBase64Page() {
         {imageData && (
           <ToolPanel
             label="Base64 Output"
-            accent="primary"
-            action={<CopyButton text={getOutput()} accent="primary" />}
+            action={<CopyButton text={getOutput()} />}
           >
             <ToolTextarea value={getOutput()} readOnly rows={8} mono />
             <div className="text-midnight-500 border-midnight-200 border-t px-4 py-2 text-xs">
@@ -173,8 +171,8 @@ export default function ImageBase64Page() {
         )}
 
         {/* Usage Examples */}
-        <ToolPanel label="Usage Examples" accent="primary">
-          <div className="text-midnight-700 space-y-3 p-4 text-sm">
+        <ToolPanel label="Usage Examples">
+          <div className="text-midnight-950 space-y-3 p-4 text-sm">
             <div>
               <p className="text-midnight-950 mb-2 font-medium">HTML:</p>
               <code className="bg-midnight-100 text-primary-50 block rounded-sm p-2 text-xs">

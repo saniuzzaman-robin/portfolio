@@ -146,7 +146,6 @@ export default function DiffPage() {
         subtitle="Text Comparison"
         description="Compare two texts with character-level precision. See exactly which characters changed within modified lines. Perfect for code review and config comparison."
         icon={FileCode2}
-        accent="primary"
       >
         {/* Options */}
         <div className="mb-6 flex flex-wrap items-center gap-4">
@@ -177,36 +176,32 @@ export default function DiffPage() {
         <div className="mb-6 grid gap-4 md:grid-cols-2">
           <ToolPanel
             label="Original Text"
-            accent="primary"
-            action={<CopyButton text={text1} accent="primary" />}
+            action={<CopyButton text={text1} />}
           >
             <ToolTextarea
               value={text1}
               onChange={setText1}
               placeholder="Paste original text here..."
               rows={12}
-              accent="primary"
             />
           </ToolPanel>
 
           <ToolPanel
             label="Modified Text"
-            accent="secondary"
-            action={<CopyButton text={text2} accent="secondary" />}
+            action={<CopyButton text={text2} />}
           >
             <ToolTextarea
               value={text2}
               onChange={setText2}
               placeholder="Paste modified text here..."
               rows={12}
-              accent="secondary"
             />
           </ToolPanel>
         </div>
 
         {/* Diff output */}
         {diff.length > 0 && (
-          <ToolPanel label="Differences" accent="tertiary">
+          <ToolPanel label="Differences">
             <div className="bg-midnight-100 max-h-96 overflow-y-auto font-mono text-[13px] leading-relaxed">
               {diff.map((line, idx) => {
                 if (line.type === 'modified' && line.charDiff) {
@@ -224,8 +219,8 @@ export default function DiffPage() {
                               key={segIdx}
                               className={
                                 seg.type === 'removed'
-                                  ? 'bg-red-500/30 text-red-200'
-                                  : 'text-red-300'
+                                  ? 'bg-red-500/30 text-red-500'
+                                  : 'text-red-500'
                               }
                             >
                               {seg.text}
@@ -245,8 +240,8 @@ export default function DiffPage() {
                               key={segIdx}
                               className={
                                 seg.type === 'added'
-                                  ? 'bg-green-500/30 text-green-200'
-                                  : 'text-green-300'
+                                  ? 'bg-green-500/30 text-green-500'
+                                  : 'text-green-500'
                               }
                             >
                               {seg.text}
@@ -266,7 +261,7 @@ export default function DiffPage() {
                         ? 'bg-green-500/10 text-green-300'
                         : line.type === 'removed'
                           ? 'bg-red-500/10 text-red-300'
-                          : 'text-midnight-700'
+                          : 'text-midnight-950'
                     }`}
                   >
                     <span className="text-midnight-500 w-10 shrink-0 text-right select-none">

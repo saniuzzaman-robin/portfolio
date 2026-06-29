@@ -88,11 +88,11 @@ export default function PasswordGeneratorPage() {
         subtitle="Secure & Customizable"
         description="Generate strong, random passwords with customizable length and character sets. Copy with one click."
         icon={Lock}
-        accent="secondary"
+        
       >
         <div className="mb-6 grid gap-6 lg:grid-cols-2">
           {/* Options */}
-          <ToolPanel label="Settings" accent="secondary">
+          <ToolPanel label="Settings" >
             <div className="space-y-5 p-4">
               {/* Length slider */}
               <div>
@@ -139,7 +139,7 @@ export default function PasswordGeneratorPage() {
 
               <ToolActionButton
                 onClick={handleGenerate}
-                accent="secondary"
+                
                 icon={RefreshCw}
                 label="Generate Passwords"
                 fullWidth={true}
@@ -148,7 +148,7 @@ export default function PasswordGeneratorPage() {
           </ToolPanel>
 
           {/* Info */}
-          <ToolPanel label="Info" accent="secondary">
+          <ToolPanel label="Info" >
             <div className="text-midnight-950 space-y-4 p-4 text-sm">
               <div>
                 <p className="text-midnight-950 mb-2 font-medium">Recommended Length</p>
@@ -191,7 +191,7 @@ export default function PasswordGeneratorPage() {
                         Strength: {strength.strength}
                       </div>
                     </div>
-                    <CopyButton text={password} accent="secondary" />
+                    <CopyButton text={password}  />
                   </div>
                 );
               })}

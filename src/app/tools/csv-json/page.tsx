@@ -109,13 +109,11 @@ Bob Johnson,bob@example.com,Manager`);
         subtitle="Convert & Transform"
         description="Convert between CSV and JSON formats. Supports custom delimiters and header detection."
         icon={Database}
-        accent="primary"
       >
         <ToolTabs
           tabs={['csv-to-json', 'json-to-csv']}
           active={mode}
           onChange={(t) => setMode(t as 'csv-to-json' | 'json-to-csv')}
-          accent="primary"
         />
 
         <div className="mt-6 mb-6 flex flex-wrap items-center gap-4">
@@ -153,7 +151,6 @@ Bob Johnson,bob@example.com,Manager`);
             <ToolActionButton
               onClick={convert}
               disabled={!input.trim()}
-              accent="primary"
               icon={ArrowRightLeft}
               label="Convert"
             />
@@ -163,22 +160,20 @@ Bob Johnson,bob@example.com,Manager`);
         {error && <ToolError message={error} />}
 
         <div className="mb-6 grid gap-6 lg:grid-cols-2">
-          <ToolPanel label={mode === 'csv-to-json' ? 'CSV Input' : 'JSON Input'} accent="primary">
+          <ToolPanel label={mode === 'csv-to-json' ? 'CSV Input' : 'JSON Input'}>
             <ToolTextarea
               value={input}
               onChange={setInput}
               placeholder={mode === 'csv-to-json' ? 'Paste CSV here…' : 'Paste JSON here…'}
               rows={12}
-              accent="primary"
             />
           </ToolPanel>
 
           <ToolPanel
             label={mode === 'csv-to-json' ? 'JSON Output' : 'CSV Output'}
-            accent="primary"
-            action={output ? <CopyButton text={output} accent="primary" /> : undefined}
+            action={output ? <CopyButton text={output} /> : undefined}
           >
-            <ToolTextarea value={output} readOnly placeholder="" rows={12} accent="primary" />
+            <ToolTextarea value={output} readOnly placeholder="" rows={12} />
           </ToolPanel>
         </div>
 

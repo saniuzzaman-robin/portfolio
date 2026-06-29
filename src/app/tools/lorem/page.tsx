@@ -97,7 +97,6 @@ export default function LoremPage() {
         subtitle="Placeholder Text Generator"
         description="Generate placeholder text in various styles. Perfect for mockups, designs, and testing layouts."
         icon={FileText}
-        accent="secondary"
       >
         {/* Controls */}
         <div className="mb-6 space-y-4">
@@ -108,7 +107,6 @@ export default function LoremPage() {
               tabs={['lorem', 'bacon', 'hipster', 'corporate']}
               active={type}
               onChange={(t) => setType(t as typeof type)}
-              accent="secondary"
             />
           </div>
 
@@ -142,7 +140,6 @@ export default function LoremPage() {
             <div className="flex items-end">
               <ToolActionButton
                 onClick={generate}
-                accent="secondary"
                 icon={FileText}
                 label="Generate"
                 fullWidth={true}
@@ -168,10 +165,9 @@ export default function LoremPage() {
         {output && (
           <ToolPanel
             label="Generated Text"
-            accent="secondary"
-            action={<CopyButton text={output} accent="secondary" />}
+            action={<CopyButton text={output} />}
           >
-            <ToolTextarea value={output} readOnly rows={14} accent="secondary" />
+            <ToolTextarea value={output} readOnly rows={14} />
           </ToolPanel>
         )}
       </ToolShell>

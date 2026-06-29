@@ -130,7 +130,7 @@ export default function CronPage() {
         subtitle="Builder & Tester"
         description="Build and test cron expressions with a visual interface. Get human-readable explanations and preview execution times."
         icon={CalendarClock}
-        accent="tertiary"
+        
       >
         <div className="mb-6">
           <label className="text-midnight-500 mb-2 block text-sm font-medium">Quick Presets</label>
@@ -223,19 +223,19 @@ export default function CronPage() {
         <div className="space-y-4">
           <ToolPanel
             label="Cron Expression"
-            accent="tertiary"
-            action={<CopyButton text={expression} accent="tertiary" />}
+            
+            action={<CopyButton text={expression}  />}
           >
             <div className="text-tertiary-50 px-4 py-3 font-mono text-lg font-bold">
               {expression}
             </div>
           </ToolPanel>
 
-          <ToolPanel label="Human Readable" accent="secondary">
+          <ToolPanel label="Human Readable" >
             <div className="text-midnight-500 px-4 py-3 text-base">{explanation}</div>
           </ToolPanel>
 
-          <ToolInfo title="Syntax Reference" accent="tertiary">
+          <ToolInfo title="Syntax Reference" >
             <p className="text-midnight-500 text-xs leading-relaxed">
               Use <code className="text-tertiary-50">*</code> for "any value",{' '}
               <code className="text-tertiary-50">*/5</code> for "every 5",{' '}

@@ -66,20 +66,20 @@ export default function RegexPage() {
         subtitle="Live Matching & Validation"
         description="Test regular expressions with live match highlighting and flag toggling. Validate patterns instantly."
         icon={Wand2}
-        accent="primary"
+        
       >
         <div className="mb-6 grid gap-4 md:grid-cols-2">
           <ToolPanel
             label="Regex Pattern"
-            accent="primary"
-            action={<CopyButton text={pattern} accent="primary" />}
+            
+            action={<CopyButton text={pattern}  />}
           >
             <input
               type="text"
               value={pattern}
               onChange={(e) => setPattern(e.target.value)}
               placeholder="e.g., \\d{3}-\\d{4}"
-              className="bg-midnight-100 border-primary-40/30 text-midnight-950 focus:border-primary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
+              className="bg-midnight-100 border-primary-40/30 text-midnight-950 focus:border-primary-50/60 placeholder-midnight-500 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
             />
           </ToolPanel>
 
@@ -110,15 +110,15 @@ export default function RegexPage() {
 
         <ToolPanel
           label="Test String"
-          accent="primary"
-          action={<CopyButton text={testString} accent="primary" />}
+          
+          action={<CopyButton text={testString}  />}
         >
           <ToolTextarea
             value={testString}
             onChange={setTestString}
             placeholder="Paste text to test…"
             rows={10}
-            accent="primary"
+            
           />
         </ToolPanel>
 
@@ -126,7 +126,7 @@ export default function RegexPage() {
           <ToolActionButton
             onClick={testRegex}
             disabled={!pattern.trim()}
-            accent="primary"
+            
             icon={Zap}
             label="Test Pattern"
           />
@@ -161,8 +161,8 @@ export default function RegexPage() {
               </div>
             </div>
 
-            <ToolPanel label="Highlighted Text" accent="secondary">
-              <div className="text-midnight-700 bg-midnight-100 border-midnight-200 max-h-48 overflow-y-auto rounded-sm border px-4 py-3 font-mono text-xs break-all whitespace-pre-wrap lg:text-sm">
+            <ToolPanel label="Highlighted Text" >
+              <div className="text-midnight-950 bg-midnight-100 border-midnight-200 max-h-48 overflow-y-auto rounded-sm border px-4 py-3 font-mono text-xs break-all whitespace-pre-wrap lg:text-sm">
                 {highlightMatches()
                   .split('[MATCH]')
                   .map((part, i) => (

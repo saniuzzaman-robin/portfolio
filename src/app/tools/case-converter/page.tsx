@@ -144,16 +144,14 @@ export default function CaseConverterPage() {
         subtitle="11 Case Formats"
         description="Convert strings between camelCase, snake_case, kebab-case, PascalCase, and more. Perfect for variable naming across languages."
         icon={Type}
-        accent="secondary"
       >
         <div className="mb-6">
-          <ToolPanel label="Input String" accent="secondary">
+          <ToolPanel label="Input String">
             <ToolTextarea
               value={input}
               onChange={setInput}
               placeholder="Enter text or a variable name…"
               rows={4}
-              accent="secondary"
             />
           </ToolPanel>
         </div>
@@ -163,10 +161,9 @@ export default function CaseConverterPage() {
             <ToolPanel
               key={caseType}
               label={caseType}
-              accent="secondary"
               action={
                 outputs[caseType] ? (
-                  <CopyButton text={outputs[caseType]} accent="secondary" />
+                  <CopyButton text={outputs[caseType]} />
                 ) : undefined
               }
             >

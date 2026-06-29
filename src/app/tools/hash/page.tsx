@@ -138,7 +138,6 @@ export default function HashPage() {
         subtitle="Multiple Algorithms & Modes"
         description="Generate cryptographic hashes (SHA-1, SHA-256, SHA-384, SHA-512, MD5) with support for simple hashing and HMAC authentication codes."
         icon={Lock}
-        accent="tertiary"
       >
         {/* Mode Tabs */}
         <div className="mb-6">
@@ -149,7 +148,6 @@ export default function HashPage() {
               setMode(t as HashMode);
               setHashes([]);
             }}
-            accent="tertiary"
             labels={{ simple: 'Simple Hash', hmac: 'HMAC' }}
           />
         </div>
@@ -157,15 +155,13 @@ export default function HashPage() {
         {/* Input Textarea */}
         <ToolPanel
           label="Input Text"
-          accent="tertiary"
-          action={<CopyButton text={input} accent="tertiary" />}
+          action={<CopyButton text={input} />}
         >
           <ToolTextarea
             value={input}
             onChange={setInput}
             placeholder="Enter text to hash…"
             rows={6}
-            accent="tertiary"
           />
         </ToolPanel>
 
@@ -173,15 +169,13 @@ export default function HashPage() {
         {mode === 'hmac' && (
           <ToolPanel
             label="Secret Key"
-            accent="tertiary"
-            action={<CopyButton text={secret} accent="tertiary" />}
+            action={<CopyButton text={secret} />}
           >
             <ToolTextarea
               value={secret}
               onChange={setSecret}
               placeholder="Enter secret key for HMAC…"
               rows={4}
-              accent="tertiary"
             />
           </ToolPanel>
         )}
@@ -214,7 +208,6 @@ export default function HashPage() {
           <ToolActionButton
             onClick={process}
             disabled={!input.trim() || (mode === 'hmac' && !secret.trim())}
-            accent="tertiary"
             icon={Zap}
             label="Generate Hashes"
           />
@@ -228,15 +221,13 @@ export default function HashPage() {
                 <ToolPanel
                   key={result.algorithm}
                   label={result.algorithm}
-                  accent="tertiary"
                   action={
                     <CopyButton
                       text={format === 'hex' ? result.hex : result.base64}
-                      accent="tertiary"
                     />
                   }
                 >
-                  <div className="bg-midnight-100 text-midnight-500 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-xs break-all lg:text-sm">
+                  <div className="bg-midnight-100 text-midnight-950 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-xs break-all lg:text-sm">
                     {format === 'hex' ? result.hex : result.base64}
                   </div>
                 </ToolPanel>
@@ -246,7 +237,7 @@ export default function HashPage() {
         )}
 
         {/* Info note */}
-        <ToolInfo title="Info" accent="tertiary">
+        <ToolInfo title="Info">
           <ul className="text-midnight-950 list-inside list-disc space-y-1">
             <li>
               <strong>Simple Hash:</strong> Standard cryptographic hash of input text

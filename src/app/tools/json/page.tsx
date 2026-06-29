@@ -90,14 +90,12 @@ export default function JSONPage() {
         subtitle="Format, Minify & Diff"
         description="Validate, format with pretty-printing, minify for production, and compare two JSON documents side by side."
         icon={Braces}
-        accent="secondary"
       >
         {/* Mode tabs */}
         <ToolTabs
           tabs={['format', 'minify', 'diff']}
           active={mode}
           onChange={(t) => setMode(t as 'format' | 'minify' | 'diff')}
-          accent="secondary"
         />
 
         <div className="mt-6">
@@ -105,43 +103,37 @@ export default function JSONPage() {
             <div className="mb-6 grid gap-4 md:grid-cols-2">
               <ToolPanel
                 label="JSON Input 1"
-                accent="secondary"
-                action={<CopyButton text={input1} accent="secondary" />}
+                action={<CopyButton text={input1} />}
               >
                 <ToolTextarea
                   value={input1}
                   onChange={setInput1}
                   placeholder="Paste first JSON…"
                   rows={12}
-                  accent="secondary"
                 />
               </ToolPanel>
               <ToolPanel
                 label="JSON Input 2"
-                accent="secondary"
-                action={<CopyButton text={input2} accent="secondary" />}
+                action={<CopyButton text={input2} />}
               >
                 <ToolTextarea
                   value={input2}
                   onChange={setInput2}
                   placeholder="Paste second JSON…"
                   rows={12}
-                  accent="secondary"
                 />
               </ToolPanel>
             </div>
           ) : (
             <ToolPanel
               label={mode === 'minify' ? 'JSON Input' : 'Raw JSON'}
-              accent="secondary"
-              action={<CopyButton text={input1} accent="secondary" />}
+              action={<CopyButton text={input1} />}
             >
               <ToolTextarea
                 value={input1}
                 onChange={setInput1}
                 placeholder="Paste JSON here…"
                 rows={12}
-                accent="secondary"
               />
             </ToolPanel>
           )}
@@ -152,7 +144,6 @@ export default function JSONPage() {
           <ToolActionButton
             onClick={process}
             disabled={!input1.trim() || (mode === 'diff' && !input2.trim())}
-            accent="secondary"
             icon={Zap}
             label={mode === 'format' ? 'Format' : mode === 'minify' ? 'Minify' : 'Compare'}
           />
@@ -161,7 +152,7 @@ export default function JSONPage() {
         {error && <ToolError message={error} />}
 
         {mode === 'diff' && diffResult ? (
-          <ToolPanel label="Diff Comparison" accent="secondary">
+          <ToolPanel label="Diff Comparison">
             <div className="px-4 py-3">
               <SideBySideDiff diff={diffResult} />
             </div>
@@ -170,10 +161,9 @@ export default function JSONPage() {
           output && (
             <ToolPanel
               label={mode === 'minify' ? 'Minified' : 'Formatted'}
-              accent="secondary"
-              action={<CopyButton text={output} accent="secondary" />}
+              action={<CopyButton text={output} />}
             >
-              <ToolTextarea value={output} readOnly placeholder="" rows={14} accent="secondary" />
+              <ToolTextarea value={output} readOnly placeholder="" rows={14} />
             </ToolPanel>
           )
         )}

@@ -11,7 +11,7 @@ import {
   ToolInfo,
   CopyButton,
 } from '@/components/tools/tool-shell';
-import { av, ava } from '@/lib/accent';
+
 import { Palette, Copy, Check } from 'lucide-react';
 
 export default function ColorPage() {
@@ -213,16 +213,9 @@ export default function ColorPage() {
         subtitle="HEX, RGB, HSL, CMYK & More"
         description="Advanced color tool with format conversions, palette generation, color harmony suggestions, and visual previews."
         icon={Palette}
-        accent="secondary"
       >
         {/* Main color display */}
-        <div
-          className="mb-10 rounded-xl p-6"
-          style={{
-            border: `1px solid ${ava('secondary', 0.2)}`,
-            background: ava('secondary', 0.04),
-          }}
-        >
+        <div className="border-aurora-green/20 bg-aurora-green/5 mb-10 rounded-xl border p-6">
           <div className="grid items-end gap-6 md:grid-cols-2 lg:grid-cols-3">
             {/* Color Picker */}
             <div className="md:col-span-1">
@@ -265,16 +258,7 @@ export default function ColorPage() {
                     }
                   }}
                   placeholder="#000000"
-                  className="bg-midnight-100 text-midnight-950 w-full rounded-lg border-2 px-4 py-3 font-mono text-sm uppercase transition-colors focus:ring-2 focus:outline-none"
-                  style={{
-                    borderColor: ava('secondary', 0.3),
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = ava('secondary', 0.6);
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = ava('secondary', 0.3);
-                  }}
+                  className="bg-midnight-100 border-aurora-green/30 focus:border-aurora-green/60 text-midnight-950 w-full rounded-lg border-2 px-4 py-3 font-mono text-sm uppercase transition-colors focus:ring-2 focus:outline-none"
                 />
                 <Copy className="text-midnight-500 absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 opacity-0 transition-all group-hover:opacity-100" />
               </button>
@@ -284,7 +268,6 @@ export default function ColorPage() {
             <div className="md:col-span-1">
               <ToolActionButton
                 onClick={generatePalette}
-                accent="secondary"
                 icon={Palette}
                 label="Generate Palette"
                 fullWidth={true}
@@ -298,8 +281,7 @@ export default function ColorPage() {
           {/* HEX */}
           <ToolPanel
             label="HEX"
-            accent="secondary"
-            action={<CopyButton text={hex} accent="secondary" />}
+            action={<CopyButton text={hex} />}
           >
             <div className="space-y-3">
               <button
@@ -329,8 +311,7 @@ export default function ColorPage() {
           {rgb && (
             <ToolPanel
               label="RGB"
-              accent="secondary"
-              action={<CopyButton text={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} accent="secondary" />}
+              action={<CopyButton text={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} />}
             >
               <div className="space-y-3">
                 <button
@@ -361,9 +342,8 @@ export default function ColorPage() {
           {hsl && (
             <ToolPanel
               label="HSL"
-              accent="secondary"
               action={
-                <CopyButton text={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} accent="secondary" />
+                <CopyButton text={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} />
               }
             >
               <div className="space-y-3">
@@ -395,11 +375,9 @@ export default function ColorPage() {
           {cmyk && (
             <ToolPanel
               label="CMYK"
-              accent="secondary"
               action={
                 <CopyButton
                   text={`cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`}
-                  accent="secondary"
                 />
               }
             >
@@ -432,9 +410,8 @@ export default function ColorPage() {
           {rgb && (
             <ToolPanel
               label="Decimal"
-              accent="secondary"
               action={
-                <CopyButton text={`${rgb.r * 65536 + rgb.g * 256 + rgb.b}`} accent="secondary" />
+                <CopyButton text={`${rgb.r * 65536 + rgb.g * 256 + rgb.b}`} />
               }
             >
               <div className="space-y-3">
@@ -485,7 +462,7 @@ export default function ColorPage() {
                 >
                   <div className="h-16 w-full rounded-t-sm" style={{ background: item.color }} />
                   <div className="bg-midnight-100 flex items-center justify-between rounded-b-sm px-2 py-2">
-                    <div className="text-midnight-500 group-hover:text-midnight-950 font-mono text-[10px] transition-colors">
+                    <div className="text-midnight-950 group-hover:text-midnight-950 font-mono text-[10px] transition-colors">
                       {item.color}
                     </div>
                     {copiedColor === item.color ? (
@@ -518,7 +495,7 @@ export default function ColorPage() {
                     className="group bg-midnight-100 hover:bg-midnight-100 relative w-full cursor-pointer px-2 py-1.5 text-center transition-all"
                     aria-label={`Copy shade ${shade}`}
                   >
-                    <div className="text-midnight-500 group-hover:text-midnight-950 font-mono text-[9px] transition-colors">
+                    <div className="text-midnight-950 group-hover:text-midnight-950 font-mono text-[9px] transition-colors">
                       {shade}
                     </div>
                     <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
@@ -534,17 +511,8 @@ export default function ColorPage() {
             </div>
 
             {/* Copy Palette Code */}
-            <div
-              className="mt-6 rounded-lg p-4"
-              style={{
-                background: ava('secondary', 0.03),
-                border: `1px solid ${ava('secondary', 0.15)}`,
-              }}
-            >
-              <p
-                className="mb-3 font-sans text-xs font-bold tracking-widest uppercase lg:text-sm"
-                style={{ color: av('secondary') }}
-              >
+            <div className="border-aurora-green/15 bg-aurora-green/5 mt-6 rounded-lg border p-4">
+              <p className="text-aurora-green mb-3 font-sans text-xs font-bold tracking-widest uppercase lg:text-sm">
                 Copy Palette Code
               </p>
               <div className="mb-4">
@@ -552,11 +520,10 @@ export default function ColorPage() {
                   tabs={['hex-list', 'css-vars', 'json', 'scss']}
                   active={paletteFormat}
                   onChange={(t) => setPaletteFormat(t as 'hex-list' | 'css-vars' | 'json' | 'scss')}
-                  accent="secondary"
                   labels={{ 'hex-list': 'List', 'css-vars': 'CSS', json: 'JSON', scss: 'SCSS' }}
                 />
               </div>
-              <div className="bg-midnight-100 text-midnight-500 border-midnight-200 mb-3 max-h-48 overflow-y-auto rounded-md border p-3 font-mono text-xs lg:text-sm">
+              <div className="bg-midnight-100 text-midnight-950 border-midnight-200 mb-3 max-h-48 overflow-y-auto rounded-md border p-3 font-mono text-xs lg:text-sm">
                 <pre className="whitespace-pre-wrap">{generatePaletteCode(paletteFormat)}</pre>
               </div>
               <ToolSecondaryButton
@@ -571,8 +538,8 @@ export default function ColorPage() {
         )}
 
         {/* Info section */}
-        <ToolInfo title="Tips" accent="secondary">
-          <ul className="text-midnight-500 space-y-1 text-xs lg:text-sm">
+        <ToolInfo title="Tips">
+          <ul className="text-midnight-950 space-y-1 text-xs lg:text-sm">
             <li>• Click any color preview to copy to clipboard</li>
             <li>• Use the color picker or enter HEX values directly</li>
             <li>• Palette shows darker and lighter variations of your color</li>

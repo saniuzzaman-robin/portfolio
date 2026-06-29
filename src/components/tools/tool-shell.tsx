@@ -4,7 +4,6 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, AlertCircle, type LucideIcon } from 'lucide-react';
-import { av, ava, type AccentToken } from '@/lib/accent';
 
 /* ── ToolShell ─────────────────────────────────────────────────── */
 
@@ -13,7 +12,6 @@ interface ToolShellProps {
   subtitle: string;
   description: string;
   icon: LucideIcon;
-  accent: AccentToken;
   children: ReactNode;
 }
 
@@ -22,22 +20,13 @@ export function ToolShell({
   subtitle,
   description,
   icon: Icon,
-  accent,
   children,
 }: ToolShellProps) {
-  const accentColor = av(accent);
-  const accentA = (a: number) => ava(accent, a);
-
   return (
     <div className="bg-midnight-900 text-midnight-950 min-h-screen">
       <div className="border-midnight-200 relative overflow-hidden border-b px-6 pt-10 pb-8 md:px-12 lg:px-20">
         <div className="absolute inset-0 overflow-hidden">
-          <div
-            className="absolute top-0 right-0 h-40 w-96 opacity-[0.08]"
-            style={{
-              background: `radial-gradient(ellipse at top right, ${accentColor}, transparent 70%)`,
-            }}
-          />
+          <div className="absolute top-0 right-0 h-40 w-96 bg-aurora-green opacity-[0.08] rounded-full blur-3xl" />
         </div>
         <div className="relative z-10 mx-auto max-w-6xl">
           <Link
@@ -48,23 +37,17 @@ export function ToolShell({
             All Tools
           </Link>
           <div className="flex items-start gap-4">
-            <div
-              className="mt-0.5 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-              style={{ background: accentA(0.1), color: accentColor }}
-            >
+            <div className="bg-aurora-green/10 text-aurora-green mt-0.5 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl">
               <Icon className="h-5 w-5" strokeWidth={1.5} />
             </div>
             <div>
               <div className="mb-1 flex flex-wrap items-baseline gap-3">
                 <h1 className="text-midnight-950 text-2xl font-bold md:text-3xl">{title}</h1>
-                <span
-                  className="text-xs tracking-widest uppercase lg:text-sm"
-                  style={{ color: accentColor }}
-                >
+                <span className="text-aurora-green text-xs tracking-widest uppercase lg:text-sm">
                   {subtitle}
                 </span>
               </div>
-              <p className="text-midnight-500 max-w-xl text-sm leading-relaxed">{description}</p>
+              <p className="text-midnight-950 max-w-xl text-sm leading-relaxed">{description}</p>
             </div>
           </div>
         </div>
@@ -81,7 +64,6 @@ export function ToolShell({
 
 interface ToolPanelProps {
   label?: string;
-  accent?: AccentToken;
   children: ReactNode;
   className?: string;
   action?: ReactNode;
@@ -89,26 +71,17 @@ interface ToolPanelProps {
 
 export function ToolPanel({
   label,
-  accent = 'primary',
   children,
   className = '',
   action,
 }: ToolPanelProps) {
-  const accentColor = av(accent);
-  const accentA = (a: number) => ava(accent, a);
   return (
     <div
       className={`bg-midnight-900 border-midnight-200 overflow-hidden rounded-2xl border ${className}`}
     >
       {label && (
-        <div
-          className="border-midnight-200 flex items-center justify-between border-b px-4 py-2.5"
-          style={{ background: accentA(0.04) }}
-        >
-          <span
-            className="text-[10px] font-bold tracking-widest uppercase"
-            style={{ color: accentColor }}
-          >
+        <div className="border-midnight-200 flex items-center justify-between border-b px-4 py-2.5">
+          <span className="text-midnight-950 text-[10px] font-bold tracking-widest uppercase">
             {label}
           </span>
           {action}
@@ -128,7 +101,6 @@ interface ToolTextareaProps {
   readOnly?: boolean;
   rows?: number;
   mono?: boolean;
-  accent?: AccentToken;
 }
 
 export function ToolTextarea({
@@ -157,14 +129,11 @@ export function ToolTextarea({
 
 interface CopyButtonProps {
   text: string;
-  accent?: AccentToken;
   label?: string;
   className?: string;
 }
 
-export function CopyButton({ text, accent = 'primary', label = 'Copy' }: CopyButtonProps) {
-  const accentColor = av(accent);
-  const accentA = (a: number) => ava(accent, a);
+export function CopyButton({ text, label = 'Copy' }: CopyButtonProps) {
   const [copied, setCopied] = React.useState(false);
 
   const copy = () => {
@@ -178,12 +147,11 @@ export function CopyButton({ text, accent = 'primary', label = 'Copy' }: CopyBut
     <button
       onClick={copy}
       disabled={!text}
-      className="relative rounded-full px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
-      style={{
-        color: accentColor,
-        border: `1px solid ${accentA(copied ? 0.5 : 0.35)}`,
-        background: copied ? accentA(0.2) : accentA(0.08),
-      }}
+      className={`relative rounded-full border px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 ${
+        copied
+          ? 'border-aurora-green/50 bg-aurora-green/20 text-aurora-green'
+          : 'border-aurora-green/35 bg-aurora-green/10 text-aurora-green'
+      }`}
       aria-label={copied ? 'Copied' : label}
     >
       <span>{copied ? '✓ Copied!' : label}</span>
@@ -197,13 +165,10 @@ interface ToolTabsProps {
   tabs: string[];
   active: string;
   onChange: (t: string) => void;
-  accent?: AccentToken;
   labels?: Record<string, string>;
 }
 
-export function ToolTabs({ tabs, active, onChange, accent = 'primary', labels }: ToolTabsProps) {
-  const accentColor = av(accent);
-  const accentA = (a: number) => ava(accent, a);
+export function ToolTabs({ tabs, active, onChange, labels }: ToolTabsProps) {
   return (
     <div
       className="bg-midnight-100 border-midnight-200 flex w-fit flex-wrap gap-1 rounded-full border p-1"
@@ -216,15 +181,11 @@ export function ToolTabs({ tabs, active, onChange, accent = 'primary', labels }:
           onClick={() => onChange(tab)}
           role="tab"
           aria-selected={active === tab}
-          className="cursor-pointer rounded-full px-4 py-1.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 hover:opacity-80 lg:text-sm"
-          style={
+          className={`cursor-pointer rounded-full px-4 py-1.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 hover:opacity-80 lg:text-sm ${
             active === tab
-              ? {
-                  color: accentColor,
-                  background: accentA(0.15),
-                }
-              : { color: '#8da3b3', background: 'transparent' }
-          }
+              ? 'bg-aurora-green/15 text-aurora-green'
+              : 'bg-transparent text-midnight-500'
+          }`}
         >
           {labels?.[tab] || tab}
         </button>
@@ -238,7 +199,6 @@ export function ToolTabs({ tabs, active, onChange, accent = 'primary', labels }:
 interface ToolActionButtonProps {
   onClick: () => void;
   disabled?: boolean;
-  accent?: AccentToken;
   icon?: LucideIcon;
   label: string;
   fullWidth?: boolean;
@@ -247,32 +207,15 @@ interface ToolActionButtonProps {
 export function ToolActionButton({
   onClick,
   disabled = false,
-  accent = 'primary',
   icon: IconComp,
   label,
   fullWidth = false,
 }: ToolActionButtonProps) {
-  const accentColor = av(accent);
-  const accentA = (a: number) => ava(accent, a);
-
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border px-6 py-2.5 font-sans text-xs font-bold tracking-widest uppercase transition-all duration-200 hover:scale-[1.02] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 lg:text-sm ${fullWidth ? 'w-full' : ''}`}
-      style={{
-        color: accentColor,
-        borderColor: accentA(0.5),
-        background: accentA(0.08),
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = accentA(0.18);
-        e.currentTarget.style.borderColor = accentColor;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = accentA(0.08);
-        e.currentTarget.style.borderColor = accentA(0.5);
-      }}
+      className={`border-aurora-green/50 bg-aurora-green/10 text-aurora-green hover:bg-aurora-green/20 hover:border-aurora-green inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border px-6 py-2.5 font-sans text-xs font-bold tracking-widest uppercase transition-all duration-200 hover:scale-[1.02] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 lg:text-sm ${fullWidth ? 'w-full' : ''}`}
       aria-label={label}
     >
       {IconComp && <IconComp className="h-4 w-4" aria-hidden="true" />}
@@ -317,9 +260,9 @@ interface ToolErrorProps {
 
 export function ToolError({ message }: ToolErrorProps) {
   return (
-    <div className="border-tertiary-40/30 bg-tertiary-40/5 flex items-start gap-3 rounded-xl border px-4 py-3">
+    <div className="border-midnight-200 bg-midnight-100 flex items-start gap-3 rounded-xl border px-4 py-3">
       <AlertCircle className="text-midnight-500 mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-      <p className="text-midnight-500 text-sm">{message}</p>
+      <p className="text-midnight-950 text-sm">{message}</p>
     </div>
   );
 }
@@ -329,30 +272,17 @@ export function ToolError({ message }: ToolErrorProps) {
 interface ToolInfoProps {
   title?: string;
   children: ReactNode;
-  accent?: AccentToken;
 }
 
-export function ToolInfo({ title, children, accent = 'primary' }: ToolInfoProps) {
-  const accentColor = av(accent);
-  const accentA = (a: number) => ava(accent, a);
-
+export function ToolInfo({ title, children }: ToolInfoProps) {
   return (
-    <div
-      className="rounded-xl border p-4"
-      style={{
-        background: accentA(0.03),
-        borderColor: accentA(0.15),
-      }}
-    >
+    <div className="border-midnight-200 bg-midnight-100 rounded-xl border p-4">
       {title && (
-        <p
-          className="mb-2 text-xs font-bold tracking-widest uppercase"
-          style={{ color: accentColor }}
-        >
+        <p className="text-midnight-950 mb-2 text-xs font-bold tracking-widest uppercase">
           {title}
         </p>
       )}
-      <div className="text-midnight-500 text-sm leading-relaxed">{children}</div>
+      <div className="text-midnight-950 text-sm leading-relaxed">{children}</div>
     </div>
   );
 }

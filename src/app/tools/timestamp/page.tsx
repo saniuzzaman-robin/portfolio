@@ -69,51 +69,46 @@ export default function TimestampPage() {
         subtitle="Unix ↔ Human Date"
         description="Convert between Unix timestamps and human-readable dates with timezone support and quick presets."
         icon={Clock}
-        accent="tertiary"
       >
         {/* Mode tabs */}
         <ToolTabs
           tabs={['unix-to-human', 'human-to-unix']}
           active={mode}
           onChange={(t) => setMode(t as 'unix-to-human' | 'human-to-unix')}
-          accent="tertiary"
         />
 
         <div className="mt-6 mb-6 grid gap-4 md:grid-cols-2">
           {mode === 'unix-to-human' ? (
             <ToolPanel
               label="Unix Timestamp"
-              accent="tertiary"
-              action={<CopyButton text={unixInput} accent="tertiary" />}
+              action={<CopyButton text={unixInput} />}
             >
               <input
                 type="text"
                 value={unixInput}
                 onChange={(e) => setUnixInput(e.target.value)}
                 placeholder="Enter Unix timestamp (seconds)…"
-                className="bg-midnight-100 border-tertiary-40/30 text-midnight-950 focus:border-tertiary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
+                className="bg-midnight-100 border-tertiary-40/30 text-midnight-950 focus:border-tertiary-50/60 placeholder-midnight-500 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
               />
             </ToolPanel>
           ) : (
             <ToolPanel
               label="Human Date"
-              accent="tertiary"
-              action={<CopyButton text={humanInput} accent="tertiary" />}
+              action={<CopyButton text={humanInput} />}
             >
               <input
                 type="text"
                 value={humanInput}
                 onChange={(e) => setHumanInput(e.target.value)}
                 placeholder="e.g., 2024-12-25 or Jan 1, 2025…"
-                className="bg-midnight-100 border-tertiary-40/30 text-midnight-950 focus:border-tertiary-50/60 placeholder-midnight-50 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
+                className="bg-midnight-100 border-tertiary-40/30 text-midnight-950 focus:border-tertiary-50/60 placeholder-midnight-500 w-full rounded-sm border px-4 py-2 font-mono text-sm transition-colors focus:outline-none"
               />
             </ToolPanel>
           )}
 
           <ToolPanel
             label="Output"
-            accent="secondary"
-            action={<CopyButton text={output} accent="secondary" />}
+            action={<CopyButton text={output} />}
           >
             <div className="text-midnight-500 bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-2 font-mono text-sm">
               {output || 'Result appears here…'}
@@ -126,7 +121,6 @@ export default function TimestampPage() {
           <ToolActionButton
             onClick={convert}
             disabled={!input.trim()}
-            accent="tertiary"
             icon={Clock}
             label="Convert"
           />
