@@ -23,15 +23,20 @@ export function MultilingualLogo({ className = '', showDevSuffix = true }: Multi
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+
     const interval = setInterval(() => {
       setIsAnimating(true);
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         setCurrentIndex((prev) => (prev + 1) % CRAFTSMAN_TRANSLATIONS.length);
         setIsAnimating(false);
-      }, 500); // Half of animation duration
-    }, 5000); // Change every 5 seconds
+      }, 500);
+    }, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const current = CRAFTSMAN_TRANSLATIONS[currentIndex];
