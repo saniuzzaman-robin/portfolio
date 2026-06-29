@@ -79,27 +79,23 @@ export default function MinifyPage() {
         subtitle="HTML, CSS, JS & JSON"
         description="Minify or beautify HTML, CSS, JavaScript, and JSON for production or readability. Remove comments and whitespace instantly."
         icon={ZapIcon}
-        accent="secondary"
       >
         <ToolTabs
           tabs={['html', 'css', 'js', 'json']}
           active={language}
           onChange={(l) => setLanguage(l as 'html' | 'css' | 'js' | 'json')}
-          accent="secondary"
         />
 
         <div className="mt-6 mb-6">
           <ToolPanel
             label="Input"
-            accent="secondary"
-            action={<CopyButton text={input} accent="secondary" />}
+            action={<CopyButton text={input} />}
           >
             <ToolTextarea
               value={input}
               onChange={setInput}
               placeholder={`Paste ${language.toUpperCase()} code…`}
               rows={12}
-              accent="secondary"
             />
           </ToolPanel>
         </div>
@@ -108,7 +104,6 @@ export default function MinifyPage() {
           <ToolActionButton
             onClick={() => process('minify')}
             disabled={!input.trim()}
-            accent="secondary"
             icon={Minimize2}
             label="Minify"
           />
@@ -125,10 +120,9 @@ export default function MinifyPage() {
         {output && (
           <ToolPanel
             label="Output"
-            accent="secondary"
-            action={<CopyButton text={output} accent="secondary" />}
+            action={<CopyButton text={output} />}
           >
-            <ToolTextarea value={output} readOnly rows={12} accent="secondary" />
+            <ToolTextarea value={output} readOnly rows={12} />
           </ToolPanel>
         )}
 

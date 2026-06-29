@@ -119,31 +119,28 @@ Just start typing in the editor to see the preview update instantly.
         subtitle="Live Editor & Renderer"
         description="Write Markdown and see a live HTML preview. Perfect for documentation, README files, and blog posts."
         icon={FileText}
-        accent="tertiary"
       >
         <div className="grid gap-6 lg:grid-cols-2">
-          <ToolPanel label="Markdown Editor" accent="tertiary">
+          <ToolPanel label="Markdown Editor">
             <ToolTextarea
               value={markdown}
               onChange={setMarkdown}
               placeholder="Enter markdown here…"
               rows={20}
-              accent="tertiary"
             />
           </ToolPanel>
 
-          <ToolPanel label="Live Preview" accent="tertiary">
+          <ToolPanel label="Live Preview">
             <div className="p-4">
               <div
-                className="prose prose-invert text-midnight-950 max-w-none space-y-2 text-sm leading-relaxed"
+                className="prose prose-invert text-midnight-950 max-w-none space-y-2 text-sm leading-relaxed break-words"
                 dangerouslySetInnerHTML={{ __html: html }}
-                style={{ wordBreak: 'break-word' }}
               />
             </div>
           </ToolPanel>
         </div>
 
-        <ToolInfo title="Supported Markdown" accent="tertiary">
+        <ToolInfo title="Supported Markdown">
           <ul className="list-inside text-midnight-950 list-disc space-y-1">
             <li># Headings (h1-h3)</li>
             <li>**bold** and *italic* text</li>

@@ -100,11 +100,10 @@ export default function SlugPage() {
         subtitle="Slug · Case Converter"
         description="Transform text between different formats: URL slugs, camelCase, snake_case, kebab-case, and more. Perfect for naming variables and files."
         icon={Type}
-        accent="primary"
       >
         {/* Mode selector */}
         <div className="mb-6">
-          <label className="text-midnight-700 mb-3 block text-sm font-medium">Transform Type</label>
+          <label className="text-midnight-950 mb-3 block text-sm font-medium">Transform Type</label>
           <div className="grid gap-2 sm:grid-cols-4 md:grid-cols-8">
             {modes.map(({ value, label }) => (
               <button
@@ -127,30 +126,27 @@ export default function SlugPage() {
         <div className="mb-6 grid gap-4 md:grid-cols-2">
           <ToolPanel
             label="Input Text"
-            accent="primary"
-            action={<CopyButton text={input} accent="primary" />}
+            action={<CopyButton text={input} />}
           >
             <ToolTextarea
               value={input}
               onChange={setInput}
               placeholder="Enter text to transform..."
               rows={10}
-              accent="primary"
             />
           </ToolPanel>
 
           <ToolPanel
             label={`Output (${modes.find((m) => m.value === mode)?.label})`}
-            accent="secondary"
-            action={<CopyButton text={output} accent="secondary" />}
+            action={<CopyButton text={output} />}
           >
-            <ToolTextarea value={output} readOnly rows={10} accent="secondary" />
+            <ToolTextarea value={output} readOnly rows={10} />
           </ToolPanel>
         </div>
 
         {/* Info panels */}
         <div className="grid gap-4 md:grid-cols-2">
-          <ToolInfo title="Format Examples" accent="primary">
+          <ToolInfo title="Format Examples">
             <div className="space-y-2">
               {modes.map(({ value, label }) => (
                 <div key={value} className="flex items-center justify-between">
@@ -161,7 +157,7 @@ export default function SlugPage() {
             </div>
           </ToolInfo>
 
-          <ToolInfo title="Common Use Cases" accent="primary">
+          <ToolInfo title="Common Use Cases">
             <div className="space-y-3">
               <p className="mb-2 font-medium">When to use each format:</p>
               <ul className="list-inside  list-disc space-y-1 text-xs">

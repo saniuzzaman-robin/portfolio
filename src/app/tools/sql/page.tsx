@@ -177,7 +177,6 @@ export default function SQLPage() {
         subtitle="Format & Minify"
         description="Format SQL queries for readability or minify them for production. Supports common SQL dialects."
         icon={Database}
-        accent="primary"
       >
         {/* Mode selector */}
         <div className="mb-6 flex items-center gap-4">
@@ -185,11 +184,9 @@ export default function SQLPage() {
             tabs={['format', 'minify']}
             active={mode}
             onChange={(t) => setMode(t as typeof mode)}
-            accent="primary"
           />
           <ToolActionButton
             onClick={process}
-            accent="primary"
             icon={Play}
             label="Process (⌘/Ctrl+Enter)"
           />
@@ -199,24 +196,21 @@ export default function SQLPage() {
         <div className="grid gap-4 md:grid-cols-2">
           <ToolPanel
             label="SQL Input"
-            accent="primary"
-            action={<CopyButton text={input} accent="primary" />}
+            action={<CopyButton text={input} />}
           >
             <ToolTextarea
               value={input}
               onChange={setInput}
               placeholder="Paste your SQL query here..."
               rows={16}
-              accent="primary"
             />
           </ToolPanel>
 
           <ToolPanel
             label={mode === 'format' ? 'Formatted SQL' : 'Minified SQL'}
-            accent="secondary"
-            action={<CopyButton text={output} accent="secondary" />}
+            action={<CopyButton text={output} />}
           >
-            <ToolTextarea value={output} readOnly rows={16} accent="secondary" />
+            <ToolTextarea value={output} readOnly rows={16} />
           </ToolPanel>
         </div>
       </ToolShell>

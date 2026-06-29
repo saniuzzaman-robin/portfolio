@@ -61,28 +61,28 @@ export default function URLPage() {
         subtitle="Encode, Decode & Parse"
         description="Encode/decode URLs and parse query parameters visually. Break down URL components instantly."
         icon={Link}
-        accent="primary"
+        
       >
         {/* Mode tabs */}
         <ToolTabs
           tabs={['encode', 'decode', 'parse']}
           active={mode}
           onChange={(t) => setMode(t as 'encode' | 'decode' | 'parse')}
-          accent="primary"
+          
         />
 
         <div className="mt-6 mb-6">
           <ToolPanel
             label={mode === 'parse' ? 'Full URL' : mode === 'encode' ? 'Plain Text' : 'Encoded URL'}
-            accent="primary"
-            action={<CopyButton text={input} accent="primary" />}
+            
+            action={<CopyButton text={input}  />}
           >
             <ToolTextarea
               value={input}
               onChange={setInput}
               placeholder={mode === 'parse' ? 'Paste full URL…' : 'Enter text…'}
               rows={8}
-              accent="primary"
+              
             />
           </ToolPanel>
         </div>
@@ -92,7 +92,7 @@ export default function URLPage() {
           <ToolActionButton
             onClick={process}
             disabled={!input.trim()}
-            accent="primary"
+            
             icon={Link}
             label={mode === 'encode' ? 'Encode' : mode === 'decode' ? 'Decode' : 'Parse URL'}
           />
@@ -103,10 +103,10 @@ export default function URLPage() {
         {output && (
           <ToolPanel
             label={mode === 'parse' ? 'URL Components' : 'Result'}
-            accent="secondary"
-            action={<CopyButton text={output} accent="secondary" />}
+            
+            action={<CopyButton text={output}  />}
           >
-            <div className="text-midnight-500 bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-sm break-all">
+            <div className="text-midnight-950 bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-sm break-all">
               {output}
             </div>
           </ToolPanel>

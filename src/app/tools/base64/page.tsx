@@ -56,7 +56,6 @@ export default function Base64Page() {
         subtitle="Encoder / Decoder"
         description="Encode any text to Base64 or decode Base64 back to plain text. Handles Unicode strings correctly."
         icon={Binary}
-        accent="primary"
       >
         {/* Mode tabs + controls */}
         <div className="mb-6 flex flex-wrap items-center gap-4">
@@ -64,7 +63,6 @@ export default function Base64Page() {
             tabs={['encode', 'decode']}
             active={mode}
             onChange={(t) => setMode(t as 'encode' | 'decode')}
-            accent="primary"
           />
           <button
             onClick={swapMode}
@@ -78,22 +76,19 @@ export default function Base64Page() {
         <div className="grid gap-4 md:grid-cols-2">
           <ToolPanel
             label={mode === 'encode' ? 'Plain Text' : 'Base64 Input'}
-            accent="primary"
-            action={<CopyButton text={input} accent="primary" />}
+            action={<CopyButton text={input} />}
           >
             <ToolTextarea
               value={input}
               onChange={setInput}
               placeholder={mode === 'encode' ? 'Enter text to encode…' : 'Paste Base64 to decode…'}
               rows={14}
-              accent="primary"
             />
           </ToolPanel>
 
           <ToolPanel
             label={mode === 'encode' ? 'Base64 Output' : 'Decoded Text'}
-            accent="secondary"
-            action={<CopyButton text={output} accent="secondary" />}
+            action={<CopyButton text={output} />}
           >
             {error ? (
               <ToolError message={error} />
@@ -103,7 +98,6 @@ export default function Base64Page() {
                 readOnly
                 placeholder="Output appears here after processing…"
                 rows={14}
-                accent="secondary"
               />
             )}
           </ToolPanel>
@@ -114,7 +108,6 @@ export default function Base64Page() {
           <ToolActionButton
             onClick={process}
             disabled={!input.trim()}
-            accent="primary"
             icon={Zap}
             label={mode === 'encode' ? 'Encode' : 'Decode'}
           />

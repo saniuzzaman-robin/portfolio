@@ -88,7 +88,7 @@ export default function UuidPage() {
         subtitle="UUID · ULID · NanoID"
         description="Generate cryptographically random identifiers in multiple formats. All generation happens in your browser."
         icon={Fingerprint}
-        accent="secondary"
+        
       >
         {/* Controls */}
         <div className="mb-6 flex flex-wrap items-center gap-4">
@@ -96,7 +96,7 @@ export default function UuidPage() {
             tabs={FORMATS}
             active={format}
             onChange={(t) => setFormat(t as Format)}
-            accent="secondary"
+            
           />
 
           <div className="flex items-center gap-2">
@@ -118,7 +118,7 @@ export default function UuidPage() {
 
           <ToolActionButton
             onClick={generate}
-            accent="secondary"
+            
             icon={RefreshCw}
             label="Generate UUIDs"
           />
@@ -126,7 +126,7 @@ export default function UuidPage() {
 
         <ToolPanel
           label={`${format} — ${ids.length} IDs`}
-          accent="secondary"
+          
           action={
             <button
               onClick={copyAll}

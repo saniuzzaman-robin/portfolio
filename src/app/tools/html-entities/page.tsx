@@ -99,7 +99,6 @@ export default function HTMLEntitiesPage() {
         subtitle="Encode / Decode"
         description="Encode special characters to HTML entities or decode HTML entities back to text. Essential for safe HTML display."
         icon={Code2}
-        accent="secondary"
       >
         <div className="mb-6 space-y-4">
           <div className="flex flex-wrap items-center gap-4">
@@ -107,7 +106,6 @@ export default function HTMLEntitiesPage() {
               tabs={['encode', 'decode']}
               active={mode}
               onChange={(t) => setMode(t as typeof mode)}
-              accent="secondary"
             />
             <ToolSecondaryButton
               onClick={swapMode}
@@ -117,7 +115,6 @@ export default function HTMLEntitiesPage() {
             <ToolActionButton
               onClick={process}
               disabled={!input.trim()}
-              accent="secondary"
               icon={ArrowRightLeft}
               label="Process"
             />
@@ -131,7 +128,7 @@ export default function HTMLEntitiesPage() {
                 onChange={(e) => setEncodeAll(e.target.checked)}
                 className="accent-secondary-50 h-4 w-4"
               />
-              <span className="text-midnight-700 text-sm">
+              <span className="text-midnight-950 text-sm">
                 Encode all non-ASCII characters (including symbols like ©, €, etc.)
               </span>
             </label>
@@ -143,8 +140,7 @@ export default function HTMLEntitiesPage() {
         <div className="mb-6 grid gap-4 md:grid-cols-2">
           <ToolPanel
             label={mode === 'encode' ? 'Plain Text' : 'HTML Entities'}
-            accent="primary"
-            action={<CopyButton text={input} accent="primary" />}
+            action={<CopyButton text={input} />}
           >
             <ToolTextarea
               value={input}
@@ -155,27 +151,25 @@ export default function HTMLEntitiesPage() {
                   : 'Paste HTML entities to decode...'
               }
               rows={12}
-              accent="primary"
             />
           </ToolPanel>
 
           <ToolPanel
             label={mode === 'encode' ? 'HTML Entities' : 'Decoded Text'}
-            accent="secondary"
-            action={<CopyButton text={output} accent="secondary" />}
+            action={<CopyButton text={output} />}
           >
-            <ToolTextarea value={output} readOnly rows={12} accent="secondary" />
+            <ToolTextarea value={output} readOnly rows={12} />
           </ToolPanel>
         </div>
 
         <div className="bg-midnight-100 border-midnight-200 rounded-sm border p-4">
-          <h3 className="text-midnight-700 mb-3 text-sm font-medium">Common HTML Entities</h3>
+          <h3 className="text-midnight-950 mb-3 text-sm font-medium">Common HTML Entities</h3>
           <div className="grid gap-2 text-xs sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {Object.entries(COMMON_ENTITIES).map(([char, entity]) => (
               <div key={entity} className="text-midnight-500 flex items-center gap-2 font-mono">
                 <span className="text-secondary-50">{char}</span>
                 <span>→</span>
-                <code className="text-midnight-700">{entity}</code>
+                <code className="text-midnight-950">{entity}</code>
               </div>
             ))}
           </div>

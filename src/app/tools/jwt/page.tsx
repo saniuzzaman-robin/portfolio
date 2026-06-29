@@ -75,19 +75,16 @@ export default function JWTPage() {
         subtitle="Header, Payload & Claims"
         description="Decode JWT tokens and inspect header, payload, claims, and expiry times instantly."
         icon={Shield}
-        accent="secondary"
       >
         <ToolPanel
           label="JWT Token"
-          accent="secondary"
-          action={<CopyButton text={input} accent="secondary" />}
+          action={<CopyButton text={input} />}
         >
           <ToolTextarea
             value={input}
             onChange={setInput}
             placeholder="Paste JWT token…"
             rows={8}
-            accent="secondary"
           />
         </ToolPanel>
 
@@ -96,7 +93,6 @@ export default function JWTPage() {
           <ToolActionButton
             onClick={decode}
             disabled={!input.trim()}
-            accent="secondary"
             icon={Key}
             label="Decode JWT"
           />
@@ -108,23 +104,23 @@ export default function JWTPage() {
           <div className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               {/* Header */}
-              <ToolPanel label="Header" accent="secondary">
-                <div className="bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-xs lg:text-sm">
+              <ToolPanel label="Header">
+                <div className="bg-midnight-100 border-midnight-200 text-midnight-950 rounded-sm border px-4 py-3 font-mono text-xs lg:text-sm">
                   {highlightJSON(decoded.header)}
                 </div>
               </ToolPanel>
 
               {/* Payload */}
-              <ToolPanel label="Payload" accent="secondary">
-                <div className="bg-midnight-100 border-midnight-200 max-h-64 overflow-y-auto rounded-sm border px-4 py-3 font-mono text-xs lg:text-sm">
+              <ToolPanel label="Payload">
+                <div className="bg-midnight-100 text-midnight-950 border-midnight-200 max-h-64 overflow-y-auto rounded-sm border px-4 py-3 font-mono text-xs lg:text-sm">
                   {highlightJSON(decoded.payload)}
                 </div>
               </ToolPanel>
             </div>
 
             {/* Signature preview */}
-            <ToolPanel label="Signature (first 32 chars)" accent="secondary">
-              <div className="text-midnight-500 bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-xs lg:text-sm">
+            <ToolPanel label="Signature (first 32 chars)">
+              <div className="text-midnight-950 bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-xs lg:text-sm">
                 {decoded.signature.slice(0, 32)}...
               </div>
             </ToolPanel>
@@ -136,8 +132,8 @@ export default function JWTPage() {
                 <div
                   className={`rounded-sm border p-3 font-sans text-xs lg:text-sm ${
                     isExpired(decoded)
-                      ? 'border-red-900/50 bg-red-950/30 text-red-300'
-                      : 'border-green-900/50 bg-green-950/30 text-green-300'
+                      ? 'border-red-900/50 bg-red-950/30 text-red-500'
+                      : 'border-green-900/50 bg-green-950/30 text-green-500'
                   }`}
                 >
                   {isExpired(decoded)

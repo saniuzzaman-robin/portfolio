@@ -94,7 +94,7 @@ address:
         subtitle="Converter & Formatter"
         description="Convert between YAML and JSON formats. Perfect for config files, Kubernetes manifests, CI/CD pipelines, and API data."
         icon={Code}
-        accent="secondary"
+        
       >
         {/* Controls */}
         <div className="mb-6 flex flex-wrap items-center gap-4">
@@ -102,7 +102,7 @@ address:
             tabs={['yaml-to-json', 'json-to-yaml']}
             active={mode}
             onChange={(t) => setMode(t as typeof mode)}
-            accent="secondary"
+            
             labels={{ 'yaml-to-json': 'YAML → JSON', 'json-to-yaml': 'JSON → YAML' }}
           />
           <ToolSecondaryButton
@@ -113,7 +113,7 @@ address:
           <ToolActionButton
             onClick={convert}
             disabled={!input.trim()}
-            accent="secondary"
+            
             icon={ArrowRightLeft}
             label="Convert"
           />
@@ -127,8 +127,8 @@ address:
         <div className="mb-6 grid gap-4 md:grid-cols-2">
           <ToolPanel
             label={mode === 'yaml-to-json' ? 'YAML Input' : 'JSON Input'}
-            accent="primary"
-            action={<CopyButton text={input} accent="primary" />}
+            
+            action={<CopyButton text={input}  />}
           >
             <ToolTextarea
               value={input}
@@ -139,27 +139,27 @@ address:
                   : 'Paste JSON here...\n\nExample:\n{\n  "name": "John",\n  "age": 30\n}'
               }
               rows={16}
-              accent="primary"
+              
             />
           </ToolPanel>
 
           <ToolPanel
             label={mode === 'yaml-to-json' ? 'JSON Output' : 'YAML Output'}
-            accent="secondary"
-            action={<CopyButton text={output} accent="secondary" />}
+            
+            action={<CopyButton text={output}  />}
           >
             {error ? (
               <ToolError message={error} />
             ) : (
-              <ToolTextarea value={output} readOnly rows={16} accent="secondary" />
+              <ToolTextarea value={output} readOnly rows={16}  />
             )}
           </ToolPanel>
         </div>
 
         {/* Info */}
         <div className="grid gap-4 md:grid-cols-2">
-          <ToolInfo title="YAML Features" accent="tertiary">
-            <div className="text-midnight-700 space-y-2 p-4 text-sm">
+          <ToolInfo title="YAML Features" >
+            <div className="text-midnight-950 space-y-2 p-4 text-sm">
               <p className="text-midnight-950 mb-2 font-medium">✨ Benefits:</p>
               <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
                 <li>More readable and concise than JSON</li>
@@ -171,8 +171,8 @@ address:
             </div>
           </ToolInfo>
 
-          <ToolInfo title="Common Use Cases" accent="tertiary">
-            <div className="text-midnight-700 space-y-2 p-4 text-sm">
+          <ToolInfo title="Common Use Cases" >
+            <div className="text-midnight-950 space-y-2 p-4 text-sm">
               <p className="text-midnight-950 mb-2 font-medium">💡 When to use:</p>
               <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
                 <li>Kubernetes manifests and Helm charts</li>

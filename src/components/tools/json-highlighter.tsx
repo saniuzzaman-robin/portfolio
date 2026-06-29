@@ -65,7 +65,7 @@ function highlightLine(line: string): React.ReactNode {
 
       if (j < line.length && line[j] === ':') {
         elements.push(
-          <span key={`key-${i}`} className="text-cyan-300">
+          <span key={`key-${i}`} className="text-midnight-950 font-bold">
             {key}
           </span>
         );
@@ -73,7 +73,7 @@ function highlightLine(line: string): React.ReactNode {
       } else {
         // This is a string value
         elements.push(
-          <span key={`str-${i}`} className="text-emerald-300">
+          <span key={`str-${i}`} className="text-midnight-950">
             {key}
           </span>
         );
@@ -89,7 +89,7 @@ function highlightLine(line: string): React.ReactNode {
         i++;
       }
       elements.push(
-        <span key={`num-${i}`} className="text-amber-300">
+        <span key={`num-${i}`} className="text-amber-500">
           {line.slice(start, i)}
         </span>
       );
@@ -100,7 +100,7 @@ function highlightLine(line: string): React.ReactNode {
     if (line.slice(i, i + 4) === 'true' || line.slice(i, i + 5) === 'false') {
       const len = line.slice(i, i + 4) === 'true' ? 4 : 5;
       elements.push(
-        <span key={`bool-${i}`} className="text-purple-300">
+        <span key={`bool-${i}`} className="text-purple-500">
           {line.slice(i, i + len)}
         </span>
       );
@@ -110,7 +110,7 @@ function highlightLine(line: string): React.ReactNode {
 
     if (line.slice(i, i + 4) === 'null') {
       elements.push(
-        <span key={`null-${i}`} className="text-purple-300">
+        <span key={`null-${i}`} className="text-purple-500">
           null
         </span>
       );
@@ -122,7 +122,7 @@ function highlightLine(line: string): React.ReactNode {
     if (/[{}[\]:,]/.test(line[i])) {
       const char = line[i];
       elements.push(
-        <span key={`bracket-${i}`} className="text-gray-300">
+        <span key={`bracket-${i}`} className="text-midnight-950">
           {char}
         </span>
       );
@@ -132,7 +132,7 @@ function highlightLine(line: string): React.ReactNode {
 
     // Default: just add the character
     elements.push(
-      <span key={`char-${i}`} className="text-midnight-400">
+      <span key={`char-${i}`} className="text-midnight-950">
         {line[i]}
       </span>
     );
