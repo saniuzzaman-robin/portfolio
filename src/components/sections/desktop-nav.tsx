@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import type { NavItem, SimpleLink, GroupLink } from '@/components/sections/navigation';
+import type { NavItem, GroupLink } from '@/components/sections/navigation';
 
 const dropdownVariants = {
   hidden: { opacity: 0, y: -8, scale: 0.96 },
