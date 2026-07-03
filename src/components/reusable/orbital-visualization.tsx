@@ -260,9 +260,10 @@ function Scene({ isLight }: { isLight: boolean }) {
 export function OrbitalVisualization() {
   const { theme } = useTheme();
   const isLight = theme === 'light';
+  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="h-full w-full">
+    <div ref={containerRef} className="h-full w-full">
       <Canvas
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
