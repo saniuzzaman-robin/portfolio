@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -207,7 +206,6 @@ export default function ColorPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Color Converter"
         subtitle="HEX, RGB, HSL, CMYK & More"
@@ -279,10 +277,7 @@ export default function ColorPage() {
         {/* Format conversions grid */}
         <div className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {/* HEX */}
-          <ToolPanel
-            label="HEX"
-            action={<CopyButton text={hex} />}
-          >
+          <ToolPanel label="HEX" action={<CopyButton text={hex} />}>
             <div className="space-y-3">
               <button
                 onClick={() => copyToClipboard(hex)}
@@ -342,9 +337,7 @@ export default function ColorPage() {
           {hsl && (
             <ToolPanel
               label="HSL"
-              action={
-                <CopyButton text={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} />
-              }
+              action={<CopyButton text={`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`} />}
             >
               <div className="space-y-3">
                 <button
@@ -375,11 +368,7 @@ export default function ColorPage() {
           {cmyk && (
             <ToolPanel
               label="CMYK"
-              action={
-                <CopyButton
-                  text={`cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`}
-                />
-              }
+              action={<CopyButton text={`cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`} />}
             >
               <div className="space-y-3">
                 <button
@@ -410,9 +399,7 @@ export default function ColorPage() {
           {rgb && (
             <ToolPanel
               label="Decimal"
-              action={
-                <CopyButton text={`${rgb.r * 65536 + rgb.g * 256 + rgb.b}`} />
-              }
+              action={<CopyButton text={`${rgb.r * 65536 + rgb.g * 256 + rgb.b}`} />}
             >
               <div className="space-y-3">
                 <button

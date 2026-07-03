@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -63,7 +62,6 @@ export default function TimestampPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Timestamp Converter"
         subtitle="Unix ↔ Human Date"
@@ -79,10 +77,7 @@ export default function TimestampPage() {
 
         <div className="mt-6 mb-6 grid gap-4 md:grid-cols-2">
           {mode === 'unix-to-human' ? (
-            <ToolPanel
-              label="Unix Timestamp"
-              action={<CopyButton text={unixInput} />}
-            >
+            <ToolPanel label="Unix Timestamp" action={<CopyButton text={unixInput} />}>
               <input
                 type="text"
                 value={unixInput}
@@ -92,10 +87,7 @@ export default function TimestampPage() {
               />
             </ToolPanel>
           ) : (
-            <ToolPanel
-              label="Human Date"
-              action={<CopyButton text={humanInput} />}
-            >
+            <ToolPanel label="Human Date" action={<CopyButton text={humanInput} />}>
               <input
                 type="text"
                 value={humanInput}
@@ -106,10 +98,7 @@ export default function TimestampPage() {
             </ToolPanel>
           )}
 
-          <ToolPanel
-            label="Output"
-            action={<CopyButton text={output} />}
-          >
+          <ToolPanel label="Output" action={<CopyButton text={output} />}>
             <div className="text-midnight-500 bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-2 font-mono text-sm">
               {output || 'Result appears here…'}
             </div>

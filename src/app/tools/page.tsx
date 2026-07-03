@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Navigation } from '@/components/sections/navigation';
 import { Footer } from '@/components/sections/footer';
 import { ToolsGrid } from '@/components/sections/tools-grid';
 import { Wrench, Zap, Shield, Laptop } from 'lucide-react';
@@ -22,8 +21,6 @@ export default function ToolsPage() {
 
   return (
     <main className="bg-midnight-900 text-midnight-950 min-h-screen">
-      <Navigation />
-
       <section className="relative overflow-hidden px-6 pt-24 pb-16 md:px-12 lg:px-20">
         <div className="absolute inset-0 overflow-hidden">
           <div className="aurora-blob aurora-blob-primary absolute top-0 left-1/2 h-75 w-125 -translate-x-1/2 opacity-10" />

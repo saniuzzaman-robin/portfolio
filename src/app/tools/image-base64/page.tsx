@@ -2,7 +2,6 @@
 
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolTextarea, CopyButton } from '@/components/tools/tool-shell';
 import { FileImage, Upload, X } from 'lucide-react';
 
@@ -68,7 +67,6 @@ export default function ImageBase64Page() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Image to Base64"
         subtitle="Convert & Embed"
@@ -159,10 +157,7 @@ export default function ImageBase64Page() {
 
         {/* Output */}
         {imageData && (
-          <ToolPanel
-            label="Base64 Output"
-            action={<CopyButton text={getOutput()} />}
-          >
+          <ToolPanel label="Base64 Output" action={<CopyButton text={getOutput()} />}>
             <ToolTextarea value={getOutput()} readOnly rows={8} mono />
             <div className="text-midnight-500 border-midnight-200 border-t px-4 py-2 text-xs">
               {getOutput().length.toLocaleString()} characters
@@ -187,7 +182,7 @@ export default function ImageBase64Page() {
             </div>
             <div>
               <p className="text-midnight-950 mb-2 font-medium">Benefits:</p>
-              <ul className="text-midnight-950 list-inside  list-disc space-y-1 text-xs">
+              <ul className="text-midnight-950 list-inside list-disc space-y-1 text-xs">
                 <li>No external file dependencies</li>
                 <li>Single HTTP request</li>
                 <li>Works in emails and offline apps</li>

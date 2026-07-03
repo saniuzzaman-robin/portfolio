@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -69,23 +68,14 @@ export default function JWTPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="JWT Decoder"
         subtitle="Header, Payload & Claims"
         description="Decode JWT tokens and inspect header, payload, claims, and expiry times instantly."
         icon={Shield}
       >
-        <ToolPanel
-          label="JWT Token"
-          action={<CopyButton text={input} />}
-        >
-          <ToolTextarea
-            value={input}
-            onChange={setInput}
-            placeholder="Paste JWT token…"
-            rows={8}
-          />
+        <ToolPanel label="JWT Token" action={<CopyButton text={input} />}>
+          <ToolTextarea value={input} onChange={setInput} placeholder="Paste JWT token…" rows={8} />
         </ToolPanel>
 
         {/* Action button */}

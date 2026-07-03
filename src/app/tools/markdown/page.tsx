@@ -1,15 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolTextarea, ToolInfo } from '@/components/tools/tool-shell';
 import { FileText } from 'lucide-react';
 
 const parseMarkdown = (markdown: string): string => {
-  let html = markdown
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  let html = markdown.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
   html = html.replace(
     /^### (.*?)$/gm,
@@ -113,7 +109,6 @@ Just start typing in the editor to see the preview update instantly.
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Markdown Preview"
         subtitle="Live Editor & Renderer"
@@ -141,7 +136,7 @@ Just start typing in the editor to see the preview update instantly.
         </div>
 
         <ToolInfo title="Supported Markdown">
-          <ul className="list-inside text-midnight-950 list-disc space-y-1">
+          <ul className="text-midnight-950 list-inside list-disc space-y-1">
             <li># Headings (h1-h3)</li>
             <li>**bold** and *italic* text</li>
             <li>`inline code` and code blocks</li>

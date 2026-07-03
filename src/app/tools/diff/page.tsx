@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolTextarea, CopyButton } from '@/components/tools/tool-shell';
 import { FileCode2 } from 'lucide-react';
 
@@ -140,7 +139,6 @@ export default function DiffPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Diff Viewer"
         subtitle="Text Comparison"
@@ -174,10 +172,7 @@ export default function DiffPage() {
 
         {/* Input panels */}
         <div className="mb-6 grid gap-4 md:grid-cols-2">
-          <ToolPanel
-            label="Original Text"
-            action={<CopyButton text={text1} />}
-          >
+          <ToolPanel label="Original Text" action={<CopyButton text={text1} />}>
             <ToolTextarea
               value={text1}
               onChange={setText1}
@@ -186,10 +181,7 @@ export default function DiffPage() {
             />
           </ToolPanel>
 
-          <ToolPanel
-            label="Modified Text"
-            action={<CopyButton text={text2} />}
-          >
+          <ToolPanel label="Modified Text" action={<CopyButton text={text2} />}>
             <ToolTextarea
               value={text2}
               onChange={setText2}

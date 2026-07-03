@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -132,7 +131,6 @@ export default function HashPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Hash Generator"
         subtitle="Multiple Algorithms & Modes"
@@ -153,10 +151,7 @@ export default function HashPage() {
         </div>
 
         {/* Input Textarea */}
-        <ToolPanel
-          label="Input Text"
-          action={<CopyButton text={input} />}
-        >
+        <ToolPanel label="Input Text" action={<CopyButton text={input} />}>
           <ToolTextarea
             value={input}
             onChange={setInput}
@@ -167,10 +162,7 @@ export default function HashPage() {
 
         {/* Secret Key (HMAC only) */}
         {mode === 'hmac' && (
-          <ToolPanel
-            label="Secret Key"
-            action={<CopyButton text={secret} />}
-          >
+          <ToolPanel label="Secret Key" action={<CopyButton text={secret} />}>
             <ToolTextarea
               value={secret}
               onChange={setSecret}
@@ -221,11 +213,7 @@ export default function HashPage() {
                 <ToolPanel
                   key={result.algorithm}
                   label={result.algorithm}
-                  action={
-                    <CopyButton
-                      text={format === 'hex' ? result.hex : result.base64}
-                    />
-                  }
+                  action={<CopyButton text={format === 'hex' ? result.hex : result.base64} />}
                 >
                   <div className="bg-midnight-100 text-midnight-950 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-xs break-all lg:text-sm">
                     {format === 'hex' ? result.hex : result.base64}

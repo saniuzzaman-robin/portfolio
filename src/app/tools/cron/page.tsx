@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolInfo, CopyButton } from '@/components/tools/tool-shell';
 import { CalendarClock } from 'lucide-react';
 
@@ -124,13 +123,11 @@ export default function CronPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Cron Expression"
         subtitle="Builder & Tester"
         description="Build and test cron expressions with a visual interface. Get human-readable explanations and preview execution times."
         icon={CalendarClock}
-        
       >
         <div className="mb-6">
           <label className="text-midnight-500 mb-2 block text-sm font-medium">Quick Presets</label>
@@ -221,21 +218,17 @@ export default function CronPage() {
         </div>
 
         <div className="space-y-4">
-          <ToolPanel
-            label="Cron Expression"
-            
-            action={<CopyButton text={expression}  />}
-          >
+          <ToolPanel label="Cron Expression" action={<CopyButton text={expression} />}>
             <div className="text-tertiary-50 px-4 py-3 font-mono text-lg font-bold">
               {expression}
             </div>
           </ToolPanel>
 
-          <ToolPanel label="Human Readable" >
+          <ToolPanel label="Human Readable">
             <div className="text-midnight-500 px-4 py-3 text-base">{explanation}</div>
           </ToolPanel>
 
-          <ToolInfo title="Syntax Reference" >
+          <ToolInfo title="Syntax Reference">
             <p className="text-midnight-500 text-xs leading-relaxed">
               Use <code className="text-tertiary-50">*</code> for "any value",{' '}
               <code className="text-tertiary-50">*/5</code> for "every 5",{' '}

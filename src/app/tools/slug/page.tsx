@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -94,7 +93,6 @@ export default function SlugPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Text Transform"
         subtitle="Slug · Case Converter"
@@ -110,10 +108,10 @@ export default function SlugPage() {
                 key={value}
                 onClick={() => setMode(value)}
                 aria-label={`Transform to ${label}`}
-                className={`font-sans rounded-sm px-3 py-2 text-xs font-bold transition-all ${
+                className={`rounded-sm px-3 py-2 font-sans text-xs font-bold transition-all ${
                   mode === value
                     ? 'bg-primary-50 text-black'
-                    : 'bg-midnight-100 text-midnight-500 hover:text-midnight-950 border border-midnight-200'
+                    : 'bg-midnight-100 text-midnight-500 hover:text-midnight-950 border-midnight-200 border'
                 }`}
               >
                 {label}
@@ -124,10 +122,7 @@ export default function SlugPage() {
 
         {/* Input/Output */}
         <div className="mb-6 grid gap-4 md:grid-cols-2">
-          <ToolPanel
-            label="Input Text"
-            action={<CopyButton text={input} />}
-          >
+          <ToolPanel label="Input Text" action={<CopyButton text={input} />}>
             <ToolTextarea
               value={input}
               onChange={setInput}
@@ -160,7 +155,7 @@ export default function SlugPage() {
           <ToolInfo title="Common Use Cases">
             <div className="space-y-3">
               <p className="mb-2 font-medium">When to use each format:</p>
-              <ul className="list-inside  list-disc space-y-1 text-xs">
+              <ul className="list-inside list-disc space-y-1 text-xs">
                 <li>
                   <strong className="text-midnight-950">URL Slug:</strong> Blog posts, page URLs
                 </li>
@@ -168,7 +163,8 @@ export default function SlugPage() {
                   <strong className="text-midnight-950">camelCase:</strong> JavaScript variables
                 </li>
                 <li>
-                  <strong className="text-midnight-950">PascalCase:</strong> React components, classes
+                  <strong className="text-midnight-950">PascalCase:</strong> React components,
+                  classes
                 </li>
                 <li>
                   <strong className="text-midnight-950">snake_case:</strong> Python, Ruby, SQL
@@ -177,7 +173,8 @@ export default function SlugPage() {
                   <strong className="text-midnight-950">kebab-case:</strong> CSS classes, URLs
                 </li>
                 <li>
-                  <strong className="text-midnight-950">CONSTANT_CASE:</strong> Environment variables
+                  <strong className="text-midnight-950">CONSTANT_CASE:</strong> Environment
+                  variables
                 </li>
               </ul>
             </div>

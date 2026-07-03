@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -171,7 +170,6 @@ export default function SQLPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="SQL Formatter"
         subtitle="Format & Minify"
@@ -185,19 +183,12 @@ export default function SQLPage() {
             active={mode}
             onChange={(t) => setMode(t as typeof mode)}
           />
-          <ToolActionButton
-            onClick={process}
-            icon={Play}
-            label="Process (⌘/Ctrl+Enter)"
-          />
+          <ToolActionButton onClick={process} icon={Play} label="Process (⌘/Ctrl+Enter)" />
         </div>
 
         {/* Input/Output */}
         <div className="grid gap-4 md:grid-cols-2">
-          <ToolPanel
-            label="SQL Input"
-            action={<CopyButton text={input} />}
-          >
+          <ToolPanel label="SQL Input" action={<CopyButton text={input} />}>
             <ToolTextarea
               value={input}
               onChange={setInput}
