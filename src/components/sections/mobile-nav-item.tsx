@@ -25,8 +25,6 @@ export function MobileNavItem({
       href={href}
       onClick={onClick}
       className={`group relative flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${
-        nested ? 'pl-11' : ''
-      } ${
         active
           ? 'bg-aurora-green/10 text-aurora-green'
           : 'text-midnight-500 hover:bg-midnight-100/5'
@@ -35,7 +33,7 @@ export function MobileNavItem({
       {!nested && (
         <span
           className={`absolute top-1 bottom-1 left-0 w-0.5 rounded-r transition-all duration-200 ${
-            active ? 'bg-aurora-green' : 'bg-transparent group-hover:bg-midnight-300/30'
+            active ? 'bg-aurora-green' : 'group-hover:bg-midnight-300/30 bg-transparent'
           }`}
         />
       )}
