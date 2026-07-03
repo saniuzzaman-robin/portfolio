@@ -54,7 +54,18 @@ export const metadata: Metadata = {
     creator: '@saniuzzaman_robin',
     images: ['https://saniuzzaman.dev/og_image.png'],
   },
-  robots: { index: true, follow: true, nocache: false },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
+  },
   alternates: { canonical: 'https://saniuzzaman.dev/tools' },
 };
 

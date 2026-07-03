@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { generateToolMetadata } from '@/lib/tool-metadata';
 
-export const metadata: Metadata = {
-  title: 'Base64 Encoder/Decoder | Developer Tools',
+export const metadata: Metadata = generateToolMetadata({
+  title: 'Base64 Encoder/Decoder - Developer Tool',
   description:
-    'Encode any text to Base64 or decode Base64 back to plain text. Handles Unicode strings correctly. Fast, free, runs entirely in your browser.',
+    'Encode any text to Base64 or decode Base64 back to plain text. Handles Unicode strings correctly. Fast, free, runs entirely in your browser with no data tracking.',
   keywords: [
     'base64',
     'encode',
@@ -12,12 +13,10 @@ export const metadata: Metadata = {
     'decoder',
     'base64 encoding',
     'text encoding',
+    'online tool',
+    'unicode',
   ],
-  openGraph: {
-    title: 'Base64 Encoder/Decoder | Developer Tools',
-    description: 'Encode & decode Base64 strings instantly. Unicode support, no server processing.',
-    url: 'https://saniuzzaman.dev/tools/base64',
-  },
-};
+  toolPath: 'base64',
+});
 
 export { default } from './page';

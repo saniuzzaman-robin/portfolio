@@ -1,26 +1,27 @@
 import type { Metadata } from 'next';
+import { generateToolMetadata } from '@/lib/tool-metadata';
 
-export const metadata: Metadata = {
-  title: 'JSON Tools (Format, Validate, Diff, Minify) | Developer Tools',
+export const metadata: Metadata = generateToolMetadata({
+  title: 'JSON Formatter, Validator & Diff Tool - Developer Tool',
   description:
-    'Format, validate, minify, and compare JSON documents. Pretty-print with custom indentation, validate syntax, and diff two JSON files side by side.',
+    'Format, validate, minify, and compare JSON documents. Pretty-print with custom indentation, validate syntax, side-by-side diff, and more. All in your browser.',
   keywords: [
     'json',
     'format',
+    'formatter',
     'validate',
+    'validator',
     'minify',
+    'minifier',
     'diff',
+    'json diff',
     'json formatter',
     'json validator',
     'json compare',
     'json beautify',
+    'online tool',
   ],
-  openGraph: {
-    title: 'JSON Tools | Developer Tools',
-    description:
-      'Format, validate, minify, and diff JSON. Custom indentation, instant validation, side-by-side comparison.',
-    url: 'https://saniuzzaman.dev/tools/json',
-  },
-};
+  toolPath: 'json',
+});
 
 export { default } from './page';
