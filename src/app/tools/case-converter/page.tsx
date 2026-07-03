@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolTextarea, CopyButton } from '@/components/tools/tool-shell';
 import { Type } from 'lucide-react';
 
@@ -90,7 +89,10 @@ const toTitleCase = (str: string): string =>
     .join(' ');
 
 const toSentenceCase = (str: string): string => {
-  const cleaned = str.replace(/[-_./]+/g, ' ').toLowerCase().trim();
+  const cleaned = str
+    .replace(/[-_./]+/g, ' ')
+    .toLowerCase()
+    .trim();
   return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
 };
 
@@ -133,12 +135,11 @@ export default function CaseConverterPage() {
         CaseType,
         string
       >,
-    [input],
+    [input]
   );
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Case Converter"
         subtitle="11 Case Formats"
@@ -161,11 +162,7 @@ export default function CaseConverterPage() {
             <ToolPanel
               key={caseType}
               label={caseType}
-              action={
-                outputs[caseType] ? (
-                  <CopyButton text={outputs[caseType]} />
-                ) : undefined
-              }
+              action={outputs[caseType] ? <CopyButton text={outputs[caseType]} /> : undefined}
             >
               <div className="bg-midnight-100 text-midnight-950 min-h-10 rounded p-3 font-mono text-sm break-all">
                 {outputs[caseType] || '—'}

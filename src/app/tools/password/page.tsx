@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolActionButton, CopyButton } from '@/components/tools/tool-shell';
 import { Lock, RefreshCw } from 'lucide-react';
 
@@ -82,17 +81,15 @@ export default function PasswordGeneratorPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Password Generator"
         subtitle="Secure & Customizable"
         description="Generate strong, random passwords with customizable length and character sets. Copy with one click."
         icon={Lock}
-        
       >
         <div className="mb-6 grid gap-6 lg:grid-cols-2">
           {/* Options */}
-          <ToolPanel label="Settings" >
+          <ToolPanel label="Settings">
             <div className="space-y-5 p-4">
               {/* Length slider */}
               <div>
@@ -139,7 +136,6 @@ export default function PasswordGeneratorPage() {
 
               <ToolActionButton
                 onClick={handleGenerate}
-                
                 icon={RefreshCw}
                 label="Generate Passwords"
                 fullWidth={true}
@@ -148,11 +144,11 @@ export default function PasswordGeneratorPage() {
           </ToolPanel>
 
           {/* Info */}
-          <ToolPanel label="Info" >
+          <ToolPanel label="Info">
             <div className="text-midnight-950 space-y-4 p-4 text-sm">
               <div>
                 <p className="text-midnight-950 mb-2 font-medium">Recommended Length</p>
-                <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
+                <ul className="text-midnight-950 list-inside list-disc space-y-1 text-xs">
                   <li>Social media: 12-16 characters</li>
                   <li>Email/banking: 16-20 characters</li>
                   <li>Critical systems: 20+ characters</li>
@@ -160,7 +156,7 @@ export default function PasswordGeneratorPage() {
               </div>
               <div>
                 <p className="text-midnight-950 mb-2 font-medium">Best Practices</p>
-                <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
+                <ul className="text-midnight-950 list-inside list-disc space-y-1 text-xs">
                   <li>Use all character types</li>
                   <li>Avoid dictionary words</li>
                   <li>Never reuse passwords</li>
@@ -191,7 +187,7 @@ export default function PasswordGeneratorPage() {
                         Strength: {strength.strength}
                       </div>
                     </div>
-                    <CopyButton text={password}  />
+                    <CopyButton text={password} />
                   </div>
                 );
               })}

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -73,7 +72,6 @@ export default function MinifyPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Code Minifier"
         subtitle="HTML, CSS, JS & JSON"
@@ -87,10 +85,7 @@ export default function MinifyPage() {
         />
 
         <div className="mt-6 mb-6">
-          <ToolPanel
-            label="Input"
-            action={<CopyButton text={input} />}
-          >
+          <ToolPanel label="Input" action={<CopyButton text={input} />}>
             <ToolTextarea
               value={input}
               onChange={setInput}
@@ -118,16 +113,13 @@ export default function MinifyPage() {
         <ToolError message={error} />
 
         {output && (
-          <ToolPanel
-            label="Output"
-            action={<CopyButton text={output} />}
-          >
+          <ToolPanel label="Output" action={<CopyButton text={output} />}>
             <ToolTextarea value={output} readOnly rows={12} />
           </ToolPanel>
         )}
 
         {output && !error && (
-          <div className="text-midnight-500 font-sans mt-4 flex flex-wrap gap-6 text-xs lg:text-sm">
+          <div className="text-midnight-500 mt-4 flex flex-wrap gap-6 font-sans text-xs lg:text-sm">
             <span>
               Input: <strong className="text-midnight-950">{input.length} chars</strong>
             </span>

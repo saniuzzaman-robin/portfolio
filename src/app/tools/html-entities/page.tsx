@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -93,7 +92,6 @@ export default function HTMLEntitiesPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="HTML Entities"
         subtitle="Encode / Decode"
@@ -107,11 +105,7 @@ export default function HTMLEntitiesPage() {
               active={mode}
               onChange={(t) => setMode(t as typeof mode)}
             />
-            <ToolSecondaryButton
-              onClick={swapMode}
-              icon={ArrowRightLeft}
-              label="Swap"
-            />
+            <ToolSecondaryButton onClick={swapMode} icon={ArrowRightLeft} label="Swap" />
             <ToolActionButton
               onClick={process}
               disabled={!input.trim()}

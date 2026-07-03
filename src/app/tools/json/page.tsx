@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -84,7 +83,6 @@ export default function JSONPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="JSON Tools"
         subtitle="Format, Minify & Diff"
@@ -101,10 +99,7 @@ export default function JSONPage() {
         <div className="mt-6">
           {mode === 'diff' ? (
             <div className="mb-6 grid gap-4 md:grid-cols-2">
-              <ToolPanel
-                label="JSON Input 1"
-                action={<CopyButton text={input1} />}
-              >
+              <ToolPanel label="JSON Input 1" action={<CopyButton text={input1} />}>
                 <ToolTextarea
                   value={input1}
                   onChange={setInput1}
@@ -112,10 +107,7 @@ export default function JSONPage() {
                   rows={12}
                 />
               </ToolPanel>
-              <ToolPanel
-                label="JSON Input 2"
-                action={<CopyButton text={input2} />}
-              >
+              <ToolPanel label="JSON Input 2" action={<CopyButton text={input2} />}>
                 <ToolTextarea
                   value={input2}
                   onChange={setInput2}
@@ -169,7 +161,7 @@ export default function JSONPage() {
         )}
 
         {mode === 'diff' && diffStats ? (
-          <div className="text-midnight-500 font-sans mt-4 text-xs">
+          <div className="text-midnight-500 mt-4 font-sans text-xs">
             <span>JSON valid ✓</span>
             {diffStats.modified > 0 && (
               <span className="ml-4">• {diffStats.modified} modified</span>
@@ -179,7 +171,7 @@ export default function JSONPage() {
           </div>
         ) : (
           stats.valid && (
-            <div className="text-midnight-500 font-sans mt-4 text-xs lg:text-sm">
+            <div className="text-midnight-500 mt-4 font-sans text-xs lg:text-sm">
               <span>JSON valid ✓</span>
               {stats.keys !== undefined && (
                 <span className="ml-4">• {stats.keys} top-level keys</span>

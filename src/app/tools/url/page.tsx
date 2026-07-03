@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -55,34 +54,29 @@ export default function URLPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="URL Tools"
         subtitle="Encode, Decode & Parse"
         description="Encode/decode URLs and parse query parameters visually. Break down URL components instantly."
         icon={Link}
-        
       >
         {/* Mode tabs */}
         <ToolTabs
           tabs={['encode', 'decode', 'parse']}
           active={mode}
           onChange={(t) => setMode(t as 'encode' | 'decode' | 'parse')}
-          
         />
 
         <div className="mt-6 mb-6">
           <ToolPanel
             label={mode === 'parse' ? 'Full URL' : mode === 'encode' ? 'Plain Text' : 'Encoded URL'}
-            
-            action={<CopyButton text={input}  />}
+            action={<CopyButton text={input} />}
           >
             <ToolTextarea
               value={input}
               onChange={setInput}
               placeholder={mode === 'parse' ? 'Paste full URL…' : 'Enter text…'}
               rows={8}
-              
             />
           </ToolPanel>
         </div>
@@ -92,7 +86,6 @@ export default function URLPage() {
           <ToolActionButton
             onClick={process}
             disabled={!input.trim()}
-            
             icon={Link}
             label={mode === 'encode' ? 'Encode' : mode === 'decode' ? 'Decode' : 'Parse URL'}
           />
@@ -103,8 +96,7 @@ export default function URLPage() {
         {output && (
           <ToolPanel
             label={mode === 'parse' ? 'URL Components' : 'Result'}
-            
-            action={<CopyButton text={output}  />}
+            action={<CopyButton text={output} />}
           >
             <div className="text-midnight-950 bg-midnight-100 border-midnight-200 rounded-sm border px-4 py-3 font-mono text-sm break-all">
               {output}

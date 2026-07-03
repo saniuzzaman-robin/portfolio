@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import { ToolShell, ToolPanel, ToolTabs, ToolActionButton } from '@/components/tools/tool-shell';
 import { Fingerprint, RefreshCw } from 'lucide-react';
 
@@ -82,22 +81,15 @@ export default function UuidPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="ID Generator"
         subtitle="UUID · ULID · NanoID"
         description="Generate cryptographically random identifiers in multiple formats. All generation happens in your browser."
         icon={Fingerprint}
-        
       >
         {/* Controls */}
         <div className="mb-6 flex flex-wrap items-center gap-4">
-          <ToolTabs
-            tabs={FORMATS}
-            active={format}
-            onChange={(t) => setFormat(t as Format)}
-            
-          />
+          <ToolTabs tabs={FORMATS} active={format} onChange={(t) => setFormat(t as Format)} />
 
           <div className="flex items-center gap-2">
             <label className="text-midnight-500 font-sans text-xs tracking-widest uppercase lg:text-sm">
@@ -106,7 +98,7 @@ export default function UuidPage() {
             <select
               value={count}
               onChange={(e) => setCount(Number(e.target.value))}
-              className="bg-midnight-100 text-midnight-950 font-sans focus:border-secondary-50/40 rounded-sm border border-midnight-200 px-2 py-1.5 text-xs focus:outline-none lg:text-sm"
+              className="bg-midnight-100 text-midnight-950 focus:border-secondary-50/40 border-midnight-200 rounded-sm border px-2 py-1.5 font-sans text-xs focus:outline-none lg:text-sm"
             >
               {[1, 5, 10, 25, 50, 100].map((n) => (
                 <option key={n} value={n}>
@@ -116,22 +108,16 @@ export default function UuidPage() {
             </select>
           </div>
 
-          <ToolActionButton
-            onClick={generate}
-            
-            icon={RefreshCw}
-            label="Generate UUIDs"
-          />
+          <ToolActionButton onClick={generate} icon={RefreshCw} label="Generate UUIDs" />
         </div>
 
         <ToolPanel
           label={`${format} — ${ids.length} IDs`}
-          
           action={
             <button
               onClick={copyAll}
               aria-label="Copy all IDs"
-              className="font-sans text-secondary-50 border-secondary-50/25 hover:bg-secondary-50/10 rounded-sm border px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
+              className="text-secondary-50 border-secondary-50/25 hover:bg-secondary-50/10 rounded-sm border px-3 py-1.5 font-sans text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
             >
               {copied === -1 ? '✓ Copied all' : 'Copy all'}
             </button>
@@ -150,7 +136,7 @@ export default function UuidPage() {
                   <button
                     onClick={() => copyOne(id, i)}
                     aria-label={`Copy ID ${i + 1}`}
-                    className="font-sans border-secondary-50/25 text-secondary-50 hover:bg-secondary-50/10 rounded-sm border px-2 py-1 text-[9px] font-bold tracking-widest uppercase transition-colors"
+                    className="border-secondary-50/25 text-secondary-50 hover:bg-secondary-50/10 rounded-sm border px-2 py-1 font-sans text-[9px] font-bold tracking-widest uppercase transition-colors"
                   >
                     {copied === i ? '✓' : 'Copy'}
                   </button>
@@ -170,8 +156,8 @@ export default function UuidPage() {
               ['NanoID', '21-char URL-safe, ~twice smaller than UUID'],
             ] as const
           ).map(([name, desc]) => (
-            <div key={name} className="bg-midnight-100 rounded-sm border border-midnight-200 p-3">
-              <p className="text-secondary-50 font-sans mb-1 text-[10px] font-bold tracking-widest uppercase">
+            <div key={name} className="bg-midnight-100 border-midnight-200 rounded-sm border p-3">
+              <p className="text-secondary-50 mb-1 font-sans text-[10px] font-bold tracking-widest uppercase">
                 {name}
               </p>
               <p className="text-midnight-500 text-xs leading-relaxed lg:text-sm">{desc}</p>

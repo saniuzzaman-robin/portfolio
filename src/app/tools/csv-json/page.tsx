@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -103,7 +102,6 @@ Bob Johnson,bob@example.com,Manager`);
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="CSV ↔ JSON"
         subtitle="Convert & Transform"

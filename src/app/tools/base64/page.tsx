@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -50,7 +49,6 @@ export default function Base64Page() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Base64"
         subtitle="Encoder / Decoder"
@@ -67,7 +65,7 @@ export default function Base64Page() {
           <button
             onClick={swapMode}
             aria-label="Swap encode and decode modes"
-            className="font-sans text-midnight-500 hover:text-primary-50 hover:border-primary-50/30 rounded-sm border border-midnight-200 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
+            className="text-midnight-500 hover:text-primary-50 hover:border-primary-50/30 border-midnight-200 rounded-sm border px-3 py-1.5 font-sans text-[10px] font-bold tracking-widest uppercase transition-all duration-200"
           >
             ⇄ Swap
           </button>
@@ -113,7 +111,7 @@ export default function Base64Page() {
           />
 
           {output && !error && (
-            <div className="text-midnight-500 font-sans flex flex-wrap gap-6 text-xs lg:text-sm">
+            <div className="text-midnight-500 flex flex-wrap gap-6 font-sans text-xs lg:text-sm">
               <span>
                 Input: <strong className="text-midnight-950">{input.length} chars</strong>
               </span>

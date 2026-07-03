@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -91,7 +90,6 @@ export default function LoremPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Lorem Ipsum"
         subtitle="Placeholder Text Generator"
@@ -163,10 +161,7 @@ export default function LoremPage() {
 
         {/* Output */}
         {output && (
-          <ToolPanel
-            label="Generated Text"
-            action={<CopyButton text={output} />}
-          >
+          <ToolPanel label="Generated Text" action={<CopyButton text={output} />}>
             <ToolTextarea value={output} readOnly rows={14} />
           </ToolPanel>
         )}

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -90,7 +89,6 @@ export default function QRCodePage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="QR Code"
         subtitle="Generator · Local"

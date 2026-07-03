@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -88,13 +87,11 @@ address:
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="YAML ↔ JSON"
         subtitle="Converter & Formatter"
         description="Convert between YAML and JSON formats. Perfect for config files, Kubernetes manifests, CI/CD pipelines, and API data."
         icon={Code}
-        
       >
         {/* Controls */}
         <div className="mb-6 flex flex-wrap items-center gap-4">
@@ -102,33 +99,23 @@ address:
             tabs={['yaml-to-json', 'json-to-yaml']}
             active={mode}
             onChange={(t) => setMode(t as typeof mode)}
-            
             labels={{ 'yaml-to-json': 'YAML → JSON', 'json-to-yaml': 'JSON → YAML' }}
           />
-          <ToolSecondaryButton
-            onClick={swapMode}
-            icon={ArrowRightLeft}
-            label="Swap"
-          />
+          <ToolSecondaryButton onClick={swapMode} icon={ArrowRightLeft} label="Swap" />
           <ToolActionButton
             onClick={convert}
             disabled={!input.trim()}
-            
             icon={ArrowRightLeft}
             label="Convert"
           />
-          <ToolSecondaryButton
-            onClick={loadExample}
-            label="Load Example"
-          />
+          <ToolSecondaryButton onClick={loadExample} label="Load Example" />
         </div>
 
         {/* Input/Output */}
         <div className="mb-6 grid gap-4 md:grid-cols-2">
           <ToolPanel
             label={mode === 'yaml-to-json' ? 'YAML Input' : 'JSON Input'}
-            
-            action={<CopyButton text={input}  />}
+            action={<CopyButton text={input} />}
           >
             <ToolTextarea
               value={input}
@@ -139,29 +126,27 @@ address:
                   : 'Paste JSON here...\n\nExample:\n{\n  "name": "John",\n  "age": 30\n}'
               }
               rows={16}
-              
             />
           </ToolPanel>
 
           <ToolPanel
             label={mode === 'yaml-to-json' ? 'JSON Output' : 'YAML Output'}
-            
-            action={<CopyButton text={output}  />}
+            action={<CopyButton text={output} />}
           >
             {error ? (
               <ToolError message={error} />
             ) : (
-              <ToolTextarea value={output} readOnly rows={16}  />
+              <ToolTextarea value={output} readOnly rows={16} />
             )}
           </ToolPanel>
         </div>
 
         {/* Info */}
         <div className="grid gap-4 md:grid-cols-2">
-          <ToolInfo title="YAML Features" >
+          <ToolInfo title="YAML Features">
             <div className="text-midnight-950 space-y-2 p-4 text-sm">
               <p className="text-midnight-950 mb-2 font-medium">✨ Benefits:</p>
-              <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
+              <ul className="text-midnight-950 list-inside list-disc space-y-1 text-xs">
                 <li>More readable and concise than JSON</li>
                 <li>Supports comments (# comment)</li>
                 <li>No need for quotes around strings</li>
@@ -171,10 +156,10 @@ address:
             </div>
           </ToolInfo>
 
-          <ToolInfo title="Common Use Cases" >
+          <ToolInfo title="Common Use Cases">
             <div className="text-midnight-950 space-y-2 p-4 text-sm">
               <p className="text-midnight-950 mb-2 font-medium">💡 When to use:</p>
-              <ul className="list-inside text-midnight-950 list-disc space-y-1 text-xs">
+              <ul className="text-midnight-950 list-inside list-disc space-y-1 text-xs">
                 <li>Kubernetes manifests and Helm charts</li>
                 <li>Docker Compose and CI/CD configs</li>
                 <li>Application configuration files</li>

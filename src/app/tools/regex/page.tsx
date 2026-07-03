@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '@/components/sections/navigation';
 import {
   ToolShell,
   ToolPanel,
@@ -60,20 +59,14 @@ export default function RegexPage() {
 
   return (
     <>
-      <Navigation />
       <ToolShell
         title="Regex Tester"
         subtitle="Live Matching & Validation"
         description="Test regular expressions with live match highlighting and flag toggling. Validate patterns instantly."
         icon={Wand2}
-        
       >
         <div className="mb-6 grid gap-4 md:grid-cols-2">
-          <ToolPanel
-            label="Regex Pattern"
-            
-            action={<CopyButton text={pattern}  />}
-          >
+          <ToolPanel label="Regex Pattern" action={<CopyButton text={pattern} />}>
             <input
               type="text"
               value={pattern}
@@ -108,17 +101,12 @@ export default function RegexPage() {
           </div>
         </div>
 
-        <ToolPanel
-          label="Test String"
-          
-          action={<CopyButton text={testString}  />}
-        >
+        <ToolPanel label="Test String" action={<CopyButton text={testString} />}>
           <ToolTextarea
             value={testString}
             onChange={setTestString}
             placeholder="Paste text to test…"
             rows={10}
-            
           />
         </ToolPanel>
 
@@ -126,7 +114,6 @@ export default function RegexPage() {
           <ToolActionButton
             onClick={testRegex}
             disabled={!pattern.trim()}
-            
             icon={Zap}
             label="Test Pattern"
           />
@@ -161,7 +148,7 @@ export default function RegexPage() {
               </div>
             </div>
 
-            <ToolPanel label="Highlighted Text" >
+            <ToolPanel label="Highlighted Text">
               <div className="text-midnight-950 bg-midnight-100 border-midnight-200 max-h-48 overflow-y-auto rounded-sm border px-4 py-3 font-mono text-xs break-all whitespace-pre-wrap lg:text-sm">
                 {highlightMatches()
                   .split('[MATCH]')
