@@ -158,7 +158,11 @@ export function Hero() {
         <span className="text-midnight-500 text-xs font-medium tracking-widest uppercase">
           Scroll
         </span>
-        <div className="from-midnight-300 h-8 w-px bg-linear-to-b to-transparent" />
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          className="from-midnight-300 h-8 w-px bg-linear-to-b to-transparent"
+        />
       </motion.div>
     </section>
   );
