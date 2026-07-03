@@ -400,7 +400,7 @@ export function Navigation() {
                   onClick={() => setIsMenuOpen(false)}
                   className="font-heading text-lg font-bold tracking-wide"
                 >
-                  <MultilingualLogo showDevSuffix={true} />
+                  Md. Saniuzzaman Robin
                 </Link>
                 <p className="text-midnight-500 text-sm">Software Engineer</p>
               </div>

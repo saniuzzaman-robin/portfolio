@@ -54,7 +54,7 @@ export function MobileNavMenu({
       >
         <span
           className={`absolute top-1 bottom-1 left-0 w-0.5 rounded-r transition-all duration-200 ${
-            groupActive ? 'bg-aurora-green' : 'bg-transparent group-hover:bg-midnight-300/30'
+            groupActive ? 'bg-aurora-green' : 'group-hover:bg-midnight-300/30 bg-transparent'
           }`}
         />
         <span
@@ -68,7 +68,7 @@ export function MobileNavMenu({
         </span>
         <span className="flex-1 text-left">{label}</span>
         <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-          <ChevronDown className="h-4 w-4 text-midnight-500" />
+          <ChevronDown className="text-midnight-500 h-4 w-4" />
         </motion.div>
       </button>
 
@@ -82,7 +82,7 @@ export function MobileNavMenu({
             className="overflow-y-auto"
             style={{ maxHeight: '40vh' }}
           >
-            <div className="ml-4 mt-1 flex flex-col gap-0.5 border-l border-midnight-200 pl-2">
+            <div className="border-midnight-200 mt-1 ml-4 flex flex-col gap-0.5 border-l">
               {items.map((item) => (
                 <MobileNavItem
                   key={item.href}
