@@ -128,7 +128,7 @@ Just start typing in the editor to see the preview update instantly.
           <ToolPanel label="Live Preview">
             <div className="p-4">
               <div
-                className="prose prose-invert text-midnight-950 max-w-none space-y-2 text-sm leading-relaxed break-words"
+                className="prose prose-invert text-midnight-950 max-w-none space-y-2 text-sm leading-relaxed wrap-break-word"
                 dangerouslySetInnerHTML={{ __html: html }}
               />
             </div>
