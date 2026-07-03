@@ -155,10 +155,16 @@ export function Hero() {
         transition={{ delay: 1.5, duration: 0.5 }}
         className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
       >
-        <span className="text-midnight-500 text-xs font-medium tracking-widest uppercase">
+        <motion.span
+          initial={{ opacity: 0.5 }}
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          className="text-midnight-500 text-xs font-medium tracking-widest uppercase"
+        >
           Scroll
-        </span>
+        </motion.span>
         <motion.div
+          initial={{ y: 0 }}
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           className="from-midnight-300 h-8 w-px bg-linear-to-b to-transparent"
