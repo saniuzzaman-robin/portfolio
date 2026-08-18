@@ -6,7 +6,6 @@ const routes = [
   { path: '/skills', label: 'Skills' },
   { path: '/resume', label: 'Resume' },
   { path: '/blog', label: 'Blog' },
-  { path: '/games', label: 'Games' },
 ] as const;
 
 test.describe('Static pages', () => {
@@ -30,11 +29,6 @@ test.describe('Navigation', () => {
     await expect(page).toHaveURL(/\/projects/);
   });
 
-  test('Games link navigates to /games', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('a[href="/games"]').first().click();
-    await expect(page).toHaveURL(/\/games/);
-  });
 
   test('Home link from /projects navigates back to /', async ({ page }) => {
     await page.goto('/projects');

@@ -33,11 +33,9 @@ export function Footer() {
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
     { label: 'Projects', href: '/projects' },
-    { label: 'Tools', href: '/tools' },
     { label: 'Skills', href: '/skills' },
     { label: 'Blog', href: '/blog' },
     { label: 'Resume', href: '/resume' },
-    { label: 'Games', href: '/games' },
   ];
 
   return (

@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import {
-  Gamepad2,
   Home,
   User,
   FolderGit2,
@@ -17,11 +16,9 @@ import {
   LayoutGrid,
   Sun,
   Moon,
-  Wrench,
   Menu,
 } from 'lucide-react';
 import { useTheme } from '@/components/reusable/theme-provider';
-import { DEV_TOOLS } from '@/lib/data/tools';
 import { MultilingualLogo } from '@/components/reusable/multilingual-logo';
 import { DesktopNav } from '@/components/sections/desktop-nav';
 import { MobileNav } from '@/components/sections/mobile-nav';
@@ -88,26 +85,11 @@ export function Navigation() {
       ],
     },
     { kind: 'link', label: 'Projects', href: '/projects', icon: FolderGit2 },
-    {
-      kind: 'group',
-      label: 'Tools',
-      icon: Wrench,
-      children: [
-        { label: 'All Tools', href: '/tools', icon: LayoutGrid },
-        ...DEV_TOOLS.map((tool) => ({
-          label: tool.title,
-          href: tool.href,
-          icon: tool.icon,
-        })),
-      ],
-    },
     { kind: 'link', label: 'Resume', href: '/resume', icon: FileText },
-    { kind: 'link', label: 'Games', href: '/games', icon: Gamepad2 },
   ];
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
-    if (href === '/tools') return pathname === '/tools';
     return pathname.startsWith(href);
   };
 

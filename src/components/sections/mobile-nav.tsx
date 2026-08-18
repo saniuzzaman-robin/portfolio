@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { NavItem, SimpleLink, GroupLink } from '@/components/sections/navigation';
+import type { NavItem } from '@/components/sections/navigation';
 import { MobileNavItem } from '@/components/sections/mobile-nav-item';
 import { MobileNavMenu } from '@/components/sections/mobile-nav-menu';
 import { MobileNavList } from '@/components/sections/mobile-nav-list';
@@ -30,12 +30,6 @@ export function MobileNav({
   isActive,
   isGroupActive,
 }: MobileNavProps) {
-  const mobileTopLinks = navItems.filter((i) => i.kind === 'link') as SimpleLink[];
-  const exploreGroup = navItems.find(
-    (i) => i.kind === 'group' && i.label === 'Explore'
-  ) as GroupLink;
-  const toolsGroup = navItems.find((i) => i.kind === 'group' && i.label === 'Tools') as GroupLink;
-
   return (
     <>
       {/* Mobile Overlay */}
@@ -80,56 +74,31 @@ export function MobileNav({
             <div className="from-midnight-200 via-midnight-200 mx-6 mb-3 h-px bg-linear-to-r to-transparent" />
 
             <MobileNavList>
-              {mobileTopLinks.slice(0, 1).map((link) => (
-                <MobileNavItem
-                  key={link.href}
-                  href={link.href}
-                  label={link.label}
-                  icon={link.icon}
-                  active={isActive(link.href)}
-                  onClick={onClose}
-                />
-              ))}
-
-              <MobileNavMenu
-                label={exploreGroup.label}
-                icon={exploreGroup.icon}
-                items={exploreGroup.children}
-                isItemActive={isActive}
-                isGroupActive={isGroupActive}
-                closeDrawer={onClose}
-              />
-
-              {mobileTopLinks.slice(1, 3).map((link) => (
-                <MobileNavItem
-                  key={link.href}
-                  href={link.href}
-                  label={link.label}
-                  icon={link.icon}
-                  active={isActive(link.href)}
-                  onClick={onClose}
-                />
-              ))}
-
-              <MobileNavMenu
-                label={toolsGroup.label}
-                icon={toolsGroup.icon}
-                items={toolsGroup.children}
-                isItemActive={isActive}
-                isGroupActive={isGroupActive}
-                closeDrawer={onClose}
-              />
-
-              {mobileTopLinks.slice(3).map((link) => (
-                <MobileNavItem
-                  key={link.href}
-                  href={link.href}
-                  label={link.label}
-                  icon={link.icon}
-                  active={isActive(link.href)}
-                  onClick={onClose}
-                />
-              ))}
+              {navItems.map((item) => {
+                if (item.kind === 'link') {
+                  return (
+                    <MobileNavItem
+                      key={item.href}
+                      href={item.href}
+                      label={item.label}
+                      icon={item.icon}
+                      active={isActive(item.href)}
+                      onClick={onClose}
+                    />
+                  );
+                }
+                return (
+                  <MobileNavMenu
+                    key={item.label}
+                    label={item.label}
+                    icon={item.icon}
+                    items={item.children}
+                    isItemActive={isActive}
+                    isGroupActive={isGroupActive}
+                    closeDrawer={onClose}
+                  />
+                );
+              })}
             </MobileNavList>
 
             <div className="px-6 pt-3 pb-6">

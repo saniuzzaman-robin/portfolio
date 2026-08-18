@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { TypewriterText } from '../reusable/typewriter-text';
 import { OrbitalVisualization } from '../reusable/orbital-visualization';
 
@@ -125,11 +125,7 @@ export function Hero() {
                   View Portfolio
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
-                <Link href="/games" className="btn-secondary group">
-                  <Play className="h-4 w-4" />
-                  Play Games
-                </Link>
-                <Link href="/resume" className="btn-ghost">
+                <Link href="/resume" className="btn-secondary">
                   Resume
                 </Link>
               </motion.div>

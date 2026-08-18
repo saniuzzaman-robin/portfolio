@@ -93,84 +93,35 @@ export function DesktopNav({ navItems, isActive, isGroupActive }: DesktopNavProp
                     exit="exit"
                     className="absolute top-full left-1/2 -translate-x-1/2 pt-2"
                   >
-                    <div
-                      className={`border-midnight-200 bg-midnight-50 overflow-hidden rounded-xl border shadow-xl ${
-                        groupItem.label === 'Tools' ? 'w-96' : 'min-w-48'
-                      }`}
-                    >
+                    <div className="border-midnight-200 bg-midnight-50 min-w-48 overflow-hidden rounded-xl border shadow-xl">
                       <div className="via-aurora-green/20 h-px w-full bg-linear-to-r from-transparent to-transparent" />
-                      {groupItem.label === 'Tools' ? (
-                        <>
-                          {(() => {
-                            const AllToolsIcon = groupItem.children[0].icon;
-                            const allToolsActive = isActive(groupItem.children[0].href);
-                            return (
-                              <Link
-                                href={groupItem.children[0].href}
-                                className={`border-midnight-200 flex items-center justify-center gap-2 border-b px-4 py-3.5 text-sm font-medium transition-all duration-200 ${
-                                  allToolsActive
-                                    ? 'text-aurora-green bg-aurora-green/5'
-                                    : 'text-midnight-500 hover:text-midnight-950 hover:bg-midnight-100'
-                                }`}
-                              >
-                                <AllToolsIcon className="h-4 w-4 shrink-0" />
-                                {groupItem.children[0].label}
-                                <span className="text-midnight-500 ml-1 text-xs font-normal">
-                                  ({groupItem.children.length - 1})
-                                </span>
-                              </Link>
-                            );
-                          })()}
-                          <div className="grid max-h-72 grid-cols-3 gap-px overflow-auto p-1">
-                            {groupItem.children.slice(1).map((child) => {
-                              const active = isActive(child.href);
-                              const ChildIcon = child.icon;
-                              return (
-                                <Link
-                                  key={child.href}
-                                  href={child.href}
-                                  className={`flex flex-col items-center justify-center gap-1.5 rounded-lg px-2 py-3 text-xs font-medium transition-all duration-200 ${
-                                    active
-                                      ? 'text-aurora-green bg-aurora-green/5'
-                                      : 'text-midnight-500 hover:text-midnight-950 hover:bg-midnight-100'
-                                  }`}
-                                >
-                                  <ChildIcon className="h-3.5 w-3.5 shrink-0" />
-                                  <p className="text-center">{child.label}</p>
-                                </Link>
-                              );
-                            })}
-                          </div>
-                        </>
-                      ) : (
-                        <div className="flex flex-col p-1">
-                          {groupItem.children.map((child) => {
-                            const active = isActive(child.href);
-                            const ChildIcon = child.icon;
-                            return (
-                              <Link
-                                key={child.href}
-                                href={child.href}
-                                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+                      <div className="flex flex-col p-1">
+                        {groupItem.children.map((child) => {
+                          const active = isActive(child.href);
+                          const ChildIcon = child.icon;
+                          return (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+                                active
+                                  ? 'text-aurora-green bg-aurora-green/5'
+                                  : 'text-midnight-500 hover:text-midnight-950 hover:bg-midnight-100'
+                              }`}
+                            >
+                              <span
+                                className={`absolute top-0 bottom-0 left-0 w-0.5 rounded-r transition-opacity duration-200 ${
                                   active
-                                    ? 'text-aurora-green bg-aurora-green/5'
-                                    : 'text-midnight-500 hover:text-midnight-950 hover:bg-midnight-100'
+                                    ? 'bg-aurora-green opacity-100'
+                                    : 'bg-midnight-300 opacity-0 group-hover:opacity-100'
                                 }`}
-                              >
-                                <span
-                                  className={`absolute top-0 bottom-0 left-0 w-0.5 rounded-r transition-opacity duration-200 ${
-                                    active
-                                      ? 'bg-aurora-green opacity-100'
-                                      : 'bg-midnight-300 opacity-0 group-hover:opacity-100'
-                                  }`}
-                                />
-                                <ChildIcon className="h-3.5 w-3.5 shrink-0" />
-                                {child.label}
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      )}
+                              />
+                              <ChildIcon className="h-3.5 w-3.5 shrink-0" />
+                              {child.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
                     </div>
                   </motion.div>
                 )}
