@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Navbar } from '@/components/craft/navbar';
 import { PlatformsGallery } from '@/components/craft/platforms-gallery';
 import { ContactCard } from '@/components/craft/contact-card';
 import { FooterColophon } from '@/components/craft/footer-colophon';
@@ -66,12 +65,9 @@ export default function Projects() {
           })),
         })}
       />
-      <div className="min-h-dvh flex flex-col">
-        <Navbar />
-        <PlatformsGallery />
-        <ContactCard />
-        <FooterColophon />
-      </div>
+      <PlatformsGallery />
+      <ContactCard />
+      <FooterColophon />
     </>
   );
 }

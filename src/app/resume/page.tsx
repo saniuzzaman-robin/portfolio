@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Navbar } from '@/components/craft/navbar';
 import { ResumeSheet } from '@/components/craft/resume-sheet';
 import { ContactCard } from '@/components/craft/contact-card';
 import { FooterColophon } from '@/components/craft/footer-colophon';
@@ -61,12 +60,9 @@ export default function Resume() {
           url: 'https://saniuzzaman.dev/resume',
         })}
       />
-      <div className="min-h-dvh flex flex-col">
-        <Navbar />
-        <ResumeSheet />
-        <ContactCard />
-        <FooterColophon />
-      </div>
+      <ResumeSheet />
+      <ContactCard />
+      <FooterColophon />
     </>
   );
 }

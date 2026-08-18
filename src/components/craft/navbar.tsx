@@ -100,28 +100,34 @@ export function Navbar({ onOpenCommand }: NavbarProps) {
           <div className="flex items-center gap-2">
             {/* Command Palette Trigger */}
             {onOpenCommand && (
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={onOpenCommand}
                 className="hidden cursor-pointer items-center gap-1.5 rounded-full border border-(--border-hover) bg-(--surface-2) px-3 py-1.5 font-mono text-xs text-(--text-secondary) transition-colors hover:border-indigo-500 hover:text-(--text-main) sm:inline-flex"
                 title="Open Command Menu (⌘K)"
               >
                 <Command className="h-3 w-3" />
                 <span>⌘K</span>
-              </button>
+              </motion.button>
             )}
 
             {/* Quick Resume Download */}
-            <a
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href="/CV_SANIUZZAMAN_ROBIN.pdf"
               download
               className="hidden items-center gap-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-1.5 font-mono text-xs font-semibold text-indigo-500 transition-colors hover:border-indigo-500 hover:bg-indigo-500/20 sm:inline-flex"
             >
               <Download className="h-3 w-3" />
               <span>Resume</span>
-            </a>
+            </motion.a>
 
             {/* Dark/Light Mode Switcher */}
-            <button
+            <motion.button
+              whileHover={{ scale: 1.08, rotate: 15 }}
+              whileTap={{ scale: 0.92 }}
               onClick={toggleTheme}
               className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-(--border-hover) bg-(--surface-2) text-(--text-main) shadow-xs transition-colors hover:border-indigo-500"
               aria-label="Toggle theme"
@@ -131,16 +137,17 @@ export function Navbar({ onOpenCommand }: NavbarProps) {
               ) : (
                 <Moon className="h-4 w-4 text-indigo-600" />
               )}
-            </button>
+            </motion.button>
 
             {/* Mobile Menu Toggle */}
-            <button
+            <motion.button
+              whileTap={{ scale: 0.92 }}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) bg-(--surface-2) text-(--text-secondary) lg:hidden"
               aria-label="Toggle navigation drawer"
             >
               {isMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </button>
+            </motion.button>
           </div>
         </nav>
       </header>

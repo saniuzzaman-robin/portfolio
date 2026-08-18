@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { Download, Mail, Phone, MapPin, Briefcase, GraduationCap, Trophy } from 'lucide-react';
 import { CV_DATA } from '@/lib/cv-data';
 
@@ -8,7 +9,12 @@ export function ResumeSheet() {
     <section className="relative overflow-hidden px-4 py-14 sm:px-6 sm:py-20 md:px-12 md:py-28 lg:px-20">
       <div className="relative z-10 mx-auto max-w-4xl space-y-8 sm:space-y-10">
         {/* Executive Header Sheet */}
-        <div className="craft-card space-y-4 rounded-2xl border border-(--border-subtle) p-5 sm:space-y-6 sm:rounded-3xl sm:p-8 md:p-10">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="craft-card space-y-4 rounded-2xl border border-(--border-subtle) p-5 sm:space-y-6 sm:rounded-3xl sm:p-8 md:p-10"
+        >
           <div className="flex flex-col justify-between gap-4 border-b border-(--border-subtle) pb-4 sm:flex-row sm:items-start sm:gap-6 sm:pb-6">
             <div>
               <h1 className="editorial-title text-2xl font-extrabold text-(--text-main) sm:text-3xl md:text-4xl">
@@ -21,17 +27,17 @@ export function ResumeSheet() {
               <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-(--text-secondary)">
                 <a
                   href={`mailto:${CV_DATA.email}`}
-                  className="flex items-center gap-1.5 transition-colors hover:text-indigo-500"
+                  className="group flex items-center gap-1.5 transition-colors hover:text-indigo-400"
                 >
-                  <Mail className="h-3.5 w-3.5" />
+                  <Mail className="h-3.5 w-3.5 text-indigo-500 transition-transform group-hover:scale-110" />
                   <span>{CV_DATA.email}</span>
                 </a>
                 <span className="flex items-center gap-1.5">
-                  <Phone className="h-3.5 w-3.5" />
+                  <Phone className="h-3.5 w-3.5 text-indigo-500" />
                   <span>{CV_DATA.phone}</span>
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <MapPin className="h-3.5 w-3.5" />
+                  <MapPin className="h-3.5 w-3.5 text-indigo-500" />
                   <span>{CV_DATA.location}</span>
                 </span>
               </div>
@@ -40,9 +46,9 @@ export function ResumeSheet() {
             <a
               href="/CV_SANIUZZAMAN_ROBIN.pdf"
               download
-              className="btn-primary gap-2 self-start px-3.5 py-2 text-xs sm:self-auto"
+              className="btn-primary group gap-2 self-start px-3.5 py-2 text-xs sm:self-auto"
             >
-              <Download className="h-4 w-4" />
+              <Download className="h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
               <span>Download PDF CV</span>
             </a>
           </div>
@@ -55,44 +61,41 @@ export function ResumeSheet() {
               {CV_DATA.summary}
             </p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Technical Skills Sheet */}
-        <div className="craft-card space-y-3 rounded-2xl border border-(--border-subtle) p-5 sm:space-y-4 sm:rounded-3xl sm:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="craft-card space-y-3 rounded-2xl border border-(--border-subtle) p-5 sm:space-y-4 sm:rounded-3xl sm:p-8"
+        >
           <h2 className="font-heading flex items-center gap-2 text-base font-bold text-(--text-main) sm:text-lg">
             <span className="h-2 w-2 rounded-full bg-indigo-500" />
             <span>Technical Skills Matrix</span>
           </h2>
 
           <div className="space-y-2.5 text-xs sm:space-y-3">
-            <div className="rounded-xl border border-(--border-subtle) bg-(--surface-1) p-3 sm:rounded-2xl sm:p-4">
-              <span className="mb-1 block font-mono text-[10px] font-bold tracking-wider text-(--text-main) uppercase sm:text-[11px]">
-                Frontend &amp; Backend
-              </span>
-              <p className="font-mono text-[11px] text-(--text-secondary) sm:text-xs">
-                {CV_DATA.technicalSkills.frontendBackend.join(' • ')}
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-(--border-subtle) bg-(--surface-1) p-3 sm:rounded-2xl sm:p-4">
-              <span className="mb-1 block font-mono text-[10px] font-bold tracking-wider text-(--text-main) uppercase sm:text-[11px]">
-                Data, Cloud &amp; Infrastructure
-              </span>
-              <p className="font-mono text-[11px] text-(--text-secondary) sm:text-xs">
-                {CV_DATA.technicalSkills.dataInfrastructure.join(' • ')}
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-(--border-subtle) bg-(--surface-1) p-3 sm:rounded-2xl sm:p-4">
-              <span className="mb-1 block font-mono text-[10px] font-bold tracking-wider text-(--text-main) uppercase sm:text-[11px]">
-                Testing, SEO &amp; Growth
-              </span>
-              <p className="font-mono text-[11px] text-(--text-secondary) sm:text-xs">
-                {CV_DATA.technicalSkills.testingGrowth.join(' • ')}
-              </p>
-            </div>
+            {[
+              { label: 'Frontend & Backend', data: CV_DATA.technicalSkills.frontendBackend },
+              { label: 'Data, Cloud & Infrastructure', data: CV_DATA.technicalSkills.dataInfrastructure },
+              { label: 'Testing, SEO & Growth', data: CV_DATA.technicalSkills.testingGrowth },
+            ].map((cat, idx) => (
+              <motion.div
+                key={idx}
+                whileHover={{ y: -2 }}
+                className="rounded-xl border border-(--border-subtle) hover:border-(--border-hover) bg-(--surface-1) p-3 sm:rounded-2xl sm:p-4 transition-colors shadow-xs"
+              >
+                <span className="mb-1 block font-mono text-[10px] font-bold tracking-wider text-(--text-main) uppercase sm:text-[11px]">
+                  {cat.label}
+                </span>
+                <p className="font-mono text-[11px] text-(--text-secondary) sm:text-xs">
+                  {cat.data.join(' • ')}
+                </p>
+              </motion.div>
+            ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Work Experience */}
         <div className="space-y-4 sm:space-y-6">
@@ -106,8 +109,12 @@ export function ResumeSheet() {
 
           <div className="space-y-4 sm:space-y-6">
             {CV_DATA.experience.map((exp, index) => (
-              <div
+              <motion.div
                 key={index}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 + index * 0.08 }}
+                whileHover={{ y: -3 }}
                 className="craft-card space-y-3 rounded-2xl border border-(--border-subtle) p-5 sm:space-y-4 sm:rounded-3xl sm:p-7 md:p-8"
               >
                 <div className="flex flex-col justify-between gap-1.5 border-b border-(--border-subtle) pb-3 sm:flex-row sm:items-center sm:pb-4">
@@ -146,13 +153,13 @@ export function ResumeSheet() {
                   {exp.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="rounded border border-(--border-subtle) bg-(--surface-2) px-2 py-0.5 font-mono text-[9px] text-(--text-muted) sm:text-[10px]"
+                      className="rounded border border-(--border-subtle) hover:border-indigo-500/40 bg-(--surface-2) px-2 py-0.5 font-mono text-[9px] text-(--text-muted) hover:text-(--text-main) sm:text-[10px] transition-colors"
                     >
                       {skill}
                     </span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -160,7 +167,10 @@ export function ResumeSheet() {
         {/* Education & Achievements */}
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           {/* Education */}
-          <div className="craft-card space-y-2.5 rounded-2xl border border-(--border-subtle) p-5 sm:space-y-3 sm:rounded-3xl sm:p-7">
+          <motion.div
+            whileHover={{ y: -3 }}
+            className="craft-card space-y-2.5 rounded-2xl border border-(--border-subtle) p-5 sm:space-y-3 sm:rounded-3xl sm:p-7"
+          >
             <h2 className="font-heading flex items-center gap-2 text-sm font-bold text-(--text-main) sm:text-base">
               <GraduationCap className="h-4 w-4 text-indigo-500" />
               <span>Education</span>
@@ -176,10 +186,13 @@ export function ResumeSheet() {
                 {CV_DATA.education[0].highlights}
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Core Achievements */}
-          <div className="craft-card space-y-2.5 rounded-2xl border border-(--border-subtle) p-5 sm:space-y-3 sm:rounded-3xl sm:p-7">
+          <motion.div
+            whileHover={{ y: -3 }}
+            className="craft-card space-y-2.5 rounded-2xl border border-(--border-subtle) p-5 sm:space-y-3 sm:rounded-3xl sm:p-7"
+          >
             <h2 className="font-heading flex items-center gap-2 text-sm font-bold text-(--text-main) sm:text-base">
               <Trophy className="h-4 w-4 text-cyan-500" />
               <span>Competitive Achievements</span>
@@ -204,7 +217,7 @@ export function ResumeSheet() {
                 </span>
               </li>
             </ul>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

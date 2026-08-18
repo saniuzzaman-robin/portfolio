@@ -150,9 +150,10 @@ export function ExperienceShowcase() {
                   </p>
                   <div className="space-y-2.5 sm:space-y-3">
                     {activeJob.highlights.map((h, i) => (
-                      <div
+                      <motion.div
                         key={i}
-                        className="space-y-1 rounded-xl border border-(--border-subtle) bg-(--surface-1) p-3 sm:rounded-2xl sm:p-4"
+                        whileHover={{ y: -2 }}
+                        className="space-y-1 rounded-xl border border-(--border-subtle) hover:border-(--border-hover) bg-(--surface-1) p-3 sm:rounded-2xl sm:p-4 transition-colors shadow-xs"
                       >
                         <div className="flex items-center gap-2 text-xs font-bold text-(--text-main)">
                           <span className="font-black text-indigo-500">❖</span>
@@ -161,7 +162,7 @@ export function ExperienceShowcase() {
                         <p className="pl-4 text-[11px] leading-relaxed text-(--text-secondary) sm:text-xs">
                           {h.detail}
                         </p>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
@@ -175,7 +176,7 @@ export function ExperienceShowcase() {
                     {activeJob.skills.map((s) => (
                       <span
                         key={s}
-                        className="rounded border border-(--border-subtle) bg-(--surface-2) px-2 py-0.5 font-mono text-[9px] text-(--text-main) sm:text-[10px]"
+                        className="rounded border border-(--border-subtle) hover:border-indigo-500/40 bg-(--surface-2) px-2 py-0.5 font-mono text-[9px] text-(--text-main) sm:text-[10px] transition-colors"
                       >
                         {s}
                       </span>
