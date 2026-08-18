@@ -1,267 +1,308 @@
 /**
  * Centralized CV Data
- * Single source of truth for all CV-related content
+ * Single source of truth for all CV-related content matching the official CV
  */
 
 export const CV_DATA = {
   name: 'Md. Saniuzzaman Robin',
-  title: 'Full-Stack Software Engineer',
+  title: 'Software Engineer',
+  role: 'Full-Stack Software Engineer',
   yearsOfExperience: '5+',
   email: 'saniuzzamanrobin07@gmail.com',
   phone: '+880 1811 685 391',
   location: 'Dhaka, Bangladesh',
+  github: 'https://github.com/saniuzzaman-robin',
+  linkedin: 'https://linkedin.com/in/saniuzzaman-robin',
 
-  // Professional summary
+  // Profile summary from CV
   summary:
     'Software Engineer with 5+ years of experience building high-traffic, production-grade applications for millions of global users. Expert in Next.js/NestJS/MongoDB/Redis and Angular. Proven track record in microservices design, tech leadership, performance optimization, and transforming complex business requirements into scalable architectures. Strong computer science foundation rooted in competitive programming (ICPC Regional).',
 
-  // Short descriptions for different contexts
   shortBio:
-    'Software engineer with 5+ years of experience building production-grade applications for millions of global users.',
+    'Software Engineer with 5+ years of experience building high-traffic, production-grade applications for millions of global users with Next.js, NestJS, and Angular.',
+
   aboutMeTitle: 'Software Engineer · 5+ Years',
   aboutMeDesc:
-    'I build production-grade web applications and backend systems serving millions of global users. Expert in Next.js and NestJS for full-stack delivery, Angular for enterprise frontends. Passionate about clean architecture, performance optimization, and impactful engineering.',
+    'I architect and build high-traffic, production-grade web applications and backend microservices serving millions of global users. Expert in Next.js and NestJS for full-stack delivery, and Angular for enterprise frontend platforms.',
 
-  // Experience data
+  // Key metrics
+  stats: [
+    { label: 'Years Experience', value: '5+', numeric: 5, suffix: '+', accent: 'primary' },
+    { label: 'Global Scale', value: '180M+', numeric: 180, suffix: 'M+', accent: 'secondary', sub: 'Users Served' },
+    { label: 'Problems Solved', value: '1,700+', numeric: 1700, suffix: '+', accent: 'tertiary', sub: 'Codeforces Specialist' },
+    { label: 'Donation Growth', value: '30%', numeric: 30, suffix: '%', accent: 'primary', sub: 'YoY Business Impact' },
+  ],
+
+  // Technical Skills structured by CV sections
+  technicalSkills: {
+    frontendBackend: [
+      'Next.js',
+      'Angular',
+      'React',
+      'NestJS',
+      'TypeScript',
+      'REST APIs',
+      'Microservices',
+      'CQRS',
+      'SAGA',
+      'Tailwind CSS',
+      'RxJS',
+    ],
+    dataInfrastructure: [
+      'MongoDB',
+      'Redis',
+      'GCP',
+      'Google Pub/Sub',
+      'WebSockets',
+      'SSR/SSG optimization',
+      'MaxMind GeoIP',
+      'Google Maps APIs',
+    ],
+    testingGrowth: [
+      'Selenium',
+      'JMeter',
+      'Jest',
+      'SEO',
+      'Google Analytics (GTM)',
+      'AI Tools (Gemini/Copilot)',
+      'Agile',
+      'Scrum',
+    ],
+  },
+
+  // Skills Detailed with proficiency levels
+  skillsDetailed: [
+    {
+      category: 'Frontend & Full-Stack',
+      accent: 'primary' as const,
+      icon: '⚡',
+      description: 'Building high-performance, accessible, and responsive user interfaces at scale.',
+      skills: [
+        { name: 'Next.js (App Router / SSR / SSG / Streaming)', level: 96 },
+        { name: 'Angular (Reactive Forms, RxJS, Angular Material)', level: 95 },
+        { name: 'React & Modern Frontend Architecture', level: 94 },
+        { name: 'TypeScript & JavaScript (ESNext)', level: 95 },
+        { name: 'Tailwind CSS & Design Systems', level: 92 },
+        { name: 'State Management (RxJS / Zustand)', level: 90 },
+      ],
+    },
+    {
+      category: 'Backend & Microservices',
+      accent: 'secondary' as const,
+      icon: '🚀',
+      description: 'Designing distributed backend systems, event-driven pipelines, and caching layers.',
+      skills: [
+        { name: 'NestJS & Node.js Microservices', level: 95 },
+        { name: 'REST APIs & System Design', level: 96 },
+        { name: 'MongoDB (Index Optimization & Aggregations)', level: 92 },
+        { name: 'Redis (Caching & Rate Limiting)', level: 92 },
+        { name: 'Architectural Patterns (CQRS & SAGA)', level: 88 },
+        { name: 'GCP & Google Cloud Pub/Sub', level: 85 },
+      ],
+    },
+    {
+      category: 'Testing, DevOps & Growth',
+      accent: 'tertiary' as const,
+      icon: '🔧',
+      description: 'Ensuring resilience, test coverage, search visibility, and developer velocity.',
+      skills: [
+        { name: 'SEO & Structured Data (Schema.org, OG, Sitemaps)', level: 94 },
+        { name: 'Selenium Test Automation Frameworks', level: 88 },
+        { name: 'JMeter Load & Performance Testing', level: 85 },
+        { name: 'Jest / Vitest / Unit Testing', level: 90 },
+        { name: 'Google Analytics & Tag Manager (GTM)', level: 88 },
+        { name: 'AI Augmented Workflows (Gemini / Copilot)', level: 92 },
+      ],
+    },
+  ],
+
+  // Professional Experience exactly as on CV
   experience: [
     {
       company: 'Bitsmedia Pte Ltd.',
       title: 'Software Engineer (Full-Stack)',
-      titleFull: 'Software Engineer (Full-Stack)',
-      period: '01/2024 - Present',
+      period: '01/2024 – present',
       startDate: '2024-01',
       endDate: null,
-      duration: '~2.5 years',
-      description:
-        'Building full-stack features for MuslimPro — a platform with 180M+ app downloads — using Next.js and NestJS. Delivered Prayer Times migration, Giving platform relaunch (30% YoY donation increase), Qalbox video streaming, and Admin Console from scratch.',
-      descriptionLong:
-        'Develop full-stack features using Next.js and NestJS for MuslimPro, serving millions of global users. Migrated Prayer Times engine from Kotlin to NestJS with MaxMind GeoIP and Google Maps integration. Re-platformed legacy WordPress Giving engine to Next.js/WooCommerce with advanced SEO, driving a 30% YoY increase in donations in 2025–2026. Built Qalbox video streaming (shorts, live streams, search). Engineered Admin Console from scratch with reusable tables, forms, and auth modules. Delivered backend microservices for Journal, Inspiration, Referral, and Gamification. Supported Islamic Calendar release. Led Settings Revamp from JSON data-fetching to modular stream-optimized feature components. Integrated SEO (structured data, sitemaps, og tags) and Google Ads & Analytics.',
+      location: 'Dhaka, Bangladesh',
+      accent: 'primary' as const,
+      summary:
+        'Develop full-stack features using Next.js/NestJS for platforms serving millions of global users. Architected backend microservices utilizing Redis caching, MongoDB index optimization, and GCP Pub/Sub.',
       achievements: [
-        'Migrated Prayer Times engine from Kotlin to NestJS with MaxMind GeoIP & Google Maps APIs',
-        'Re-platformed Giving donation engine from WordPress to Next.js/WooCommerce — drove 30% YoY donation increase',
-        'Engineered Admin Console from scratch in Next.js with auth, reusable tables, forms, and navigation',
-        'Built Qalbox video streaming: completed shorts page, integrated live streaming and search',
-        'Delivered backend microservices for Journal, Inspiration, Referral, and Gamification features',
-        'Led Settings Revamp: migrated JSON data-fetching to modular, stream-optimized feature components',
-        'Implemented Islamic Calendar backend APIs and supported FE integration',
-        'Integrated SEO (structured data, sitemaps, og tags, robots.txt) and Google Ads & Analytics',
-        'Implemented Redis caching, MongoDB index optimization, and SSR/SSG/streaming for performance',
-        'Conduct code reviews, architecture feedback, and guide engineering peers',
+        'Develop full-stack features using Next.js/NestJS for platforms serving millions of global users.',
+        'Architected backend microservices utilizing Redis caching, MongoDB index optimization, and GCP Pub/Sub.',
+        'Migrated core legacy Kotlin Prayer Times engine to NestJS, integrating MaxMind GeoIP and Google Maps APIs to deliver optimized, lightning-fast location searches.',
+        'Re-platformed the legacy WordPress "Giving" engine to a modern Next.js/WooCommerce framework with advanced SEO features, accelerating page load speeds and driving a 30% YoY increase in donations in 2025-2026.',
+        'Engineered an enterprise Admin Console from scratch in Next.js, creating reusable filters, tables, and auth modules that slashed feature development times for core product modules.',
+        'Revamped main app performance by shifting legacy JSON data-fetching architecture to modular, stream-optimized feature components.',
+        'Conduct code reviews, provide architecture feedbacks, and guide engineering peers.',
+      ],
+      highlights: [
+        {
+          topic: 'Scale & Architecture',
+          detail:
+            'Develop full-stack features using Next.js/NestJS for platforms serving millions of global users. Architected backend microservices utilizing Redis caching, MongoDB index optimization, and GCP Pub/Sub.',
+        },
+        {
+          topic: 'Migration & Geolocation',
+          detail:
+            'Migrated core legacy Kotlin Prayer Times engine to NestJS, integrating MaxMind GeoIP and Google Maps APIs to deliver optimized, lightning-fast location searches.',
+        },
+        {
+          topic: 'Business Growth',
+          detail:
+            'Re-platformed the legacy WordPress "Giving" engine to a modern Next.js/WooCommerce framework with advanced SEO features, accelerating page load speeds and driving a 30% YoY increase in donations in 2025-2026.',
+        },
+        {
+          topic: 'Internal Frameworks & Leadership',
+          detail:
+            'Engineered an enterprise Admin Console from scratch in Next.js, creating reusable filters, tables, and auth modules that slashed feature development times for core product modules. Revamped main app performance by shifting legacy JSON data-fetching architecture to modular, stream-optimized feature components. Conduct code reviews, provide architecture feedbacks, and guide engineering peers.',
+        },
       ],
       skills: [
         'Next.js',
         'NestJS',
         'Redis',
         'MongoDB',
+        'GCP Pub/Sub',
         'TypeScript',
-        'Google Pub/Sub',
-        'GCP',
         'WooCommerce',
         'SEO',
         'Microservices',
-      ],
-      accent: 'primary',
-      highlights: [
-        { label: 'Stack', value: 'Next.js + NestJS' },
-        { label: 'Impact', value: '30% Donation Increase' },
-        { label: 'Scale', value: 'Millions of Users' },
+        'System Architecture',
       ],
     },
     {
       company: 'KONA Software Lab Ltd.',
       title: 'Software Engineer - L02',
-      titleFull: 'Software Engineer - L02',
-      period: '10/2022 - 01/2024',
+      period: '10/2022 – 01/2024',
       startDate: '2022-10',
       endDate: '2024-01',
-      duration: '15 months',
-      description:
-        'Led a 4-member team building an enterprise-grade multi-tenant e-commerce Admin Panel in Angular. Owned internal frontend libraries and expanded to .NET 6 backend with CQRS, SAGA patterns, and microservices.',
-      descriptionLong:
-        'Spearheaded multi-tenant e-commerce Admin Panel in Angular with RBAC, dynamic URL-based bootstrap, advanced inventory, product/order management, reporting, and real-time notifications. Owned and maintained internal frontend libraries (auth, themes, query/command services, WebSockets) enabling cross-team reuse. Collaborated closely with PM, HOD, Principal Architects, designers, and QA for quarterly roadmap delivery. Later expanded to .NET 6 backend — implemented CQRS, SAGA patterns, and product/order/cart microservices for a new e-commerce platform.',
+      location: 'Dhaka, Bangladesh',
+      accent: 'secondary' as const,
+      summary:
+        'Stepped up to lead and manage a 4-member software development team. Managed cross-functional coordination and spearheaded an enterprise-grade multi-tenant e-commerce Admin Panel in Angular.',
       achievements: [
-        'Spearheaded multi-tenant e-commerce Admin Panel in Angular with RBAC and dynamic URL-based bootstrap',
-        'Implemented complex features: inventory, product & order pipelines, reporting, real-time notifications',
-        'Owned internal frontend libraries (auth, themes, query/command services, WebSockets) for cross-team efficiency',
-        'Collaborated with PM, HOD, Principal Architects, designers, and QA for quarterly roadmap delivery',
-        'Expanded to .NET 6 backend — implemented CQRS, SAGA patterns and product/order/cart microservices',
+        'Stepped up to lead and manage a 4-member software development team.',
+        'Managed cross-functional coordination with Product Managers, Head of Department, Principal Architects, UI/UX designers, and QA to seamlessly scope, breakdown, and deliver quarterly feature roadmaps.',
+        'Owned and maintained internal frontend libraries (auth, themes, query layers, WebSockets), significantly improving cross-team UI development efficiency.',
+        'Spearheaded an enterprise-grade multi-tenant e-commerce Admin Panel in Angular.',
+        'Implemented complex reactive architectures for dynamic multi-tenant bootstrap setups based on URL context, role-based access control (RBAC), advanced inventory pipelines, reporting management, and real time notifications.',
+      ],
+      highlights: [
+        {
+          topic: 'Team Leadership',
+          detail:
+            'Stepped up to lead and manage a 4-member software development team. Managed cross-functional coordination with Product Managers, Head of Department, Principal Architects, UI/UX designers, and QA to seamlessly scope, breakdown, and deliver quarterly feature roadmaps.',
+        },
+        {
+          topic: 'Core Libraries',
+          detail:
+            'Owned and maintained internal frontend libraries (auth, themes, query layers, WebSockets), significantly improving cross-team UI development efficiency.',
+        },
+        {
+          topic: 'Multi-Tenant Admin Development',
+          detail:
+            'Spearheaded an enterprise-grade multi-tenant e-commerce Admin Panel in Angular. Implemented complex reactive architectures for dynamic multi-tenant bootstrap setups based on URL context, role-based access control (RBAC), advanced inventory pipelines, reporting management, and real time notifications.',
+        },
       ],
       skills: [
         'Angular',
         'TypeScript',
         'RxJS',
         'Angular Material',
-        '.NET 6',
-        'C#',
-        'CQRS',
-        'SAGA',
-        'Microservices',
+        'WebSockets',
+        'RBAC',
+        'Multi-Tenancy',
         'Team Leadership',
-      ],
-      accent: 'secondary',
-      highlights: [
-        { label: 'Team', value: '4 Members Led' },
-        { label: 'Architecture', value: 'CQRS + SAGA' },
-        { label: 'Libraries', value: 'Internal Frontend Libs' },
+        'Architecture',
       ],
     },
     {
       company: 'SELISE Digital Platforms',
       title: 'Software Engineer',
-      titleFull: 'Software Engineer',
-      period: '03/2021 - 10/2022',
+      period: '03/2021 – 10/2022',
       startDate: '2021-03',
       endDate: '2022-10',
-      duration: '19 months',
-      description:
-        "Joined through the STP (Super Talent Program) — top 10 out of hundreds of applicants. Primary frontend engineer for IPEX AG (Switzerland's market leader in building damage management), delivering 60–70% of all UI features.",
-      descriptionLong:
-        "Joined through SELISE's STP (Super Talent Program) after placing top 10 in competitive programming rounds. Primary frontend engineer for IPEX AG — Switzerland's market leader in building damage management and digitization — and Berger Paints. Built complex Angular + Angular Material UIs: reactive forms, advanced calculation engines, data tables, drag-and-drop workflow dashboards, navigation, tooltips, and popups. Implemented automated OCR-based PDF processing pipeline for insurance claim case management. Built custom Selenium wrapper for regression testing across 6+ enterprise platforms. Conducted JMeter load testing to isolate performance bottlenecks.",
+      location: 'Dhaka, Bangladesh',
+      accent: 'tertiary' as const,
+      summary:
+        'Acted as the primary driver for frontend development, independently executing 60-70% of all user interface deliverables for high-profile clients, primarily IPEX AG (market leader in Swiss building damage management).',
       achievements: [
-        'Joined via STP (Super Talent Program) — achieved top 10 out of hundreds of applicants',
-        'Acted as primary frontend driver — independently executed 60–70% of all UI deliverables',
-        'Built complex Angular UI for IPEX AG: reactive forms, calculation engines, data tables, drag-and-drop dashboards',
-        'Implemented automated OCR-based PDF processing pipeline for insurance claim case management',
-        'Developed Selenium wrapper framework automating regression testing across 6+ enterprise platforms',
-        'Conducted JMeter load testing to isolate and resolve performance bottlenecks',
+        'Acted as the primary driver for frontend development, independently executing 60-70% of all user interface deliverables for high-profile clients, primarily IPEX AG (market leader in Swiss building damage management and digitization).',
+        'Built interactive, highly responsive enterprise UI components in Angular and Angular Material, optimizing complex data tables, advanced calculation engines, dynamic reactive forms, and drag-and-drop workflow dashboards.',
+        'Built a custom Selenium wrapper framework to automate regression testing across 6+ distinct enterprise web platforms.',
+        'Conducted JMeter load testing to isolate system bottlenecks.',
       ],
-      skills: ['Angular', 'Angular Material', 'Selenium', 'JMeter', 'TypeScript', 'RxJS'],
-      accent: 'tertiary',
       highlights: [
-        { label: 'Hiring', value: 'STP Top 10' },
-        { label: 'Output', value: '60–70% FE Work' },
-        { label: 'Testing', value: 'Selenium + JMeter' },
+        {
+          topic: 'Core Delivery',
+          detail:
+            'Acted as the primary driver for frontend development, independently executing 60-70% of all user interface deliverables for high-profile clients, primarily IPEX AG (the market leader in Swiss building damage management and digitization).',
+        },
+        {
+          topic: 'Feature Engineering',
+          detail:
+            'Built interactive, highly responsive enterprise UI components in Angular and Angular Material, optimizing complex data tables, advanced calculation engines, dynamic reactive forms, and drag-and-drop workflow dashboards.',
+        },
+        {
+          topic: 'Automation',
+          detail:
+            'Built a custom Selenium wrapper framework to automate regression testing across 6+ distinct enterprise web platforms. Conducted JMeter load testing to isolate system bottlenecks.',
+        },
+      ],
+      skills: [
+        'Angular',
+        'Angular Material',
+        'TypeScript',
+        'Reactive Forms',
+        'Selenium',
+        'JMeter',
+        'Test Automation',
+        'Performance Testing',
       ],
     },
   ],
 
-  // Skills with proficiency levels
-  skills: {
-    frontend:
-      'Next.js, Angular, React, Tailwind CSS, RxJS, Zustand, Angular Material, Shadcn, WooCommerce',
-    backend:
-      'NestJS, .NET 6 (C#), GCP, Google Pub/Sub, Redis, MongoDB, REST, Microservices, CQRS, SAGA, SOLID',
-    others:
-      'Git, Selenium, JMeter, Jest, MaxMind GeoIP, SEO, Google Analytics (GTM), AI Tools (Gemini/Copilot), Agile, Scrum',
-  },
-
-  // Detailed skill categories with proficiency levels
-  skillsDetailed: [
-    {
-      category: 'Frontend Development',
-      accent: 'primary',
-      icon: '⚡',
-      skills: [
-        { name: 'Next.js', level: 95 },
-        { name: 'React', level: 92 },
-        { name: 'Angular', level: 95 },
-        { name: 'TypeScript', level: 93 },
-        { name: 'Tailwind CSS', level: 94 },
-        { name: 'RxJS / State Management', level: 90 },
-        { name: 'Angular Material / Shadcn', level: 88 },
-        { name: 'Performance Optimization', level: 87 },
-      ],
-    },
-    {
-      category: 'Backend Development',
-      accent: 'secondary',
-      icon: '🚀',
-      skills: [
-        { name: 'NestJS', level: 96 },
-        { name: 'REST APIs / Microservices', level: 95 },
-        { name: 'MongoDB', level: 92 },
-        { name: 'Redis', level: 90 },
-        { name: 'System Architecture', level: 91 },
-        { name: 'CQRS / SAGA Patterns', level: 85 },
-        { name: 'Google Pub/Sub / GCP', level: 84 },
-        { name: '.NET 6 (C#)', level: 82 },
-      ],
-    },
-    {
-      category: 'DevOps & Tools',
-      accent: 'tertiary',
-      icon: '🔧',
-      skills: [
-        { name: 'Git', level: 95 },
-        { name: 'SEO / Google Analytics (GTM)', level: 90 },
-        { name: 'Jest / Testing', level: 90 },
-        { name: 'Selenium / Automation', level: 86 },
-        { name: 'Agile / Scrum', level: 90 },
-        { name: 'JMeter / Performance', level: 80 },
-        { name: 'AI Tools (Gemini / Copilot)', level: 88 },
-        { name: 'MaxMind GeoIP / Maps APIs', level: 83 },
-      ],
-    },
-  ],
-
-  // Education
+  // Education exactly from CV
   education: [
     {
       degree: 'B.Sc. in Computer Science & Engineering',
-      institution: 'Cumilla University',
-      period: '01/2016 - 12/2020',
+      institution: 'Comilla University',
+      period: '2016 – 2020',
       location: 'Cumilla, Bangladesh',
+      accent: 'primary' as const,
+      highlights:
+        'Strong computer science foundation in Data Structures, Algorithms, Discrete Mathematics, OOP, Database Systems, Computer Networks, and Operating Systems.',
     },
   ],
 
-  // Competitive Programming
+  // Competitive Programming & Core Achievements from CV
   competitiveProgramming: {
-    title: 'Competitive Programming Achievements',
-    description:
-      'Solved 1700+ problems across Codeforces, Codechef, LightOJ, and UVA. Participated in 10+ national contests including ICPC Dhaka Regional and NCPC. Led CP team and was later selected as a member of the university first-choice team. Codeforces Specialist — Max Rating 1544.',
-    achievements: [
-      'Solved 1700+ problems (Codeforces Specialist — Max Rating 1544)',
-      'Participated in 10+ national contests: ICPC Dhaka Regional, NCPC, and university circuits',
-      "Led CP team; later selected as member of the university's first-choice team",
-      'Official Judge & Problem Setter for intra and inter-university programming contests',
+    title: 'Competitive Programming & Achievements',
+    summary:
+      'Solved 1,700+ Problems (Codeforces Specialist - Max Rating 1544). Compete in 10+ national contests including ICPC Dhaka Regional & NCPC. Official Judge & Problem Setter for university-level contests.',
+    items: [
+      {
+        title: 'Problem Solver (1,700+ Problems)',
+        description: 'Codeforces Specialist (Max Rating 1544), active on Codeforces, Codechef, LightOJ, and UVA.',
+        icon: '🏆',
+      },
+      {
+        title: 'ICPC Dhaka Regional & NCPC',
+        description: 'Competed in 10+ national programming contests, representing Comilla University first team.',
+        icon: '🥇',
+      },
+      {
+        title: 'Official Judge & Problem Setter',
+        description: 'Authored, tested and judged algorithmic contest problems for university-level competitions.',
+        icon: '⚖️',
+      },
+      {
+        title: 'SELISE Super Talent Program (STP)',
+        description: 'Achieved top 10 rank among hundreds of competitive applicants during hiring selection.',
+        icon: '🌟',
+      },
     ],
   },
-
-  // Problem Setting & Judging
-  problemSetting: {
-    title: 'Problem Setter & Judge',
-    description:
-      'Designed, tested, and judged problems for several Intra and Inter-University Programming contests, ensuring mathematical rigor and fairness.',
-  },
-
-  // About sections for different pages
-  aboutSections: [
-    {
-      title: 'Software Engineer · 5+ Years',
-      accent: 'primary',
-      body: 'I build production-grade web applications and backend systems serving millions of global users. My stack centers on Next.js and NestJS for full-stack feature delivery, and Angular for enterprise frontends. I care deeply about performance — from SSR/SSG strategies and Redis caching to MongoDB index tuning and streaming architectures.',
-    },
-    {
-      title: 'Competitive Programming Background',
-      accent: 'secondary',
-      body: 'Solved 1700+ problems across Codeforces, Codechef, LightOJ, and UVA. Participated in 10+ national contests including ICPC Dhaka Regional and NCPC. Led my university CP team and was later selected for the first-choice team. Official Judge & Problem Setter for intra and inter-university contests. Codeforces Specialist — Max Rating 1544.',
-    },
-    {
-      title: 'Beyond Development',
-      accent: 'tertiary',
-      body: 'I lead teams, conduct thorough code reviews, and mentor engineers on architecture and best practices. Experienced with Agile/Scrum workflows and cross-functional collaboration with PMs, designers, QA, and principal architects. Actively leveraging AI-assisted development (Gemini & GitHub Copilot) to ship faster within current usage tiers.',
-    },
-  ],
-
-  // Highlights for about page
-  highlights: [
-    {
-      icon: '🎯',
-      title: 'Problem Solver',
-      desc: 'Tackling complex challenges with creative algorithmic solutions',
-      accent: 'primary',
-    },
-    {
-      icon: '🚀',
-      title: 'Performance Driven',
-      desc: 'Building fast, responsive, scalable systems that serve millions',
-      accent: 'secondary',
-    },
-    {
-      icon: '💡',
-      title: 'Innovator',
-      desc: 'Exploring emerging technologies and modern best practices',
-      accent: 'tertiary',
-    },
-  ],
 };

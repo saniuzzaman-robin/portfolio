@@ -59,7 +59,6 @@ describe('generateProjectSchema', () => {
   });
 });
 
-
 describe('generateFAQSchema', () => {
   const faqs = [
     { question: 'What is Next.js?', answer: 'A React framework.' },

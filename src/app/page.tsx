@@ -1,38 +1,29 @@
 import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
-import { Navigation } from '@/components/sections/navigation';
-import { Hero } from '@/components/sections/hero';
-import { ProfessionalJourney } from '@/components/sections/professional-journey';
-import { FeaturedProjects } from '@/components/sections/featured-projects';
-import { CTA } from '@/components/sections/cta';
-import { Footer } from '@/components/sections/footer';
+import { HomeView } from '@/components/craft/home-view';
 import { SchemaScript } from '@/components/reusable/schema-script';
-
-const Achievements = dynamic(() =>
-  import('@/components/sections/achievements').then((m) => m.Achievements)
-);
-
 import { generatePersonSchema, generateWebPageSchema } from '@/lib/schema';
 import { CV_DATA } from '@/lib/cv-data';
 
 export const metadata: Metadata = {
-  title: `Home | ${CV_DATA.name} - ${CV_DATA.title}`,
-  description: `Explore my portfolio showcasing ${CV_DATA.yearsOfExperience} years of software engineering expertise. Specialized in building scalable applications with NestJS, Next.js, Angular, and competitive programming.`,
+  title: `${CV_DATA.name} | ${CV_DATA.title}`,
+  description: CV_DATA.summary,
   keywords: [
+    'Md. Saniuzzaman Robin',
     'portfolio',
     'software engineer',
     'full-stack',
     'next.js',
     'nestjs',
     'angular',
-    'web development',
+    'competitive programming',
+    'icpc',
   ],
   alternates: { canonical: 'https://saniuzzaman.dev' },
   openGraph: {
     type: 'website',
     url: 'https://saniuzzaman.dev',
-    title: `Home | ${CV_DATA.name}`,
-    description: `${CV_DATA.title} with expertise in Next.js, NestJS, Angular, and system architecture.`,
+    title: `${CV_DATA.name} | ${CV_DATA.title}`,
+    description: CV_DATA.summary,
     siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       { url: 'https://saniuzzaman.dev/og_image.png', width: 1200, height: 630, alt: CV_DATA.name },
@@ -40,8 +31,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `Home | ${CV_DATA.name}`,
-    description: `${CV_DATA.title} - Full-stack software engineer`,
+    title: `${CV_DATA.name} | ${CV_DATA.title}`,
+    description: CV_DATA.summary,
     creator: '@saniuzzaman_robin',
     images: ['https://saniuzzaman.dev/og_image.png'],
   },
@@ -54,19 +45,11 @@ export default function Home() {
       <SchemaScript
         schema={generateWebPageSchema({
           title: `Home | ${CV_DATA.name}`,
-          description: `${CV_DATA.title} showcasing ${CV_DATA.yearsOfExperience} years of expertise`,
+          description: `${CV_DATA.title} with 5+ years of engineering experience`,
           url: 'https://saniuzzaman.dev',
         })}
       />
-      <main className="bg-midnight-900 text-midnight-950 min-h-dvh">
-        <Navigation />
-        <Hero />
-        <Achievements />
-        <ProfessionalJourney />
-        <FeaturedProjects />
-        <CTA />
-        <Footer />
-      </main>
+      <HomeView />
     </>
   );
 }

@@ -61,7 +61,7 @@ export function generatePersonSchema() {
       },
       startDate: exp.startDate,
       ...(exp.endDate && { endDate: exp.endDate }),
-      description: exp.descriptionLong,
+      description: exp.summary,
     })),
   };
 }
