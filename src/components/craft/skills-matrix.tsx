@@ -201,9 +201,10 @@ export function SkillsMatrix() {
                   </p>
                   <div className="grid gap-2 sm:grid-cols-2">
                     {activeDomain.technologies.map((tech) => (
-                      <div
+                      <motion.div
                         key={tech.name}
-                        className="flex items-center justify-between rounded-xl border border-(--border-subtle) bg-(--surface-1) p-2.5 sm:p-3"
+                        whileHover={{ y: -1.5 }}
+                        className="flex items-center justify-between rounded-xl border border-(--border-subtle) hover:border-(--border-hover) bg-(--surface-1) p-2.5 sm:p-3 transition-colors shadow-xs"
                       >
                         <span className="font-heading text-xs font-bold text-(--text-main)">
                           {tech.name}
@@ -211,7 +212,7 @@ export function SkillsMatrix() {
                         <span className="rounded border border-indigo-500/20 bg-indigo-500/10 px-2 py-0.5 font-mono text-[9px] font-semibold text-indigo-500 sm:text-[10px]">
                           {tech.level}
                         </span>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
@@ -246,9 +247,10 @@ export function SkillsMatrix() {
           {/* 4 Contest Credentials */}
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {CV_DATA.competitiveProgramming.items.map((item, idx) => (
-              <div
+              <motion.div
                 key={idx}
-                className="space-y-1 rounded-xl border border-(--border-subtle) bg-(--surface-1) p-3.5 sm:rounded-2xl sm:p-4"
+                whileHover={{ y: -2 }}
+                className="space-y-1 rounded-xl border border-(--border-subtle) hover:border-(--border-hover) bg-(--surface-1) p-3.5 sm:rounded-2xl sm:p-4 transition-colors shadow-xs"
               >
                 <span className="block font-mono text-xs font-bold text-indigo-500">
                   {item.title}
@@ -256,7 +258,7 @@ export function SkillsMatrix() {
                 <p className="text-[11px] leading-relaxed text-(--text-secondary) sm:text-xs">
                   {item.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -268,9 +270,10 @@ export function SkillsMatrix() {
               { label: 'Contests Competed', value: '10+ Regionals' },
               { label: 'Platform Ranks', value: 'Specialist' },
             ].map((stat) => (
-              <div
+              <motion.div
                 key={stat.label}
-                className="rounded-xl border border-(--border-subtle) bg-(--surface-2) p-2.5 text-center sm:p-3.5"
+                whileHover={{ y: -2 }}
+                className="rounded-xl border border-(--border-subtle) hover:border-indigo-500/40 bg-(--surface-2) p-2.5 text-center sm:p-3.5 transition-colors"
               >
                 <p className="font-heading text-base font-black text-(--text-main) sm:text-lg">
                   {stat.value}
@@ -278,7 +281,7 @@ export function SkillsMatrix() {
                 <p className="mt-0.5 font-mono text-[9px] tracking-wider text-(--text-muted) uppercase sm:text-[10px]">
                   {stat.label}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

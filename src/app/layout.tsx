@@ -5,6 +5,7 @@ import { SchemaScript } from '@/components/reusable/schema-script';
 import { GoogleAnalytics } from '@/components/reusable/google-analytics';
 import { ThemeProvider } from '@/components/reusable/theme-provider';
 import { generateOrganizationSchema } from '@/lib/schema';
+import { AppShell } from '@/components/craft/app-shell';
 import './globals.css';
 
 const jakartaSans = Plus_Jakarta_Sans({
@@ -118,7 +119,9 @@ export default function RootLayout({
       <body className="flex min-h-dvh flex-col">
         <ThemeProvider>
           <SkipLink />
-          <main id="main-content">{children}</main>
+          <AppShell>
+            <main id="main-content" className="flex-1 flex flex-col">{children}</main>
+          </AppShell>
         </ThemeProvider>
       </body>
     </html>

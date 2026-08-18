@@ -111,12 +111,13 @@ body {
   background: var(--surface-card);
   border: 1px solid var(--border-subtle);
   box-shadow: var(--card-shadow);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .craft-card:hover {
   border-color: var(--border-hover);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.35);
 }
 
 .glass-nav {
@@ -142,7 +143,7 @@ body {
 }
 
 /* ============================================================
-   POLISHED HIGH-CONTRAST BUTTONS
+   POLISHED HIGH-CONTRAST BUTTONS & HOVERS
    ============================================================ */
 .btn-primary {
   display: inline-flex;
@@ -164,9 +165,13 @@ body {
 }
 
 .btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px 0 rgba(79, 70, 229, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px 0 rgba(79, 70, 229, 0.55);
   filter: brightness(1.08);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.97);
 }
 
 .btn-secondary {
@@ -188,10 +193,15 @@ body {
 }
 
 .btn-secondary:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   background: var(--surface-card);
   border-color: var(--border-active);
   color: var(--accent-indigo);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.btn-secondary:active {
+  transform: translateY(0) scale(0.97);
 }
 
 .btn-ghost {
@@ -206,15 +216,20 @@ body {
   color: var(--text-main);
   background: var(--surface-2);
   border: 1px solid var(--border-subtle);
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   text-decoration: none;
 }
 
 .btn-ghost:hover {
+  transform: translateY(-1px);
   border-color: var(--border-hover);
   background: var(--surface-hover);
   color: var(--accent-indigo);
+}
+
+.btn-ghost:active {
+  transform: translateY(0) scale(0.97);
 }
 
 /* Hide scrollbar for clean horizontal swiping on mobile */

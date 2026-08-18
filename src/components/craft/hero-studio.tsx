@@ -297,24 +297,25 @@ export function HeroStudio() {
               {/* Deliverable Bullets */}
               <div className="grid gap-2.5 sm:grid-cols-2">
                 {activeHighlight.deliverables.map((bullet, idx) => (
-                  <div
+                  <motion.div
                     key={idx}
-                    className="flex items-start gap-2.5 rounded-xl border border-(--border-subtle) bg-(--surface-1) p-3 sm:p-4"
+                    whileHover={{ y: -2 }}
+                    className="p-3 sm:p-4 rounded-xl bg-(--surface-1) border border-(--border-subtle) hover:border-(--border-hover) transition-colors flex items-start gap-2.5 shadow-xs"
                   >
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-indigo-500" />
-                    <p className="text-xs leading-relaxed text-(--text-secondary) sm:text-sm">
+                    <CheckCircle2 className="h-4 w-4 text-indigo-500 shrink-0 mt-0.5" />
+                    <p className="text-xs sm:text-sm text-(--text-secondary) leading-relaxed">
                       {bullet}
                     </p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
               {/* Technologies */}
-              <div className="flex flex-wrap gap-1 border-t border-(--border-subtle) pt-3">
+              <div className="pt-3 border-t border-(--border-subtle) flex flex-wrap gap-1">
                 {activeHighlight.technologies.map((t) => (
                   <span
                     key={t}
-                    className="rounded border border-(--border-subtle) bg-(--surface-2) px-2.5 py-0.5 font-mono text-[10px] text-(--text-main)"
+                    className="font-mono text-[10px] px-2.5 py-0.5 rounded bg-(--surface-2) text-(--text-main) border border-(--border-subtle) hover:border-indigo-500/40 transition-colors"
                   >
                     {t}
                   </span>
