@@ -1,25 +1,28 @@
 import type { Metadata } from 'next';
-import { Navigation } from '@/components/sections/navigation';
-import { ProjectsGrid } from '@/components/sections/projects-grid';
-import { Footer } from '@/components/sections/footer';
+import { Navbar } from '@/components/craft/navbar';
+import { PlatformsGallery } from '@/components/craft/platforms-gallery';
+import { ContactCard } from '@/components/craft/contact-card';
+import { FooterColophon } from '@/components/craft/footer-colophon';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateCollectionSchema } from '@/lib/schema';
+import { PROJECTS } from '@/lib/data/projects';
+import { CV_DATA } from '@/lib/cv-data';
 
 export const metadata: Metadata = {
-  title: 'Projects | Md. Saniuzzaman Robin',
+  title: `Platforms & Deliveries | ${CV_DATA.name}`,
   description:
-    'Portfolio of production projects: Prayer Times migration, Giving donation platform (30% YoY growth), Qalbox video streaming, Islamic Calendar, MuslimPro Admin Console, KONA multi-tenant e-commerce panel, and IPEX AG enterprise platform. Built with Next.js, NestJS, Angular, and more.',
+    'Featured projects and engineering platforms built with Next.js, NestJS, Angular, TypeScript, Redis, and MongoDB by Md. Saniuzzaman Robin.',
   keywords: [
     'projects',
     'portfolio',
-    'muslimpro',
-    'prayer times',
-    'giving platform',
-    'qalbox',
-    'next.js',
-    'nestjs',
-    'angular',
-    'full-stack',
+    'Next.js',
+    'NestJS',
+    'Angular',
+    'microservices',
+    'Prayer Times',
+    'Giving platform',
+    'Qalbox',
+    'Admin Console',
   ],
   alternates: {
     canonical: 'https://saniuzzaman.dev/projects',
@@ -27,8 +30,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://saniuzzaman.dev/projects',
-    title: 'Projects | Saniuzzaman Robin',
-    description: 'Showcase of production-grade web applications and full-stack projects.',
+    title: `Platforms & Deliveries | ${CV_DATA.name}`,
+    description: 'Engineering deliveries across scalable web applications and microservices.',
     siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
@@ -41,68 +44,34 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Projects | Saniuzzaman Robin',
-    description: 'Full-stack projects built with modern technologies',
+    title: `Platforms & Deliveries | ${CV_DATA.name}`,
+    description: 'Scalable engineering platforms and microservices',
     creator: '@saniuzzaman_robin',
     images: ['https://saniuzzaman.dev/og_image.png'],
   },
 };
 
 export default function Projects() {
-  const projectItems = [
-    {
-      name: 'Prayer Times Web',
-      description: 'NestJS microservice migration with MaxMind GeoIP and Google Maps integration',
-      url: 'https://app.muslimpro.com/prayer-times',
-    },
-    {
-      name: 'Giving — Donation Platform',
-      description: 'Next.js/WooCommerce replatform that drove a 30% YoY donation increase',
-      url: 'https://app.muslimpro.com/giving',
-    },
-    {
-      name: 'Qalbox Video Platform',
-      description: 'Shorts, live streaming, and search on the MuslimPro video streaming platform',
-      url: 'https://app.muslimpro.com/qalbox',
-    },
-    {
-      name: 'Islamic Calendar',
-      description: 'Full backend APIs and frontend integration for Hijri dates and Islamic events',
-      url: 'https://app.muslimpro.com/islamic-calendar',
-    },
-    {
-      name: 'MuslimPro Admin Console',
-      description: 'Enterprise Admin Console built from scratch in Next.js',
-      url: '#',
-    },
-    {
-      name: 'KONA Multi-Tenant Admin Panel',
-      description: 'Angular multi-tenant e-commerce admin with RBAC and CQRS/SAGA backend',
-      url: '#',
-    },
-    {
-      name: 'IPEX AG — SELISE Platform',
-      description:
-        "Primary frontend engineer for Switzerland's leading building damage management platform",
-      url: 'https://www.ipex.ch/en',
-    },
-  ];
-
   return (
     <>
       <SchemaScript
         schema={generateCollectionSchema({
-          name: 'Projects',
-          description: 'Collection of projects showcasing my expertise',
+          name: 'Platforms',
+          description: 'Engineering platforms and production applications',
           url: 'https://saniuzzaman.dev/projects',
-          items: projectItems,
+          items: PROJECTS.map((p) => ({
+            name: p.title,
+            description: p.description,
+            url: p.link.startsWith('http') ? p.link : 'https://saniuzzaman.dev/projects',
+          })),
         })}
       />
-      <main className="bg-midnight-900 text-midnight-950">
-        <Navigation />
-        <ProjectsGrid />
-        <Footer />
-      </main>
+      <div className="min-h-dvh flex flex-col">
+        <Navbar />
+        <PlatformsGallery />
+        <ContactCard />
+        <FooterColophon />
+      </div>
     </>
   );
 }

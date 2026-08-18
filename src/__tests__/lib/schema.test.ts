@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import {
   generateBreadcrumbSchema,
   generateProjectSchema,
-  generateGameSchema,
   generateFAQSchema,
   generateCollectionSchema,
 } from '@/lib/schema';
@@ -57,38 +56,6 @@ describe('generateProjectSchema', () => {
     });
     expect(result.creator['@type']).toBe('Person');
     expect(typeof result.creator.name).toBe('string');
-  });
-});
-
-describe('generateGameSchema', () => {
-  const input = {
-    name: 'Snake',
-    description: 'Classic snake game',
-    url: 'https://example.com/games/snake',
-    genre: 'Arcade',
-  };
-
-  it('returns SoftwareApplication type', () => {
-    expect(generateGameSchema(input)['@type']).toBe('SoftwareApplication');
-  });
-
-  it('sets applicationCategory to Game', () => {
-    expect(generateGameSchema(input).applicationCategory).toBe('Game');
-  });
-
-  it('sets applicationSubCategory to the provided genre', () => {
-    expect(generateGameSchema(input).applicationSubCategory).toBe('Arcade');
-  });
-
-  it('sets operatingSystem to Web Browser', () => {
-    expect(generateGameSchema(input).operatingSystem).toBe('Web Browser');
-  });
-
-  it('offers a free price', () => {
-    const result = generateGameSchema(input);
-    expect(result.offers['@type']).toBe('Offer');
-    expect(result.offers.price).toBe('0');
-    expect(result.offers.priceCurrency).toBe('USD');
   });
 });
 

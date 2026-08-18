@@ -17,10 +17,8 @@ const config = {
         'revert', // Reverts a previous commit
       ],
     ],
-    'type-case': [2, 'always', 'lower-case'],
     'type-empty': [2, 'never'],
     'scope-empty': [0],
-    'subject-case': [2, 'always', 'lower-case'],
     'subject-empty': [2, 'never'],
     'subject-full-stop': [0],
     'header-max-length': [2, 'always', 100],

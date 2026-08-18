@@ -1,14 +1,16 @@
 import type { Metadata } from 'next';
-import { Navigation } from '@/components/sections/navigation';
-import { ResumeContent } from '@/components/sections/resume-content';
-import { Footer } from '@/components/sections/footer';
+import { Navbar } from '@/components/craft/navbar';
+import { ResumeSheet } from '@/components/craft/resume-sheet';
+import { ContactCard } from '@/components/craft/contact-card';
+import { FooterColophon } from '@/components/craft/footer-colophon';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generatePersonSchema, generateWebPageSchema } from '@/lib/schema';
+import { CV_DATA } from '@/lib/cv-data';
 
 export const metadata: Metadata = {
-  title: 'Resume | Md. Saniuzzaman Robin',
+  title: `Experience & Resume | ${CV_DATA.name}`,
   description:
-    'Professional resume and CV of Md. Saniuzzaman Robin. 5+ years software engineering experience at Bitsmedia, KONA Software Lab, and SELISE Digital Platforms.',
+    'Professional resume of Md. Saniuzzaman Robin. 5+ years of software engineering experience across Bitsmedia (MuslimPro), KONA Software Lab, and SELISE Digital Platforms.',
   keywords: [
     'resume',
     'cv',
@@ -16,7 +18,10 @@ export const metadata: Metadata = {
     'experience',
     'education',
     'skills',
-    'employment',
+    'Bitsmedia',
+    'KONA Software Lab',
+    'SELISE',
+    'MuslimPro',
   ],
   alternates: {
     canonical: 'https://saniuzzaman.dev/resume',
@@ -24,8 +29,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'profile',
     url: 'https://saniuzzaman.dev/resume',
-    title: 'Resume | Saniuzzaman Robin',
-    description: 'Complete professional resume with experience, education, and technical skills.',
+    title: `Experience & Resume | ${CV_DATA.name}`,
+    description: 'Complete professional resume with work experience, technical skills, and achievements.',
     siteName: 'Saniuzzaman Robin Portfolio',
     images: [
       {
@@ -38,8 +43,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Resume | Saniuzzaman Robin',
-    description: 'Professional CV and work experience',
+    title: `Experience & Resume | ${CV_DATA.name}`,
+    description: 'Professional CV and career experience',
     creator: '@saniuzzaman_robin',
     images: ['https://saniuzzaman.dev/og_image.png'],
   },
@@ -51,16 +56,17 @@ export default function Resume() {
       <SchemaScript schema={generatePersonSchema()} />
       <SchemaScript
         schema={generateWebPageSchema({
-          title: 'Resume | Md. Saniuzzaman Robin',
-          description: 'Complete resume with experience, skills, and education',
+          title: `Resume | ${CV_DATA.name}`,
+          description: 'Complete resume with work experience, technical skills, and education',
           url: 'https://saniuzzaman.dev/resume',
         })}
       />
-      <main className="bg-midnight-900 text-midnight-950">
-        <Navigation />
-        <ResumeContent />
-        <Footer />
-      </main>
+      <div className="min-h-dvh flex flex-col">
+        <Navbar />
+        <ResumeSheet />
+        <ContactCard />
+        <FooterColophon />
+      </div>
     </>
   );
 }
