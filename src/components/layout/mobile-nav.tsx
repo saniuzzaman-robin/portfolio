@@ -46,7 +46,7 @@ const item = (i: number, sign: number) => ({
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-3 px-1 font-mono text-[10px] font-medium tracking-[0.14em] text-fg-subtle uppercase">
+    <p className="mb-2 px-1 font-mono text-[10px] font-medium tracking-[0.14em] text-fg-subtle uppercase">
       {children}
     </p>
   );
@@ -138,10 +138,10 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
           className="absolute start-1.5 top-1/2 h-12 w-1 -translate-y-1/2 rounded-full bg-line-strong"
         />
 
-        <div className="relative flex-1 overflow-y-auto overscroll-contain px-5 pt-5 pb-6">
+        <div className="relative border-b border-line px-4 pt-4 pb-3">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="flex size-11 items-center justify-center rounded-2xl bg-linear-to-br from-primary to-primary-strong font-mono text-sm font-black text-primary-fg shadow-lg shadow-primary/30">
+              <span className="flex size-10 items-center justify-center rounded-2xl bg-linear-to-br from-primary to-primary-strong font-mono text-sm font-black text-primary-fg shadow-lg shadow-primary/30">
                 SR
               </span>
               <div className="min-w-0">
@@ -160,16 +160,18 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
             </button>
           </div>
 
-          <m.div {...item(0, sign)} className="mt-4">
+          <m.div {...item(0, sign)} className="mt-3">
             <Badge tone="success" className="rounded-full px-2.5 py-0.5">
               <StatusDot />
               {t.common.available}
             </Badge>
           </m.div>
+        </div>
 
-          <nav aria-label={t.mobileNav.nav} className="mt-6">
+        <div className="relative flex-1 overflow-y-auto overscroll-contain px-4 py-4">
+          <nav aria-label={t.mobileNav.nav}>
             <SectionLabel>{t.mobileNav.menu}</SectionLabel>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5">
               {NAV_LINKS.map((link, i) => {
                 const active = isActivePath(pathname, link.href);
                 const Icon = link.icon;
@@ -180,7 +182,7 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
                       onClick={onClose}
                       aria-current={active ? 'page' : undefined}
                       className={cn(
-                        'group flex items-center gap-3.5 rounded-2xl border p-2.5 transition-colors',
+                        'group flex items-center gap-3 rounded-xl border p-2 transition-colors',
                         active
                           ? 'border-primary/30 bg-primary/10'
                           : 'border-line bg-surface/60 hover:border-line-strong hover:bg-surface-2'
@@ -188,13 +190,13 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
                     >
                       <span
                         className={cn(
-                          'flex size-10 shrink-0 items-center justify-center rounded-xl transition-colors',
+                          'flex size-9 shrink-0 items-center justify-center rounded-lg transition-colors',
                           active
                             ? 'bg-primary text-primary-fg shadow-md shadow-primary/30'
                             : 'border border-line bg-surface-2 text-fg-muted group-hover:text-fg'
                         )}
                       >
-                        <Icon className="size-[18px]" />
+                        <Icon className="size-4" />
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="flex items-center gap-2">
@@ -225,7 +227,7 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
             </ul>
           </nav>
 
-          <m.div {...item(NAV_LINKS.length + 1, sign)} className="mt-6">
+          <m.div {...item(NAV_LINKS.length + 1, sign)} className="mt-5">
             <SectionLabel>{t.mobileNav.appearance}</SectionLabel>
             <div
               role="group"
@@ -241,7 +243,7 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
                     aria-pressed={active}
                     onClick={() => setPreference(value)}
                     className={cn(
-                      'relative flex cursor-pointer flex-col items-center gap-1 rounded-xl py-2.5 text-[11px] font-semibold transition-colors',
+                      'relative flex cursor-pointer flex-col items-center gap-1 rounded-xl py-2 text-[11px] font-semibold transition-colors',
                       active ? 'text-fg' : 'text-fg-subtle hover:text-fg'
                     )}
                   >
@@ -260,12 +262,12 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
             </div>
           </m.div>
 
-          <m.div {...item(NAV_LINKS.length + 2, sign)} className="mt-6">
+          <m.div {...item(NAV_LINKS.length + 2, sign)} className="mt-5">
             <SectionLabel>{t.common.language}</SectionLabel>
             <LanguageSwitcher variant="full" onNavigate={onClose} />
           </m.div>
 
-          <m.div {...item(NAV_LINKS.length + 3, sign)} className="mt-6">
+          <m.div {...item(NAV_LINKS.length + 3, sign)} className="mt-5">
             <SectionLabel>{t.mobileNav.connect}</SectionLabel>
             <ul className="grid grid-cols-3 gap-2">
               {SOCIAL_LINKS.map((link) => (
@@ -273,7 +275,7 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
                   <a
                     href={link.href}
                     {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="flex items-center justify-center gap-2 rounded-2xl border border-line bg-surface/60 py-2.5 text-xs font-medium text-fg-muted transition-colors hover:border-primary/40 hover:text-fg"
+                    className="flex items-center justify-center gap-2 rounded-xl border border-line bg-surface/60 py-2 text-xs font-medium text-fg-muted transition-colors hover:border-primary/40 hover:text-fg"
                   >
                     <SocialIcon icon={link.icon} className="size-4" />
                     {link.label ?? t.common.email}
@@ -284,8 +286,12 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
           </m.div>
         </div>
 
-        <div className="relative border-t border-line bg-surface/80 px-5 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur">
-          <a href={RESUME_PDF_PATH} download className={buttonClass({ className: 'w-full py-3' })}>
+        <div className="relative border-t border-line bg-surface/80 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur">
+          <a
+            href={RESUME_PDF_PATH}
+            download
+            className={buttonClass({ className: 'w-full py-2.5' })}
+          >
             <Download className="size-4" />
             {t.common.downloadResume}
           </a>
