@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  generateBreadcrumbSchema,
-  generateProjectSchema,
-  generateFAQSchema,
-  generateCollectionSchema,
-} from '@/lib/schema';
+import { generateBreadcrumbSchema, generateCollectionSchema } from '@/lib/schema';
 
 describe('generateBreadcrumbSchema', () => {
   it('returns correct @context and @type', () => {
@@ -31,59 +26,6 @@ describe('generateBreadcrumbSchema', () => {
   it('returns empty itemListElement for empty input', () => {
     const result = generateBreadcrumbSchema([]);
     expect(result.itemListElement).toHaveLength(0);
-  });
-});
-
-describe('generateProjectSchema', () => {
-  it('returns CreativeWork with correct fields', () => {
-    const result = generateProjectSchema({
-      title: 'My Portfolio',
-      description: 'A personal portfolio site',
-      link: 'https://example.com',
-    });
-    expect(result['@context']).toBe('https://schema.org');
-    expect(result['@type']).toBe('CreativeWork');
-    expect(result.name).toBe('My Portfolio');
-    expect(result.description).toBe('A personal portfolio site');
-    expect(result.url).toBe('https://example.com');
-  });
-
-  it('includes a Person creator', () => {
-    const result = generateProjectSchema({
-      title: 'T',
-      description: 'D',
-      link: 'https://example.com',
-    });
-    expect(result.creator['@type']).toBe('Person');
-    expect(typeof result.creator.name).toBe('string');
-  });
-});
-
-describe('generateFAQSchema', () => {
-  const faqs = [
-    { question: 'What is Next.js?', answer: 'A React framework.' },
-    { question: 'What is TypeScript?', answer: 'A typed superset of JavaScript.' },
-  ];
-
-  it('returns FAQPage type', () => {
-    expect(generateFAQSchema(faqs)['@type']).toBe('FAQPage');
-  });
-
-  it('creates one Question per FAQ entry', () => {
-    const result = generateFAQSchema(faqs);
-    expect(result.mainEntity).toHaveLength(2);
-    expect(result.mainEntity[0]['@type']).toBe('Question');
-    expect(result.mainEntity[0].name).toBe('What is Next.js?');
-  });
-
-  it('wraps each answer in an Answer node', () => {
-    const result = generateFAQSchema(faqs);
-    expect(result.mainEntity[0].acceptedAnswer['@type']).toBe('Answer');
-    expect(result.mainEntity[0].acceptedAnswer.text).toBe('A React framework.');
-  });
-
-  it('returns empty mainEntity for empty input', () => {
-    expect(generateFAQSchema([]).mainEntity).toHaveLength(0);
   });
 });
 

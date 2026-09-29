@@ -1,4 +1,1 @@
-# Run linter and unit tests to ensure code quality before commit
-
-echo "Running linter and tests before commit..."
-npm run lint && npm run test:run
+npx lint-staged && npm run test:run

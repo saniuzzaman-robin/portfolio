@@ -17,8 +17,9 @@ test.describe('Home page', () => {
     await expect(page.locator('main')).toBeVisible();
   });
 
-  test('has a skip-to-content link in the DOM', async ({ page }) => {
+  test('skip-to-content link is the first tab stop', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('a[href="#main-content"]')).toHaveCount(1);
+    await page.keyboard.press('Tab');
+    await expect(page.locator(':focus')).toHaveAttribute('href', '#main-content');
   });
 });
