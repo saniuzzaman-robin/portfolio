@@ -33,7 +33,11 @@ export function ContactCta({ index }: { index?: string }) {
   };
 
   return (
-    <section id="contact" aria-labelledby="contact-heading" className="py-20 sm:py-28 print:hidden">
+    <section
+      id="contact"
+      aria-labelledby="contact-heading"
+      className="pt-6 pb-16 sm:pt-8 sm:pb-24 print:hidden"
+    >
       <Container>
         <m.div
           initial={{ opacity: 0, scale: 0.96, y: 32 }}

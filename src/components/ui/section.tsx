@@ -55,7 +55,7 @@ export function Section({
 }: SectionProps) {
   const headingId = id ? `${id}-heading` : undefined;
   return (
-    <section id={id} aria-labelledby={headingId} className={cn('py-20 sm:py-28', className)}>
+    <section id={id} aria-labelledby={headingId} className={cn('py-12 sm:py-16', className)}>
       <Container>
         <Stagger
           stagger={0.12}
