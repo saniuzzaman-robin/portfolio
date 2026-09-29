@@ -129,12 +129,7 @@ export function ProfileCard() {
         className="absolute -inset-6 -z-10 rounded-[2rem] bg-linear-to-br from-primary/25 via-accent/10 to-transparent opacity-80 blur-2xl"
       />
 
-      <FloatingChip
-        icon={Users}
-        label="180M+ users served"
-        className="-top-4 -left-4"
-        delay={1.2}
-      />
+      <FloatingChip icon={Users} label="2.5M+ daily users" className="-top-4 -left-4" delay={1.2} />
       <FloatingChip
         icon={Trophy}
         label="Codeforces Specialist"

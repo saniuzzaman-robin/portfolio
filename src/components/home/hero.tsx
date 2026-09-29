@@ -71,7 +71,7 @@ export function Hero() {
             as="h1"
             id="hero-heading"
             text="Building fast, resilient products for"
-            accent="180M+ people."
+            accent="2.5M+ daily users."
             trigger="mount"
             delay={0.15}
             stagger={0.06}

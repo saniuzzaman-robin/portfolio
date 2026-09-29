@@ -25,11 +25,11 @@ export interface Project {
 export const PROJECTS: Project[] = [
   {
     id: 1,
-    impact: 'Kotlin → NestJS migration',
+    impact: '400+ req/s at peak',
     title: 'Prayer Times Web',
     category: 'Full Stack',
     description:
-      'Migrated the Prayer Times engine from Kotlin to a NestJS microservice with all calculation APIs. Integrated MaxMind GeoIP for client IP resolution and Google Maps for place search. Added a cities database for optimized location lookups. Built the full frontend in Next.js with SEO and i18n support.',
+      'Migrated the Prayer Times engine from Kotlin to a NestJS microservice with all calculation APIs. Integrated MaxMind GeoIP for client IP resolution and Google Maps for place search. Added a cities database for optimized location lookups. The service now handles 400+ req/s at peak for 2.5M daily users, rising to 8M+ during Ramadan. Built the full frontend in Next.js with SEO and i18n support.',
     technologies: ['Next.js', 'NestJS', 'MaxMind GeoIP', 'Google Maps API', 'Redis', 'MongoDB'],
     link: 'https://app.muslimpro.com/prayer-times',
     icon: Clock,

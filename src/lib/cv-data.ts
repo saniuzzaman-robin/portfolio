@@ -28,12 +28,12 @@ export const CV_DATA = {
   stats: [
     { label: 'Years Experience', value: '5+', numeric: 5, suffix: '+', accent: 'primary' },
     {
-      label: 'Global Scale',
-      value: '180M+',
-      numeric: 180,
-      suffix: 'M+',
+      label: 'Req/s at Peak',
+      value: '400+',
+      numeric: 400,
+      suffix: '+',
       accent: 'secondary',
-      sub: 'Users Served',
+      sub: 'Prayer Times API',
     },
     {
       label: 'Problems Solved',
@@ -105,7 +105,7 @@ export const CV_DATA = {
       achievements: [
         'Develop full-stack features using Next.js/NestJS for platforms serving millions of global users.',
         'Architected backend microservices utilizing Redis caching, MongoDB index optimization, and GCP Pub/Sub.',
-        'Migrated core legacy Kotlin Prayer Times engine to NestJS, integrating MaxMind GeoIP and Google Maps APIs to deliver optimized, lightning-fast location searches.',
+        'Migrated core legacy Kotlin Prayer Times engine to NestJS, integrating MaxMind GeoIP and Google Maps APIs to deliver optimized, lightning-fast location searches; the service now handles 400+ req/s at peak for 2.5M daily users (8M+ during Ramadan).',
         'Re-platformed the legacy WordPress "Giving" engine to a modern Next.js/WooCommerce framework with advanced SEO features, accelerating page load speeds and driving a 30% YoY increase in donations in 2025-2026.',
         'Engineered an enterprise Admin Console from scratch in Next.js, creating reusable filters, tables, and auth modules that slashed feature development times for core product modules.',
         'Revamped main app performance by shifting legacy JSON data-fetching architecture to modular, stream-optimized feature components.',

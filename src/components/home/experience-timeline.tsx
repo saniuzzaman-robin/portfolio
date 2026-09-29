@@ -17,7 +17,7 @@ export function ExperienceTimeline() {
       label="Experience"
       title="Five years of owning outcomes,"
       accent="not just tickets."
-      description="From leading a team on a multi-tenant commerce platform to migrating core services for a 180M-user product."
+      description="From leading a team on a multi-tenant commerce platform to migrating the Prayer Times service that now handles 400+ req/s at peak."
       action={
         <Link href="/resume" className={buttonClass({ variant: 'secondary' })}>
           Full resume
