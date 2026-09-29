@@ -11,6 +11,8 @@ import {
   type Variants,
 } from 'framer-motion';
 import { cn } from '@/lib/cn';
+import { LOCALE_META } from '@/i18n/config';
+import { useLocale } from '@/i18n/use-locale';
 
 export const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
@@ -85,9 +87,11 @@ const OFFSETS: Record<Direction, Record<string, number>> = {
   fade: {},
 };
 
-export function itemVariants(direction: Direction = 'up', duration = 0.6): Variants {
+/** `left`/`right` are inline-start/end: in RTL the x offset is mirrored. */
+export function itemVariants(direction: Direction = 'up', duration = 0.6, rtl = false): Variants {
+  const offset = OFFSETS[direction];
   return {
-    hidden: { opacity: 0, ...OFFSETS[direction] },
+    hidden: { opacity: 0, ...offset, ...(rtl && offset.x ? { x: -offset.x } : {}) },
     show: { opacity: 1, x: 0, y: 0, scale: 1, transition: { duration, ease: EASE_OUT_EXPO } },
   };
 }
@@ -159,7 +163,8 @@ export function StaggerItem({
   ...props
 }: BaseProps & { direction?: Direction; duration?: number }) {
   const Comp = TAGS[as] as typeof m.div;
-  return <Comp variants={itemVariants(direction, duration)} {...props} />;
+  const rtl = LOCALE_META[useLocale()].dir === 'rtl';
+  return <Comp variants={itemVariants(direction, duration, rtl)} {...props} />;
 }
 
 /* ------------------------------------------------------------------ */
@@ -188,6 +193,7 @@ export function WordReveal({
   text,
   accent,
   id,
+  dir,
   className,
   trigger = 'view',
   stagger = 0.045,
@@ -197,6 +203,8 @@ export function WordReveal({
   text: string;
   accent?: string;
   id?: string;
+  /** Pin word order for text in another script (e.g. a Latin name on an RTL page). */
+  dir?: 'ltr' | 'rtl';
   className?: string;
   trigger?: Trigger | 'mount';
   stagger?: number;
@@ -211,7 +219,7 @@ export function WordReveal({
   if (trigger === 'mount') {
     const Tag = as;
     return (
-      <Tag id={id} className={className} aria-label={label}>
+      <Tag id={id} dir={dir} className={className} aria-label={label}>
         {words.map(({ word, accent: isAccent }, i) => (
           <span key={i} aria-hidden>
             <span className={MASK_CLASS}>
@@ -233,6 +241,7 @@ export function WordReveal({
   return (
     <Comp
       id={id}
+      dir={dir}
       className={className}
       aria-label={label}
       {...triggerProps(trigger)}
@@ -267,7 +276,7 @@ export function DrawLine({ className }: { className?: string }) {
         hidden: { scaleX: 0 },
         show: { scaleX: 1, transition: { duration: 0.8, ease: EASE_OUT_EXPO } },
       }}
-      className={cn('block h-px origin-left bg-line-strong', className)}
+      className={cn('block h-px origin-left bg-line-strong rtl:origin-right', className)}
     />
   );
 }

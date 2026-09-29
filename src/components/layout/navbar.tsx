@@ -1,8 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/ui/locale-link';
 import { m, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { Sun, Moon, Download, Menu, X, Command } from 'lucide-react';
 import { useTheme } from '@/components/reusable/theme-provider';
@@ -15,6 +14,10 @@ import { CV_DATA } from '@/lib/cv-data';
 import { NAV_LINKS, RESUME_PDF_PATH, isActivePath } from '@/lib/site';
 import { cn } from '@/lib/cn';
 import { Enter } from '@/components/ui/motion';
+import { LanguageSwitcher } from '@/components/layout/language-switcher';
+import { useUnprefixedPath } from '@/i18n/use-locale';
+import { useDictionary } from '@/i18n/provider';
+import { fmt } from '@/i18n/dictionary';
 
 function Monogram({ className }: { className?: string }) {
   return (
@@ -32,7 +35,8 @@ function Monogram({ className }: { className?: string }) {
 export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const pathname = usePathname();
+  const pathname = useUnprefixedPath();
+  const { t, cv } = useDictionary();
   const { toggleTheme, isDark } = useTheme();
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
@@ -52,7 +56,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
       <m.div
         aria-hidden
         style={{ scaleX: progress }}
-        className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-linear-to-r from-primary via-accent to-primary print:hidden"
+        className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-linear-to-r from-primary via-accent to-primary rtl:origin-right print:hidden"
       />
 
       <Enter
@@ -61,7 +65,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
         className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 py-3 sm:px-4 sm:py-4 print:hidden"
       >
         <nav
-          aria-label="Primary"
+          aria-label={t.navbar.primary}
           className={cn(
             'pointer-events-auto flex w-full items-center justify-between gap-2.5 rounded-full border px-3.5 py-2 transition-all duration-300 sm:gap-4 sm:px-5 sm:py-2.5',
             scrolled
@@ -69,23 +73,23 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               : 'max-w-6xl border-transparent bg-transparent'
           )}
         >
-          <Link href="/" className="group flex items-center gap-2.5">
+          <LocaleLink href="/" className="group flex items-center gap-2.5">
             <Monogram className="size-8 transition-transform group-hover:scale-105" />
             <span className="flex flex-col">
               <span className="font-heading text-xs font-bold tracking-tight text-fg">
                 {CV_DATA.name}
               </span>
               <span className="font-mono text-[10px] font-medium text-primary-text">
-                {CV_DATA.title} • {CV_DATA.yearsOfExperience} Yrs
+                {cv.title} • {fmt(t.navbar.years, { years: CV_DATA.yearsOfExperience })}
               </span>
             </span>
-          </Link>
+          </LocaleLink>
 
           <div className="hidden items-center gap-1 rounded-full border border-line bg-surface-2 p-1 lg:flex">
             {NAV_LINKS.map((link) => {
               const active = isActivePath(pathname, link.href);
               return (
-                <Link
+                <LocaleLink
                   key={link.href}
                   href={link.href}
                   aria-current={active ? 'page' : undefined}
@@ -101,8 +105,8 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
                       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}
-                  <span className="relative z-10">{link.label}</span>
-                </Link>
+                  <span className="relative z-10">{t.nav[link.id].label}</span>
+                </LocaleLink>
               );
             })}
           </div>
@@ -119,9 +123,11 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               >
                 <Command className="size-3" />
                 <span>⌘K</span>
-                <span className="sr-only">Open command menu</span>
+                <span className="sr-only">{t.navbar.openCommand}</span>
               </m.button>
             )}
+
+            <LanguageSwitcher className="hidden md:flex" />
 
             <m.a
               whileHover={{ scale: 1.05 }}
@@ -131,7 +137,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               className="hidden items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 font-mono text-xs font-semibold text-primary-text transition-colors hover:border-primary hover:bg-primary/20 sm:inline-flex"
             >
               <Download className="size-3" />
-              <span>Resume</span>
+              <span>{t.navbar.resume}</span>
             </m.a>
 
             <m.button
@@ -140,7 +146,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               whileTap={{ scale: 0.92 }}
               onClick={toggleTheme}
               className="flex size-8 cursor-pointer items-center justify-center rounded-full border border-line-strong bg-surface-2 text-fg shadow-xs transition-colors hover:border-primary"
-              aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+              aria-label={isDark ? t.navbar.toLight : t.navbar.toDark}
             >
               <AnimatePresence mode="wait" initial={false}>
                 <m.span
@@ -168,7 +174,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               onTouchStart={loadMobileNav}
               onFocus={loadMobileNav}
               className="flex size-8 cursor-pointer items-center justify-center rounded-full border border-line bg-surface-2 text-fg-muted lg:hidden"
-              aria-label="Toggle navigation menu"
+              aria-label={t.navbar.toggleMenu}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-nav"
             >

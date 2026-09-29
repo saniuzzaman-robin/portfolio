@@ -1,52 +1,64 @@
 import type { Metadata } from 'next';
-import { pageMetadata } from '@/lib/metadata';
-import { SITE_URL } from '@/lib/site';
+import { localeUrl, pageMetadata } from '@/lib/metadata';
+import { toLocale } from '@/i18n/config';
+import { getDictionary } from '@/i18n/server';
 import { PageHeader } from '@/components/ui/section';
 import { ProjectsExplorer } from '@/components/projects/projects-explorer';
 import { ContactCta } from '@/components/home/contact-cta';
 import { Footer } from '@/components/layout/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateBreadcrumbSchema, generateCollectionSchema } from '@/lib/schema';
-import { PROJECTS } from '@/lib/data/projects';
 
-export const metadata: Metadata = pageMetadata({
-  title: 'Platforms & Deliveries',
-  description:
-    'Production platforms built by Md. Saniuzzaman Robin: MuslimPro Prayer Times, the Giving donation platform, Qalbox streaming, enterprise admin consoles and test automation, built with Next.js, NestJS and Angular.',
-  path: '/projects',
-  keywords: ['portfolio projects', 'Next.js', 'NestJS', 'Angular', 'microservices', 'MuslimPro'],
-});
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const lang = toLocale((await params).lang);
+  const { t } = getDictionary(lang);
+  return pageMetadata({
+    lang,
+    title: t.meta.projectsTitle,
+    description: t.meta.projectsDescription,
+    path: '/projects',
+    keywords: ['portfolio projects', 'Next.js', 'NestJS', 'Angular', 'microservices', 'MuslimPro'],
+  });
+}
 
-export default function Projects() {
+export default async function Projects({ params }: { params: Promise<{ lang: string }> }) {
+  const lang = toLocale((await params).lang);
+  const { t, projects } = getDictionary(lang);
+  const url = localeUrl(lang, '/projects');
   return (
     <>
       <SchemaScript
         schema={generateBreadcrumbSchema([
-          { name: 'Home', url: SITE_URL },
-          { name: 'Platforms', url: `${SITE_URL}/projects` },
+          { name: t.meta.home, url: localeUrl(lang, '/') },
+          { name: t.projects.label, url },
         ])}
       />
       <SchemaScript
         schema={generateCollectionSchema({
-          name: 'Platforms',
-          description: 'Engineering platforms and production applications',
-          url: `${SITE_URL}/projects`,
-          items: PROJECTS.map((p) => ({
+          name: t.projects.label,
+          description: t.meta.projectsCollection,
+          url,
+          inLanguage: lang,
+          items: projects.map((p) => ({
             name: p.title,
             description: p.description,
-            url: p.link.startsWith('http') ? p.link : `${SITE_URL}/projects`,
+            url: p.link.startsWith('http') ? p.link : url,
           })),
         })}
       />
       <PageHeader
-        label="Platforms"
-        title="Systems I've"
-        accent="designed & shipped."
-        description="Production platforms, internal tooling and test infrastructure across Bitsmedia (MuslimPro), KONA Software Lab and SELISE — filter by discipline below."
+        label={t.projects.label}
+        title={t.projects.title}
+        accent={t.projects.accent}
+        description={t.projects.description}
       />
       <ProjectsExplorer />
       <ContactCta />
-      <Footer />
+      <Footer lang={lang} />
     </>
   );
 }

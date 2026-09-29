@@ -1,27 +1,29 @@
 import { Section } from '@/components/ui/section';
 import { CountUp, Stagger, StaggerItem } from '@/components/ui/motion';
 import { SpotlightCard } from '@/components/ui/spotlight-card';
-import { SKILL_DOMAINS } from '@/lib/data/skills';
 import { CV_DATA } from '@/lib/cv-data';
+import type { Locale } from '@/i18n/config';
+import { getDictionary } from '@/i18n/server';
 
 const PROBLEMS_SOLVED = CV_DATA.stats.find((stat) => stat.label === 'Problems Solved');
 
-export function Capabilities() {
+export function Capabilities({ lang }: { lang: Locale }) {
+  const { t, cv, skills } = getDictionary(lang);
   // First item is the problem-solving headline; the rest are supporting achievements.
-  const [headline, ...supporting] = CV_DATA.competitiveProgramming.items;
+  const [headline, ...supporting] = cv.competitiveProgramming.items;
 
   return (
     <Section
       id="capabilities"
       index="03"
-      label="Capabilities"
-      title="Production architecture,"
-      accent="rooted in algorithms."
-      description="A dual foundation: years of shipping distributed systems, and a competitive-programming habit that sharpens every design decision."
+      label={t.capabilities.label}
+      title={t.capabilities.title}
+      accent={t.capabilities.accent}
+      description={t.capabilities.description}
       className="border-t border-line"
     >
       <Stagger stagger={0.1} className="grid gap-4 md:grid-cols-2 md:gap-5">
-        {SKILL_DOMAINS.map((domain) => {
+        {skills.map((domain) => {
           const Icon = domain.icon;
           return (
             <StaggerItem key={domain.id} direction="scale">
@@ -48,7 +50,7 @@ export function Capabilities() {
                       direction="left"
                       className="group/row flex items-baseline justify-between gap-4 py-2.5"
                     >
-                      <dt className="text-sm text-fg transition-transform duration-300 ease-out-expo group-hover/row:translate-x-1">
+                      <dt className="text-sm text-fg transition-transform duration-300 ease-out-expo group-hover/row:translate-x-1 rtl:group-hover/row:-translate-x-1">
                         {tech.name}
                       </dt>
                       <dd className="shrink-0 rounded px-1.5 font-mono text-[11px] tracking-wide text-fg-subtle uppercase transition-colors duration-300 group-hover/row:bg-primary/10 group-hover/row:text-primary-text">
@@ -78,7 +80,7 @@ export function Capabilities() {
                   direction="left"
                   className="font-mono text-[11px] tracking-wider text-fg-subtle uppercase"
                 >
-                  Algorithms &amp; problem solving
+                  {t.capabilities.algorithms}
                 </StaggerItem>
                 <StaggerItem as="p" className="mt-2 text-xl font-bold tracking-tight text-fg">
                   <span className="text-primary-text">
@@ -88,7 +90,7 @@ export function Capabilities() {
                       '1,700+'
                     )}
                   </span>{' '}
-                  problems solved
+                  {t.capabilities.problemsSolved}
                 </StaggerItem>
                 <StaggerItem as="p" className="mt-1.5 text-sm leading-relaxed text-fg-muted">
                   {headline.description}

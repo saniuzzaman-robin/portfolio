@@ -1,12 +1,22 @@
 import type { MetadataRoute } from 'next';
-import { SITE_URL } from '@/lib/site';
+import { LOCALES } from '@/i18n/config';
+import { languageAlternates, localeUrl } from '@/lib/metadata';
 
+const PAGES: { path: `/${string}`; priority: number }[] = [
+  { path: '/', priority: 1 },
+  { path: '/projects', priority: 0.9 },
+  { path: '/resume', priority: 0.9 },
+];
+
+// No lastModified: a per-build timestamp is always "now", which Google learns to ignore.
+// One entry per page per locale, each listing all its language alternates.
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
-  return [
-    { url: SITE_URL, lastModified, changeFrequency: 'monthly', priority: 1 },
-    { url: `${SITE_URL}/projects`, lastModified, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${SITE_URL}/resume`, lastModified, changeFrequency: 'monthly', priority: 0.9 },
-  ];
+  return PAGES.flatMap(({ path, priority }) =>
+    LOCALES.map((locale) => ({
+      url: localeUrl(locale, path),
+      changeFrequency: 'monthly' as const,
+      priority,
+      alternates: { languages: languageAlternates(path) },
+    }))
+  );
 }

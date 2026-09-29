@@ -20,6 +20,10 @@ import { SocialIcon } from '@/components/reusable/social-icon';
 import { useCopyToClipboard } from '@/lib/use-copy-to-clipboard';
 import { CV_DATA } from '@/lib/cv-data';
 import { NAV_LINKS, RESUME_PDF_PATH } from '@/lib/site';
+import { localePath } from '@/i18n/config';
+import { useLocale } from '@/i18n/use-locale';
+import { useDictionary } from '@/i18n/provider';
+import { fmt } from '@/i18n/dictionary';
 import { cn } from '@/lib/cn';
 
 type CommandItem = {
@@ -52,6 +56,8 @@ export function CommandMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () 
 
 function CommandPalette({ onClose }: { onClose: () => void }) {
   const router = useRouter();
+  const locale = useLocale();
+  const { t } = useDictionary();
   const { preference, setPreference } = useTheme();
   const { status: copyStatus, copy } = useCopyToClipboard();
   const [query, setQuery] = useState('');
@@ -61,21 +67,21 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
   const groups = useMemo<CommandGroup[]>(
     () => [
       {
-        heading: 'Navigate',
+        heading: t.command.navigate,
         items: NAV_LINKS.map((link) => ({
           id: `nav-${link.href}`,
-          label: link.label,
+          label: t.nav[link.id].label,
           hint: link.href,
           icon: link.icon,
-          run: () => router.push(link.href),
+          run: () => router.push(localePath(locale, link.href)),
         })),
       },
       {
-        heading: 'Actions',
+        heading: t.command.actions,
         items: [
           {
             id: 'download-resume',
-            label: 'Download resume (PDF)',
+            label: t.command.downloadResume,
             icon: Download,
             run: () => {
               const anchor = document.createElement('a');
@@ -86,7 +92,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
           },
           {
             id: 'copy-email',
-            label: copyStatus === 'copied' ? 'Email copied' : 'Copy email address',
+            label: copyStatus === 'copied' ? t.command.emailCopied : t.command.copyEmail,
             hint: CV_DATA.email,
             icon: copyStatus === 'copied' ? Check : Copy,
             keepOpen: true,
@@ -94,7 +100,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
           },
           {
             id: 'send-email',
-            label: 'Send an email',
+            label: t.command.sendEmail,
             icon: Mail,
             run: () => {
               window.location.href = `mailto:${CV_DATA.email}`;
@@ -103,22 +109,24 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
         ],
       },
       {
-        heading: 'Theme',
-        items: [
-          { value: 'light', label: 'Light', icon: Sun },
-          { value: 'dark', label: 'Dark', icon: Moon },
-          { value: 'system', label: 'System', icon: Monitor },
-        ].map(({ value, label, icon }) => ({
+        heading: t.command.theme,
+        items: (
+          [
+            { value: 'light', icon: Sun },
+            { value: 'dark', icon: Moon },
+            { value: 'system', icon: Monitor },
+          ] as const
+        ).map(({ value, icon }) => ({
           id: `theme-${value}`,
-          label: `${label} theme`,
+          label: fmt(t.command.themeItem, { name: t.theme[value] }),
           icon,
           active: preference === value,
           keepOpen: true,
-          run: () => setPreference(value as typeof preference),
+          run: () => setPreference(value),
         })),
       },
       {
-        heading: 'Elsewhere',
+        heading: t.command.elsewhere,
         items: [
           {
             id: 'github',
@@ -135,7 +143,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
         ],
       },
     ],
-    [router, preference, setPreference, copy, copyStatus]
+    [router, locale, t, preference, setPreference, copy, copyStatus]
   );
 
   const filtered = useMemo(() => {
@@ -209,7 +217,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
       <m.div
         role="dialog"
         aria-modal="true"
-        aria-label="Command menu"
+        aria-label={t.command.dialog}
         initial={{ opacity: 0, scale: 0.97, y: -8 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.97, y: -8 }}
@@ -226,8 +234,8 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
               setQuery(event.target.value);
               setActiveIndex(0);
             }}
-            placeholder="Type a command or search…"
-            aria-label="Search commands"
+            placeholder={t.command.placeholder}
+            aria-label={t.command.search}
             role="combobox"
             aria-expanded="true"
             aria-controls="command-list"
@@ -246,7 +254,9 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
           className="max-h-[min(60vh,22rem)] overflow-y-auto p-2"
         >
           {flatItems.length === 0 ? (
-            <p className="py-10 text-center text-sm text-fg-subtle">No results for “{query}”</p>
+            <p className="py-10 text-center text-sm text-fg-subtle">
+              {fmt(t.command.noResults, { query })}
+            </p>
           ) : (
             filtered.map((group) => (
               <div key={group.heading} role="group" aria-label={group.heading} className="mb-1">
@@ -268,7 +278,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
                       onMouseMove={() => setActiveIndex(index)}
                       onClick={() => runItem(item)}
                       className={cn(
-                        'flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors',
+                        'flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-start text-sm transition-colors',
                         selected ? 'bg-primary/10 text-fg' : 'text-fg-muted'
                       )}
                     >
@@ -294,8 +304,8 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="flex items-center justify-between border-t border-line bg-surface-2/60 px-4 py-2 font-mono text-[10px] text-fg-subtle">
-          <span>↑↓ to navigate · ↵ to select</span>
-          <span>⌘K to toggle</span>
+          <span>{t.command.hintNavigate}</span>
+          <span>{t.command.hintToggle}</span>
         </div>
       </m.div>
     </div>

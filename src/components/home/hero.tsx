@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import Link from 'next/link';
+import { LocaleLink } from '@/components/ui/locale-link';
 import { m, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Download, MapPin } from 'lucide-react';
 import { Badge, StatusDot } from '@/components/ui/badge';
@@ -13,6 +13,8 @@ import { ProfileCard } from '@/components/home/profile-card';
 import { CV_DATA } from '@/lib/cv-data';
 import { RESUME_PDF_PATH } from '@/lib/site';
 import { cn } from '@/lib/cn';
+import { useDictionary } from '@/i18n/provider';
+import { fmt } from '@/i18n/dictionary';
 
 const SOCIALS = [
   { label: 'GitHub', href: CV_DATA.github, icon: 'github' as const },
@@ -20,6 +22,7 @@ const SOCIALS = [
 ];
 
 export function Hero() {
+  const { t, cv } = useDictionary();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -54,7 +57,7 @@ export function Hero() {
           <Enter direction="scale">
             <Badge tone="success" className="rounded-full px-3 py-1">
               <StatusDot />
-              Available for senior roles
+              {t.common.available}
             </Badge>
           </Enter>
 
@@ -64,14 +67,14 @@ export function Hero() {
             delay={0.08}
             className="mt-8 font-mono text-xs tracking-wider text-fg-subtle uppercase sm:text-[13px]"
           >
-            {CV_DATA.name} <span className="text-line-strong">/</span> {CV_DATA.title}
+            {CV_DATA.name} <span className="text-line-strong">/</span> {cv.title}
           </Enter>
 
           <WordReveal
             as="h1"
             id="hero-heading"
-            text="Building fast, resilient products for"
-            accent="2.5M+ daily users."
+            text={t.hero.headline}
+            accent={t.hero.accent}
             trigger="mount"
             delay={0.15}
             stagger={0.06}
@@ -79,20 +82,18 @@ export function Hero() {
           />
 
           <p className="mt-6 max-w-xl text-base leading-relaxed text-fg-muted sm:text-lg">
-            I&apos;m Robin — a full-stack engineer with {CV_DATA.yearsOfExperience} years shipping
-            Next.js, NestJS and Angular systems at scale, with a competitive-programming foundation
-            that keeps the architecture honest.
+            {fmt(t.hero.intro, { years: CV_DATA.yearsOfExperience })}
           </p>
 
           <div className="mt-9 grid gap-3 sm:flex sm:flex-wrap sm:items-center">
             <Enter direction="scale" delay={0.4}>
-              <Link
+              <LocaleLink
                 href="/projects"
                 className={buttonClass({ size: 'lg', className: 'w-full sm:w-auto' })}
               >
-                View selected work
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+                {t.hero.viewWork}
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
+              </LocaleLink>
             </Enter>
             <Enter direction="scale" delay={0.48}>
               <a
@@ -105,7 +106,7 @@ export function Hero() {
                 })}
               >
                 <Download className="size-4 transition-transform group-hover:translate-y-0.5" />
-                Resume PDF
+                {t.common.resumePdf}
               </a>
             </Enter>
           </div>
@@ -118,7 +119,7 @@ export function Hero() {
               className="inline-flex items-center gap-2 py-2"
             >
               <MapPin className="size-4" />
-              {CV_DATA.location}
+              {cv.location}
             </Enter>
             <Enter
               as="span"
@@ -157,20 +158,20 @@ export function Hero() {
 
       <Container className="pb-8">
         <dl className="grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-surface/60 backdrop-blur md:grid-cols-4">
-          {CV_DATA.stats.map((stat, i) => (
+          {cv.stats.map((stat, i) => (
             <Enter
               key={stat.label}
               delay={0.6 + i * 0.08}
               className={cn(
                 'group relative flex flex-col gap-1 p-5 transition-colors duration-300 hover:bg-surface-2/60 sm:p-6',
-                i % 2 === 1 && 'border-l',
+                i % 2 === 1 && 'border-s',
                 i >= 2 && 'border-t md:border-t-0',
-                i === 2 && 'md:border-l'
+                i === 2 && 'md:border-s'
               )}
             >
               <span
                 aria-hidden
-                className="absolute inset-x-5 top-0 h-px origin-left scale-x-0 bg-linear-to-r from-primary to-accent transition-transform duration-500 ease-out-expo group-hover:scale-x-100 sm:inset-x-6"
+                className="absolute inset-x-5 top-0 h-px origin-left scale-x-0 bg-linear-to-r from-primary to-accent transition-transform duration-500 ease-out-expo group-hover:scale-x-100 sm:inset-x-6 rtl:origin-right rtl:bg-linear-to-l"
               />
               <dt className="order-2 font-mono text-[11px] tracking-wider text-fg-subtle uppercase">
                 {stat.label}

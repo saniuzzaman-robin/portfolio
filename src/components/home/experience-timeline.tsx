@@ -1,35 +1,36 @@
 'use client';
 
-import Link from 'next/link';
+import { LocaleLink } from '@/components/ui/locale-link';
 import { m } from 'framer-motion';
 import { ArrowRight, MapPin } from 'lucide-react';
 import { Section } from '@/components/ui/section';
 import { ScrollRail, Stagger, StaggerItem } from '@/components/ui/motion';
 import { Badge } from '@/components/ui/badge';
 import { buttonClass } from '@/components/ui/button';
-import { CV_DATA } from '@/lib/cv-data';
+import { useDictionary } from '@/i18n/provider';
 
 export function ExperienceTimeline() {
+  const { t, cv } = useDictionary();
   return (
     <Section
       id="experience"
       index="02"
-      label="Experience"
-      title="Five years of owning outcomes,"
-      accent="not just tickets."
-      description="From leading a team on a multi-tenant commerce platform to migrating the Prayer Times service that now handles 400+ req/s at peak."
+      label={t.experience.label}
+      title={t.experience.title}
+      accent={t.experience.accent}
+      description={t.experience.description}
       action={
-        <Link href="/resume" className={buttonClass({ variant: 'secondary' })}>
-          Full resume
-          <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-        </Link>
+        <LocaleLink href="/resume" className={buttonClass({ variant: 'secondary' })}>
+          {t.experience.fullResume}
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" />
+        </LocaleLink>
       }
       className="border-t border-line"
     >
-      <ol className="relative pl-7 sm:pl-10">
-        <ScrollRail className="left-[5px]" />
+      <ol className="relative ps-7 sm:ps-10">
+        <ScrollRail className="start-[5px]" />
 
-        {CV_DATA.experience.map((job) => {
+        {cv.experience.map((job) => {
           const isCurrent = job.endDate === null;
           return (
             <li key={job.company} className="relative">
@@ -39,7 +40,7 @@ export function ExperienceTimeline() {
                 whileInView={{ scale: 1, opacity: 1 }}
                 viewport={{ once: true, margin: '-120px' }}
                 transition={{ type: 'spring', stiffness: 380, damping: 18 }}
-                className="absolute top-11 -left-7 flex size-[11px] items-center justify-center sm:-left-10"
+                className="absolute -start-7 top-11 flex size-[11px] items-center justify-center sm:-start-10"
               >
                 <span className="absolute inset-0 rounded-full bg-primary/25" />
                 {isCurrent && (
@@ -58,12 +59,12 @@ export function ExperienceTimeline() {
                       {job.period}
                       {isCurrent && (
                         <Badge tone="success" className="rounded-full py-0 text-[10px]">
-                          Current
+                          {t.experience.current}
                         </Badge>
                       )}
                     </p>
                     <h3 className="mt-3 text-xl font-bold tracking-tight text-fg sm:text-2xl">
-                      {job.company}
+                      <bdi>{job.company}</bdi>
                     </h3>
                     <p className="mt-1 text-sm font-medium text-fg-muted">{job.title}</p>
                     <p className="mt-3 inline-flex items-center gap-1.5 font-mono text-[11px] text-fg-subtle">
@@ -84,7 +85,7 @@ export function ExperienceTimeline() {
                       direction="fade"
                       className="mb-3 font-mono text-[11px] tracking-wider text-fg-subtle uppercase"
                     >
-                      Focus areas
+                      {t.experience.focusAreas}
                     </StaggerItem>
                     <Stagger
                       as="ul"
@@ -114,7 +115,7 @@ export function ExperienceTimeline() {
                     trigger="inherit"
                     stagger={0.03}
                     className="flex flex-wrap gap-1.5"
-                    aria-label="Technologies"
+                    aria-label={t.common.technologies}
                   >
                     {job.skills.map((skill) => (
                       <StaggerItem as="li" key={skill} direction="scale">

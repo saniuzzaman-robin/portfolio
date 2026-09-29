@@ -81,8 +81,10 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-sans:
+    var(--font-inter), var(--font-script, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  --font-heading:
+    var(--font-jakarta), var(--font-script, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
   --color-bg: var(--bg);
@@ -169,7 +171,9 @@
 
   body {
     /* Keep content clear of notches / rounded corners (viewport-fit=cover). */
-    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+    /* Physical sides: safe-area insets don't flip with `dir`. */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
     -webkit-tap-highlight-color: transparent;
     background-color: var(--bg);
     color: var(--fg);
@@ -360,6 +364,12 @@
   }
   .enter-right {
     --enter-x: 24px;
+  }
+  .enter-left:dir(rtl) {
+    --enter-x: 24px;
+  }
+  .enter-right:dir(rtl) {
+    --enter-x: -24px;
   }
   .enter-scale {
     --enter-scale: 0.94;

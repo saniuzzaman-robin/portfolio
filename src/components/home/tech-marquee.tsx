@@ -1,17 +1,20 @@
 import { CV_DATA } from '@/lib/cv-data';
+import type { Locale } from '@/i18n/config';
+import { getDictionary } from '@/i18n/server';
 
 const TECH = [
   ...CV_DATA.technicalSkills.frontendBackend,
   ...CV_DATA.technicalSkills.dataInfrastructure.slice(0, 5),
 ];
 
-export function TechMarquee() {
+export function TechMarquee({ lang }: { lang: Locale }) {
+  const { t } = getDictionary(lang);
   return (
     <div
       className="relative overflow-hidden border-y border-line bg-surface/40 [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)] py-5"
-      aria-label="Technologies I work with"
+      aria-label={t.techMarquee.label}
     >
-      <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+      <div dir="ltr" className="flex w-max animate-marquee hover:[animation-play-state:paused]">
         {[0, 1].map((copy) => (
           <ul key={copy} className="flex shrink-0 items-center" aria-hidden={copy === 1}>
             {TECH.map((tech) => (

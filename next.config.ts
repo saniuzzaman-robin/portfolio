@@ -65,6 +65,14 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 365,
   },
 
+  async redirects() {
+    // Removed pages whose content now lives elsewhere.
+    return [
+      { source: '/about', destination: '/', permanent: true },
+      { source: '/skills', destination: '/resume', permanent: true },
+    ];
+  },
+
   async headers() {
     return [
       { source: '/:path*', headers: securityHeaders },

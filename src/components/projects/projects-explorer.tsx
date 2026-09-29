@@ -5,32 +5,34 @@ import { AnimatePresence, m } from 'framer-motion';
 import { Container } from '@/components/ui/section';
 import { ProjectCard } from '@/components/projects/project-card';
 import { EASE_OUT_EXPO, Enter } from '@/components/ui/motion';
-import { PROJECTS } from '@/lib/data/projects';
+import { useDictionary } from '@/i18n/provider';
 import { cn } from '@/lib/cn';
 
-const ALL = 'All';
+/** Sentinel for the unfiltered view (kept apart from translated category names). */
+const ALL = '';
 
 export function ProjectsExplorer() {
+  const { t, projects } = useDictionary();
   const [category, setCategory] = useState(ALL);
   // First paint staggers the whole grid in; later filter changes animate immediately.
   const [hasFiltered, setHasFiltered] = useState(false);
 
   const categories = useMemo(() => {
-    const counts = new Map<string, number>([[ALL, PROJECTS.length]]);
-    PROJECTS.forEach((p) => counts.set(p.category, (counts.get(p.category) ?? 0) + 1));
+    const counts = new Map<string, number>([[ALL, projects.length]]);
+    projects.forEach((p) => counts.set(p.category, (counts.get(p.category) ?? 0) + 1));
     return [...counts.entries()];
-  }, []);
+  }, [projects]);
 
-  const visible = category === ALL ? PROJECTS : PROJECTS.filter((p) => p.category === category);
+  const visible = category === ALL ? projects : projects.filter((p) => p.category === category);
 
   return (
-    <section aria-label="Projects" className="pb-20 sm:pb-28">
+    <section aria-label={t.projects.section} className="pb-20 sm:pb-28">
       <Container>
-        <h2 className="sr-only">All platforms</h2>
+        <h2 className="sr-only">{t.projects.heading}</h2>
         <Enter
           delay={0.45}
           role="group"
-          aria-label="Filter by category"
+          aria-label={t.projects.filter}
           className="mb-8 no-scrollbar flex w-fit max-w-full gap-1 overflow-x-auto rounded-full border border-line bg-surface-2 p-1"
         >
           {categories.map(([name, count]) => {
@@ -56,7 +58,7 @@ export function ProjectsExplorer() {
                     transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                   />
                 )}
-                <span className="relative">{name}</span>
+                <span className="relative">{name === ALL ? t.projects.all : name}</span>
                 <span
                   className={cn(
                     'relative font-mono text-[10px]',
@@ -88,7 +90,10 @@ export function ProjectsExplorer() {
                     : ({ '--enter-delay': `${0.5 + i * 0.07}s` } as React.CSSProperties)
                 }
               >
-                <ProjectCard project={project} />
+                <ProjectCard
+                  project={project}
+                  labels={{ internal: t.projects.internal, technologies: t.common.technologies }}
+                />
               </m.li>
             ))}
           </AnimatePresence>

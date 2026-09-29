@@ -5,6 +5,7 @@
 
 import { CV_DATA } from './cv-data';
 import { OG_IMAGE, SITE_NAME, SITE_URL } from './site';
+import { LOCALES } from '@/i18n/config';
 
 const siteConfig = {
   name: CV_DATA.name,
@@ -73,7 +74,7 @@ export function generateWebsiteSchema() {
     '@id': `${siteConfig.url}/#website`,
     name: SITE_NAME,
     url: siteConfig.url,
-    inLanguage: 'en',
+    inLanguage: [...LOCALES],
     author: { '@id': `${siteConfig.url}/#person` },
   };
 }
@@ -101,6 +102,8 @@ export function generateWebPageSchema(options: {
   title: string;
   description: string;
   url: string;
+  /** BCP 47 language of the page, e.g. `bn`. */
+  inLanguage: string;
   image?: string;
 }) {
   return {
@@ -109,6 +112,7 @@ export function generateWebPageSchema(options: {
     name: options.title,
     description: options.description,
     url: options.url,
+    inLanguage: options.inLanguage,
     image: options.image || `${siteConfig.url}${OG_IMAGE.url}`,
     isPartOf: { '@id': `${siteConfig.url}/#website` },
     about: { '@id': `${siteConfig.url}/#person` },
@@ -122,6 +126,7 @@ export function generateCollectionSchema(options: {
   name: string;
   description: string;
   url: string;
+  inLanguage?: string;
   items: Array<{ name: string; description: string; url: string }>;
 }) {
   return {
@@ -130,6 +135,7 @@ export function generateCollectionSchema(options: {
     name: options.name,
     description: options.description,
     url: options.url,
+    ...(options.inLanguage && { inLanguage: options.inLanguage }),
     mainEntity: {
       '@type': 'ItemList',
       itemListElement: options.items.map((item, index) => ({

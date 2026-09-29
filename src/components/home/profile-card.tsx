@@ -5,6 +5,8 @@ import { Trophy, Users } from 'lucide-react';
 import { CV_DATA } from '@/lib/cv-data';
 import { cn } from '@/lib/cn';
 import { Enter } from '@/components/ui/motion';
+import { useDictionary } from '@/i18n/provider';
+import { fmt } from '@/i18n/dictionary';
 
 type TokenKind = 'kw' | 'str' | 'num' | 'prop' | 'punct' | 'plain';
 type Line = [TokenKind, string][];
@@ -33,29 +35,6 @@ function list(values: string[]): [TokenKind, string][] {
     ['punct', ']'],
   ];
 }
-
-const LINES: Line[] = [
-  [
-    ['kw', 'const '],
-    ['plain', 'engineer '],
-    ['punct', '= {'],
-  ],
-  prop('name', [str(CV_DATA.name.replace('Md. ', ''))]),
-  prop('role', [str(CV_DATA.role)]),
-  prop('based', [str(CV_DATA.location)]),
-  prop('experience', [str(`${CV_DATA.yearsOfExperience} years`)]),
-  prop('stack', list(['Next.js', 'NestJS', 'Angular'])),
-  prop('data', list(['MongoDB', 'Redis', 'Pub/Sub'])),
-  prop('solved', [['num', '1700']]),
-  prop('openToWork', [['kw', 'true']]),
-  [['punct', '};']],
-  [],
-  [
-    ['kw', 'export default '],
-    ['plain', 'engineer'],
-    ['punct', ';'],
-  ],
-];
 
 /** Code "types in" line by line after the card lands (seconds). */
 const FIRST_LINE_DELAY = 0.6;
@@ -91,7 +70,30 @@ function FloatingChip({
 }
 
 export function ProfileCard() {
-  const current = CV_DATA.experience[0];
+  const { t, cv } = useDictionary();
+  const current = cv.experience[0];
+  const lines: Line[] = [
+    [
+      ['kw', 'const '],
+      ['plain', 'engineer '],
+      ['punct', '= {'],
+    ],
+    prop('name', [str(CV_DATA.name.replace('Md. ', ''))]),
+    prop('role', [str(cv.role)]),
+    prop('based', [str(cv.location)]),
+    prop('experience', [str(fmt(t.profileCard.years, { years: CV_DATA.yearsOfExperience }))]),
+    prop('stack', list(['Next.js', 'NestJS', 'Angular'])),
+    prop('data', list(['MongoDB', 'Redis', 'Pub/Sub'])),
+    prop('solved', [['num', '1700']]),
+    prop('openToWork', [['kw', 'true']]),
+    [['punct', '};']],
+    [],
+    [
+      ['kw', 'export default '],
+      ['plain', 'engineer'],
+      ['punct', ';'],
+    ],
+  ];
 
   // Pointer-driven 3D tilt (mouse / pen only; touch keeps the card flat).
   const pointerX = useMotionValue(0.5);
@@ -129,15 +131,23 @@ export function ProfileCard() {
         className="absolute -inset-6 -z-10 rounded-[2rem] bg-linear-to-br from-primary/25 via-accent/10 to-transparent opacity-80 blur-2xl"
       />
 
-      <FloatingChip icon={Users} label="2.5M+ daily users" className="-top-4 -left-4" delay={1.2} />
+      <FloatingChip
+        icon={Users}
+        label={t.profileCard.chipUsers}
+        className="-start-4 -top-4"
+        delay={1.2}
+      />
       <FloatingChip
         icon={Trophy}
-        label="Codeforces Specialist"
-        className="-right-3 -bottom-4"
+        label={t.profileCard.chipRank}
+        className="-end-3 -bottom-4"
         delay={1.5}
       />
 
-      <figure className="overflow-hidden rounded-2xl border border-line-strong bg-elevated shadow-pop">
+      <figure
+        dir="ltr"
+        className="overflow-hidden rounded-2xl border border-line-strong bg-elevated shadow-pop"
+      >
         <div className="flex items-center gap-3 border-b border-line bg-surface-2/70 px-4 py-3">
           <div className="flex gap-1.5" aria-hidden>
             <span className="size-2.5 rounded-full bg-[#ff5f57]" />
@@ -152,10 +162,10 @@ export function ProfileCard() {
 
         <pre
           className="overflow-x-auto py-4 pl-4 font-mono text-[11px] leading-6 sm:pl-0 sm:text-[13px] lg:text-[12px] xl:text-[13px]"
-          aria-label={`Profile summary: ${CV_DATA.role} based in ${CV_DATA.location}`}
+          aria-label={fmt(t.profileCard.summary, { role: cv.role, location: cv.location })}
         >
           <code className="block">
-            {LINES.map((line, i) => (
+            {lines.map((line, i) => (
               <Enter
                 key={i}
                 as="span"
@@ -177,7 +187,7 @@ export function ProfileCard() {
                       {text}
                     </span>
                   ))}
-                  {i === LINES.length - 1 && (
+                  {i === lines.length - 1 && (
                     <span
                       aria-hidden
                       className="ml-0.5 inline-block h-4 w-[7px] translate-y-0.5 animate-blink bg-primary"
@@ -192,9 +202,9 @@ export function ProfileCard() {
         <figcaption className="flex items-center justify-between gap-3 border-t border-line px-4 py-3 font-mono text-[11px] text-fg-subtle">
           <span className="flex items-center gap-2">
             <span className="size-1.5 rounded-full bg-success" aria-hidden />
-            Currently at <span className="text-fg">{current.company}</span>
+            {t.profileCard.currentlyAt} <span className="text-fg">{current.company}</span>
           </span>
-          <span>since {current.startDate.slice(0, 4)}</span>
+          <span>{fmt(t.profileCard.since, { year: current.startDate.slice(0, 4) })}</span>
         </figcaption>
       </figure>
     </m.div>

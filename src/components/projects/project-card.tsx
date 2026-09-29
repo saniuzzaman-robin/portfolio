@@ -11,10 +11,12 @@ export function hasPublicLink(project: Project): boolean {
 export function ProjectCard({
   project,
   featured = false,
+  labels,
   className,
 }: {
   project: Project;
   featured?: boolean;
+  labels: { internal: string; technologies: string };
   className?: string;
 }) {
   const Icon = project.icon;
@@ -29,7 +31,7 @@ export function ProjectCard({
         <Icon
           aria-hidden
           strokeWidth={1}
-          className="pointer-events-none absolute -right-8 -bottom-8 size-48 text-primary/[0.06] transition-transform duration-700 ease-out-expo group-hover:scale-110 group-hover:-rotate-6"
+          className="pointer-events-none absolute -end-8 -bottom-8 size-48 text-primary/[0.06] transition-transform duration-700 ease-out-expo group-hover:scale-110 group-hover:-rotate-6"
         />
       )}
 
@@ -47,7 +49,7 @@ export function ProjectCard({
         ) : (
           <span className="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-fg-subtle uppercase">
             <Lock className="size-3" />
-            Internal
+            {labels.internal}
           </span>
         )}
       </div>
@@ -97,7 +99,7 @@ export function ProjectCard({
         {project.description}
       </p>
 
-      <ul className="relative mt-auto flex flex-wrap gap-1.5 pt-6" aria-label="Technologies">
+      <ul className="relative mt-auto flex flex-wrap gap-1.5 pt-6" aria-label={labels.technologies}>
         {project.technologies.slice(0, techLimit).map((tech, i) => (
           <li
             key={tech}

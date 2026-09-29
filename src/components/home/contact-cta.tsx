@@ -9,19 +9,17 @@ import { SocialIcon } from '@/components/reusable/social-icon';
 import { LocalTime } from '@/components/home/local-time';
 import { useCopyToClipboard } from '@/lib/use-copy-to-clipboard';
 import { CV_DATA } from '@/lib/cv-data';
+import { useDictionary } from '@/i18n/provider';
 
-const COPY_STATES = {
-  idle: { label: 'Copy email', icon: Copy },
-  copied: { label: 'Copied!', icon: Check },
-  error: { label: 'Copy failed', icon: X },
-} as const;
+const COPY_ICONS = { idle: Copy, copied: Check, error: X } as const;
 
 /** Size of the pointer-following glow, in px (matches `size-[32rem]`). */
 const GLOW_SIZE = 512;
 
 export function ContactCta({ index }: { index?: string }) {
+  const { t, cv } = useDictionary();
   const { status, copy } = useCopyToClipboard();
-  const CopyIcon = COPY_STATES[status].icon;
+  const CopyIcon = COPY_ICONS[status];
 
   // Glow that eases toward the pointer while hovering the card.
   // Starts near the top-right corner, where the static glow used to sit.
@@ -56,11 +54,11 @@ export function ContactCta({ index }: { index?: string }) {
           />
 
           <Stagger stagger={0.1}>
-            <Eyebrow index={index}>Contact</Eyebrow>
+            <Eyebrow index={index}>{t.contact.eyebrow}</Eyebrow>
             <WordReveal
               id="contact-heading"
-              text="Have a hard problem worth solving?"
-              accent="Let's talk."
+              text={t.contact.title}
+              accent={t.contact.accent}
               trigger="inherit"
               stagger={0.05}
               className="mt-5 max-w-3xl text-4xl leading-[1.05] font-extrabold tracking-[-0.03em] text-fg sm:text-6xl"
@@ -69,8 +67,7 @@ export function ContactCta({ index }: { index?: string }) {
               as="p"
               className="mt-6 max-w-xl text-base leading-relaxed text-fg-muted sm:text-lg"
             >
-              I&apos;m open to senior engineering roles and interesting collaborations. Email is the
-              fastest way to reach me.
+              {t.contact.body}
             </StaggerItem>
 
             <Stagger
@@ -87,7 +84,7 @@ export function ContactCta({ index }: { index?: string }) {
                   })}
                 >
                   <Mail className="size-4 transition-transform duration-300 group-hover:-rotate-12" />
-                  Say hello
+                  {t.contact.sayHello}
                 </a>
               </StaggerItem>
               <StaggerItem direction="scale">
@@ -118,7 +115,7 @@ export function ContactCta({ index }: { index?: string }) {
                       exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.15 }}
                     >
-                      {COPY_STATES[status].label}
+                      {t.contact.copy[status]}
                     </m.span>
                   </AnimatePresence>
                 </Button>
@@ -148,11 +145,11 @@ export function ContactCta({ index }: { index?: string }) {
             >
               <StaggerItem as="span" direction="left" className="inline-flex items-center gap-2">
                 <MapPin className="size-3.5" />
-                {CV_DATA.location}
+                {cv.location}
               </StaggerItem>
               <StaggerItem as="span" direction="left" className="inline-flex items-center gap-2">
                 <Clock className="size-3.5" />
-                Local time{' '}
+                {t.contact.localTime}{' '}
                 <span className="text-fg">
                   <LocalTime timeZone={CV_DATA.timeZone} />
                 </span>

@@ -21,17 +21,17 @@ export const GA_MEASUREMENT_ID = GA_ID_PATTERN.test(rawGaId) ? rawGaId : '';
 
 export const RESUME_PDF_PATH = '/CV_SANIUZZAMAN_ROBIN.pdf';
 
-export type NavLink = { label: string; href: string; icon: LucideIcon; description: string };
+/** Labels live in the locale messages under `nav.<id>`. */
+export type NavLink = {
+  id: 'overview' | 'experience' | 'platforms';
+  href: string;
+  icon: LucideIcon;
+};
 
 export const NAV_LINKS: NavLink[] = [
-  { label: 'Overview', href: '/', icon: Layers, description: 'Work, experience & skills' },
-  { label: 'Experience', href: '/resume', icon: Briefcase, description: 'Full resume & timeline' },
-  {
-    label: 'Platforms',
-    href: '/projects',
-    icon: FolderGit2,
-    description: 'Systems designed & shipped',
-  },
+  { id: 'overview', href: '/', icon: Layers },
+  { id: 'experience', href: '/resume', icon: Briefcase },
+  { id: 'platforms', href: '/projects', icon: FolderGit2 },
 ];
 
 export function isActivePath(pathname: string, href: string): boolean {

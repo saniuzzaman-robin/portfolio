@@ -15,48 +15,8 @@ import { SocialIcon } from '@/components/reusable/social-icon';
 import { PrintButton } from '@/components/resume/print-button';
 import { CV_DATA } from '@/lib/cv-data';
 import { RESUME_PDF_PATH } from '@/lib/site';
-
-const SKILL_GROUPS = [
-  { label: 'Frontend & Backend', items: CV_DATA.technicalSkills.frontendBackend },
-  { label: 'Data & Infrastructure', items: CV_DATA.technicalSkills.dataInfrastructure },
-  { label: 'Testing & Growth', items: CV_DATA.technicalSkills.testingGrowth },
-];
-
-const CONTACTS: {
-  key: string;
-  icon: React.ReactNode;
-  label: string;
-  href?: string;
-  external?: boolean;
-}[] = [
-  {
-    key: 'email',
-    icon: <Mail className="size-4" />,
-    label: CV_DATA.email,
-    href: `mailto:${CV_DATA.email}`,
-  },
-  {
-    key: 'phone',
-    icon: <Phone className="size-4" />,
-    label: CV_DATA.phone,
-    href: `tel:${CV_DATA.phone.replace(/\s/g, '')}`,
-  },
-  { key: 'location', icon: <MapPin className="size-4" />, label: CV_DATA.location },
-  {
-    key: 'github',
-    icon: <SocialIcon icon="github" className="size-4" />,
-    label: CV_DATA.github.replace('https://', ''),
-    href: CV_DATA.github,
-    external: true,
-  },
-  {
-    key: 'linkedin',
-    icon: <SocialIcon icon="linkedin" className="size-4" />,
-    label: CV_DATA.linkedin.replace('https://', ''),
-    href: CV_DATA.linkedin,
-    external: true,
-  },
-];
+import type { Locale } from '@/i18n/config';
+import { getDictionary } from '@/i18n/server';
 
 /** Section label with a rule that draws in; must sit inside a <Stagger>. */
 function Heading({ id, children }: { id: string; children: React.ReactNode }) {
@@ -84,7 +44,53 @@ function AsideCard({ title, children }: { title: string; children: React.ReactNo
   );
 }
 
-export function ResumeDocument() {
+export function ResumeDocument({ lang }: { lang: Locale }) {
+  const { t, cv } = getDictionary(lang);
+  const skillGroups = [
+    { label: t.resume.skillGroups.frontendBackend, items: cv.technicalSkills.frontendBackend },
+    {
+      label: t.resume.skillGroups.dataInfrastructure,
+      items: cv.technicalSkills.dataInfrastructure,
+    },
+    { label: t.resume.skillGroups.testingGrowth, items: cv.technicalSkills.testingGrowth },
+  ];
+
+  const contacts: {
+    key: string;
+    icon: React.ReactNode;
+    label: string;
+    href?: string;
+    external?: boolean;
+  }[] = [
+    {
+      key: 'email',
+      icon: <Mail className="size-4" />,
+      label: CV_DATA.email,
+      href: `mailto:${CV_DATA.email}`,
+    },
+    {
+      key: 'phone',
+      icon: <Phone className="size-4" />,
+      label: CV_DATA.phone,
+      href: `tel:${CV_DATA.phone.replace(/\s/g, '')}`,
+    },
+    { key: 'location', icon: <MapPin className="size-4" />, label: cv.location },
+    {
+      key: 'github',
+      icon: <SocialIcon icon="github" className="size-4" />,
+      label: CV_DATA.github.replace('https://', ''),
+      href: CV_DATA.github,
+      external: true,
+    },
+    {
+      key: 'linkedin',
+      icon: <SocialIcon icon="linkedin" className="size-4" />,
+      label: CV_DATA.linkedin.replace('https://', ''),
+      href: CV_DATA.linkedin,
+      external: true,
+    },
+  ];
+
   return (
     <>
       <header className="relative isolate overflow-hidden">
@@ -97,21 +103,22 @@ export function ResumeDocument() {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="space-y-4">
               <Enter direction="left">
-                <Eyebrow>Resume</Eyebrow>
+                <Eyebrow>{t.resume.eyebrow}</Eyebrow>
               </Enter>
               <WordReveal
                 as="h1"
                 text={CV_DATA.name}
+                dir="ltr"
                 trigger="mount"
                 delay={0.1}
                 stagger={0.07}
-                className="text-4xl leading-[1.05] font-extrabold tracking-[-0.03em] text-fg sm:text-6xl"
+                className="text-4xl leading-[1.05] font-extrabold tracking-[-0.03em] text-fg sm:text-6xl rtl:text-right"
               />
               <Enter as="p" delay={0.3} className="text-lg font-medium text-primary-text">
-                {CV_DATA.role}
+                {cv.role}
               </Enter>
               <ul className="flex flex-wrap gap-x-6 gap-y-2 pt-1 text-sm text-fg-muted">
-                {CONTACTS.map((contact, i) => (
+                {contacts.map((contact, i) => (
                   <Enter
                     as="li"
                     key={contact.key}
@@ -130,10 +137,10 @@ export function ResumeDocument() {
                           : {})}
                         className="inline-block py-1 transition-colors hover:text-fg"
                       >
-                        {contact.label}
+                        <bdi>{contact.label}</bdi>
                       </a>
                     ) : (
-                      contact.label
+                      <bdi>{contact.label}</bdi>
                     )}
                   </Enter>
                 ))}
@@ -143,11 +150,11 @@ export function ResumeDocument() {
               <Enter direction="scale" delay={0.5}>
                 <a href={RESUME_PDF_PATH} download className={buttonClass()}>
                   <Download className="size-4 transition-transform group-hover:translate-y-0.5" />
-                  Download PDF
+                  {t.resume.downloadPdf}
                 </a>
               </Enter>
               <Enter direction="scale" delay={0.58}>
-                <PrintButton />
+                <PrintButton label={t.resume.print} />
               </Enter>
             </div>
           </div>
@@ -159,23 +166,23 @@ export function ResumeDocument() {
           {/* Above the fold. The summary is the LCP element, so it paints statically. */}
           <section aria-labelledby="profile-heading">
             <Enter direction="left" delay={0.45}>
-              <Heading id="profile-heading">Profile</Heading>
+              <Heading id="profile-heading">{t.resume.profile}</Heading>
             </Enter>
-            <p className="text-base leading-relaxed text-fg-muted sm:text-lg">{CV_DATA.summary}</p>
+            <p className="text-base leading-relaxed text-fg-muted sm:text-lg">{cv.summary}</p>
           </section>
 
           <section aria-labelledby="experience-heading">
             <Stagger>
-              <Heading id="experience-heading">Experience</Heading>
+              <Heading id="experience-heading">{t.resume.experience}</Heading>
             </Stagger>
-            <ol className="relative space-y-12 pl-6 sm:pl-8 print:space-y-6 print:border-l print:border-line">
-              <ScrollRail className="left-0 print:hidden" />
-              {CV_DATA.experience.map((job) => (
+            <ol className="relative space-y-12 ps-6 sm:ps-8 print:space-y-6 print:border-s print:border-line">
+              <ScrollRail className="start-0 print:hidden" />
+              {cv.experience.map((job) => (
                 <li key={job.company} className="relative break-inside-avoid">
                   <Stagger stagger={0.06}>
                     <StaggerItem
                       direction="scale"
-                      className="absolute top-1.5 -left-[calc(1.5rem+5px)] size-2.5 rounded-full border-2 border-bg bg-primary ring-4 ring-primary/15 sm:-left-[calc(2rem+5px)]"
+                      className="absolute -start-[calc(1.5rem+5px)] top-1.5 size-2.5 rounded-full border-2 border-bg bg-primary ring-4 ring-primary/15 sm:-start-[calc(2rem+5px)]"
                     />
                     <StaggerItem
                       direction="right"
@@ -185,7 +192,7 @@ export function ResumeDocument() {
                         {job.title}
                         <span className="block font-semibold text-fg-muted sm:inline">
                           <span className="hidden sm:inline"> · </span>
-                          {job.company}
+                          <bdi>{job.company}</bdi>
                         </span>
                       </h3>
                       <p className="shrink-0 font-mono text-xs text-primary-text">{job.period}</p>
@@ -203,7 +210,7 @@ export function ResumeDocument() {
                           as="li"
                           key={item}
                           direction="left"
-                          className="relative pl-5 text-sm leading-relaxed text-fg-muted transition-colors duration-300 before:absolute before:top-[0.6em] before:left-0 before:size-1.5 before:rotate-45 before:bg-primary/70 before:transition-transform before:duration-500 hover:text-fg hover:before:rotate-[225deg]"
+                          className="relative ps-5 text-sm leading-relaxed text-fg-muted transition-colors duration-300 before:absolute before:start-0 before:top-[0.6em] before:size-1.5 before:rotate-45 before:bg-primary/70 before:transition-transform before:duration-500 hover:text-fg hover:before:rotate-[225deg]"
                         >
                           {item}
                         </StaggerItem>
@@ -214,7 +221,7 @@ export function ResumeDocument() {
                       trigger="inherit"
                       stagger={0.03}
                       className="mt-5 flex flex-wrap gap-1.5"
-                      aria-label="Technologies"
+                      aria-label={t.common.technologies}
                     >
                       {job.skills.map((skill) => (
                         <StaggerItem as="li" key={skill} direction="scale">
@@ -230,8 +237,8 @@ export function ResumeDocument() {
 
           <Stagger stagger={0.1}>
             <section aria-labelledby="education-heading">
-              <Heading id="education-heading">Education</Heading>
-              {CV_DATA.education.map((edu) => (
+              <Heading id="education-heading">{t.resume.education}</Heading>
+              {cv.education.map((edu) => (
                 <div key={edu.degree} className="group flex gap-4">
                   <StaggerItem
                     as="span"
@@ -263,9 +270,9 @@ export function ResumeDocument() {
             className="grid gap-5 md:grid-cols-2 lg:sticky lg:top-28 lg:block lg:space-y-5"
           >
             <StaggerItem direction="right">
-              <AsideCard title="At a glance">
+              <AsideCard title={t.resume.atAGlance}>
                 <dl className="grid grid-cols-2 gap-4">
-                  {CV_DATA.stats.map((stat) => (
+                  {cv.stats.map((stat) => (
                     <div key={stat.label} className="flex flex-col">
                       <dt className="order-2 mt-0.5 font-mono text-[11px] tracking-wider text-fg-subtle uppercase">
                         {stat.label}
@@ -280,9 +287,9 @@ export function ResumeDocument() {
             </StaggerItem>
 
             <StaggerItem direction="right" className="md:order-last md:col-span-2 lg:order-none">
-              <AsideCard title="Skills">
+              <AsideCard title={t.resume.skills}>
                 <div className="space-y-5">
-                  {SKILL_GROUPS.map((group) => (
+                  {skillGroups.map((group) => (
                     <div key={group.label}>
                       <p className="mb-2 text-sm font-semibold text-fg">{group.label}</p>
                       <Stagger as="ul" stagger={0.025} className="flex flex-wrap gap-1.5">
@@ -301,9 +308,9 @@ export function ResumeDocument() {
             </StaggerItem>
 
             <StaggerItem direction="right">
-              <AsideCard title="Achievements">
+              <AsideCard title={t.resume.achievements}>
                 <Stagger as="ul" stagger={0.08} className="space-y-4">
-                  {CV_DATA.competitiveProgramming.items.map((item) => {
+                  {cv.competitiveProgramming.items.map((item) => {
                     const Icon = item.icon;
                     return (
                       <StaggerItem
