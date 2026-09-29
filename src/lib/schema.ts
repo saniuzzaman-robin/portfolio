@@ -4,20 +4,19 @@
  */
 
 import { CV_DATA } from './cv-data';
+import { OG_IMAGE, SITE_NAME, SITE_URL } from './site';
 
-const getSiteUrl = () => process.env.NEXT_PUBLIC_SITE_URL || 'https://saniuzzaman.dev';
-
-export const siteConfig = {
+const siteConfig = {
   name: CV_DATA.name,
   title: CV_DATA.title,
   description: CV_DATA.shortBio,
-  url: getSiteUrl(),
+  url: SITE_URL,
   email: CV_DATA.email,
   phone: CV_DATA.phone,
   location: CV_DATA.location,
   social: {
-    github: 'https://github.com/saniuzzaman-robin',
-    linkedin: 'https://linkedin.com/in/saniuzzaman-robin',
+    github: CV_DATA.github,
+    linkedin: CV_DATA.linkedin,
   },
 };
 
@@ -25,16 +24,19 @@ export const siteConfig = {
  * Generate Person schema for homepage/about
  */
 export function generatePersonSchema() {
+  const current = CV_DATA.experience.find((exp) => exp.endDate === null);
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': `${siteConfig.url}/#person`,
     name: siteConfig.name,
-    title: siteConfig.title,
+    alternateName: 'Saniuzzaman Robin',
+    jobTitle: CV_DATA.role,
     description: siteConfig.description,
     url: siteConfig.url,
-    email: siteConfig.email,
+    email: `mailto:${siteConfig.email}`,
     telephone: siteConfig.phone,
-    jobTitle: 'Software Engineer',
+    image: `${siteConfig.url}${OG_IMAGE.url}`,
     knowsAbout: [
       'Full-Stack Development',
       'NestJS',
@@ -42,27 +44,37 @@ export function generatePersonSchema() {
       'Angular',
       'TypeScript',
       'React',
+      'MongoDB',
+      'Redis',
+      'Microservices',
       'System Architecture',
-      'Competitive Programming',
     ],
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Dhaka',
       addressCountry: 'BD',
     },
-    sameAs: [siteConfig.social.github, siteConfig.social.linkedin],
-    image: `${siteConfig.url}/og_image.png`,
-    workExperience: CV_DATA.experience.map((exp) => ({
-      '@type': 'WorkExperience',
-      jobTitle: exp.title,
-      employer: {
-        '@type': 'Organization',
-        name: exp.company,
-      },
-      startDate: exp.startDate,
-      ...(exp.endDate && { endDate: exp.endDate }),
-      description: exp.summary,
+    ...(current && { worksFor: { '@type': 'Organization', name: current.company } }),
+    alumniOf: CV_DATA.education.map((edu) => ({
+      '@type': 'CollegeOrUniversity',
+      name: edu.institution,
     })),
+    sameAs: [siteConfig.social.github, siteConfig.social.linkedin],
+  };
+}
+
+/**
+ * Generate WebSite schema (site-wide, rendered in the root layout)
+ */
+export function generateWebsiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteConfig.url}/#website`,
+    name: SITE_NAME,
+    url: siteConfig.url,
+    inLanguage: 'en',
+    author: { '@id': `${siteConfig.url}/#person` },
   };
 }
 
@@ -83,60 +95,6 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
 }
 
 /**
- * Generate Project schema for projects page
- */
-export function generateProjectSchema(project: {
-  title: string;
-  description: string;
-  link: string;
-}) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'CreativeWork',
-    name: project.title,
-    description: project.description,
-    url: project.link,
-    creator: {
-      '@type': 'Person',
-      name: siteConfig.name,
-    },
-  };
-}
-
-/**
- * Generate FAQPage schema for FAQ sections
- */
-export function generateFAQSchema(faqs: { question: string; answer: string }[]) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
-    })),
-  };
-}
-
-/**
- * Generate Organization schema
- */
-export function generateOrganizationSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: siteConfig.name,
-    url: siteConfig.url,
-    email: siteConfig.email,
-    image: `${siteConfig.url}/og_image.png`,
-    sameAs: [siteConfig.social.github, siteConfig.social.linkedin],
-  };
-}
-
-/**
  * Generate WebPage schema
  */
 export function generateWebPageSchema(options: {
@@ -151,11 +109,9 @@ export function generateWebPageSchema(options: {
     name: options.title,
     description: options.description,
     url: options.url,
-    image: options.image || `${siteConfig.url}/og_image.png`,
-    creator: {
-      '@type': 'Person',
-      name: siteConfig.name,
-    },
+    image: options.image || `${siteConfig.url}${OG_IMAGE.url}`,
+    isPartOf: { '@id': `${siteConfig.url}/#website` },
+    about: { '@id': `${siteConfig.url}/#person` },
   };
 }
 

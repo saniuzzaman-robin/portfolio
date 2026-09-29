@@ -1,40 +1,24 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
+
+/**
+ * Index only real production deployments. Vercel preview deployments also run with
+ * NODE_ENV=production, so prefer VERCEL_ENV when it is available.
+ */
+function isIndexable(): boolean {
+  if (process.env.VERCEL_ENV) return process.env.VERCEL_ENV === 'production';
+  return process.env.NODE_ENV === 'production';
+}
 
 export default function robots(): MetadataRoute.Robots {
-  const isProduction = process.env.NODE_ENV === 'production';
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://saniuzzaman.dev';
-
-  if (!isProduction) {
-    // Block all indexing in non-production environments
-    return {
-      rules: {
-        userAgent: '*',
-        disallow: '/',
-      },
-    };
+  if (!isIndexable()) {
+    return { rules: { userAgent: '*', disallow: '/' } };
   }
 
-  // Allow indexing in production
+  // Crawlers must be able to fetch /_next assets (JS/CSS) to render pages.
   return {
-    rules: [
-      {
-        userAgent: '*',
-        allow: '/',
-        disallow: ['/api/', '/_next/', '/static/'],
-      },
-      {
-        userAgent: 'Googlebot',
-        allow: '/',
-        disallow: ['/api/', '/_next/'],
-        crawlDelay: 1,
-      },
-      {
-        userAgent: 'Bingbot',
-        allow: '/',
-        disallow: ['/api/', '/_next/'],
-        crawlDelay: 1,
-      },
-    ],
-    sitemap: `${siteUrl}/sitemap.xml`,
+    rules: { userAgent: '*', allow: '/', disallow: '/api/' },
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

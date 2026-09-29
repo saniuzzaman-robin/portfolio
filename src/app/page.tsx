@@ -1,42 +1,32 @@
 import type { Metadata } from 'next';
-import { HomeView } from '@/components/craft/home-view';
+import { pageMetadata } from '@/lib/metadata';
+import { SITE_URL } from '@/lib/site';
+import { Hero } from '@/components/home/hero';
+import { TechMarquee } from '@/components/home/tech-marquee';
+import { SelectedWork } from '@/components/home/selected-work';
+import { ExperienceTimeline } from '@/components/home/experience-timeline';
+import { Capabilities } from '@/components/home/capabilities';
+import { ContactCta } from '@/components/home/contact-cta';
+import { Footer } from '@/components/layout/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generatePersonSchema, generateWebPageSchema } from '@/lib/schema';
 import { CV_DATA } from '@/lib/cv-data';
 
-export const metadata: Metadata = {
-  title: `${CV_DATA.name} | ${CV_DATA.title}`,
+export const metadata: Metadata = pageMetadata({
   description: CV_DATA.summary,
+  path: '/',
   keywords: [
     'Md. Saniuzzaman Robin',
-    'portfolio',
+    'Saniuzzaman Robin',
     'software engineer',
-    'full-stack',
-    'next.js',
-    'nestjs',
-    'angular',
-    'competitive programming',
-    'icpc',
+    'full-stack engineer',
+    'Next.js developer',
+    'NestJS developer',
+    'Angular developer',
+    'Dhaka',
+    'Bangladesh',
   ],
-  alternates: { canonical: 'https://saniuzzaman.dev' },
-  openGraph: {
-    type: 'website',
-    url: 'https://saniuzzaman.dev',
-    title: `${CV_DATA.name} | ${CV_DATA.title}`,
-    description: CV_DATA.summary,
-    siteName: 'Saniuzzaman Robin Portfolio',
-    images: [
-      { url: 'https://saniuzzaman.dev/og_image.png', width: 1200, height: 630, alt: CV_DATA.name },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: `${CV_DATA.name} | ${CV_DATA.title}`,
-    description: CV_DATA.summary,
-    creator: '@saniuzzaman_robin',
-    images: ['https://saniuzzaman.dev/og_image.png'],
-  },
-};
+});
 
 export default function Home() {
   return (
@@ -46,10 +36,16 @@ export default function Home() {
         schema={generateWebPageSchema({
           title: `Home | ${CV_DATA.name}`,
           description: `${CV_DATA.title} with 5+ years of engineering experience`,
-          url: 'https://saniuzzaman.dev',
+          url: SITE_URL,
         })}
       />
-      <HomeView />
+      <Hero />
+      <TechMarquee />
+      <SelectedWork />
+      <ExperienceTimeline />
+      <Capabilities />
+      <ContactCta index="04" />
+      <Footer />
     </>
   );
 }

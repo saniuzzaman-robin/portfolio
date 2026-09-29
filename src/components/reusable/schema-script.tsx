@@ -15,7 +15,8 @@ export function SchemaScript({ schema }: SchemaScriptProps) {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(schema),
+        // Escape `<` so no string value can close the script tag early.
+        __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
       }}
     />
   );
