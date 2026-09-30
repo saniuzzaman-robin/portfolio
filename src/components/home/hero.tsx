@@ -157,7 +157,7 @@ export function Hero() {
       </Container>
 
       <Container className="pb-8">
-        <dl className="grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-surface/60 backdrop-blur md:grid-cols-4">
+        <dl className="grid grid-cols-2 overflow-hidden rounded-4xl border border-line bg-surface/60 backdrop-blur md:grid-cols-4">
           {cv.stats.map((stat, i) => (
             <Enter
               key={stat.label}

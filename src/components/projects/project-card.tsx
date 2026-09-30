@@ -81,7 +81,7 @@ export function ProjectCard({
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-ring"
+            className="after:absolute after:inset-0 after:rounded-ss-3xl after:rounded-se-lg after:rounded-ee-3xl after:rounded-es-lg focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-ring"
           >
             {project.title}
           </a>

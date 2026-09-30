@@ -45,7 +45,7 @@ export function ContactCta({ index }: { index?: string }) {
           viewport={{ once: true, margin: '-64px' }}
           transition={{ duration: 0.9, ease: EASE_OUT_EXPO }}
           onPointerMove={handlePointerMove}
-          className="relative isolate overflow-hidden rounded-3xl border border-line bg-surface px-6 py-14 shadow-card sm:px-14 sm:py-20"
+          className="relative isolate overflow-hidden rounded-ss-md rounded-se-4xl rounded-ee-md rounded-es-4xl border border-line bg-surface px-6 py-14 shadow-card sm:px-14 sm:py-20"
         >
           <div
             aria-hidden
