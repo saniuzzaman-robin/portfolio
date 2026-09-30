@@ -8,7 +8,7 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://saniuzzama
 export const SITE_NAME = 'Saniuzzaman Robin Portfolio';
 
 /** Static social preview image in /public (real pixel size). */
-export const OG_IMAGE = { url: '/og_image.png', width: 1729, height: 910 } as const;
+export const OG_IMAGE = { url: '/og_image.png', width: 1200, height: 630 } as const;
 
 const GA_ID_PATTERN = /^G-[A-Z0-9]+$/;
 const rawGaId = process.env.NEXT_PUBLIC_GA_ID ?? 'G-DD0B9SX4B6';
