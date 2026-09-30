@@ -167,6 +167,12 @@
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+
+  html:hover {
+    scrollbar-color: color-mix(in srgb, var(--primary) 55%, transparent) transparent;
   }
 
   body {

@@ -20,7 +20,7 @@ export function SpotlightCard({
     <div
       onPointerMove={handlePointerMove}
       className={cn(
-        'spotlight rounded-2xl border border-line bg-surface shadow-card transition-[border-color,translate] duration-300 ease-out-expo hover:-translate-y-1 hover:border-line-strong',
+        'spotlight rounded-ss-3xl rounded-se-lg rounded-ee-3xl rounded-es-lg border border-line bg-surface shadow-card transition-[border-color,translate] duration-300 ease-out-expo hover:-translate-y-1 hover:border-line-strong',
         className
       )}
     >

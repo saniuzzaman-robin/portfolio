@@ -35,7 +35,7 @@ function Heading({ id, children }: { id: string; children: React.ReactNode }) {
 
 function AsideCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="h-full rounded-2xl border border-line bg-surface p-6 shadow-card transition-colors duration-300 hover:border-line-strong print:border-0 print:p-0 print:shadow-none">
+    <section className="h-full rounded-3xl border border-line bg-surface p-6 shadow-card transition-colors duration-300 hover:border-line-strong print:border-0 print:p-0 print:shadow-none">
       <h2 className="mb-4 font-mono text-[11px] font-medium tracking-wider text-fg-subtle uppercase">
         {title}
       </h2>

@@ -23,7 +23,7 @@ export function Capabilities({ lang }: { lang: Locale }) {
     >
       <Stagger
         stagger={0.1}
-        className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-card"
+        className="divide-y divide-line overflow-hidden rounded-ss-4xl rounded-se-2xl rounded-ee-4xl rounded-es-2xl border border-line bg-surface shadow-card"
       >
         {skills.map((domain, i) => {
           const Icon = domain.icon;
@@ -72,7 +72,7 @@ export function Capabilities({ lang }: { lang: Locale }) {
       {/* Compact algorithms strip: supporting context, not a headline. */}
       <Stagger className="mt-5">
         <StaggerItem>
-          <div className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-card sm:p-7">
+          <div className="relative overflow-hidden rounded-4xl border border-line bg-surface p-6 shadow-card sm:p-7">
             <div
               aria-hidden
               className="bg-dots absolute inset-0 mask-[linear-gradient(to_left,#000,transparent_50%)] opacity-40"
@@ -115,7 +115,7 @@ export function Capabilities({ lang }: { lang: Locale }) {
                       as="li"
                       key={item.title}
                       direction="right"
-                      className="group flex gap-3 rounded-xl border border-line bg-bg/60 p-4 backdrop-blur-sm transition-colors duration-300 hover:border-primary/40"
+                      className="group flex gap-3 rounded-ss-2xl rounded-se-md rounded-ee-2xl rounded-es-md border border-line bg-bg/60 p-4 backdrop-blur-sm transition-colors duration-300 hover:border-primary/40"
                     >
                       <Icon className="mt-0.5 size-4 shrink-0 text-primary-text transition-transform duration-500 ease-out-expo group-hover:scale-125 group-hover:-rotate-8" />
                       <div>
