@@ -125,18 +125,18 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={sign > 0 ? { left: 0, right: 0.6 } : { left: 0.6, right: 0 }}
         onDragEnd={handleDragEnd}
-        className="fixed inset-y-0 end-0 z-50 flex w-[min(88vw,22rem)] flex-col overflow-hidden rounded-s-3xl border-s border-line-strong bg-elevated shadow-pop lg:hidden"
+        className="fixed inset-y-0 inset-e-0 z-50 flex w-[min(88vw,22rem)] flex-col overflow-hidden rounded-s-3xl border-s border-line-strong bg-elevated shadow-pop lg:hidden"
       >
         {/* Decorative header wash */}
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-56">
           <div className="bg-grid absolute inset-0 opacity-70" />
-          <div className="absolute -end-16 -top-24 size-72 rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]" />
+          <div className="absolute -inset-e-16 -top-24 size-72 rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]" />
         </div>
 
         {/* Swipe affordance */}
         <span
           aria-hidden
-          className="absolute start-1.5 top-1/2 h-12 w-1 -translate-y-1/2 rounded-full bg-line-strong"
+          className="absolute inset-s-1.5 top-1/2 h-12 w-1 -translate-y-1/2 rounded-full bg-line-strong"
         />
 
         <div className="relative border-b border-line px-4 pt-4 pb-3">

@@ -31,7 +31,7 @@ export function ProjectCard({
         <Icon
           aria-hidden
           strokeWidth={1}
-          className="pointer-events-none absolute -end-8 -bottom-8 size-48 text-primary/[0.06] transition-transform duration-700 ease-out-expo group-hover:scale-110 group-hover:-rotate-6"
+          className="pointer-events-none absolute -inset-e-8 -bottom-8 size-48 text-primary/6 transition-transform duration-700 ease-out-expo group-hover:scale-110 group-hover:-rotate-6"
         />
       )}
 
