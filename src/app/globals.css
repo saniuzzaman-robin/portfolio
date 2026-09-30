@@ -69,7 +69,7 @@
   --ring: #4f46e5;
 
   --nav-glass: rgb(255 255 255 / 0.86);
-  --shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.04), 0 12px 32px -16px rgb(15 23 42 / 0.12);
+  --shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.06), 0 16px 40px -16px rgb(15 23 42 / 0.22);
   --shadow-pop: 0 24px 48px -16px rgb(15 23 42 / 0.2);
   --glow: rgb(79 70 229 / 0.1);
 
@@ -286,6 +286,27 @@
   }
   .spotlight:hover::before {
     opacity: 1;
+  }
+  /* Gradient border revealed on hover (mask cuts out everything but the 1px ring). */
+  .spotlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .spotlight:hover::after {
+    opacity: 0.7;
   }
 
   /* Buttons — kept visually identical to the original design, now token-driven. */

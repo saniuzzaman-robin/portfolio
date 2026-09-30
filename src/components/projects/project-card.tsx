@@ -27,6 +27,10 @@ export function ProjectCard({
     <SpotlightCard
       className={cn('group relative flex h-full flex-col overflow-hidden p-6 sm:p-7', className)}
     >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-primary/10 via-accent/5 to-transparent"
+      />
       {featured && (
         <Icon
           aria-hidden
@@ -106,7 +110,7 @@ export function ProjectCard({
             style={{ transitionDelay: `${i * 35}ms` }}
             className="transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5"
           >
-            <Badge>{tech}</Badge>
+            <Badge tone={i === 0 ? 'primary' : 'neutral'}>{tech}</Badge>
           </li>
         ))}
         {project.technologies.length > techLimit && (

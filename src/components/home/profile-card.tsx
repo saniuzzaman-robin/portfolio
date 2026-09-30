@@ -146,7 +146,7 @@ export function ProfileCard() {
 
       <figure
         dir="ltr"
-        className="overflow-hidden rounded-2xl border border-line-strong bg-elevated shadow-pop"
+        className="overflow-hidden rounded-2xl border border-line-strong bg-elevated shadow-pop motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out-expo motion-safe:hover:transform-[perspective(1200px)_rotateY(-4deg)_rotateX(2deg)]"
       >
         <div className="flex items-center gap-3 border-b border-line bg-surface-2/70 px-4 py-3">
           <div className="flex gap-1.5" aria-hidden>

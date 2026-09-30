@@ -55,13 +55,32 @@ export function Section({
 }: SectionProps) {
   const headingId = id ? `${id}-heading` : undefined;
   return (
-    <section id={id} aria-labelledby={headingId} className={cn('py-12 sm:py-16', className)}>
+    <section
+      id={id}
+      aria-labelledby={headingId}
+      className={cn('relative isolate overflow-x-clip py-12 sm:py-16', className)}
+    >
+      <div
+        aria-hidden
+        className={cn(
+          'absolute top-0 -z-10 h-96 w-xl rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]',
+          Number(index) % 2 === 0 ? '-inset-s-40' : '-inset-e-40'
+        )}
+      />
       <Container>
         <Stagger
           stagger={0.12}
           className="mb-12 flex flex-col gap-6 sm:mb-16 md:flex-row md:items-end md:justify-between"
         >
-          <div className="max-w-2xl space-y-4">
+          <div className="relative max-w-2xl space-y-4">
+            {index && (
+              <span
+                aria-hidden
+                className="absolute -inset-s-3 -top-10 -z-10 font-mono text-8xl font-black text-fg/5 select-none sm:text-9xl"
+              >
+                {index}
+              </span>
+            )}
             <Eyebrow index={index}>{label}</Eyebrow>
             <WordReveal
               id={headingId}
