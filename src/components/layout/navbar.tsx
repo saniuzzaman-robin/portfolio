@@ -6,6 +6,7 @@ import { m, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { Sun, Moon, Download, Menu, X, Command } from 'lucide-react';
 import { useTheme } from '@/components/reusable/theme-provider';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
 // The drawer (drag, springs, extra icons) is fetched on first intent, not on page load.
 const loadMobileNav = () => import('@/components/layout/mobile-nav');
@@ -19,16 +20,18 @@ import { useUnprefixedPath } from '@/i18n/use-locale';
 import { useDictionary } from '@/i18n/provider';
 import { fmt } from '@/i18n/dictionary';
 
-function Monogram({ className }: { className?: string }) {
+function Avatar({ className }: { className?: string }) {
   return (
-    <span
+    <Image
+      src="/profile.jpg"
+      alt=""
+      width={80}
+      height={80}
       className={cn(
-        'flex items-center justify-center rounded-xl bg-linear-to-br from-primary to-primary-strong font-mono text-xs font-black text-primary-fg shadow-md shadow-primary/30',
+        'rounded-full object-cover object-top shadow-md ring-2 shadow-primary/20 ring-primary/40',
         className
       )}
-    >
-      SR
-    </span>
+    />
   );
 }
 
@@ -56,7 +59,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
       <m.div
         aria-hidden
         style={{ scaleX: progress }}
-        className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-linear-to-r from-primary via-accent to-primary rtl:origin-right print:hidden"
+        className="fixed inset-x-0 top-0 z-60 h-0.5 origin-left bg-linear-to-r from-primary via-accent to-primary rtl:origin-right print:hidden"
       />
 
       <Enter
@@ -74,7 +77,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
           )}
         >
           <LocaleLink href="/" className="group flex items-center gap-2.5">
-            <Monogram className="size-8 transition-transform group-hover:scale-105" />
+            <Avatar className="size-9 transition-transform group-hover:scale-105" />
             <span className="flex flex-col">
               <span className="font-heading text-xs font-bold tracking-tight text-fg">
                 {CV_DATA.name}

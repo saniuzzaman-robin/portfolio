@@ -11,7 +11,7 @@ export function TechMarquee({ lang }: { lang: Locale }) {
   const { t } = getDictionary(lang);
   return (
     <div
-      className="relative overflow-hidden border-y border-line bg-surface/40 [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)] py-5"
+      className="relative overflow-hidden border-y border-line bg-surface/40 mask-[linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)] py-5"
       aria-label={t.techMarquee.label}
     >
       <div dir="ltr" className="flex w-max animate-marquee hover:[animation-play-state:paused]">

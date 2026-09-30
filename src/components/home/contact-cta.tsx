@@ -13,7 +13,7 @@ import { useDictionary } from '@/i18n/provider';
 
 const COPY_ICONS = { idle: Copy, copied: Check, error: X } as const;
 
-/** Size of the pointer-following glow, in px (matches `size-[32rem]`). */
+/** Size of the pointer-following glow, in px (matches `size-128`). */
 const GLOW_SIZE = 512;
 
 export function ContactCta({ index }: { index?: string }) {
@@ -49,12 +49,12 @@ export function ContactCta({ index }: { index?: string }) {
         >
           <div
             aria-hidden
-            className="bg-grid absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_top_right,#000,transparent_65%)] opacity-60"
+            className="bg-grid absolute inset-0 -z-10 mask-[radial-gradient(ellipse_at_top_right,#000,transparent_65%)] opacity-60"
           />
           <m.div
             aria-hidden
             style={{ x: glowX, y: glowY }}
-            className="absolute top-0 left-0 -z-10 size-[32rem] rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]"
+            className="absolute top-0 left-0 -z-10 size-128 rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]"
           />
 
           <Stagger stagger={0.1}>

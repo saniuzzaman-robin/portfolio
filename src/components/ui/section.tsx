@@ -104,7 +104,7 @@ export function PageHeader({
 }) {
   return (
     <header className="relative isolate overflow-hidden">
-      <div aria-hidden className="bg-grid absolute inset-x-0 -top-20 -z-10 h-[30rem] opacity-60" />
+      <div aria-hidden className="bg-grid absolute inset-x-0 -top-20 -z-10 h-120 opacity-60" />
       <Container className="pt-10 pb-12 sm:pt-16 sm:pb-16">
         {/* Above the fold: CSS entrances so the heading paints without waiting for JS. */}
         <div className="max-w-3xl space-y-5">

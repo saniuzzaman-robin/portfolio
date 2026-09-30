@@ -96,7 +96,7 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
       <header className="relative isolate overflow-hidden">
         <div
           aria-hidden
-          className="bg-grid absolute inset-x-0 -top-20 -z-10 h-[30rem] opacity-60 print:hidden"
+          className="bg-grid absolute inset-x-0 -top-20 -z-10 h-120 opacity-60 print:hidden"
         />
         <Container className="pt-10 pb-12 sm:pt-16 print:pt-0 print:pb-6">
           {/* Above the fold: CSS entrances so the name paints without waiting for JS. */}
@@ -176,13 +176,13 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
               <Heading id="experience-heading">{t.resume.experience}</Heading>
             </Stagger>
             <ol className="relative space-y-12 ps-6 sm:ps-8 print:space-y-6 print:border-s print:border-line">
-              <ScrollRail className="start-0 print:hidden" />
+              <ScrollRail className="inset-s-0 print:hidden" />
               {cv.experience.map((job) => (
                 <li key={job.company} className="relative break-inside-avoid">
                   <Stagger stagger={0.06}>
                     <StaggerItem
                       direction="scale"
-                      className="absolute -start-[calc(1.5rem+5px)] top-1.5 size-2.5 rounded-full border-2 border-bg bg-primary ring-4 ring-primary/15 sm:-start-[calc(2rem+5px)]"
+                      className="absolute -inset-s-7.25 top-1.5 size-2.5 rounded-full border-2 border-bg bg-primary ring-4 ring-primary/15 sm:-inset-s-9.25"
                     />
                     <StaggerItem
                       direction="right"
@@ -210,7 +210,7 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
                           as="li"
                           key={item}
                           direction="left"
-                          className="relative ps-5 text-sm leading-relaxed text-fg-muted transition-colors duration-300 before:absolute before:start-0 before:top-[0.6em] before:size-1.5 before:rotate-45 before:bg-primary/70 before:transition-transform before:duration-500 hover:text-fg hover:before:rotate-[225deg]"
+                          className="relative ps-5 text-sm leading-relaxed text-fg-muted transition-colors duration-300 before:absolute before:inset-s-0 before:top-[0.6em] before:size-1.5 before:rotate-45 before:bg-primary/70 before:transition-transform before:duration-500 hover:text-fg hover:before:rotate-225"
                         >
                           {item}
                         </StaggerItem>
@@ -286,7 +286,7 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
               </AsideCard>
             </StaggerItem>
 
-            <StaggerItem direction="right" className="md:order-last md:col-span-2 lg:order-none">
+            <StaggerItem direction="right" className="md:order-last md:col-span-2 lg:order-0">
               <AsideCard title={t.resume.skills}>
                 <div className="space-y-5">
                   {skillGroups.map((group) => (

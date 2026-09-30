@@ -35,13 +35,13 @@ export function Capabilities({ lang }: { lang: Locale }) {
             >
               <span
                 aria-hidden
-                className="absolute inset-y-0 start-0 w-0.5 origin-center scale-y-0 bg-primary transition-transform duration-500 ease-out-expo group-hover:scale-y-100"
+                className="absolute inset-y-0 inset-s-0 w-0.5 origin-center scale-y-0 bg-primary transition-transform duration-500 ease-out-expo group-hover:scale-y-100"
               />
               <div className="flex gap-4">
                 <span className="mt-0.5 font-mono text-xs text-fg-subtle">0{i + 1}</span>
                 <div className="min-w-0">
                   <h3 className="flex items-center gap-2 text-lg font-bold tracking-tight text-fg">
-                    <Icon className="size-[18px] shrink-0 text-primary-text" />
+                    <Icon className="size-4.5 shrink-0 text-primary-text" />
                     {domain.title}
                   </h3>
                   <p className="mt-0.5 font-mono text-[11px] text-primary-text">{domain.badge}</p>
@@ -75,7 +75,7 @@ export function Capabilities({ lang }: { lang: Locale }) {
           <div className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-card sm:p-7">
             <div
               aria-hidden
-              className="bg-dots absolute inset-0 [mask-image:linear-gradient(to_left,#000,transparent_50%)] opacity-40"
+              className="bg-dots absolute inset-0 mask-[linear-gradient(to_left,#000,transparent_50%)] opacity-40"
             />
             <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
               <Stagger trigger="inherit" stagger={0.08} className="lg:w-2/5 lg:shrink-0">
@@ -117,7 +117,7 @@ export function Capabilities({ lang }: { lang: Locale }) {
                       direction="right"
                       className="group flex gap-3 rounded-xl border border-line bg-bg/60 p-4 backdrop-blur-sm transition-colors duration-300 hover:border-primary/40"
                     >
-                      <Icon className="mt-0.5 size-4 shrink-0 text-primary-text transition-transform duration-500 ease-out-expo group-hover:scale-125 group-hover:rotate-[-8deg]" />
+                      <Icon className="mt-0.5 size-4 shrink-0 text-primary-text transition-transform duration-500 ease-out-expo group-hover:scale-125 group-hover:-rotate-8" />
                       <div>
                         <p className="text-sm font-semibold text-fg">{item.title}</p>
                         <p className="mt-1 text-xs leading-relaxed text-fg-muted">

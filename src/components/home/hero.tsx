@@ -41,14 +41,14 @@ export function Hero() {
       <m.div
         aria-hidden
         style={{ opacity: backdropOpacity }}
-        className="bg-grid absolute inset-x-0 -top-20 -z-10 h-[46rem]"
+        className="bg-grid absolute inset-x-0 -top-20 -z-10 h-184"
       />
       <m.div
         aria-hidden
         style={{ x: '-50%' }}
         animate={{ x: ['-50%', '-46%', '-54%', '-50%'], scale: [1, 1.08, 0.96, 1] }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-[-12rem] left-1/2 -z-10 h-[36rem] w-[60rem] rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]"
+        className="absolute -top-48 left-1/2 -z-10 h-144 w-240 rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]"
       />
 
       <Container className="grid items-center gap-16 pt-8 pb-16 sm:pt-14 lg:grid-cols-12 lg:gap-10 lg:pt-20 lg:pb-20">

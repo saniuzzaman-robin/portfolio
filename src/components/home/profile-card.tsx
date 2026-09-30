@@ -128,19 +128,19 @@ export function ProfileCard() {
     >
       <div
         aria-hidden
-        className="absolute -inset-6 -z-10 rounded-[2rem] bg-linear-to-br from-primary/25 via-accent/10 to-transparent opacity-80 blur-2xl"
+        className="absolute -inset-6 -z-10 rounded-4xl bg-linear-to-br from-primary/25 via-accent/10 to-transparent opacity-80 blur-2xl"
       />
 
       <FloatingChip
         icon={Users}
         label={t.profileCard.chipUsers}
-        className="-start-4 -top-4"
+        className="-inset-s-4 -top-4"
         delay={1.2}
       />
       <FloatingChip
         icon={Trophy}
         label={t.profileCard.chipRank}
-        className="-end-3 -bottom-4"
+        className="-inset-e-3 -bottom-4"
         delay={1.5}
       />
 
@@ -190,7 +190,7 @@ export function ProfileCard() {
                   {i === lines.length - 1 && (
                     <span
                       aria-hidden
-                      className="ml-0.5 inline-block h-4 w-[7px] translate-y-0.5 animate-blink bg-primary"
+                      className="ml-0.5 inline-block h-4 w-1.75 translate-y-0.5 animate-blink bg-primary"
                     />
                   )}
                 </span>

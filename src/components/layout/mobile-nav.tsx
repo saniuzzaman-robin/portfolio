@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { LocaleLink } from '@/components/ui/locale-link';
 import { m, type PanInfo } from 'framer-motion';
-import { ChevronRight, Download, Monitor, Moon, Sun, X } from 'lucide-react';
+import { Download, Monitor, Moon, Sun, X } from 'lucide-react';
 import { useTheme } from '@/components/reusable/theme-provider';
 import { SocialIcon, type SocialIconType } from '@/components/reusable/social-icon';
 import { Badge, StatusDot } from '@/components/ui/badge';
@@ -124,26 +125,30 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={sign > 0 ? { left: 0, right: 0.6 } : { left: 0.6, right: 0 }}
         onDragEnd={handleDragEnd}
-        className="fixed inset-y-0 end-0 z-50 flex w-[min(88vw,22rem)] flex-col overflow-hidden rounded-s-3xl border-s border-line-strong bg-elevated shadow-pop lg:hidden"
+        className="fixed inset-y-0 inset-e-0 z-50 flex w-[min(88vw,22rem)] flex-col overflow-hidden rounded-s-3xl border-s border-line-strong bg-elevated shadow-pop lg:hidden"
       >
         {/* Decorative header wash */}
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-56">
           <div className="bg-grid absolute inset-0 opacity-70" />
-          <div className="absolute -end-16 -top-24 size-72 rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]" />
+          <div className="absolute -inset-e-16 -top-24 size-72 rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]" />
         </div>
 
         {/* Swipe affordance */}
         <span
           aria-hidden
-          className="absolute start-1.5 top-1/2 h-12 w-1 -translate-y-1/2 rounded-full bg-line-strong"
+          className="absolute inset-s-1.5 top-1/2 h-12 w-1 -translate-y-1/2 rounded-full bg-line-strong"
         />
 
         <div className="relative border-b border-line px-4 pt-4 pb-3">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-2xl bg-linear-to-br from-primary to-primary-strong font-mono text-sm font-black text-primary-fg shadow-lg shadow-primary/30">
-                SR
-              </span>
+              <Image
+                src="/profile.jpg"
+                alt=""
+                width={80}
+                height={80}
+                className="size-10 rounded-full object-cover object-top shadow-lg ring-2 shadow-primary/30 ring-primary/40"
+              />
               <div className="min-w-0">
                 <p className="truncate font-heading text-sm font-bold text-fg">{CV_DATA.name}</p>
                 <p className="truncate font-mono text-[11px] text-primary-text">{cv.role}</p>
@@ -171,7 +176,7 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
         <div className="relative flex-1 overflow-y-auto overscroll-contain px-4 py-4">
           <nav aria-label={t.mobileNav.nav}>
             <SectionLabel>{t.mobileNav.menu}</SectionLabel>
-            <ul className="space-y-1.5">
+            <ul className="space-y-1">
               {NAV_LINKS.map((link, i) => {
                 const active = isActivePath(pathname, link.href);
                 const Icon = link.icon;
@@ -182,44 +187,14 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
                       onClick={onClose}
                       aria-current={active ? 'page' : undefined}
                       className={cn(
-                        'group flex items-center gap-3 rounded-xl border p-2 transition-colors',
+                        'flex items-center gap-3 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors',
                         active
-                          ? 'border-primary/30 bg-primary/10'
-                          : 'border-line bg-surface/60 hover:border-line-strong hover:bg-surface-2'
+                          ? 'bg-primary-strong text-primary-fg shadow-sm'
+                          : 'text-fg-muted hover:bg-surface-2 hover:text-fg'
                       )}
                     >
-                      <span
-                        className={cn(
-                          'flex size-9 shrink-0 items-center justify-center rounded-lg transition-colors',
-                          active
-                            ? 'bg-primary text-primary-fg shadow-md shadow-primary/30'
-                            : 'border border-line bg-surface-2 text-fg-muted group-hover:text-fg'
-                        )}
-                      >
-                        <Icon className="size-4" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="flex items-center gap-2">
-                          <span
-                            className={cn(
-                              'text-[15px] font-semibold',
-                              active ? 'text-primary-text' : 'text-fg'
-                            )}
-                          >
-                            {t.nav[link.id].label}
-                          </span>
-                          <span className="font-mono text-[10px] text-fg-subtle">0{i + 1}</span>
-                        </span>
-                        <span className="mt-0.5 block truncate text-xs text-fg-subtle">
-                          {t.nav[link.id].description}
-                        </span>
-                      </span>
-                      <ChevronRight
-                        className={cn(
-                          'size-4 shrink-0 transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5',
-                          active ? 'text-primary-text' : 'text-fg-subtle'
-                        )}
-                      />
+                      <Icon className="size-4 shrink-0" />
+                      {t.nav[link.id].label}
                     </LocaleLink>
                   </m.li>
                 );

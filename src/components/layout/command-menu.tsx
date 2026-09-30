@@ -203,7 +203,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-start justify-center px-4 pt-[14vh]"
+      className="fixed inset-0 z-60 flex items-start justify-center px-4 pt-[14vh]"
       onKeyDown={handleKeyDown}
     >
       <m.div

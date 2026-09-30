@@ -18,7 +18,7 @@ export function StatusPage({
       <div aria-hidden className="bg-grid absolute inset-0 -z-10 opacity-70" />
       <div
         aria-hidden
-        className="absolute top-1/2 left-1/2 -z-10 size-[40rem] -translate-1/2 rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]"
+        className="absolute top-1/2 left-1/2 -z-10 size-160 -translate-1/2 rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)]"
       />
       <Container>
         <div className="flex flex-col items-center text-center">

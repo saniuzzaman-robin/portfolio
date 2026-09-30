@@ -28,7 +28,7 @@ export function ExperienceTimeline() {
       className="border-t border-line"
     >
       <ol className="relative ps-7 sm:ps-10">
-        <ScrollRail className="start-[5px]" />
+        <ScrollRail className="inset-s-1.25" />
 
         {cv.experience.map((job) => {
           const isCurrent = job.endDate === null;
@@ -40,13 +40,13 @@ export function ExperienceTimeline() {
                 whileInView={{ scale: 1, opacity: 1 }}
                 viewport={{ once: true, margin: '-120px' }}
                 transition={{ type: 'spring', stiffness: 380, damping: 18 }}
-                className="absolute -start-7 top-11 flex size-[11px] items-center justify-center sm:-start-10"
+                className="absolute -inset-s-7 top-11 flex size-2.75 items-center justify-center sm:-inset-s-10"
               >
                 <span className="absolute inset-0 rounded-full bg-primary/25" />
                 {isCurrent && (
                   <span className="absolute inset-0 animate-ping rounded-full bg-primary/40" />
                 )}
-                <span className="relative size-[7px] rounded-full bg-primary" />
+                <span className="relative size-1.75 rounded-full bg-primary" />
               </m.span>
 
               <Stagger
@@ -102,7 +102,7 @@ export function ExperienceTimeline() {
                         >
                           <span
                             aria-hidden
-                            className="size-1.5 shrink-0 rotate-45 bg-primary transition-transform duration-500 ease-out-expo group-hover:scale-125 group-hover:rotate-[225deg]"
+                            className="size-1.5 shrink-0 rotate-45 bg-primary transition-transform duration-500 ease-out-expo group-hover:scale-125 group-hover:rotate-225"
                           />
                           {highlight.topic}
                         </StaggerItem>
