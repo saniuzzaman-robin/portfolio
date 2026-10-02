@@ -106,7 +106,7 @@ export const ar: Messages = {
     navigate: 'تنقّل',
     connect: 'تواصل',
     copyright: '© {year} {name}. بُني باستخدام Next.js وTailwind CSS.',
-    backToTop: 'العودة إلى الأعلى',
+    backToTop: 'الأعلى',
   },
   projects: {
     label: 'المنصات',

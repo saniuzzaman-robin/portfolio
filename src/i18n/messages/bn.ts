@@ -106,7 +106,7 @@ export const bn: Messages = {
     navigate: 'নেভিগেট',
     connect: 'যোগাযোগ',
     copyright: '© {year} {name}। Next.js ও Tailwind CSS দিয়ে তৈরি।',
-    backToTop: 'উপরে ফিরে যান',
+    backToTop: 'উপরে',
   },
   projects: {
     label: 'প্ল্যাটফর্ম',
