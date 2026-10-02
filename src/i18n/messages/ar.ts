@@ -3,7 +3,7 @@ import type { Messages } from './en';
 export const ar: Messages = {
   common: {
     technologies: 'التقنيات',
-    available: 'متاح للأدوار القيادية',
+    available: 'متاح لفرص العمل بمستوى Senior',
     resumePdf: 'السيرة الذاتية PDF',
     downloadResume: 'تنزيل السيرة الذاتية',
     email: 'البريد الإلكتروني',
@@ -15,7 +15,7 @@ export const ar: Messages = {
     platforms: { label: 'المنصات', description: 'أنظمة صمّمتها وأطلقتها' },
   },
   navbar: {
-    primary: 'الرئيسية',
+    primary: 'التنقل الرئيسي',
     years: '{years} سنوات',
     openCommand: 'فتح قائمة الأوامر',
     resume: 'السيرة الذاتية',
@@ -67,7 +67,7 @@ export const ar: Messages = {
   },
   selectedWork: {
     label: 'أعمال مختارة',
-    title: 'منصات إنتاجية تصل إلى الملايين.',
+    title: 'منصات قيد التشغيل تخدم الملايين.',
     description:
       'بعض الأنظمة التي صمّمتها وبنيتها — من خدمات مصغّرة لتحديد الموقع الجغرافي إلى منصة تبرعات أُعيد بناؤها بالكامل.',
     all: 'جميع المنصات',
@@ -84,10 +84,10 @@ export const ar: Messages = {
   },
   capabilities: {
     label: 'القدرات',
-    title: 'هندسة معمارية للإنتاج،',
-    accent: 'متجذّرة في الخوارزميات.',
+    title: 'بنية أنظمة جاهزة للإنتاج،',
+    accent: 'جذورها في الخوارزميات.',
     description:
-      'أساس مزدوج: سنوات من إطلاق أنظمة موزّعة، وعادة البرمجة التنافسية التي تصقل كل قرار تصميمي.',
+      'ركيزتان: سنوات من إطلاق أنظمة موزّعة، وعادة البرمجة التنافسية التي تصقل كل قرار تصميمي.',
     algorithms: 'الخوارزميات وحل المسائل',
     problemsSolved: 'مسألة محلولة',
   },
@@ -96,7 +96,7 @@ export const ar: Messages = {
     eyebrow: 'تواصل',
     title: 'لديك مشكلة صعبة تستحق الحل؟',
     accent: 'لنتحدث.',
-    body: 'أنا منفتح على الأدوار الهندسية القيادية والتعاونات المثيرة للاهتمام. البريد الإلكتروني هو أسرع وسيلة للتواصل معي.',
+    body: 'يسعدني التواصل بشأن المناصب الهندسية العليا وفرص التعاون المثيرة للاهتمام. أسرع طريقة للوصول إليّ هي البريد الإلكتروني.',
     sayHello: 'راسلني',
     copy: { idle: 'نسخ البريد', copied: 'تم النسخ!', error: 'فشل النسخ' },
     localTime: 'التوقيت المحلي',
@@ -113,7 +113,7 @@ export const ar: Messages = {
     title: 'أنظمة',
     accent: 'صمّمتها وأطلقتها.',
     description:
-      'منصات إنتاجية وأدوات داخلية وبنية تحتية للاختبار في Bitsmedia (MuslimPro) وKONA Software Lab وSELISE — صفِّ حسب التخصص أدناه.',
+      'منصات قيد التشغيل وأدوات داخلية وبنية تحتية للاختبار في Bitsmedia (MuslimPro) وKONA Software Lab وSELISE — يمكنك التصفية حسب التخصص أدناه.',
     section: 'المشاريع',
     heading: 'جميع المنصات',
     filter: 'التصفية حسب الفئة',
@@ -137,7 +137,7 @@ export const ar: Messages = {
     },
   },
   notFound: {
-    title: 'هذه الصفحة تاهت.',
+    title: 'يبدو أن هذه الصفحة ضلّت طريقها.',
     description: 'الصفحة التي تبحث عنها غير موجودة أو تم نقلها.',
     backHome: 'العودة للرئيسية',
     browse: 'تصفّح المنصات',
@@ -149,14 +149,14 @@ export const ar: Messages = {
     tryAgain: 'حاول مرة أخرى',
     goHome: 'الصفحة الرئيسية',
   },
-  a11y: { skipToContent: 'تخطَّ إلى المحتوى الرئيسي' },
+  a11y: { skipToContent: 'انتقل إلى المحتوى الرئيسي' },
   meta: {
     home: 'الرئيسية',
     homeDescription: '{title} بخبرة هندسية تزيد على 5 سنوات',
     projectsTitle: 'المنصات والمشاريع المنجزة',
     projectsDescription:
-      'منصات إنتاجية بناها Md. Saniuzzaman Robin: مواقيت الصلاة في MuslimPro، ومنصة التبرعات Giving، وبث Qalbox، ولوحات إدارة مؤسسية، وأتمتة الاختبارات — باستخدام Next.js وNestJS وAngular.',
-    projectsCollection: 'منصات هندسية وتطبيقات إنتاجية',
+      'منصات قيد التشغيل بناها Md. Saniuzzaman Robin: مواقيت الصلاة في MuslimPro، ومنصة التبرعات Giving، ومنصة البث Qalbox، ولوحات إدارة مؤسسية، وأتمتة الاختبارات — باستخدام Next.js وNestJS وAngular.',
+    projectsCollection: 'منصات هندسية وتطبيقات قيد التشغيل',
     resumeTitle: 'الخبرة والسيرة الذاتية',
     resumeDescription:
       'السيرة الذاتية لـ Md. Saniuzzaman Robin: أكثر من 5 سنوات في هندسة البرمجيات لدى Bitsmedia (MuslimPro) وKONA Software Lab وSELISE Digital Platforms. المهارات والخبرة والتعليم والإنجازات.',
