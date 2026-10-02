@@ -69,11 +69,11 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 5,
-    impact: 'Shell for 4 product modules',
+    impact: 'Shell for all admin modules',
     title: 'MuslimPro Admin Console',
     category: 'Frontend',
     description:
-      'Engineered a new Admin Console from scratch in Next.js. Built auth, reusable tables, forms, filter components, navigation menu, and theme setup — the full shell teams now use to add new modules for Gamification, Inspiration, Journal, and Settings.',
+      'Engineered a new Admin Console from scratch in Next.js. Built auth, reusable tables, forms, filter components, navigation menu, and theme setup — the platform teams now use to build and manage every admin module, from Gamification and Inspiration to Journal and Settings.',
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Auth', 'Reusable Components'],
     link: '#',
     icon: Settings,

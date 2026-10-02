@@ -46,7 +46,9 @@ export function ExperienceTimeline() {
                 {isCurrent && (
                   <span className="absolute inset-0 animate-ping rounded-full bg-primary/40" />
                 )}
-                <span className="relative size-1.75 rounded-full bg-primary" />
+                <span
+                  className={`relative size-1.75 rounded-full ${isCurrent ? 'bg-primary' : 'bg-primary/50'}`}
+                />
               </m.span>
 
               <Stagger

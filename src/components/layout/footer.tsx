@@ -1,5 +1,6 @@
 import { LocaleLink } from '@/components/ui/locale-link';
-import { ArrowUp, Mail } from 'lucide-react';
+import { BackToTop } from '@/components/layout/back-to-top';
+import { Mail } from 'lucide-react';
 import { Container } from '@/components/ui/section';
 import { Stagger, StaggerItem } from '@/components/ui/motion';
 import { SocialIcon } from '@/components/reusable/social-icon';
@@ -93,15 +94,11 @@ export function Footer({ lang }: { lang: Locale }) {
       </Stagger>
 
       <div className="border-t border-line">
-        <Container className="flex flex-col items-start justify-between gap-3 py-6 font-mono text-[11px] text-fg-subtle sm:flex-row sm:items-center">
-          <p>{fmt(t.footer.copyright, { year: new Date().getFullYear(), name: CV_DATA.name })}</p>
-          <a
-            href="#main-content"
-            className="group inline-flex items-center gap-1.5 py-2 transition-colors hover:text-fg"
-          >
-            {t.footer.backToTop}
-            <ArrowUp className="size-3 transition-transform duration-300 group-hover:-translate-y-0.5" />
-          </a>
+        <Container className="flex items-start justify-center gap-3 py-6 font-mono text-[11px] text-fg-subtle sm:items-center sm:justify-between">
+          <p className="py-2">
+            {fmt(t.footer.copyright, { year: new Date().getFullYear(), name: CV_DATA.name })}
+          </p>
+          <BackToTop label={t.footer.backToTop} />
         </Container>
       </div>
     </footer>

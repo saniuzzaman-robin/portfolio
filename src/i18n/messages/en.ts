@@ -108,7 +108,7 @@ export const en = {
     navigate: 'Navigate',
     connect: 'Connect',
     copyright: '© {year} {name}. Built with Next.js & Tailwind CSS.',
-    backToTop: 'Back to top',
+    backToTop: 'Top',
   },
   projects: {
     label: 'Platforms',
