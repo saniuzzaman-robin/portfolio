@@ -131,22 +131,9 @@ export function ProfileCard() {
         className="absolute -inset-6 -z-10 rounded-4xl bg-linear-to-br from-primary/25 via-accent/10 to-transparent opacity-80 blur-2xl"
       />
 
-      <FloatingChip
-        icon={Users}
-        label={t.profileCard.chipUsers}
-        className="-inset-s-4 -top-4"
-        delay={1.2}
-      />
-      <FloatingChip
-        icon={Trophy}
-        label={t.profileCard.chipRank}
-        className="-inset-e-3 -bottom-4"
-        delay={1.5}
-      />
-
       <figure
         dir="ltr"
-        className="overflow-hidden rounded-2xl border border-line-strong bg-elevated shadow-pop motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out-expo motion-safe:hover:transform-[perspective(1200px)_rotateY(-4deg)_rotateX(2deg)]"
+        className="overflow-hidden rounded-2xl border border-line-strong bg-elevated shadow-pop"
       >
         <div className="flex items-center gap-3 border-b border-line bg-surface-2/70 px-4 py-3">
           <div className="flex gap-1.5" aria-hidden>
@@ -207,6 +194,19 @@ export function ProfileCard() {
           <span>{fmt(t.profileCard.since, { year: current.startDate.slice(0, 4) })}</span>
         </figcaption>
       </figure>
+
+      <FloatingChip
+        icon={Users}
+        label={t.profileCard.chipUsers}
+        className="-inset-s-4 -top-4"
+        delay={1.2}
+      />
+      <FloatingChip
+        icon={Trophy}
+        label={t.profileCard.chipRank}
+        className="-inset-e-3 -bottom-4"
+        delay={1.5}
+      />
     </m.div>
   );
 }
