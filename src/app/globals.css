@@ -166,6 +166,8 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
+    /* The route enter transform otherwise makes scroll anchoring nudge scrollY on every reload. */
+    overflow-anchor: none;
     -webkit-text-size-adjust: 100%;
     scrollbar-width: thin;
     scrollbar-color: var(--line-strong) transparent;
