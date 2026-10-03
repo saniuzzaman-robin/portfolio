@@ -77,6 +77,11 @@ const nextConfig: NextConfig = {
     return [
       { source: '/:path*', headers: securityHeaders },
       {
+        // Android verifies App Links against this file: JSON, no redirects.
+        source: '/.well-known/assetlinks.json',
+        headers: [{ key: 'Content-Type', value: 'application/json' }],
+      },
+      {
         // Unhashed files in /public (icons, OG image, CV): cache for a day, then revalidate.
         source: '/:file(.+\\.(?:ico|png|svg|pdf|webmanifest))',
         headers: [
