@@ -49,7 +49,7 @@ export default async function ChangeloomPrivacy({ params }: { params: Promise<{ 
           description={<>Last updated {updated}</>}
         />
         <Container className="pb-20">
-          <article className="max-w-3xl space-y-10 text-base leading-relaxed text-fg-muted">
+          <article className="space-y-10 text-base leading-relaxed text-fg-muted">
             <div className="space-y-4">
               {CHANGELOOM_PRIVACY.intro.map((text) => (
                 <p key={text}>{text}</p>
