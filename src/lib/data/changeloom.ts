@@ -1,21 +1,21 @@
 /** Landing page content for the Changeloom Android app. English only. */
 export const CHANGELOOM = {
   app: 'Changeloom',
-  tagline: 'Software updates that matter, in one short feed.',
+  tagline: 'The updates that matter to your work, in one short feed.',
   description:
-    'Changeloom shows short summaries of releases, changes, deprecations and security notices for the software topics you follow, written from public sources, so you can keep up without reading every changelog.',
+    'Changeloom shows short summaries of the latest news and changes in the fields you care about, from software and science to health, law, trades and more. They are written from public sources, so you can keep up without reading everything yourself.',
   features: [
     {
       title: 'Follow your topics',
-      text: 'Pick the languages, frameworks and tools you work with and get a feed built from them.',
+      text: 'Choose the subjects you care about, or pick your profession and start with a feed built for it.',
     },
     {
       title: 'Short, clear summaries',
-      text: 'Each update is boiled down to what changed and why it matters, with a link to the original source.',
+      text: 'Each story is boiled down to what changed and why it matters, with a link to the original source.',
     },
     {
       title: 'Alerts for urgent changes',
-      text: 'Turn on notifications to hear about security notices and breaking changes in topics you follow.',
+      text: 'Turn on notifications to hear about important changes in the topics you follow.',
     },
     {
       title: 'Bookmarks and reading progress',
