@@ -13,7 +13,7 @@ export const CHANGELOOM_TERMS = {
       id: 'service',
       heading: 'What Changeloom is',
       blocks: [
-        'Changeloom shows short summaries of updates (releases, changes, deprecations and security notices) for the software topics you follow. You can follow topics, bookmark and mark stories as read, receive notifications about urgent changes, and request topics that are not yet covered.',
+        'Changeloom shows short summaries of news and changes (such as new releases, guidelines, rules, research findings and offers) for the topics you follow, across many professions and interests. You can choose your profession, follow topics, bookmark and mark stories as read, receive notifications about urgent changes, and request topics that are not yet covered.',
         'The app is free to use and is supported by ads. Features may change, be limited or be removed at any time.',
       ],
     },
@@ -29,8 +29,9 @@ export const CHANGELOOM_TERMS = {
       id: 'content',
       heading: 'Summaries and accuracy',
       blocks: [
-        'Summaries are written with the help of AI from public sources, and may be incomplete, out of date or wrong. Changeloom is a convenience for staying informed, not a substitute for the official release notes, advisories or documentation of the software concerned. Check the original source before you act on a story, especially for security, upgrade or production decisions.',
-        'Product names, logos and trademarks belong to their owners. Changeloom is not affiliated with or endorsed by them.',
+        'Summaries are written with the help of AI from public sources, and may be incomplete, out of date or wrong. Changeloom is a convenience for staying informed, not a substitute for the original source, such as official documentation, regulations, guidelines or announcements. Check the original source before you act on a story.',
+        'Stories about health, law, finance, safety or any other regulated field are general information only. They are not medical, legal, financial or other professional advice, and they do not create a professional relationship. Always rely on a qualified professional and the official guidance that applies to you.',
+        'Product, organisation and brand names, logos and trademarks belong to their owners. Changeloom is not affiliated with or endorsed by them.',
       ],
     },
     {

@@ -11,10 +11,10 @@ export type PolicySection = { id: string; heading: string; blocks: PolicyBlock[]
  */
 export const CHANGELOOM_PRIVACY = {
   app: 'Changeloom',
-  updated: '2026-10-03',
+  updated: '2026-10-04',
   intro: [
     `This policy explains what information the Changeloom app ("Changeloom", "the app") collects, how it is used and shared, and the choices you have. Changeloom is developed and operated by ${CV_DATA.name} ("I", "me"), an independent developer based in ${CV_DATA.location}.`,
-    'Changeloom shows short summaries of updates (releases, changes, deprecations and security notices) for the software topics you follow. The summaries are written from public sources; your personal information is never used to write them.',
+    'Changeloom shows short summaries of news and changes (such as new releases, guidelines, rules, research findings and offers) for the topics you follow, across many professions and interests. The summaries are written from public sources; your personal information is never used to write them.',
   ],
   sections: [
     {
@@ -28,7 +28,7 @@ export const CHANGELOOM_PRIVACY = {
           },
           {
             label: 'App activity',
-            text: 'The topics you follow, the stories you bookmark, the stories you mark as read (with the time), and any topic requests you submit, including the text you write and the reply you receive.',
+            text: 'The professions (up to three) you choose, the topics you follow, the stories you bookmark, the stories you mark as read (with the time), and any topic requests you submit, including the text you write and the reply you receive.',
           },
           {
             label: 'Notification token',
@@ -115,14 +115,14 @@ export const CHANGELOOM_PRIVACY = {
       id: 'retention',
       heading: 'How long information is kept',
       blocks: [
-        'Account information, followed topics, bookmarks, read history, topic requests and notification tokens are kept until you delete your account. A notification token is also removed when you sign out of that device. Analytics, crash and ad data are kept by Google under its own retention periods, and server logs are deleted automatically by the hosting provider.',
+        'Account information, chosen professions, followed topics, bookmarks, read history, topic requests and notification tokens are kept until you delete your account. A notification token is also removed when you sign out of that device. Analytics, crash and ad data are kept by Google under its own retention periods, and server logs are deleted automatically by the hosting provider.',
       ],
     },
     {
       id: 'delete',
       heading: 'Deleting your account and data',
       blocks: [
-        'In the app, open Profile and choose Delete account. This permanently deletes your Changeloom account and everything linked to it on the server (followed topics, bookmarks, read history, topic requests and notification tokens), and deletes your Firebase sign-in account.',
+        'In the app, open Profile and choose Delete account. This permanently deletes your Changeloom account and everything linked to it on the server (chosen professions, followed topics, bookmarks, read history, topic requests and notification tokens), and deletes your Firebase sign-in account.',
         'If you no longer have the app, email the address in the Contact section below from the email address on your account and ask for your account to be deleted. Your account and data will be deleted within 30 days.',
       ],
     },
@@ -144,7 +144,7 @@ export const CHANGELOOM_PRIVACY = {
       id: 'children',
       heading: 'Children',
       blocks: [
-        'Changeloom is a news app for software developers and is not directed at children under 13. Personal information is not knowingly collected from children under 13. If you believe a child has provided personal information, get in touch and it will be deleted.',
+        'Changeloom is a general news app for professionals and people with an interest in a field, and is not directed at children under 13. Personal information is not knowingly collected from children under 13. If you believe a child has provided personal information, get in touch and it will be deleted.',
       ],
     },
     {
