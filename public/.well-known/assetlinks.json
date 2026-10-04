@@ -1,13 +1,17 @@
 [
   {
     "relation": [
-      "delegate_permission/common.handle_all_urls"
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
     ],
     "target": {
       "namespace": "android_app",
       "package_name": "dev.changeloom.android",
       "sha256_cert_fingerprints": [
-        "03:71:93:EC:DB:1B:89:F3:8F:6C:5B:05:E5:A9:CA:E3:12:7B:1A:01:48:61:63:D9:60:7B:BC:84:8D:99:BE:72"
+        "03:71:93:EC:DB:1B:89:F3:8F:6C:5B:05:E5:A9:CA:E3:12:7B:1A:01:48:61:63:D9:60:7B:BC:84:8D:99:BE:72",
+        "3C:AF:6A:F4:D5:F6:FD:E9:20:43:64:84:A9:75:8E:62:FB:76:13:EF:FE:71:E3:C2:CB:3F:A2:AB:73:45:37:38",
+        "72:7D:D0:7A:73:4F:BE:A2:1F:C7:65:CD:AF:23:DE:55:A2:21:B6:7E:96:ED:BE:06:DD:1F:E0:70:51:2B:7F:02",
+        "C0:A3:65:B1:6F:CA:0E:EB:0B:6B:CB:38:CC:57:8B:45:C4:CA:7A:14:F4:0C:B1:A5:E5:7E:6D:54:48:66:2A:F9"
       ]
     }
   }
