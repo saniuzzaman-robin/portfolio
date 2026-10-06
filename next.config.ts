@@ -70,6 +70,12 @@ const nextConfig: NextConfig = {
     return [
       { source: '/about', destination: '/', permanent: true },
       { source: '/skills', destination: '/resume', permanent: true },
+      // Changeloom story links: the Android app opens them (App Links); anyone else gets the Play Store.
+      {
+        source: '/s/:id(\\d+)',
+        destination: 'https://play.google.com/store/apps/details?id=dev.changeloom.android',
+        permanent: false,
+      },
     ];
   },
 
