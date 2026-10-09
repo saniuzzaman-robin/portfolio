@@ -23,7 +23,7 @@ export async function generateMetadata({
   const { cv } = getDictionary(lang);
   return pageMetadata({
     lang,
-    description: cv.summary,
+    description: cv.shortBio,
     path: '/',
     keywords: [
       'Md. Saniuzzaman Robin',
