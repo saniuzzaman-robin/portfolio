@@ -73,6 +73,7 @@ export function generateWebsiteSchema() {
     '@type': 'WebSite',
     '@id': `${siteConfig.url}/#website`,
     name: SITE_NAME,
+    alternateName: ["Saniuzzaman's Portfolio", new URL(siteConfig.url).hostname],
     url: siteConfig.url,
     inLanguage: [...LOCALES],
     author: { '@id': `${siteConfig.url}/#person` },
