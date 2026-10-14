@@ -5,7 +5,7 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://saniuzzama
   /\/$/,
   ''
 );
-export const SITE_NAME = 'Saniuzzaman Robin Portfolio';
+export const SITE_NAME = 'Saniuzzaman Robin';
 
 /** Static social preview image in /public (real pixel size). */
 export const OG_IMAGE = { url: '/og_image.png', width: 1200, height: 630 } as const;
