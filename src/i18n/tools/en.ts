@@ -203,6 +203,7 @@ export const toolsEn = {
     mode: 'Mode',
     decode: 'Decode',
     encode: 'Encode',
+    sign: 'Sign',
     token: 'Token',
     header: 'Header',
     payload: 'Payload',
@@ -535,8 +536,8 @@ export const toolsEn = {
   },
   convert: {
     conversion: 'Conversion',
-    direction: '{from} → {to}',
     convert: 'Convert',
+    direction: '{from} → {to}',
     formats: {
       json: 'JSON',
       yaml: 'YAML',
@@ -708,6 +709,7 @@ export const toolsEn = {
   },
   diff: {
     compare: 'Compare',
+    compareAction: 'Compare',
     modes: { text: 'Text', json: 'JSON' },
     view: 'View',
     views: { inputs: 'Inputs', split: 'Side by side', unified: 'Unified', changes: 'Changes' },

@@ -50,9 +50,11 @@ const SMOKE: Record<ToolSlug, (page: Page) => Promise<void>> = {
   },
   encode: async (page) => {
     await fillEditor(page, page.getByRole('textbox', { name: common.input }), 'hello');
+    await page.getByRole('button', { name: toolsEn.encode.encode, exact: true }).click();
     await expect(page.getByRole('textbox', { name: common.output })).toHaveText('aGVsbG8=');
   },
   jwt: async (page) => {
+    await page.getByRole('button', { name: toolsEn.jwt.decode, exact: true }).click();
     await expect(page.getByText(toolsEn.jwt.verified, { exact: true }).first()).toBeVisible();
     await page.getByRole('textbox', { name: toolsEn.jwt.secret }).fill('wrong-secret');
     await expect(
@@ -61,6 +63,7 @@ const SMOKE: Record<ToolSlug, (page: Page) => Promise<void>> = {
   },
   crypto: async (page) => {
     await fillEditor(page, page.getByRole('textbox', { name: common.input }), 'abc');
+    await page.keyboard.press('ControlOrMeta+Enter');
     await expect(
       page.getByText('ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad')
     ).toBeVisible();

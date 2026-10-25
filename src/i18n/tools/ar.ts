@@ -202,6 +202,7 @@ export const toolsAr: ToolMessages = {
     mode: 'الوضع',
     decode: 'فك الترميز',
     encode: 'ترميز',
+    sign: 'توقيع',
     token: 'الرمز',
     header: 'الترويسة',
     payload: 'الحمولة',
@@ -533,8 +534,8 @@ export const toolsAr: ToolMessages = {
   },
   convert: {
     conversion: 'التحويل',
-    direction: '{from} → {to}',
     convert: 'تحويل',
+    direction: '{from} → {to}',
     formats: {
       json: 'JSON',
       yaml: 'YAML',
@@ -704,6 +705,7 @@ export const toolsAr: ToolMessages = {
   },
   diff: {
     compare: 'المقارنة',
+    compareAction: 'قارِن',
     modes: { text: 'نص', json: 'JSON' },
     view: 'العرض',
     views: { inputs: 'المدخلات', split: 'جنبًا إلى جنب', unified: 'موحّد', changes: 'التغييرات' },

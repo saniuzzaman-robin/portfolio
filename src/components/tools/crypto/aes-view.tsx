@@ -25,6 +25,7 @@ import { CodeEditor, type CursorInfo } from '@/components/tools/workbench/code-e
 import {
   CopyButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
@@ -32,12 +33,22 @@ import {
 } from '@/components/tools/workbench/toolbar';
 import { OptionsPopover, SelectField } from '@/components/tools/workbench/options-popover';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { CursorStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import {
+  CursorStatus,
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+} from '@/components/tools/workbench/status-bar';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
+import { cn } from '@/lib/cn';
 import { NumberField, SecretPanel, TextField } from './parts';
 import { useAesDirection, useAesSettings } from './state';
 
@@ -68,7 +79,11 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
   const [input, setInput] = useState(SAMPLE_PLAINTEXT);
   const [secrets, setSecrets] = useState(NO_SECRETS);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(input);
+  const { value: live, run, ran, stale } = useRunInput(input);
+  const replaceInput = (next: string) => {
+    setInput(next);
+    run(next);
+  };
 
   const { source, mode } = settings;
   const encrypting = direction === 'encrypt';
@@ -76,12 +91,12 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
     source === 'raw' ? !secrets.key.trim() || !secrets.iv.trim() : !secrets.passphrase;
 
   const task = useMemo(() => {
-    if (missingSecret || (!encrypting && !live.trim())) return null;
+    if (!ran || missingSecret || (!encrypting && !live.trim())) return null;
     return (): Promise<EncryptResult | DecryptResult> =>
       encrypting
         ? encryptAes(encoder.encode(live), settings, secrets)
         : decryptAes(live, settings, secrets);
-  }, [missingSecret, encrypting, live, settings, secrets]);
+  }, [ran, missingSecret, encrypting, live, settings, secrets]);
   const running = useAsyncResult(task);
   const result = task ? (running.value ?? running.latest) : undefined;
   const failure = result && !result.ok ? result : null;
@@ -98,20 +113,24 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
 
   const swap = () => {
     if (!output || output.hex) return;
-    setInput(output.text);
+    // Reusing the result is explicit, so it runs right away.
+    replaceInput(output.text);
     setDirection(encrypting ? 'decrypt' : 'encrypt');
   };
 
   const format =
     source === 'pbkdf2' ? t.formatPbkdf2 : source === 'openssl' ? t.formatOpenssl : t.formatRaw;
   const command = opensslCommand(settings, direction);
+  const runLabel = encrypting ? t.encrypt : t.decrypt;
   const placeholder = missingSecret
     ? source === 'raw'
       ? t.enterKey
       : t.enterPassphrase
-    : failure
-      ? t.errorPlaceholder
-      : t.outputPlaceholder;
+    : !ran
+      ? fmt(common.runHint, { action: runLabel, shortcut: RUN_SHORTCUT })
+      : failure
+        ? t.errorPlaceholder
+        : t.outputPlaceholder;
 
   const inputPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col">
@@ -175,6 +194,7 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
         readOnly
         wrap
         placeholder={placeholder}
+        className={cn(stale && STALE_OUTPUT_CLASS)}
       />
       <div className="shrink-0 space-y-1.5 border-t border-line bg-surface p-2 text-[11px] text-fg-subtle">
         <p>
@@ -203,7 +223,7 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
             <IconAction
               icon={Eraser}
               label={common.clear}
-              onClick={() => setInput('')}
+              onClick={() => replaceInput('')}
               disabled={!input}
             />
             <IconAction
@@ -215,6 +235,7 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
             />
             <ToolbarDivider />
             <CopyButton getText={() => output?.text ?? ''} disabled={!output} />
+            <RunButton label={runLabel} onRun={() => run()} />
           </>
         }
       >
@@ -287,6 +308,7 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
       </ToolHeader>
       <SplitPane id="crypto-aes" first={inputPane} second={outputPane} />
       <StatusBar>
+        {stale && <StaleStatus action={runLabel} onRun={() => run()} />}
         {failure && (
           <StatusItem tone="danger" title={failure.error} className="font-sans">
             {failure.error}

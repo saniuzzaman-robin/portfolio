@@ -19,6 +19,7 @@ import {
   CopyButton,
   FileOpenButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
@@ -27,9 +28,18 @@ import { OptionsPopover, Toggle } from '@/components/tools/workbench/options-pop
 import { SplitPane } from '@/components/tools/workbench/split-pane';
 import { DropZone } from '@/components/tools/workbench/drop-zone';
 import { useFileLoader } from '@/components/tools/workbench/file';
-import { CursorStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import {
+  CursorStatus,
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+} from '@/components/tools/workbench/status-bar';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
 import { PartHeading, StateBadge } from '@/components/tools/jwt/parts';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
@@ -66,7 +76,9 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
   const [file, setFile] = useState<PickedFile | null>(null);
   const [progress, setProgress] = useState<{ data: Uint8Array; done: number } | null>(null);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(text);
+  // Text waits for Hash; a picked file is hashed right away.
+  const { value: live, run, ran, stale: textStale } = useRunInput(text);
+  const stale = !file && textStale;
   const loader = useFileLoader(
     'bytes',
     (bytes, picked) => setFile({ name: picked.name, bytes }),
@@ -86,12 +98,13 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
   const keyError = key && !key.ok ? key.error.message : null;
   const hmacKey = key?.ok ? key.value : undefined;
 
+  const idle = !file && !ran;
   const task = useMemo(() => {
-    if (keyError || selected.length === 0) return null;
+    if (idle || keyError || selected.length === 0) return null;
     const onProgress =
       data.length > LARGE_INPUT_BYTES ? (done: number) => setProgress({ data, done }) : undefined;
     return (signal: AbortSignal) => hashAll(selected, data, { hmacKey, signal, onProgress });
-  }, [selected, data, hmacKey, keyError]);
+  }, [idle, selected, data, hmacKey, keyError]);
   const hashing = useAsyncResult(task);
   // While typing, keep the previous digests on screen; for big inputs show progress instead.
   const digests = hashing.value ?? (data.length > LARGE_INPUT_BYTES ? undefined : hashing.latest);
@@ -186,10 +199,14 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
           placeholder={t.expectedPlaceholder}
         />
       </div>
-      {rows.length === 0 ? (
-        <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">{t.noAlgorithms}</p>
+      {rows.length === 0 || idle ? (
+        <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">
+          {rows.length === 0
+            ? t.noAlgorithms
+            : fmt(common.runHint, { action: t.hash, shortcut: RUN_SHORTCUT })}
+        </p>
       ) : (
-        <ul className="min-h-0 flex-1 overflow-auto">
+        <ul className={cn('min-h-0 flex-1 overflow-auto', stale && STALE_OUTPUT_CLASS)}>
           {rows.map((row) => (
             <li
               key={row.algorithm}
@@ -246,12 +263,14 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
               onClick={() => {
                 setFile(null);
                 setText('');
+                run('');
                 loader.clearError();
               }}
               disabled={!file && !text}
             />
             <ToolbarDivider />
             <CopyButton getText={() => allText} disabled={!allText} label={t.copyAll} />
+            <RunButton label={t.hash} onRun={() => run()} />
           </>
         }
       >
@@ -287,6 +306,7 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
       </ToolHeader>
       <SplitPane id="crypto-hash" first={inputPane} second={outputPane} />
       <StatusBar>
+        {stale && <StaleStatus action={t.hash} onRun={() => run()} />}
         {loader.error && <StatusItem tone="danger">{loader.error}</StatusItem>}
         {keyError && (
           <StatusItem tone="danger" title={keyError} className="font-sans">

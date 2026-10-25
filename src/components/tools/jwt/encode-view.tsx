@@ -22,6 +22,7 @@ import {
 import {
   CopyButton,
   IconAction,
+  RunButton,
   ToolHeader,
   ToolbarDivider,
   ToolbarSelect,
@@ -29,14 +30,21 @@ import {
 import { SplitPane } from '@/components/tools/workbench/split-pane';
 import {
   CursorStatus,
+  StaleStatus,
   StatusBar,
   StatusItem,
   ValidityStatus,
 } from '@/components/tools/workbench/status-bar';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
-import { useToolMessages } from '@/i18n/tools/provider';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  type useRunInputs,
+} from '@/components/tools/workbench/use-run';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
+import { cn } from '@/lib/cn';
 import { KeyInput, KeyPanel, PartHeading, type KeyFields } from './parts';
 
 export type GeneratedPublicKey = { alg: JwsAlgorithm; pem: string };
@@ -49,7 +57,11 @@ function headerAlg(header: string): string | null {
   return parsed.ok && parsed.value.type === 'object' ? stringMember(parsed.value, 'alg') : null;
 }
 
-/** Header and payload editors plus a key on one side, the live signed token on the other. */
+function keyFor(alg: string | null, keys: KeyFields): string {
+  return isJwsAlgorithm(alg) && algorithmInfo(alg).family === 'hmac' ? keys.secret : keys.key;
+}
+
+/** Header and payload editors plus a key on one side, the signed token on the other. */
 export function EncodeView({
   picker,
   header,
@@ -60,6 +72,7 @@ export function EncodeView({
   onKeys,
   publicKey,
   onPublicKey,
+  runner,
   onVerify,
 }: {
   picker: React.ReactNode;
@@ -72,29 +85,39 @@ export function EncodeView({
   /** Public half of the last generated key pair, shown so signed tokens can be verified. */
   publicKey: GeneratedPublicKey | null;
   onPublicKey: (publicKey: GeneratedPublicKey | null) => void;
+  /** Header and payload as of the last Sign (owned by the tool, so the decoder can hand some over). */
+  runner: ReturnType<typeof useRunInputs>;
   /** Opens the signed token in the decoder. */
   onVerify: (token: string, alg: JwsAlgorithm) => void;
 }) {
+  const common = useToolCommon();
   const t = useToolMessages<'jwt'>();
   const locale = useLocale();
   const headerRef = useRef<CodeEditorHandle>(null);
   const payloadRef = useRef<CodeEditorHandle>(null);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
   const [generateError, setGenerateError] = useState<string | null>(null);
+  const { values, run, ran, stale } = runner;
+  const [signedHeader, signedPayload] = values;
 
   const rawAlg = useMemo(() => headerAlg(header), [header]);
   const alg = isJwsAlgorithm(rawAlg) ? rawAlg : null;
   const family = alg ? algorithmInfo(alg).family : null;
-  const keyText = family === 'hmac' ? keys.secret : keys.key;
+  // Signing uses the algorithm of the header that was signed, which may lag behind the editor.
+  const signedAlg = useMemo(() => headerAlg(signedHeader), [signedHeader]);
+  const keyText = keyFor(signedAlg, keys);
   const edSupported = useAsyncResult(supportsEd25519).value !== false;
 
   const task = useMemo(
-    () => () => signJwt(header, payload, keyText, { secretEncoding: keys.encoding }),
-    [header, payload, keyText, keys.encoding]
+    () =>
+      ran
+        ? () => signJwt(signedHeader, signedPayload, keyText, { secretEncoding: keys.encoding })
+        : null,
+    [ran, signedHeader, signedPayload, keyText, keys.encoding]
   );
   const signing = useAsyncResult(task);
   // While a new signature is computed, keep showing the previous result instead of flickering.
-  const shown = signing.value ?? signing.latest;
+  const shown = task ? (signing.value ?? signing.latest) : undefined;
   const output = shown?.ok ? shown.token : '';
   const failure = shown && !shown.ok ? shown : null;
   const editorError = failure && failure.target !== 'key' ? failure : null;
@@ -185,7 +208,14 @@ export function EncodeView({
         language="jwt"
         readOnly
         wrap
-        placeholder={failure ? t.signErrorPlaceholder : t.signedPlaceholder}
+        placeholder={
+          !ran
+            ? fmt(common.runHint, { action: t.sign, shortcut: RUN_SHORTCUT })
+            : failure
+              ? t.signErrorPlaceholder
+              : t.signedPlaceholder
+        }
+        className={cn(stale && STALE_OUTPUT_CLASS)}
       />
       {generated && (
         <>
@@ -210,7 +240,7 @@ export function EncodeView({
     </div>
   );
 
-  const editorText = editorError?.target === 'payload' ? payload : header;
+  const editorText = editorError?.target === 'payload' ? signedPayload : signedHeader;
   const editorRef = editorError?.target === 'payload' ? payloadRef : headerRef;
 
   return (
@@ -224,10 +254,11 @@ export function EncodeView({
             <IconAction
               icon={ShieldCheck}
               label={t.openInDecoder}
-              onClick={() => alg && onVerify(output, alg)}
-              disabled={!output || !alg}
+              onClick={() => isJwsAlgorithm(signedAlg) && onVerify(output, signedAlg)}
+              disabled={!output || !isJwsAlgorithm(signedAlg)}
             />
             <CopyButton getText={() => output} disabled={!output} />
+            <RunButton label={t.sign} onRun={() => run()} />
           </>
         }
       >
@@ -239,7 +270,10 @@ export function EncodeView({
           onChange={(next) => {
             if (!next) return;
             const updated = withHeaderAlg(header, next);
-            if (updated !== null) onHeader(updated);
+            if (updated === null) return;
+            // Picking an algorithm is explicit, so the token is signed with it right away.
+            onHeader(updated);
+            run([updated, payload]);
           }}
           options={algOptions}
         />
@@ -255,6 +289,7 @@ export function EncodeView({
             onReveal={() => editorRef.current?.reveal(editorError.error.from, editorError.error.to)}
           />
         )}
+        {stale && <StaleStatus action={t.sign} onRun={() => run()} />}
         {failure?.target === 'key' && (
           <StatusItem tone="danger" title={failure.error.message} className="font-sans">
             {failure.error.message}

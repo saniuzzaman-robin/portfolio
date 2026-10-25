@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Segmented } from '@/components/tools/workbench/toolbar';
+import { useRunInput, useRunInputs } from '@/components/tools/workbench/use-run';
 import { useToolMessages } from '@/i18n/tools/provider';
 import { algorithmInfo, keyDescription } from '@/lib/tools/jwt/algorithms';
 import { SAMPLE_SECRET, SAMPLE_TOKEN } from '@/lib/tools/jwt/sample';
@@ -25,6 +26,9 @@ export function JwtTool() {
   const [publicKey, setPublicKey] = useState<GeneratedPublicKey | null>(null);
   const [header, setHeader] = useSignHeader();
   const [payload, setPayload] = useSignPayload();
+  // Here rather than in the views, so a hand-off between modes runs right away.
+  const decodeRun = useRunInput(token);
+  const signRun = useRunInputs([header, payload]);
 
   const picker = (
     <Segmented
@@ -46,9 +50,11 @@ export function JwtTool() {
         onToken={setToken}
         keys={verifyKeys}
         onKeys={setVerifyKeys}
+        runner={decodeRun}
         onEdit={(decoded) => {
           setHeader(decoded.headerText);
           setPayload(decoded.payloadText);
+          signRun.run([decoded.headerText, decoded.payloadText]);
           setSignKeys({ ...signKeys, secret: verifyKeys.secret, encoding: verifyKeys.encoding });
           setMode('encode');
         }}
@@ -66,8 +72,10 @@ export function JwtTool() {
       onKeys={setSignKeys}
       publicKey={publicKey}
       onPublicKey={setPublicKey}
+      runner={signRun}
       onVerify={(signed, alg) => {
         setToken(signed);
+        decodeRun.run(signed);
         const matching =
           publicKey && keyDescription(publicKey.alg) === keyDescription(alg) ? publicKey.pem : null;
         setVerifyKeys(

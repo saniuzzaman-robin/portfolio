@@ -10,6 +10,7 @@ import { CodeEditor, type CodeEditorHandle } from '@/components/tools/workbench/
 import {
   FileOpenButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
@@ -18,13 +19,24 @@ import { OptionsPopover, SelectField, Toggle } from '@/components/tools/workbenc
 import { SplitPane } from '@/components/tools/workbench/split-pane';
 import { DropZone } from '@/components/tools/workbench/drop-zone';
 import { useFileLoader } from '@/components/tools/workbench/file';
-import { StatusBar, StatusItem, ValidityStatus } from '@/components/tools/workbench/status-bar';
+import {
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+  ValidityStatus,
+} from '@/components/tools/workbench/status-bar';
 import { usePersistentState } from '@/components/tools/workbench/use-persistent-state';
 import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInputs,
+} from '@/components/tools/workbench/use-run';
 import { PartHeading } from '@/components/tools/jwt/parts';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
+import { cn } from '@/lib/cn';
 import { MergeEditor, type MergeEditorHandle } from './merge-editor';
 import type { Side } from './merge-setup';
 import { JsonChanges } from './json-changes';
@@ -132,12 +144,22 @@ export function DiffTool() {
   const [storedView, setView] = usePersistentState<View>('diff:view', 'split', isView);
   const [options, setOptions] = usePersistentState('diff:options', DEFAULT_OPTIONS, isOptions);
   const [wrap, setWrap] = usePersistentState('diff:wrap', false);
-  const { value: liveA } = useLiveInput(a);
-  const { value: liveB } = useLiveInput(b);
-  const fileA = useFileLoader('text', (content) => setA(content));
-  const fileB = useFileLoader('text', (content) => setB(content));
-
   const json = mode === 'json';
+  // Text sides are edited inside the diff, so it stays live; JSON compares on Compare.
+  const { value: textA } = useLiveInput(a);
+  const { value: textB } = useLiveInput(b);
+  const compared = useRunInputs([a, b]);
+  const [liveA, liveB] = json ? compared.values : [textA, textB];
+  const stale = json && compared.stale;
+  // Opening, swapping and clearing are explicit, so JSON compares the new sides right away.
+  const replaceSides = (nextA: string, nextB: string) => {
+    setA(nextA);
+    setB(nextB);
+    if (json) compared.run([nextA, nextB]);
+  };
+  const fileA = useFileLoader('text', (content) => replaceSides(content, b));
+  const fileB = useFileLoader('text', (content) => replaceSides(a, content));
+
   const views = MODE_VIEWS[mode];
   const view = views.includes(storedView) ? storedView : 'split';
   const merged = view === 'split' || view === 'unified';
@@ -186,7 +208,7 @@ export function DiffTool() {
   );
 
   const numbers = new Intl.NumberFormat(locale);
-  const hasInput = a.trim() !== '' || b.trim() !== '';
+  const hasInput = liveA.trim() !== '' || liveB.trim() !== '';
   const stats = textDiff?.stats;
   const identical = stats !== undefined && textDiff?.changes.length === 0;
 
@@ -221,6 +243,12 @@ export function DiffTool() {
   let body: React.ReactNode;
   if (view === 'inputs') {
     body = <SplitPane id="diff-inputs" first={inputPane('a')} second={inputPane('b')} />;
+  } else if (json && !compared.ran) {
+    body = (
+      <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">
+        {fmt(common.runHint, { action: t.compareAction, shortcut: RUN_SHORTCUT })}
+      </p>
+    );
   } else if (!comparable) {
     body = (
       <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">
@@ -285,19 +313,13 @@ export function DiffTool() {
             <IconAction
               icon={ArrowLeftRight}
               label={t.swap}
-              onClick={() => {
-                setA(b);
-                setB(a);
-              }}
+              onClick={() => replaceSides(b, a)}
               disabled={a === b}
             />
             <IconAction
               icon={Eraser}
               label={t.clearBoth}
-              onClick={() => {
-                setA('');
-                setB('');
-              }}
+              onClick={() => replaceSides('', '')}
               disabled={!a && !b}
             />
             <ToolbarDivider />
@@ -343,6 +365,7 @@ export function DiffTool() {
                 />
               )}
             </OptionsPopover>
+            {json && <RunButton label={t.compareAction} onRun={() => compared.run()} />}
           </>
         }
       >
@@ -373,7 +396,14 @@ export function DiffTool() {
           disabled={!merged || !comparable || identical}
         />
       </ToolHeader>
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col">{body}</div>
+      <div
+        className={cn(
+          'flex min-h-0 min-w-0 flex-1 flex-col',
+          stale && view !== 'inputs' && STALE_OUTPUT_CLASS
+        )}
+      >
+        {body}
+      </div>
       <StatusBar>
         {jsonErrors.map(({ side, error }) => (
           <ValidityStatus
@@ -388,6 +418,7 @@ export function DiffTool() {
             }}
           />
         ))}
+        {stale && <StaleStatus action={t.compareAction} onRun={() => compared.run()} />}
         {fileA.error && <StatusItem tone="danger">{fileA.error}</StatusItem>}
         {fileB.error && <StatusItem tone="danger">{fileB.error}</StatusItem>}
         {stats && hasInput && identical && <StatusItem tone="success">{t.identical}</StatusItem>}

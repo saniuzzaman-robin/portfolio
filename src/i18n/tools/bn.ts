@@ -198,6 +198,7 @@ export const toolsBn: ToolMessages = {
     mode: 'মোড',
     decode: 'ডিকোড',
     encode: 'এনকোড',
+    sign: 'সাইন করুন',
     token: 'টোকেন',
     header: 'হেডার',
     payload: 'পেলোড',
@@ -530,8 +531,8 @@ export const toolsBn: ToolMessages = {
   },
   convert: {
     conversion: 'রূপান্তর',
-    direction: '{from} → {to}',
     convert: 'রূপান্তর করুন',
+    direction: '{from} → {to}',
     formats: {
       json: 'JSON',
       yaml: 'YAML',
@@ -700,6 +701,7 @@ export const toolsBn: ToolMessages = {
   },
   diff: {
     compare: 'তুলনা',
+    compareAction: 'তুলনা করুন',
     modes: { text: 'টেক্সট', json: 'JSON' },
     view: 'ভিউ',
     views: { inputs: 'ইনপুট', split: 'পাশাপাশি', unified: 'একীভূত', changes: 'পরিবর্তন' },

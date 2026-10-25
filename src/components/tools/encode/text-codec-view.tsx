@@ -16,6 +16,7 @@ import {
   CopyButton,
   FileOpenButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
@@ -26,15 +27,21 @@ import { DropZone } from '@/components/tools/workbench/drop-zone';
 import { downloadFile, useFileLoader } from '@/components/tools/workbench/file';
 import {
   CursorStatus,
+  StaleStatus,
   StatusBar,
   StatusItem,
   ValidityStatus,
 } from '@/components/tools/workbench/status-bar';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
 import type { ToolMessages } from '@/i18n/tools/en';
+import { cn } from '@/lib/cn';
 import { useCodecOptions, useDirection, useEncodeInput, useWrap, type Mode } from './state';
 
 type EncodeMessages = ToolMessages['encode'];
@@ -70,8 +77,13 @@ export function TextCodecView({
   const [options, setOptions] = useCodecOptions();
   const [wrap, setWrap] = useWrap();
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(input);
-  const file = useFileLoader('text', (content) => setInput(content));
+  const { value: live, run, ran, stale } = useRunInput(input);
+  // Opening a file or reusing the result is explicit, so the new input runs right away.
+  const replaceInput = (next: string) => {
+    setInput(next);
+    run(next);
+  };
+  const file = useFileLoader('text', replaceInput);
 
   const symmetric = SYMMETRIC.has(codec);
   const direction = symmetric ? 'encode' : storedDirection;
@@ -99,7 +111,7 @@ export function TextCodecView({
   );
 
   const swap = () => {
-    setInput(output);
+    replaceInput(output);
     if (!symmetric) setDirection(direction === 'encode' ? 'decode' : 'encode');
   };
 
@@ -113,6 +125,7 @@ export function TextCodecView({
       : codec === 'punycode'
         ? t.domainPlaceholder
         : t.encodePlaceholder;
+  const runLabel = symmetric ? common.run : direction === 'encode' ? t.encode : t.decode;
 
   const inputPane = (
     <DropZone onFile={(picked) => void file.load(picked)}>
@@ -136,7 +149,14 @@ export function TextCodecView({
       label={common.output}
       readOnly
       wrap={wrap}
-      placeholder={error ? t.invalidPlaceholder : t.outputPlaceholder}
+      placeholder={
+        !ran
+          ? fmt(common.runHint, { action: runLabel, shortcut: RUN_SHORTCUT })
+          : error
+            ? t.invalidPlaceholder
+            : t.outputPlaceholder
+      }
+      className={cn(stale && STALE_OUTPUT_CLASS)}
     />
   );
 
@@ -150,7 +170,7 @@ export function TextCodecView({
             <IconAction
               icon={Eraser}
               label={common.clear}
-              onClick={() => setInput('')}
+              onClick={() => replaceInput('')}
               disabled={!input}
             />
             <ToolbarDivider />
@@ -184,6 +204,7 @@ export function TextCodecView({
               disabled={!output}
               onClick={() => downloadFile(output, `${direction}d.txt`)}
             />
+            <RunButton label={runLabel} onRun={() => run()} />
           </>
         }
       >
@@ -239,6 +260,7 @@ export function TextCodecView({
             {warning}
           </StatusItem>
         )}
+        {stale && <StaleStatus action={runLabel} onRun={() => run()} />}
         {file.error && <StatusItem tone="danger">{file.error}</StatusItem>}
         {suggestion && (
           <StatusItem
@@ -255,7 +277,7 @@ export function TextCodecView({
         )}
         {hasInput && (
           <StatusItem className="shrink-0 max-sm:hidden">
-            {output ? fmt(t.sizeChange, { from: size(input), to: size(output) }) : size(input)}
+            {output ? fmt(t.sizeChange, { from: size(live), to: size(output) }) : size(live)}
           </StatusItem>
         )}
         <div className="hidden sm:contents">

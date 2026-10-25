@@ -8,7 +8,30 @@ export const RUN_SHORTCUT = 'Ctrl/⌘+Enter';
 /** Dims an output that no longer matches the input. */
 export const STALE_OUTPUT_CLASS = 'opacity-50 transition-opacity';
 
-type Snapshot = { text: string; scope: string };
+type Snapshot = { texts: readonly string[]; scope: string };
+
+/**
+ * `useRunInput` for tools whose inputs run together (a JWT's header and payload, both sides of a
+ * diff): `values` and `run(next)` follow the order of `texts`.
+ */
+export function useRunInputs(
+  texts: readonly string[],
+  scope = ''
+): {
+  values: readonly string[];
+  run: (next?: readonly string[], nextScope?: string) => void;
+  ran: boolean;
+  stale: boolean;
+} {
+  const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
+  const current = snapshot?.scope === scope ? snapshot : null;
+  return {
+    values: current?.texts ?? texts.map(() => ''),
+    run: (next = texts, nextScope = scope) => setSnapshot({ texts: next, scope: nextScope }),
+    ran: current !== null,
+    stale: current !== null && current.texts.some((text, index) => text !== texts[index]),
+  };
+}
 
 /**
  * Editor text for tools that convert on demand: `value` is the input as of the last `run()`, so
@@ -28,12 +51,11 @@ export function useRunInput(
   /** True when the input was edited since the last run. */
   stale: boolean;
 } {
-  const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
-  const current = snapshot?.scope === scope ? snapshot : null;
+  const { values, run, ran, stale } = useRunInputs([text], scope);
   return {
-    value: current?.text ?? '',
-    run: (next = text, nextScope = scope) => setSnapshot({ text: next, scope: nextScope }),
-    ran: current !== null,
-    stale: current !== null && current.text !== text,
+    value: values[0],
+    run: (next = text, nextScope = scope) => run([next], nextScope),
+    ran,
+    stale,
   };
 }

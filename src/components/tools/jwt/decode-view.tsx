@@ -17,20 +17,28 @@ import {
 import {
   CopyButton,
   IconAction,
+  RunButton,
   ToolHeader,
   ToolbarDivider,
 } from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
 import {
   CursorStatus,
+  StaleStatus,
   StatusBar,
   StatusItem,
   ValidityStatus,
 } from '@/components/tools/workbench/status-bar';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  type useRunInput,
+} from '@/components/tools/workbench/use-run';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
+import { cn } from '@/lib/cn';
 import { ClaimsTable, TokenTimeStatusItem } from './claims-table';
 import {
   JsonBlock,
@@ -51,6 +59,7 @@ export function DecodeView({
   onToken,
   keys,
   onKeys,
+  runner,
   onEdit,
 }: {
   picker: React.ReactNode;
@@ -58,6 +67,8 @@ export function DecodeView({
   onToken: (token: string) => void;
   keys: KeyFields;
   onKeys: (keys: KeyFields) => void;
+  /** The token as of the last Decode (owned by the tool, so the encoder can hand one over). */
+  runner: ReturnType<typeof useRunInput>;
   /** Opens the token's header and payload in the encoder. */
   onEdit: (decoded: DecodedJwt) => void;
 }) {
@@ -66,9 +77,10 @@ export function DecodeView({
   const locale = useLocale();
   const inputRef = useRef<CodeEditorHandle>(null);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
+  const { value: live, run, ran, stale } = runner;
 
-  const hasInput = token.trim() !== '';
-  const result = useMemo(() => (hasInput ? decodeJwt(token) : null), [hasInput, token]);
+  const hasInput = live.trim() !== '';
+  const result = useMemo(() => (hasInput ? decodeJwt(live) : null), [hasInput, live]);
   const decoded = result?.ok ? result.value : null;
   const error = result && !result.ok ? result.error : null;
   const claims = useMemo(() => (decoded ? readClaims(decoded.payload) : []), [decoded]);
@@ -144,7 +156,7 @@ export function DecodeView({
   );
 
   const outputPane = decoded ? (
-    <div className="min-h-0 min-w-0 flex-1 overflow-auto">
+    <div className={cn('min-h-0 min-w-0 flex-1 overflow-auto', stale && STALE_OUTPUT_CLASS)}>
       <PartHeading
         part="header"
         actions={
@@ -174,7 +186,11 @@ export function DecodeView({
     </div>
   ) : (
     <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">
-      {error ? t.invalidPlaceholder : t.decodedPlaceholder}
+      {!ran
+        ? fmt(common.runHint, { action: t.decode, shortcut: RUN_SHORTCUT })
+        : error
+          ? t.invalidPlaceholder
+          : t.decodedPlaceholder}
     </p>
   );
 
@@ -187,7 +203,10 @@ export function DecodeView({
             <IconAction
               icon={Eraser}
               label={common.clear}
-              onClick={() => onToken('')}
+              onClick={() => {
+                onToken('');
+                run('');
+              }}
               disabled={!token}
             />
             <ToolbarDivider />
@@ -197,7 +216,8 @@ export function DecodeView({
               onClick={() => decoded && onEdit(decoded)}
               disabled={!decoded}
             />
-            <CopyButton getText={() => token.trim()} disabled={!hasInput} />
+            <CopyButton getText={() => token.trim()} disabled={!token.trim()} />
+            <RunButton label={t.decode} onRun={() => run()} />
           </>
         }
       >
@@ -207,7 +227,7 @@ export function DecodeView({
       <StatusBar>
         {error && (
           <ValidityStatus
-            error={{ message: error.message, ...positionAt(token, error.from) }}
+            error={{ message: error.message, ...positionAt(live, error.from) }}
             onReveal={() => inputRef.current?.reveal(error.from, error.to)}
           />
         )}
@@ -238,9 +258,10 @@ export function DecodeView({
             )}
           </>
         )}
+        {stale && <StaleStatus action={t.decode} onRun={() => run()} />}
         {hasInput && (
           <StatusItem className="shrink-0 max-sm:hidden">
-            {formatBytes(utf8Length(token.trim()), locale)}
+            {formatBytes(utf8Length(live.trim()), locale)}
           </StatusItem>
         )}
         <div className="hidden sm:contents">

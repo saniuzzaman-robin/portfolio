@@ -23,6 +23,7 @@ import {
   CopyButton,
   FileOpenButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
@@ -32,15 +33,21 @@ import { DropZone } from '@/components/tools/workbench/drop-zone';
 import { downloadFile, useFileLoader } from '@/components/tools/workbench/file';
 import {
   CursorStatus,
+  StaleStatus,
   StatusBar,
   StatusItem,
   ValidityStatus,
 } from '@/components/tools/workbench/status-bar';
 import { usePersistentState } from '@/components/tools/workbench/use-persistent-state';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
+import { cn } from '@/lib/cn';
 import { useDirection, useEncodeInput, useWrap } from './state';
 
 /** Base64 grows files by a third; past this the output editor would get sluggish. */
@@ -205,8 +212,13 @@ function FileDecoder({ picker }: { picker: React.ReactNode }) {
   const [input, setInput] = useEncodeInput();
   const [wrap, setWrap] = useWrap();
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(input);
-  const loader = useFileLoader('text', (content) => setInput(content));
+  const { value: live, run, ran, stale } = useRunInput(input);
+  // Opening a file or clearing is explicit, so the new input runs right away.
+  const replaceInput = (next: string) => {
+    setInput(next);
+    run(next);
+  };
+  const loader = useFileLoader('text', replaceInput);
 
   const hasInput = live.trim() !== '';
   const result = useMemo(() => (hasInput ? decodeFilePayload(live) : null), [hasInput, live]);
@@ -245,10 +257,15 @@ function FileDecoder({ picker }: { picker: React.ReactNode }) {
       declared={decoded.declared}
       detected={decoded.detected}
       onDownload={download}
+      className={cn(stale && STALE_OUTPUT_CLASS)}
     />
   ) : (
     <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">
-      {error ? t.invalidPlaceholder : t.fileOutputPlaceholder}
+      {!ran
+        ? fmt(common.runHint, { action: t.decode, shortcut: RUN_SHORTCUT })
+        : error
+          ? t.invalidPlaceholder
+          : t.fileOutputPlaceholder}
     </p>
   );
 
@@ -262,7 +279,7 @@ function FileDecoder({ picker }: { picker: React.ReactNode }) {
             <IconAction
               icon={Eraser}
               label={common.clear}
-              onClick={() => setInput('')}
+              onClick={() => replaceInput('')}
               disabled={!input}
             />
             <ToolbarDivider />
@@ -279,6 +296,7 @@ function FileDecoder({ picker }: { picker: React.ReactNode }) {
               onClick={download}
               disabled={!decoded}
             />
+            <RunButton label={t.decode} onRun={() => run()} />
           </>
         }
       >
@@ -294,11 +312,12 @@ function FileDecoder({ picker }: { picker: React.ReactNode }) {
             onReveal={error ? () => inputRef.current?.reveal(error.from, error.to) : undefined}
           />
         )}
+        {stale && <StaleStatus action={t.decode} onRun={() => run()} />}
         {loader.error && <StatusItem tone="danger">{loader.error}</StatusItem>}
         {decoded && (
           <StatusItem className="shrink-0">
             {fmt(t.sizeChange, {
-              from: formatBytes(utf8Length(input), locale),
+              from: formatBytes(utf8Length(live), locale),
               to: formatBytes(decoded.bytes.length, locale),
             })}
           </StatusItem>
@@ -351,12 +370,14 @@ function FileDetails({
   declared,
   detected,
   onDownload,
+  className,
 }: {
   name?: string;
   bytes: Uint8Array;
   declared: string | null;
   detected: FileType | null;
   onDownload?: () => void;
+  className?: string;
 }) {
   const t = useToolMessages<'encode'>();
   const locale = useLocale();
@@ -382,7 +403,7 @@ function FileDetails({
   ];
 
   return (
-    <div className="min-h-0 flex-1 space-y-4 overflow-auto p-4 text-xs">
+    <div className={cn('min-h-0 flex-1 space-y-4 overflow-auto p-4 text-xs', className)}>
       {preview && (
         <figure className="flex justify-center rounded-md border border-line bg-surface-2 p-3">
           {/* A data: URI built from local bytes; next/image can't optimize it. */}
