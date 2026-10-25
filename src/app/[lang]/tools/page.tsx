@@ -4,6 +4,7 @@ import { toLocale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/server';
 import { PageHeader } from '@/components/ui/section';
 import { ToolsExplorer } from '@/components/tools/tools-explorer';
+import { PresetLinks } from '@/components/tools/preset-links';
 import { PrivacyNote } from '@/components/tools/privacy-note';
 import { Footer } from '@/components/layout/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
@@ -62,6 +63,7 @@ export default async function Tools({ params }: { params: Promise<{ lang: string
         compact
       />
       <ToolsExplorer />
+      <PresetLinks t={t} />
       <PrivacyNote t={t} />
       <Footer lang={lang} />
     </>

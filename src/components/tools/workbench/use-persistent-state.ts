@@ -64,6 +64,11 @@ function sameShape(stored: unknown, fallback: unknown): boolean {
   return typeof stored === typeof fallback && Array.isArray(stored) === Array.isArray(fallback);
 }
 
+/** Reads a persisted value without a hook; `undefined` when nothing is stored. */
+export function readPersistentState(key: string): unknown {
+  return read(key);
+}
+
 /** Sets a persisted value without a hook, e.g. for a key the component is about to switch to. */
 export function writePersistentState<T>(key: string, value: T) {
   write(key, value);

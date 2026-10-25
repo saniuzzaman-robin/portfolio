@@ -138,6 +138,188 @@ export const ar: Messages = {
       },
       seo: 'يعمل بالكامل في متصفحك ولا يُرفع أي شيء.',
     },
+    presetsTitle: 'مهام شائعة',
+    presets: {
+      'uuid-generator': {
+        title: 'مولّد UUID / GUID',
+        description:
+          'ولّد قيم UUID v4 (GUID) عشوائية بالجملة، مع خيارات الأحرف الكبيرة والشرطات والأقواس. انسخ قيمة واحدة أو ألفًا دفعة واحدة.',
+      },
+      'uuid-v7-generator': {
+        title: 'مولّد UUID v7',
+        description:
+          'ولّد قيم UUID v7 المرتبة زمنيًا والتي تُفرز حسب وقت الإنشاء، وهي مثالية للمفاتيح الأساسية في قواعد البيانات.',
+      },
+      'ulid-generator': {
+        title: 'مولّد ULID',
+        description:
+          'ولّد معرّفات ULID قابلة للفرز وآمنة للاستخدام في الروابط بالجملة، مع ترميز الطابع الزمني في أول الأحرف.',
+      },
+      'password-generator': {
+        title: 'مولّد كلمات مرور آمنة',
+        description:
+          'أنشئ كلمات مرور وعبارات مرور قوية باستخدام مولّد الأرقام العشوائية التشفيري في المتصفح. لا يُرسل أو يُخزَّن أي شيء.',
+      },
+      'uuid-decoder': {
+        title: 'فاحص UUID وULID',
+        description:
+          'الصق UUID أو ULID أو ObjectID لمعرفة إصداره ونوعه والطابع الزمني المضمّن فيه.',
+      },
+      'json-minifier': {
+        title: 'مُصغِّر JSON',
+        description:
+          'صغّر JSON بإزالة المسافات البيضاء مع الحفاظ على الأرقام الكبيرة بدقة. يقبل أيضًا علامات الاقتباس المفردة وكائنات JavaScript.',
+      },
+      'json-tree-viewer': {
+        title: 'عارض شجرة JSON',
+        description: 'استعرض JSON كشجرة قابلة للطي والبحث. تُحفظ الأرقام الكبيرة بدقة.',
+      },
+      'jsonpath-tester': {
+        title: 'مختبِر JSONPath',
+        description: 'شغّل استعلامات JSONPath على بيانات JSON الخاصة بك واعرض كل تطابق.',
+      },
+      'json-escape': {
+        title: 'تهريب وإلغاء تهريب JSON',
+        description:
+          'هرِّب النص ليُدرج بأمان داخل سلسلة JSON، مع إمكانية إلغاء التهريب في الأداة نفسها.',
+      },
+      'url-encoder': {
+        title: 'مرمِّز ومفكّك URL',
+        description:
+          'رمِّز عناوين URL وسلاسل الاستعلام بالنسبة المئوية أو فكّها، مع معالجة سليمة لـ UTF-8.',
+      },
+      'html-entity-encoder': {
+        title: 'مرمِّز ومفكّك كيانات HTML',
+        description: 'حوّل الأحرف الخاصة إلى كيانات HTML أو أعدها إلى نص.',
+      },
+      'image-to-base64': {
+        title: 'محوّل الصورة إلى Base64',
+        description: 'حوّل أي صورة أو ملف إلى سلسلة Base64 أو data URI بالكامل داخل متصفحك.',
+      },
+      'url-parser': {
+        title: 'محلّل URL',
+        description: 'قسّم عنوان URL إلى البروتوكول والمضيف والمسار ومعلمات الاستعلام والتجزئة.',
+      },
+      'jwt-generator': {
+        title: 'مولّد JWT',
+        description:
+          'أنشئ رموز JSON Web Token ووقّعها باستخدام HS256 أو RS256 أو ES256 أو EdDSA. لا تغادر المفاتيح متصفحك أبدًا.',
+      },
+      'bcrypt-generator': {
+        title: 'مولّد ومدقّق تجزئة Bcrypt',
+        description:
+          'جزّئ كلمات المرور بـ bcrypt وفق التكلفة التي تختارها، أو تحقق من كلمة مرور مقابل تجزئة موجودة.',
+      },
+      'aes-encryption': {
+        title: 'تشفير AES وفك التشفير',
+        description:
+          'شفّر النص وفك تشفيره باستخدام AES بعبارة مرور أو مفتاح. لا يغادر أي شيء متصفحك.',
+      },
+      'key-pair-generator': {
+        title: 'مولّد أزواج المفاتيح RSA وEC',
+        description: 'ولّد أزواج مفاتيح RSA وEC وEd25519 وصدّرها بصيغة PEM أو JWK.',
+      },
+      'date-difference-calculator': {
+        title: 'حاسبة الفرق بين تاريخين',
+        description: 'احسب المدة بين تاريخين بالسنوات والأشهر والأيام والساعات وغيرها.',
+      },
+      'cron-expression-parser': {
+        title: 'شارح تعبيرات Cron',
+        description: 'حوّل تعبيرات cron وQuartz إلى وصف بلغة واضحة واعرض أوقات التشغيل القادمة.',
+      },
+      'json-diff': {
+        title: 'مقارنة JSON',
+        description:
+          'قارن مستندَي JSON بنيويًا، مع إمكانية تجاهل ترتيب المصفوفات، بعرض جنبًا إلى جنب أو عرض التغييرات.',
+      },
+      'word-counter': {
+        title: 'عدّاد الكلمات والأحرف',
+        description: 'احسب الكلمات والأحرف والجمل والأسطر أثناء الكتابة.',
+      },
+      'lorem-ipsum-generator': {
+        title: 'مولّد Lorem Ipsum',
+        description: 'ولّد فقرات أو جمل أو كلمات نصية تجريبية للنماذج والتصاميم.',
+      },
+      'javascript-minifier': {
+        title: 'مُصغِّر JavaScript',
+        description: 'صغّر JavaScript باستخدام Terser واعرف عدد البايتات التي وفّرتها.',
+      },
+      'css-minifier': {
+        title: 'مُصغِّر CSS',
+        description: 'صغّر CSS بإزالة التعليقات والمسافات البيضاء واعرف الحجم الذي وفّرته.',
+      },
+      'html-minifier': {
+        title: 'مُصغِّر HTML',
+        description: 'صغّر HTML بما فيه CSS وJavaScript وJSON المضمّنة واعرف الحجم الذي وفّرته.',
+      },
+      'sql-formatter': { title: 'منسّق SQL', description: 'نسّق استعلامات SQL بـ 20 لهجة مختلفة.' },
+      'xml-formatter': {
+        title: 'منسّق XML',
+        description: 'جمّل XML أو صغّره، مع إظهار الموضع الدقيق للخطأ عند وجود خلل.',
+      },
+      'yaml-formatter': {
+        title: 'منسّق YAML',
+        description: 'نسّق YAML وتحقق منه باستخدام Prettier مع موضع دقيق للأخطاء.',
+      },
+      'json-to-yaml': {
+        title: 'محوّل JSON إلى YAML',
+        description: 'حوّل JSON إلى YAML فورًا، والنتيجة جاهزة للنسخ.',
+      },
+      'yaml-to-json': {
+        title: 'محوّل YAML إلى JSON',
+        description: 'حوّل YAML إلى JSON فورًا، والنتيجة جاهزة للنسخ.',
+      },
+      'json-to-csv': {
+        title: 'محوّل JSON إلى CSV',
+        description: 'حوّل JSON إلى CSV فورًا، والنتيجة جاهزة للنسخ.',
+      },
+      'csv-to-json': {
+        title: 'محوّل CSV إلى JSON',
+        description: 'حوّل CSV إلى JSON فورًا، والنتيجة جاهزة للنسخ.',
+      },
+      'json-to-typescript': {
+        title: 'محوّل JSON إلى TypeScript',
+        description: 'ولّد واجهات TypeScript من نموذج JSON، جاهزة للنسخ.',
+      },
+      'xml-to-json': {
+        title: 'محوّل XML إلى JSON',
+        description: 'حوّل XML إلى JSON فورًا، والنتيجة جاهزة للنسخ.',
+      },
+      'wifi-qr-code-generator': {
+        title: 'مولّد رمز QR لشبكة Wi-Fi',
+        description:
+          'أنشئ رمز QR يتيح للآخرين الانضمام إلى شبكة Wi-Fi بمجرد مسحه. لا تُحفظ كلمة المرور أبدًا.',
+      },
+      'vcard-qr-code-generator': {
+        title: 'مولّد رمز QR لبطاقة vCard',
+        description: 'أنشئ رمز QR لجهة اتصال يحفظ بياناتك في الهاتف عند مسحه.',
+      },
+      'md5-hash-generator': {
+        title: 'مولّد تجزئة MD5',
+        description: 'ولّد تجزئة MD5 لنص أو ملف، مع إمكانية اختيار خوارزميات أخرى بنقرة واحدة.',
+      },
+      'sha256-hash-generator': {
+        title: 'مولّد تجزئة SHA-256',
+        description: 'ولّد تجزئة SHA-256 لنص أو ملف، مع إمكانية اختيار خوارزميات أخرى بنقرة واحدة.',
+      },
+      'base32-encoder': {
+        title: 'مرمِّز ومفكّك Base32',
+        description: 'رمِّز النص إلى Base32 أو فكّ ترميزه، مع معالجة سليمة لـ UTF-8.',
+      },
+      'hex-encoder': {
+        title: 'مرمِّز ومفكّك Hex',
+        description: 'حوّل النص إلى النظام الست عشري وأعده إلى نص، مع معالجة سليمة لـ UTF-8.',
+      },
+      'subnet-splitter': {
+        title: 'مقسّم الشبكات الفرعية',
+        description: 'قسّم كتلة CIDR إلى شبكات فرعية أصغر واعرض كل نطاق.',
+      },
+      'regex-replace-tester': {
+        title: 'مختبِر استبدال Regex',
+        description:
+          'اختبر عمليات الاستبدال بالتعابير النمطية مع مجموعات الالتقاط وشاهد النتيجة مباشرة.',
+      },
+    },
     categories: {
       data: 'البيانات والصيغ',
       encoding: 'الترميز',

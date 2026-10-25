@@ -141,6 +141,196 @@ export const en = {
       },
       seo: 'Runs entirely in your browser: nothing is uploaded.',
     },
+    presetsTitle: 'Popular tasks',
+    presets: {
+      'uuid-generator': {
+        title: 'UUID / GUID Generator',
+        description:
+          'Generate random UUID v4 (GUID) values in bulk, with upper-case, hyphen and brace options. Copy one or a thousand at once.',
+      },
+      'uuid-v7-generator': {
+        title: 'UUID v7 Generator',
+        description:
+          'Generate time-ordered UUID v7 values that sort by creation time, ideal for database primary keys.',
+      },
+      'ulid-generator': {
+        title: 'ULID Generator',
+        description:
+          'Generate sortable, URL-safe ULIDs in bulk, with the timestamp encoded in the first characters.',
+      },
+      'password-generator': {
+        title: 'Secure Password Generator',
+        description:
+          "Create strong random passwords and passphrases with the browser's cryptographic random generator. Nothing is sent or stored.",
+      },
+      'uuid-decoder': {
+        title: 'UUID & ULID Inspector',
+        description:
+          'Paste a UUID, ULID or ObjectID to see its version, variant and embedded timestamp.',
+      },
+      'json-minifier': {
+        title: 'JSON Minifier',
+        description:
+          'Minify JSON by stripping whitespace, with big numbers kept exactly. Also accepts single quotes and JS-style objects.',
+      },
+      'json-tree-viewer': {
+        title: 'JSON Tree Viewer',
+        description:
+          'Explore JSON as a collapsible, searchable tree view. Big numbers are kept exactly.',
+      },
+      'jsonpath-tester': {
+        title: 'JSONPath Tester',
+        description: 'Run JSONPath queries against your JSON and see every match.',
+      },
+      'json-escape': {
+        title: 'JSON Escape / Unescape',
+        description:
+          'Escape text so it can be embedded safely in a JSON string, with unescape available in the same tool.',
+      },
+      'url-encoder': {
+        title: 'URL Encoder & Decoder',
+        description: 'Percent-encode or decode URLs and query strings, with proper UTF-8 handling.',
+      },
+      'html-entity-encoder': {
+        title: 'HTML Entity Encoder & Decoder',
+        description: 'Encode special characters to HTML entities or decode entities back to text.',
+      },
+      'image-to-base64': {
+        title: 'Image to Base64 Converter',
+        description:
+          'Convert an image or any file to a Base64 string or data URI, entirely in your browser.',
+      },
+      'url-parser': {
+        title: 'URL Parser',
+        description: 'Break a URL into its protocol, host, path, query parameters and hash.',
+      },
+      'jwt-generator': {
+        title: 'JWT Generator',
+        description:
+          'Create and sign JSON Web Tokens with HS256, RS256, ES256 or EdDSA. Keys never leave your browser.',
+      },
+      'bcrypt-generator': {
+        title: 'Bcrypt Hash Generator & Verifier',
+        description:
+          'Hash passwords with bcrypt at your chosen cost, or check a password against an existing hash.',
+      },
+      'aes-encryption': {
+        title: 'AES Encrypt & Decrypt',
+        description:
+          'Encrypt and decrypt text with AES using a passphrase or key. Nothing leaves your browser.',
+      },
+      'key-pair-generator': {
+        title: 'RSA & EC Key Pair Generator',
+        description: 'Generate RSA, EC and Ed25519 key pairs and export them as PEM or JWK.',
+      },
+      'date-difference-calculator': {
+        title: 'Date Difference Calculator',
+        description: 'Calculate the time between two dates in years, months, days, hours and more.',
+      },
+      'cron-expression-parser': {
+        title: 'Cron Expression Explainer',
+        description:
+          'Translate cron and Quartz expressions into plain language and preview the next run times.',
+      },
+      'json-diff': {
+        title: 'JSON Diff',
+        description:
+          'Compare two JSON documents structurally, ignoring array order if you want, in a side-by-side or changes view.',
+      },
+      'word-counter': {
+        title: 'Word & Character Counter',
+        description: 'Count words, characters, sentences and lines as you type.',
+      },
+      'lorem-ipsum-generator': {
+        title: 'Lorem Ipsum Generator',
+        description: 'Generate placeholder paragraphs, sentences or words for mockups and layouts.',
+      },
+      'javascript-minifier': {
+        title: 'JavaScript Minifier',
+        description: 'Minify JavaScript with Terser and see how many bytes you save.',
+      },
+      'css-minifier': {
+        title: 'CSS Minifier',
+        description: 'Minify CSS by removing comments and whitespace, and see the size saved.',
+      },
+      'html-minifier': {
+        title: 'HTML Minifier',
+        description:
+          'Minify HTML, including inline CSS, JavaScript and JSON, and see the size saved.',
+      },
+      'sql-formatter': {
+        title: 'SQL Formatter',
+        description: 'Format and beautify SQL queries in 20 dialects.',
+      },
+      'xml-formatter': {
+        title: 'XML Formatter',
+        description: 'Beautify or minify XML, with the exact error position when it is malformed.',
+      },
+      'yaml-formatter': {
+        title: 'YAML Formatter',
+        description: 'Format and validate YAML with Prettier, with exact error positions.',
+      },
+      'json-to-yaml': {
+        title: 'JSON to YAML Converter',
+        description: 'Convert JSON to YAML instantly, with the result ready to copy.',
+      },
+      'yaml-to-json': {
+        title: 'YAML to JSON Converter',
+        description: 'Convert YAML to JSON instantly, with the result ready to copy.',
+      },
+      'json-to-csv': {
+        title: 'JSON to CSV Converter',
+        description: 'Convert JSON to CSV instantly, with the result ready to copy.',
+      },
+      'csv-to-json': {
+        title: 'CSV to JSON Converter',
+        description: 'Convert CSV to JSON instantly, with the result ready to copy.',
+      },
+      'json-to-typescript': {
+        title: 'JSON to TypeScript Converter',
+        description: 'Generate TypeScript interfaces from a JSON sample, ready to copy.',
+      },
+      'xml-to-json': {
+        title: 'XML to JSON Converter',
+        description: 'Convert XML to JSON instantly, with the result ready to copy.',
+      },
+      'wifi-qr-code-generator': {
+        title: 'Wi-Fi QR Code Generator',
+        description:
+          'Create a QR code that lets people join your Wi-Fi network by scanning it. The password is never saved.',
+      },
+      'vcard-qr-code-generator': {
+        title: 'vCard QR Code Generator',
+        description: 'Create a contact QR code that saves your details to a phone when scanned.',
+      },
+      'md5-hash-generator': {
+        title: 'MD5 Hash Generator',
+        description: 'Generate the MD5 hash of text or a file, with other digests one click away.',
+      },
+      'sha256-hash-generator': {
+        title: 'SHA-256 Hash Generator',
+        description:
+          'Generate the SHA-256 hash of text or a file, with other digests one click away.',
+      },
+      'base32-encoder': {
+        title: 'Base32 Encoder & Decoder',
+        description:
+          'Encode text to Base32 or decode Base32 back to text, with UTF-8 handled correctly.',
+      },
+      'hex-encoder': {
+        title: 'Hex Encoder & Decoder',
+        description: 'Convert text to hexadecimal and back, with UTF-8 handled correctly.',
+      },
+      'subnet-splitter': {
+        title: 'Subnet Splitter',
+        description: 'Split a CIDR block into smaller subnets and see each range.',
+      },
+      'regex-replace-tester': {
+        title: 'Regex Replace Tester',
+        description:
+          'Test regular-expression replacements with capture groups and see the result live.',
+      },
+    },
     categories: {
       data: 'Data & formats',
       encoding: 'Encoding',

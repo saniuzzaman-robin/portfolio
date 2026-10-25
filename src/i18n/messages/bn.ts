@@ -138,6 +138,195 @@ export const bn: Messages = {
       },
       seo: 'সম্পূর্ণ ব্রাউজারে চলে, কিছুই আপলোড হয় না।',
     },
+    presetsTitle: 'জনপ্রিয় কাজ',
+    presets: {
+      'uuid-generator': {
+        title: 'UUID / GUID জেনারেটর',
+        description:
+          'এলোমেলো UUID v4 (GUID) একসাথে অনেকগুলো তৈরি করুন, বড় হাতের অক্ষর, হাইফেন ও ব্রেস অপশনসহ। একটি বা হাজারটি এক ক্লিকে কপি করুন।',
+      },
+      'uuid-v7-generator': {
+        title: 'UUID v7 জেনারেটর',
+        description:
+          'তৈরির সময় অনুযায়ী সাজানো যায় এমন UUID v7 তৈরি করুন, ডেটাবেসের প্রাইমারি কী-এর জন্য উপযুক্ত।',
+      },
+      'ulid-generator': {
+        title: 'ULID জেনারেটর',
+        description:
+          'সর্টযোগ্য ও URL-নিরাপদ ULID একসাথে তৈরি করুন, যার প্রথম অক্ষরগুলোতে টাইমস্ট্যাম্প এনকোড করা থাকে।',
+      },
+      'password-generator': {
+        title: 'নিরাপদ পাসওয়ার্ড জেনারেটর',
+        description:
+          'ব্রাউজারের ক্রিপ্টোগ্রাফিক র‍্যান্ডম জেনারেটর দিয়ে শক্তিশালী পাসওয়ার্ড ও পাসফ্রেজ তৈরি করুন। কিছুই পাঠানো বা সংরক্ষণ হয় না।',
+      },
+      'uuid-decoder': {
+        title: 'UUID ও ULID ইন্সপেক্টর',
+        description:
+          'UUID, ULID বা ObjectID পেস্ট করে এর ভার্সন, ভ্যারিয়েন্ট ও এমবেড করা টাইমস্ট্যাম্প দেখুন।',
+      },
+      'json-minifier': {
+        title: 'JSON মিনিফায়ার',
+        description:
+          'হোয়াইটস্পেস মুছে JSON মিনিফাই করুন, বড় সংখ্যা অবিকৃত থাকে। একক উদ্ধৃতিচিহ্ন ও JS-স্টাইল অবজেক্টও গ্রহণ করে।',
+      },
+      'json-tree-viewer': {
+        title: 'JSON ট্রি ভিউয়ার',
+        description: 'JSON-কে ভাঁজযোগ্য ও সার্চযোগ্য ট্রি ভিউতে দেখুন। বড় সংখ্যা অবিকৃত থাকে।',
+      },
+      'jsonpath-tester': {
+        title: 'JSONPath টেস্টার',
+        description: 'আপনার JSON-এর উপর JSONPath কোয়েরি চালান এবং প্রতিটি ম্যাচ দেখুন।',
+      },
+      'json-escape': {
+        title: 'JSON এস্কেপ / আনএস্কেপ',
+        description:
+          'টেক্সটকে JSON স্ট্রিংয়ে নিরাপদে বসানোর জন্য এস্কেপ করুন; একই টুলে আনএস্কেপও করা যায়।',
+      },
+      'url-encoder': {
+        title: 'URL এনকোডার ও ডিকোডার',
+        description: 'URL ও কোয়েরি স্ট্রিং পারসেন্ট-এনকোড বা ডিকোড করুন, UTF-8 সঠিকভাবে সামলে।',
+      },
+      'html-entity-encoder': {
+        title: 'HTML এনটিটি এনকোডার ও ডিকোডার',
+        description:
+          'বিশেষ অক্ষরকে HTML এনটিটিতে রূপান্তর করুন বা এনটিটি থেকে আবার টেক্সটে ফিরিয়ে আনুন।',
+      },
+      'image-to-base64': {
+        title: 'ইমেজ থেকে Base64 কনভার্টার',
+        description:
+          'যেকোনো ইমেজ বা ফাইলকে Base64 স্ট্রিং বা ডেটা URI-তে রূপান্তর করুন, পুরোটাই আপনার ব্রাউজারে।',
+      },
+      'url-parser': {
+        title: 'URL পার্সার',
+        description: 'URL-কে প্রোটোকল, হোস্ট, পাথ, কোয়েরি প্যারামিটার ও হ্যাশে ভাগ করে দেখুন।',
+      },
+      'jwt-generator': {
+        title: 'JWT জেনারেটর',
+        description:
+          'HS256, RS256, ES256 বা EdDSA দিয়ে JSON Web Token তৈরি ও সাইন করুন। কী কখনো আপনার ব্রাউজার ছাড়ে না।',
+      },
+      'bcrypt-generator': {
+        title: 'Bcrypt হ্যাশ জেনারেটর ও ভেরিফায়ার',
+        description:
+          'পছন্দের কস্টে bcrypt দিয়ে পাসওয়ার্ড হ্যাশ করুন, অথবা বিদ্যমান হ্যাশের সাথে পাসওয়ার্ড মিলিয়ে দেখুন।',
+      },
+      'aes-encryption': {
+        title: 'AES এনক্রিপ্ট ও ডিক্রিপ্ট',
+        description:
+          'পাসফ্রেজ বা কী ব্যবহার করে AES দিয়ে টেক্সট এনক্রিপ্ট ও ডিক্রিপ্ট করুন। কিছুই আপনার ব্রাউজার ছাড়ে না।',
+      },
+      'key-pair-generator': {
+        title: 'RSA ও EC কী পেয়ার জেনারেটর',
+        description: 'RSA, EC ও Ed25519 কী পেয়ার তৈরি করে PEM বা JWK হিসেবে এক্সপোর্ট করুন।',
+      },
+      'date-difference-calculator': {
+        title: 'তারিখের পার্থক্য ক্যালকুলেটর',
+        description: 'দুটি তারিখের মধ্যে ব্যবধান বছর, মাস, দিন, ঘণ্টা ইত্যাদিতে হিসাব করুন।',
+      },
+      'cron-expression-parser': {
+        title: 'Cron এক্সপ্রেশন ব্যাখ্যাকারী',
+        description:
+          'cron ও Quartz এক্সপ্রেশনকে সহজ ভাষায় ব্যাখ্যা করুন এবং পরবর্তী রান-এর সময় দেখুন।',
+      },
+      'json-diff': {
+        title: 'JSON ডিফ',
+        description:
+          'দুটি JSON ডকুমেন্ট কাঠামোগতভাবে তুলনা করুন, চাইলে অ্যারের ক্রম উপেক্ষা করে, সাইড-বাই-সাইড বা পরিবর্তনের ভিউতে।',
+      },
+      'word-counter': {
+        title: 'শব্দ ও অক্ষর কাউন্টার',
+        description: 'টাইপ করার সাথে সাথে শব্দ, অক্ষর, বাক্য ও লাইন গণনা করুন।',
+      },
+      'lorem-ipsum-generator': {
+        title: 'Lorem Ipsum জেনারেটর',
+        description: 'মকআপ ও লেআউটের জন্য প্লেসহোল্ডার প্যারাগ্রাফ, বাক্য বা শব্দ তৈরি করুন।',
+      },
+      'javascript-minifier': {
+        title: 'JavaScript মিনিফায়ার',
+        description: 'Terser দিয়ে JavaScript মিনিফাই করুন এবং কত বাইট বাঁচল দেখুন।',
+      },
+      'css-minifier': {
+        title: 'CSS মিনিফায়ার',
+        description: 'কমেন্ট ও হোয়াইটস্পেস মুছে CSS মিনিফাই করুন এবং কত সাইজ কমল দেখুন।',
+      },
+      'html-minifier': {
+        title: 'HTML মিনিফায়ার',
+        description: 'ইনলাইন CSS, JavaScript ও JSON সহ HTML মিনিফাই করুন এবং কত সাইজ কমল দেখুন।',
+      },
+      'sql-formatter': {
+        title: 'SQL ফরম্যাটার',
+        description: 'SQL কোয়েরি ২০টি ডায়ালেক্টে ফরম্যাট ও বিউটিফাই করুন।',
+      },
+      'xml-formatter': {
+        title: 'XML ফরম্যাটার',
+        description: 'XML বিউটিফাই বা মিনিফাই করুন; ত্রুটি থাকলে সঠিক অবস্থানসহ দেখানো হয়।',
+      },
+      'yaml-formatter': {
+        title: 'YAML ফরম্যাটার',
+        description: 'Prettier দিয়ে YAML ফরম্যাট ও যাচাই করুন, ত্রুটির সঠিক অবস্থানসহ।',
+      },
+      'json-to-yaml': {
+        title: 'JSON থেকে YAML কনভার্টার',
+        description: 'JSON মুহূর্তেই YAML-এ রূপান্তর করুন, ফলাফল কপি করার জন্য প্রস্তুত।',
+      },
+      'yaml-to-json': {
+        title: 'YAML থেকে JSON কনভার্টার',
+        description: 'YAML মুহূর্তেই JSON-এ রূপান্তর করুন, ফলাফল কপি করার জন্য প্রস্তুত।',
+      },
+      'json-to-csv': {
+        title: 'JSON থেকে CSV কনভার্টার',
+        description: 'JSON মুহূর্তেই CSV-তে রূপান্তর করুন, ফলাফল কপি করার জন্য প্রস্তুত।',
+      },
+      'csv-to-json': {
+        title: 'CSV থেকে JSON কনভার্টার',
+        description: 'CSV মুহূর্তেই JSON-এ রূপান্তর করুন, ফলাফল কপি করার জন্য প্রস্তুত।',
+      },
+      'json-to-typescript': {
+        title: 'JSON থেকে TypeScript কনভার্টার',
+        description: 'একটি JSON নমুনা থেকে TypeScript ইন্টারফেস তৈরি করুন, কপি করার জন্য প্রস্তুত।',
+      },
+      'xml-to-json': {
+        title: 'XML থেকে JSON কনভার্টার',
+        description: 'XML মুহূর্তেই JSON-এ রূপান্তর করুন, ফলাফল কপি করার জন্য প্রস্তুত।',
+      },
+      'wifi-qr-code-generator': {
+        title: 'Wi-Fi QR কোড জেনারেটর',
+        description:
+          'স্ক্যান করলেই আপনার Wi-Fi নেটওয়ার্কে যুক্ত হওয়া যায় এমন QR কোড তৈরি করুন। পাসওয়ার্ড কখনো সংরক্ষিত হয় না।',
+      },
+      'vcard-qr-code-generator': {
+        title: 'vCard QR কোড জেনারেটর',
+        description: 'স্ক্যান করলে ফোনে আপনার তথ্য কন্টাক্ট হিসেবে সেভ হয় এমন QR কোড তৈরি করুন।',
+      },
+      'md5-hash-generator': {
+        title: 'MD5 হ্যাশ জেনারেটর',
+        description: 'টেক্সট বা ফাইলের MD5 হ্যাশ তৈরি করুন, অন্যান্য ডাইজেস্টও এক ক্লিকে পাবেন।',
+      },
+      'sha256-hash-generator': {
+        title: 'SHA-256 হ্যাশ জেনারেটর',
+        description:
+          'টেক্সট বা ফাইলের SHA-256 হ্যাশ তৈরি করুন, অন্যান্য ডাইজেস্টও এক ক্লিকে পাবেন।',
+      },
+      'base32-encoder': {
+        title: 'Base32 এনকোডার ও ডিকোডার',
+        description:
+          'টেক্সটকে Base32-এ এনকোড বা Base32 থেকে টেক্সটে ডিকোড করুন, UTF-8 সঠিকভাবে সামলে।',
+      },
+      'hex-encoder': {
+        title: 'Hex এনকোডার ও ডিকোডার',
+        description: 'টেক্সটকে হেক্সাডেসিমালে ও আবার টেক্সটে রূপান্তর করুন, UTF-8 সঠিকভাবে সামলে।',
+      },
+      'subnet-splitter': {
+        title: 'সাবনেট স্প্লিটার',
+        description: 'একটি CIDR ব্লককে ছোট সাবনেটে ভাগ করুন এবং প্রতিটি রেঞ্জ দেখুন।',
+      },
+      'regex-replace-tester': {
+        title: 'Regex রিপ্লেস টেস্টার',
+        description:
+          'ক্যাপচার গ্রুপসহ রেগুলার এক্সপ্রেশন রিপ্লেসমেন্ট পরীক্ষা করুন এবং ফলাফল লাইভ দেখুন।',
+      },
+    },
     categories: {
       data: 'ডেটা ও ফরম্যাট',
       encoding: 'এনকোডিং',
