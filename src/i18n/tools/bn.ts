@@ -711,7 +711,11 @@ export const toolsBn: ToolMessages = {
     ignoreWhitespaceHint: 'স্পেস, ট্যাব ও লাইন ব্রেক পার্থক্য হিসেবে গণ্য হয় না।',
     ignoreCase: 'বড়/ছোট হাতের অক্ষর উপেক্ষা করুন',
     highlight: 'হাইলাইট',
-    granularities: { word: 'পরিবর্তিত শব্দ', char: 'পরিবর্তিত অক্ষর' },
+    granularities: {
+      smart: 'স্মার্ট (শব্দ, তারপর অক্ষর)',
+      word: 'পরিবর্তিত শব্দ',
+      char: 'পরিবর্তিত অক্ষর',
+    },
     collapse: 'অপরিবর্তিত লাইন গুটিয়ে রাখুন',
     collapseHint: 'গুটানো অংশে ক্লিক করলে তা খুলে যায়।',
     ignoreArrayOrder: 'অ্যারের ক্রম উপেক্ষা করুন',

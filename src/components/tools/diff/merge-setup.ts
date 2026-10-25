@@ -2,9 +2,18 @@
  * CodeMirror diff views, loaded as one lazy chunk by `merge-editor.tsx`: side by side
  * (`MergeView`, two editors) or unified (one editor showing the original's lines inline).
  */
-import { ChangeSet, Compartment, EditorState, type Extension } from '@codemirror/state';
 import {
+  ChangeSet,
+  Compartment,
+  EditorState,
+  RangeSetBuilder,
+  type Extension,
+  type Text,
+} from '@codemirror/state';
+import {
+  Decoration,
   EditorView,
+  ViewPlugin,
   highlightActiveLineGutter,
   lineNumbers,
   placeholder as placeholderText,
@@ -12,6 +21,7 @@ import {
 import {
   Change,
   MergeView,
+  getChunks,
   getOriginalDoc,
   goToNextChunk,
   goToPreviousChunk,
@@ -89,6 +99,58 @@ class Surface {
   }
 }
 
+/** Marks one side's inline changes inside the view's chunks; `docs` gets both texts. */
+type InlineMarks = (side: Side, docs: (view: EditorView) => Record<Side, Text>) => Extension;
+
+const changedText = Decoration.mark({ class: 'cm-exactChange' });
+
+/**
+ * Inline change marks from our own diff, per chunk. `@codemirror/merge` widens its changes to
+ * whole words, which would hide the detail of the smart and character granularities. Results are
+ * cached by the chunk's `changes` array, which the package keeps while a chunk only moves.
+ */
+function inlineMarks(diff: MergeOptions['diff']): InlineMarks {
+  const cache = new WeakMap<readonly Change[], readonly TextChange[]>();
+  return (side, docs) =>
+    ViewPlugin.define(
+      (view) => {
+        const build = () => {
+          const builder = new RangeSetBuilder<Decoration>();
+          const chunks = getChunks(view.state)?.chunks ?? [];
+          const { from, to } = view.viewport;
+          const { a, b } = docs(view);
+          for (const chunk of chunks) {
+            const start = side === 'a' ? chunk.fromA : chunk.fromB;
+            const end = side === 'a' ? chunk.endA : chunk.endB;
+            if (end < from || start > to) continue;
+            let changes = cache.get(chunk.changes);
+            if (!changes) {
+              changes = diff(
+                a.sliceString(chunk.fromA, Math.min(chunk.toA, a.length)),
+                b.sliceString(chunk.fromB, Math.min(chunk.toB, b.length))
+              );
+              cache.set(chunk.changes, changes);
+            }
+            for (const change of changes) {
+              const [markFrom, markTo] =
+                side === 'a' ? [change.fromA, change.toA] : [change.fromB, change.toB];
+              if (markTo > markFrom) builder.add(start + markFrom, start + markTo, changedText);
+            }
+          }
+          return builder.finish();
+        };
+        return {
+          decorations: build(),
+          update(update) {
+            const moved = getChunks(update.state)?.chunks !== getChunks(update.startState)?.chunks;
+            if (moved || update.docChanged || update.viewportChanged) this.decorations = build();
+          },
+        };
+      },
+      { decorations: (plugin) => plugin.decorations }
+    );
+}
+
 const placeholderOf = (text: string): Extension => (text ? placeholderText(text) : []);
 
 function setDocument(view: EditorView, value: string) {
@@ -101,6 +163,7 @@ export function createMerge(parent: HTMLElement, options: MergeOptions): MergeCo
     override: (a, b) => options.diff(a, b).map((c) => new Change(c.fromA, c.toA, c.fromB, c.toB)),
   };
   const collapseUnchanged = options.collapse ? COLLAPSE : undefined;
+  const marks = inlineMarks(options.diff);
 
   let views: Record<Side, EditorView | null>;
   let surfaces: Record<Side, Surface | null>;
@@ -112,12 +175,22 @@ export function createMerge(parent: HTMLElement, options: MergeOptions): MergeCo
       a: new Surface('a', options, splitEditorTheme),
       b: new Surface('b', options, splitEditorTheme),
     };
+    // Each editor records its own text for the other's marks; the first one is built before the
+    // second exists.
+    const texts: Record<Side, Text> = {
+      a: EditorState.create({ doc: options.a }).doc,
+      b: EditorState.create({ doc: options.b }).doc,
+    };
+    const docs = (side: Side) => (view: EditorView) => {
+      texts[side] = view.state.doc;
+      return texts;
+    };
     const merge = new MergeView({
       parent,
-      a: { doc: options.a, extensions: surfaces.a!.extensions },
-      b: { doc: options.b, extensions: surfaces.b!.extensions },
+      a: { doc: options.a, extensions: [surfaces.a!.extensions, marks('a', docs('a'))] },
+      b: { doc: options.b, extensions: [surfaces.b!.extensions, marks('b', docs('b'))] },
       gutter: true,
-      highlightChanges: true,
+      highlightChanges: false,
       collapseUnchanged,
       diffConfig,
     });
@@ -132,6 +205,9 @@ export function createMerge(parent: HTMLElement, options: MergeOptions): MergeCo
         doc: options.b,
         extensions: [
           surfaces.b!.extensions,
+          // The package's own marks stay on for the deleted lines it draws as widgets; the
+          // theme hides them on the inserted side, where ours are exact.
+          marks('b', (view) => ({ a: getOriginalDoc(view.state), b: view.state.doc })),
           unifiedMergeView({
             original: options.a,
             mergeControls: false,

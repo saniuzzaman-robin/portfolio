@@ -719,7 +719,11 @@ export const toolsEn = {
     ignoreWhitespaceHint: 'Spaces, tabs and line breaks don’t count as differences.',
     ignoreCase: 'Ignore case',
     highlight: 'Highlight',
-    granularities: { word: 'Changed words', char: 'Changed characters' },
+    granularities: {
+      smart: 'Smart (words, then characters)',
+      word: 'Changed words',
+      char: 'Changed characters',
+    },
     collapse: 'Collapse unchanged lines',
     collapseHint: 'Click a collapsed stretch to expand it.',
     ignoreArrayOrder: 'Ignore array order',

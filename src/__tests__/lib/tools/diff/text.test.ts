@@ -62,10 +62,32 @@ describe('diffText', () => {
     expect(diff.stats).toEqual({ added: 0, removed: 1, changed: 1 });
   });
 
+  it('highlights changed characters inside similar words in smart mode', () => {
+    const smart = { granularity: 'smart' } as const;
+    expect(diffText('aaba\n', 'aaaa\n', smart).changes).toEqual([
+      { fromA: 2, toA: 3, fromB: 2, toB: 3 },
+    ]);
+    expect(show('the quick fox\n', 'the quack fox\n', smart)).toEqual(['"i"→"a"']);
+    expect(show('color\n', 'colour\n', smart)).toEqual(['""→"u"']);
+  });
+
+  it('keeps dissimilar words whole in smart mode', () => {
+    expect(show('the quick fox\n', 'the slow fox\n', { granularity: 'smart' })).toEqual([
+      '"quick"→"slow"',
+    ]);
+    expect(show('let x = 1;\n', 'let y = 1;\n', { granularity: 'smart' })).toEqual(['"x"→"y"']);
+  });
+
+  it('honors ignore case and whitespace in smart mode', () => {
+    const options = { granularity: 'smart', ignoreCase: true, ignoreWhitespace: true } as const;
+    expect(show('Hello  World\n', 'hello world\n', options)).toEqual([]);
+    expect(show('Hello Wurld\n', 'hello  WORLD\n', options)).toEqual(['"u"→"O"']);
+  });
+
   it('produces changes that turn the first text into the second', () => {
     const a = 'const a = 1;\nlet b = [1, 2, 3];\nfunction f() {\n  return a + b;\n}\n';
     const b = 'const a = 2;\nlet b = [1, 3];\n// note\nfunction g() {\n  return a * b;\n}';
-    for (const granularity of ['word', 'char'] as const) {
+    for (const granularity of ['smart', 'word', 'char'] as const) {
       expect(apply(a, b, diffText(a, b, { granularity }).changes)).toBe(b);
     }
   });

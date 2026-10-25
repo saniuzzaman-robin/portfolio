@@ -8,7 +8,8 @@ import { diffSequences, internKeys, type Hunk } from './sequence';
 /** `a[fromA, toA)` was replaced by `b[fromB, toB)`. */
 export type TextChange = { fromA: number; toA: number; fromB: number; toB: number };
 
-export type Granularity = 'word' | 'char';
+/** `smart` diffs words, then characters inside replaced words that are mostly the same. */
+export type Granularity = 'smart' | 'word' | 'char';
 
 export type TextDiffOptions = {
   /** Compare as if all whitespace (including line endings) were removed, like `diff -w`. */
@@ -32,6 +33,10 @@ export type TextDiff = {
 const MAX_INLINE_TOKENS = 10_000;
 /** Work allowed for the detail diff of one changed block. */
 const INLINE_BUDGET = 250_000;
+/** Replaced word runs longer than this (per side) aren't refined to characters in smart mode. */
+const MAX_REFINE_LENGTH = 200;
+/** Share of characters two replaced word runs must have in common to be diffed by character. */
+const MIN_SIMILARITY = 0.5;
 
 const WORD_TOKEN = /[\p{L}\p{M}\p{N}_]+|\s+|[^]/gu;
 const CHAR_TOKEN = /\s+|[^]/gu;
@@ -104,8 +109,7 @@ function countLines(hunk: Hunk, stats: LineStats) {
   stats.added += added - paired;
 }
 
-function tokenize(text: string, span: Span, options: TextDiffOptions): Token[] {
-  const pattern = options.granularity === 'char' ? CHAR_TOKEN : WORD_TOKEN;
+function tokenize(text: string, span: Span, pattern: RegExp, options: TextDiffOptions): Token[] {
   const tokens: Token[] = [];
   const source = text.slice(span.from, span.to);
   for (const match of source.matchAll(pattern)) {
@@ -130,10 +134,44 @@ function inlineChanges(
   options: TextDiffOptions
 ): TextChange[] {
   const whole = [{ fromA: spanA.from, toA: spanA.to, fromB: spanB.from, toB: spanB.to }];
-  const tokensA = tokenize(a, spanA, options);
-  const tokensB = tokenize(b, spanB, options);
+  const pattern = options.granularity === 'char' ? CHAR_TOKEN : WORD_TOKEN;
+  const tokensA = tokenize(a, spanA, pattern, options);
+  const tokensB = tokenize(b, spanB, pattern, options);
   if (tokensA.length > MAX_INLINE_TOKENS || tokensB.length > MAX_INLINE_TOKENS) return whole;
 
+  const { changes } = diffTokens(tokensA, spanA.from, tokensB, spanB.from);
+  if (options.granularity !== 'smart') return changes;
+  return changes.flatMap((change) => refineChange(a, b, change, options));
+}
+
+/** Character changes inside a replaced word run when both sides are mostly the same characters. */
+function refineChange(
+  a: string,
+  b: string,
+  change: TextChange,
+  options: TextDiffOptions
+): TextChange[] {
+  const spanA = { from: change.fromA, to: change.toA };
+  const spanB = { from: change.fromB, to: change.toB };
+  const lengthA = spanA.to - spanA.from;
+  const lengthB = spanB.to - spanB.from;
+  if (lengthA === 0 || lengthB === 0) return [change];
+  if (lengthA > MAX_REFINE_LENGTH || lengthB > MAX_REFINE_LENGTH) return [change];
+
+  const tokensA = tokenize(a, spanA, CHAR_TOKEN, options);
+  const tokensB = tokenize(b, spanB, CHAR_TOKEN, options);
+  const { changes, equal } = diffTokens(tokensA, spanA.from, tokensB, spanB.from);
+  const similarity = (2 * equal) / (tokensA.length + tokensB.length);
+  return similarity >= MIN_SIMILARITY ? changes : [change];
+}
+
+/** Token changes as text ranges, plus how many tokens of `a` were kept. */
+function diffTokens(
+  tokensA: Token[],
+  startA: number,
+  tokensB: Token[],
+  startB: number
+): { changes: TextChange[]; equal: number } {
   const [idsA, idsB] = internKeys(
     tokensA.map((token) => token.key),
     tokensB.map((token) => token.key)
@@ -146,9 +184,12 @@ function inlineChanges(
       ? { from: tokens[from].from, to: tokens[to - 1].to }
       : { from: at(tokens, from, start), to: at(tokens, from, start) };
 
-  return diffSequences(idsA, idsB, INLINE_BUDGET).hunks.map((hunk) => {
-    const changeA = toRange(tokensA, hunk.fromA, hunk.toA, spanA.from);
-    const changeB = toRange(tokensB, hunk.fromB, hunk.toB, spanB.from);
+  let equal = tokensA.length;
+  const changes = diffSequences(idsA, idsB, INLINE_BUDGET).hunks.map((hunk) => {
+    equal -= hunk.toA - hunk.fromA;
+    const changeA = toRange(tokensA, hunk.fromA, hunk.toA, startA);
+    const changeB = toRange(tokensB, hunk.fromB, hunk.toB, startB);
     return { fromA: changeA.from, toA: changeA.to, fromB: changeB.from, toB: changeB.to };
   });
+  return { changes, equal };
 }

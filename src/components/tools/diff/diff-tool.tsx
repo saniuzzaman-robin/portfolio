@@ -42,7 +42,7 @@ const MODE_VIEWS: Record<Mode, readonly View[]> = {
   json: VIEWS,
 };
 
-const GRANULARITIES = ['word', 'char'] as const satisfies readonly Granularity[];
+const GRANULARITIES = ['smart', 'word', 'char'] as const satisfies readonly Granularity[];
 
 type Options = {
   ignoreWhitespace: boolean;
@@ -54,7 +54,7 @@ type Options = {
 const DEFAULT_OPTIONS: Options = {
   ignoreWhitespace: false,
   ignoreCase: false,
-  granularity: 'word',
+  granularity: 'smart',
   collapse: true,
   ignoreArrayOrder: false,
 };

@@ -715,7 +715,11 @@ export const toolsAr: ToolMessages = {
     ignoreWhitespaceHint: 'لا تُحتسب المسافات وعلامات الجدولة وفواصل الأسطر فروقًا.',
     ignoreCase: 'تجاهل حالة الأحرف',
     highlight: 'التمييز',
-    granularities: { word: 'الكلمات المتغيرة', char: 'الأحرف المتغيرة' },
+    granularities: {
+      smart: 'ذكي (الكلمات ثم الأحرف)',
+      word: 'الكلمات المتغيرة',
+      char: 'الأحرف المتغيرة',
+    },
     collapse: 'طيّ الأسطر غير المتغيرة',
     collapseHint: 'انقر على جزء مطويّ لتوسيعه.',
     ignoreArrayOrder: 'تجاهل ترتيب المصفوفات',

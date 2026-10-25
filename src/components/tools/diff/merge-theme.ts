@@ -7,11 +7,13 @@ import { EditorView } from '@codemirror/view';
 export const mergeTheme = EditorView.theme({
   '&.cm-merge-a .cm-changedLine, & .cm-deletedChunk': { backgroundColor: 'var(--diff-del)' },
   '&.cm-merge-b .cm-changedLine, & .cm-inlineChangedLine': { backgroundColor: 'var(--diff-add)' },
-  '&.cm-merge-a .cm-changedText, & .cm-deletedChunk .cm-deletedText': {
+  '&.cm-merge-a .cm-exactChange, & .cm-deletedChunk .cm-deletedText': {
     background: 'var(--diff-del-strong)',
     borderRadius: '2px',
   },
-  '&.cm-merge-b .cm-changedText': { background: 'var(--diff-add-strong)', borderRadius: '2px' },
+  '&.cm-merge-b .cm-exactChange': { background: 'var(--diff-add-strong)', borderRadius: '2px' },
+  // The package's word-widened marks; `merge-setup.ts` draws exact ones (`cm-exactChange`).
+  '&.cm-merge-b .cm-changedText': { background: 'none' },
   '&.cm-merge-a .cm-changedLineGutter, & .cm-deletedLineGutter': { background: 'var(--danger)' },
   '&.cm-merge-b .cm-changedLineGutter': { background: 'var(--success)' },
   '& .cm-collapsedLines': {
