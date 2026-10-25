@@ -77,6 +77,13 @@ describe('runFormat: beautify', () => {
       text: '{\n  "id": 9007199254740993\n}\n',
     });
   });
+
+  it('turns single-quoted JS object literals into strict JSON', async () => {
+    const code = "{ name: 'it\\'s', \"q\": 'say \"hi\"', list: [1, 2,], // note\n}";
+    expect(await runFormat(code, 'json', 'beautify', OPTIONS)).toMatchObject({
+      text: '{\n  "name": "it\'s",\n  "q": "say \\"hi\\"",\n  "list": [\n    1,\n    2\n  ]\n}\n',
+    });
+  });
 });
 
 describe('runFormat: minify', () => {
@@ -94,6 +101,12 @@ describe('runFormat: minify', () => {
     const code = '/*! MIT */\nimport x from "y";\nexport const z = x + 1;';
     expect(await runFormat(code, 'javascript', 'minify', OPTIONS)).toMatchObject({
       text: '/*! MIT */\nimport x from"y";export const z=x+1;',
+    });
+  });
+
+  it('minifies single-quoted JS object literals into strict JSON', async () => {
+    expect(await runFormat("{ a: 'x', b: [1, 2,], }", 'json', 'minify', OPTIONS)).toMatchObject({
+      text: '{"a":"x","b":[1,2]}',
     });
   });
 

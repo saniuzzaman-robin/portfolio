@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { LOCALES } from '@/i18n/config';
 import { languageAlternates, localeUrl } from '@/lib/metadata';
 import { TOOLS, TOOLS_PATH, toolPath } from '@/lib/data/tools';
+import { TOOL_PRESETS, presetPath } from '@/lib/data/tool-presets';
 
 const PAGES: { path: `/${string}`; priority: number }[] = [
   { path: '/', priority: 1 },
@@ -9,6 +10,7 @@ const PAGES: { path: `/${string}`; priority: number }[] = [
   { path: '/resume', priority: 0.9 },
   { path: TOOLS_PATH, priority: 0.8 },
   ...TOOLS.map((tool) => ({ path: toolPath(tool.slug), priority: 0.7 })),
+  ...TOOL_PRESETS.map((preset) => ({ path: presetPath(preset), priority: 0.6 })),
 ];
 
 // No lastModified: a per-build timestamp is always "now", which Google learns to ignore.

@@ -157,6 +157,11 @@ export function DiffTool() {
     setB(nextB);
     if (json) compared.run([nextA, nextB]);
   };
+  // The raw inputs view shows no result, so comparing from it moves on to the side-by-side diff.
+  const compare = () => {
+    compared.run();
+    if (storedView === 'inputs') setView('split');
+  };
   const fileA = useFileLoader('text', (content) => replaceSides(content, b));
   const fileB = useFileLoader('text', (content) => replaceSides(a, content));
 
@@ -365,7 +370,7 @@ export function DiffTool() {
                 />
               )}
             </OptionsPopover>
-            {json && <RunButton label={t.compareAction} onRun={() => compared.run()} />}
+            {json && <RunButton label={t.compareAction} onRun={compare} />}
           </>
         }
       >
@@ -418,7 +423,7 @@ export function DiffTool() {
             }}
           />
         ))}
-        {stale && <StaleStatus action={t.compareAction} onRun={() => compared.run()} />}
+        {stale && <StaleStatus action={t.compareAction} onRun={compare} />}
         {fileA.error && <StatusItem tone="danger">{fileA.error}</StatusItem>}
         {fileB.error && <StatusItem tone="danger">{fileB.error}</StatusItem>}
         {stats && hasInput && identical && <StatusItem tone="success">{t.identical}</StatusItem>}

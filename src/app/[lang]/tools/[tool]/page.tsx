@@ -23,11 +23,12 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const tool = findTool(slug);
   if (!tool) return {};
   const lang = toLocale(rawLang);
-  const text = toolText(getDictionary(lang).t, tool.slug);
+  const { t } = getDictionary(lang);
+  const text = toolText(t, tool.slug);
   return pageMetadata({
     lang,
     title: text.title,
-    description: text.description,
+    description: `${text.description} ${t.tools.privacy.seo}`,
     path: toolPath(tool.slug),
     keywords: tool.keywords,
   });
@@ -53,7 +54,7 @@ export default async function ToolPage({ params }: { params: Params }) {
       <SchemaScript
         schema={generateWebAppSchema({
           name: text.title,
-          description: text.description,
+          description: `${text.description} ${t.tools.privacy.seo}`,
           url,
           inLanguage: lang,
         })}

@@ -11,6 +11,7 @@ import { useLocale } from '@/i18n/use-locale';
 import { useDictionary } from '@/i18n/provider';
 import { useToolCommon } from '@/i18n/tools/provider';
 import { cn } from '@/lib/cn';
+import { usePresetTitle } from './deep-link';
 import { Select } from './select';
 import { RUN_SHORTCUT } from './use-run';
 
@@ -29,11 +30,12 @@ export function ToolHeader({
   actions?: React.ReactNode;
 }) {
   const { t } = useDictionary();
+  const presetTitle = usePresetTitle();
   return (
     <div className="flex shrink-0 flex-wrap items-center gap-x-2 border-b border-line bg-surface px-2 max-sm:gap-y-1 max-sm:py-1.5 sm:h-10">
       <ToolSwitcher current={slug} className="min-w-0 flex-1 sm:flex-none lg:hidden" />
       <h1 className="sr-only shrink-0 px-1 font-sans text-sm font-semibold text-fg lg:not-sr-only">
-        {toolText(t, slug).title}
+        {presetTitle ?? toolText(t, slug).title}
       </h1>
       <div className="no-scrollbar flex min-w-0 items-center gap-1 overflow-x-auto max-sm:order-last max-sm:w-full sm:flex-1">
         {children}

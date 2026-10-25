@@ -5,6 +5,7 @@
 import {
   ChangeSet,
   Compartment,
+  EditorSelection,
   EditorState,
   RangeSetBuilder,
   type Extension,
@@ -23,8 +24,6 @@ import {
   MergeView,
   getChunks,
   getOriginalDoc,
-  goToNextChunk,
-  goToPreviousChunk,
   originalDocChangeEffect,
   unifiedMergeView,
   type DiffConfig,
@@ -232,6 +231,9 @@ export function createMerge(parent: HTMLElement, options: MergeOptions): MergeCo
     destroy = () => view.destroy();
   }
 
+  // The change `goTo` last selected, so repeated clicks step through them in order.
+  let selected: { index: number; from: number; to: number } | null = null;
+
   const each = (run: (view: EditorView, surface: Surface, side: Side) => void) => {
     for (const side of ['a', 'b'] as const) {
       const view = views[side];
@@ -268,8 +270,36 @@ export function createMerge(parent: HTMLElement, options: MergeOptions): MergeCo
       );
     },
     goTo(direction) {
-      const target = views.a?.hasFocus ? views.a : views.b!;
-      return (direction === 'next' ? goToNextChunk : goToPreviousChunk)(target);
+      const view = views.b!;
+      const chunks = getChunks(view.state)?.chunks;
+      if (!chunks?.length) return false;
+      const count = chunks.length;
+      const length = view.state.doc.length;
+      const { from, to } = view.state.selection.main;
+      let target: number;
+      if (selected && selected.from === from && selected.to === to) {
+        target = selected.index + (direction === 'next' ? 1 : -1);
+      } else if (direction === 'next') {
+        target = chunks.findIndex((chunk) => chunk.fromB >= from);
+        if (target === -1) target = 0;
+      } else {
+        target = count - 1;
+        while (target > 0 && chunks[target].fromB >= from) target--;
+        if (chunks[target].fromB >= from) target = count - 1;
+      }
+      const index = ((target % count) + count) % count;
+      const chunk = chunks[index];
+      const start = Math.min(chunk.fromB, length);
+      const end = Math.min(Math.max(chunk.endB, start), length);
+      selected = { index, from: start, to: end };
+      // Selecting the whole change (and focusing the editor) is what makes it visible.
+      view.dispatch({
+        selection: { anchor: start, head: end },
+        userEvent: 'select.byChunk',
+        effects: EditorView.scrollIntoView(EditorSelection.range(start, end), { y: 'center' }),
+      });
+      view.focus();
+      return true;
     },
     destroy,
   };

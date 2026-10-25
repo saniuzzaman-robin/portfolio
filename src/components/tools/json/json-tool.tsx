@@ -58,7 +58,7 @@ const INDENTS = { '2': 2, '4': 4, tab: 'tab' } as const satisfies Record<string,
 type IndentOption = keyof typeof INDENTS;
 
 type Options = { indent: IndentOption; sortKeys: boolean; lenient: boolean };
-const DEFAULT_OPTIONS: Options = { indent: '2', sortKeys: false, lenient: false };
+const DEFAULT_OPTIONS: Options = { indent: '2', sortKeys: false, lenient: true };
 const isOptions = (value: unknown): value is Options => {
   const options = value as Options | null;
   return (
