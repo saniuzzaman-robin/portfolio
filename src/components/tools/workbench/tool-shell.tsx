@@ -1,5 +1,6 @@
 import type { ToolSlug } from '@/lib/data/tools';
 import { ToolI18nProvider, type ToolPayload } from '@/i18n/tools/provider';
+import { TooltipLayer } from '@/components/ui/tooltip-layer';
 import { ToolRail } from './tool-rail';
 import { ToolView } from './tool-view';
 
@@ -16,6 +17,7 @@ export function ToolShell({ slug, messages }: { slug: ToolSlug; messages: ToolPa
           <ToolView slug={slug} />
         </div>
       </div>
+      <TooltipLayer />
     </ToolI18nProvider>
   );
 }

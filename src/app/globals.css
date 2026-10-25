@@ -151,6 +151,12 @@
   }
 }
 
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+  }
+}
+
 /* CSS entrances for above-the-fold content: they start at first paint instead of
    waiting for JavaScript to hydrate, so they never delay FCP/LCP. */
 @keyframes enter {
@@ -404,6 +410,9 @@
 }
 
 @layer components {
+  .tooltip-in {
+    animation: tooltip-in 0.1s ease-out;
+  }
   .enter {
     animation: enter var(--enter-duration, 0.7s) var(--ease-out-expo) backwards;
     animation-delay: var(--enter-delay, 0s);
