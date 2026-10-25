@@ -30,6 +30,8 @@
   --primary-text: #818cf8;
   --accent: #06b6d4;
   --success: #10b981;
+  --danger: #f87171;
+  --warning: #fbbf24;
   --ring: #818cf8;
 
   --nav-glass: rgb(7 7 9 / 0.82);
@@ -42,6 +44,11 @@
   --code-number: #fbbf24;
   --code-property: #67e8f9;
   --code-punct: #64748b;
+
+  --diff-add: rgb(16 185 129 / 0.12);
+  --diff-add-strong: rgb(16 185 129 / 0.34);
+  --diff-del: rgb(248 113 113 / 0.12);
+  --diff-del-strong: rgb(248 113 113 / 0.34);
 }
 
 [data-theme='light'] {
@@ -66,6 +73,8 @@
   --primary-text: #4f46e5;
   --accent: #0284c7;
   --success: #047857;
+  --danger: #b91c1c;
+  --warning: #92400e;
   --ring: #4f46e5;
 
   --nav-glass: rgb(255 255 255 / 0.86);
@@ -78,6 +87,17 @@
   --code-number: #b45309;
   --code-property: #0369a1;
   --code-punct: #94a3b8;
+
+  --diff-add: rgb(16 185 129 / 0.12);
+  --diff-add-strong: rgb(4 120 87 / 0.24);
+  --diff-del: rgb(220 38 38 / 0.08);
+  --diff-del-strong: rgb(220 38 38 / 0.22);
+}
+
+/* Theme-independent layout metrics. */
+:root {
+  /* Height of the docked navbar on tool workbenches. */
+  --nav-h: 3rem;
 }
 
 @theme inline {
@@ -103,12 +123,18 @@
   --color-primary-text: var(--primary-text);
   --color-accent: var(--accent);
   --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
   --color-ring: var(--ring);
   --color-code-keyword: var(--code-keyword);
   --color-code-string: var(--code-string);
   --color-code-number: var(--code-number);
   --color-code-property: var(--code-property);
   --color-code-punct: var(--code-punct);
+  --color-diff-add: var(--diff-add);
+  --color-diff-add-strong: var(--diff-add-strong);
+  --color-diff-del: var(--diff-del);
+  --color-diff-del-strong: var(--diff-del-strong);
 
   --shadow-card: var(--shadow-card);
   --shadow-pop: var(--shadow-pop);
@@ -419,6 +445,148 @@
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Transparency checkerboard behind color swatches (color tool). */
+@utility bg-checker {
+  background: repeating-conic-gradient(var(--line-strong) 0% 25%, var(--surface) 0% 50%) 0 0 / 10px
+    10px;
+}
+
+/* Rendered Markdown in the markdown tool's preview (GitHub-like, from the theme tokens). */
+@layer components {
+  .markdown-preview {
+    color: var(--fg);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    overflow-wrap: break-word;
+  }
+  .markdown-preview > :first-child {
+    margin-top: 0;
+  }
+  .markdown-preview :is(p, ul, ol, blockquote, pre, table, hr, details) {
+    margin-block: 0 1em;
+  }
+  .markdown-preview :is(h1, h2, h3, h4, h5, h6) {
+    margin-block: 1.5em 0.75em;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .markdown-preview h1 {
+    font-size: 1.85em;
+  }
+  .markdown-preview h2 {
+    font-size: 1.45em;
+  }
+  .markdown-preview :is(h1, h2) {
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--line);
+  }
+  .markdown-preview h3 {
+    font-size: 1.2em;
+  }
+  .markdown-preview :is(h5, h6) {
+    font-size: 0.875em;
+    color: var(--fg-muted);
+  }
+  .markdown-preview a {
+    color: var(--primary-text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .markdown-preview :is(ul, ol) {
+    padding-inline-start: 1.75em;
+  }
+  .markdown-preview ul {
+    list-style: disc;
+  }
+  .markdown-preview ol {
+    list-style: decimal;
+  }
+  .markdown-preview li + li,
+  .markdown-preview li > :is(ul, ol) {
+    margin-top: 0.25em;
+  }
+  .markdown-preview li > :is(ul, ol) {
+    margin-bottom: 0;
+  }
+  .markdown-preview .contains-task-list {
+    list-style: none;
+    padding-inline-start: 1.25em;
+  }
+  .markdown-preview .task-list-item-checkbox {
+    margin-inline: -1.25em 0.35em;
+    vertical-align: -0.1em;
+    accent-color: var(--primary);
+  }
+  .markdown-preview blockquote {
+    padding-inline-start: 1em;
+    border-inline-start: 0.25em solid var(--line-strong);
+    color: var(--fg-muted);
+  }
+  .markdown-preview :is(code, kbd, samp) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+  .markdown-preview :not(pre) > code,
+  .markdown-preview kbd {
+    padding: 0.15em 0.4em;
+    border-radius: 0.3rem;
+    background: var(--surface-2);
+  }
+  .markdown-preview kbd {
+    border: 1px solid var(--line-strong);
+    border-bottom-width: 2px;
+  }
+  .markdown-preview pre {
+    direction: ltr;
+    padding: 0.85em 1em;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 0.5rem;
+    background: var(--surface-2);
+    line-height: 1.5;
+    text-align: start;
+  }
+  .markdown-preview table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+  .markdown-preview :is(th, td) {
+    padding: 0.4em 0.8em;
+    border: 1px solid var(--line-strong);
+  }
+  .markdown-preview th {
+    font-weight: 600;
+    background: var(--surface);
+  }
+  .markdown-preview tr:nth-child(2n) td {
+    background: var(--surface);
+  }
+  .markdown-preview hr {
+    border: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+  .markdown-preview img {
+    display: inline-block;
+    max-width: 100%;
+  }
+  .markdown-preview .md-blocked-image {
+    display: inline-flex;
+    padding: 0 0.4em;
+    border: 1px dashed var(--line-strong);
+    border-radius: 0.3rem;
+    color: var(--fg-subtle);
+    font-size: 0.85em;
+  }
+  .markdown-preview .md-blocked-image::before {
+    content: '🖼\FE0E';
+    margin-inline-end: 0.35em;
   }
 }
 

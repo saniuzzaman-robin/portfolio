@@ -113,18 +113,23 @@ export function PageHeader({
   title,
   accent,
   description,
+  compact = false,
   children,
 }: {
   label: string;
   title: string;
   accent?: string;
   description?: React.ReactNode;
+  /** Less vertical padding, for pages whose content should start above the fold. */
+  compact?: boolean;
   children?: React.ReactNode;
 }) {
   return (
     <header className="relative isolate overflow-hidden">
       <div aria-hidden className="bg-grid absolute inset-x-0 -top-20 -z-10 h-120 opacity-60" />
-      <Container className="pt-10 pb-12 sm:pt-16 sm:pb-16">
+      <Container
+        className={compact ? 'pt-8 pb-8 sm:pt-12 sm:pb-10' : 'pt-10 pb-12 sm:pt-16 sm:pb-16'}
+      >
         {/* Above the fold: CSS entrances so the heading paints without waiting for JS. */}
         <div className="max-w-3xl space-y-5">
           <Enter direction="left">

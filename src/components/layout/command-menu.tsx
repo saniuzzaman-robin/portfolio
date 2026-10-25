@@ -20,6 +20,7 @@ import { SocialIcon } from '@/components/reusable/social-icon';
 import { useCopyToClipboard } from '@/lib/use-copy-to-clipboard';
 import { CV_DATA } from '@/lib/cv-data';
 import { NAV_LINKS, RESUME_PDF_PATH } from '@/lib/site';
+import { TOOLS, toolPath, toolText } from '@/lib/data/tools';
 import { localePath } from '@/i18n/config';
 import { useLocale } from '@/i18n/use-locale';
 import { useDictionary } from '@/i18n/provider';
@@ -30,6 +31,8 @@ type CommandItem = {
   id: string;
   label: string;
   hint?: string;
+  /** Extra search terms that aren't displayed. */
+  keywords?: string;
   icon: LucideIcon | (({ className }: { className?: string }) => React.ReactNode);
   active?: boolean;
   keepOpen?: boolean;
@@ -74,6 +77,17 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
           hint: link.href,
           icon: link.icon,
           run: () => router.push(localePath(locale, link.href)),
+        })),
+      },
+      {
+        heading: t.command.tools,
+        items: TOOLS.map((tool) => ({
+          id: `tool-${tool.slug}`,
+          label: toolText(t, tool.slug).label,
+          hint: toolPath(tool.slug),
+          keywords: tool.keywords.join(' '),
+          icon: tool.icon,
+          run: () => router.push(localePath(locale, toolPath(tool.slug))),
         })),
       },
       {
@@ -148,12 +162,14 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return groups;
+    if (!q) return groups.filter((group) => group.items.length > 0);
     return groups
       .map((group) => ({
         ...group,
         items: group.items.filter((item) =>
-          `${item.label} ${item.hint ?? ''} ${group.heading}`.toLowerCase().includes(q)
+          `${item.label} ${item.hint ?? ''} ${item.keywords ?? ''} ${group.heading}`
+            .toLowerCase()
+            .includes(q)
         ),
       }))
       .filter((group) => group.items.length > 0);

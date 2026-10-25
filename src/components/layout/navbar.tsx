@@ -13,6 +13,7 @@ const loadMobileNav = () => import('@/components/layout/mobile-nav');
 const MobileNav = dynamic(() => loadMobileNav().then((mod) => mod.MobileNav), { ssr: false });
 import { CV_DATA } from '@/lib/cv-data';
 import { NAV_LINKS, RESUME_PDF_PATH, isActivePath } from '@/lib/site';
+import { TOOLS_PATH } from '@/lib/data/tools';
 import { cn } from '@/lib/cn';
 import { Enter } from '@/components/ui/motion';
 import { LanguageSwitcher } from '@/components/layout/language-switcher';
@@ -42,6 +43,8 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
   const { t, cv } = useDictionary();
   const { toggleTheme, isDark } = useTheme();
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+  // Tool workbenches fill the viewport: dock a slim bar instead of the floating pill.
+  const docked = pathname.startsWith(`${TOOLS_PATH}/`);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -56,24 +59,33 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
   return (
     <>
       {/* Reading progress */}
-      <m.div
-        aria-hidden
-        style={{ scaleX: progress }}
-        className="fixed inset-x-0 top-0 z-60 h-0.5 origin-left bg-linear-to-r from-primary via-accent to-primary rtl:origin-right print:hidden"
-      />
+      {!docked && (
+        <m.div
+          aria-hidden
+          style={{ scaleX: progress }}
+          className="fixed inset-x-0 top-0 z-60 h-0.5 origin-left bg-linear-to-r from-primary via-accent to-primary rtl:origin-right print:hidden"
+        />
+      )}
 
       <Enter
         as="header"
         direction="down"
-        className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 py-3 sm:px-4 sm:py-4 print:hidden"
+        className={cn(
+          'pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center print:hidden',
+          !docked && 'px-3 py-3 sm:px-4 sm:py-4'
+        )}
       >
         <nav
           aria-label={t.navbar.primary}
           className={cn(
-            'pointer-events-auto flex w-full items-center justify-between gap-2.5 rounded-full border px-3.5 py-2 transition-all duration-300 sm:gap-4 sm:px-5 sm:py-2.5',
-            scrolled
-              ? 'glass-nav max-w-5xl shadow-lg'
-              : 'max-w-6xl border-transparent bg-transparent'
+            'pointer-events-auto flex w-full items-center justify-between gap-2.5 border transition-all duration-300 sm:gap-4',
+            docked
+              ? 'h-(--nav-h) border-x-0 border-t-0 border-b-line bg-surface px-3 sm:px-4'
+              : 'rounded-full px-3.5 py-2 sm:px-5 sm:py-2.5',
+            !docked &&
+              (scrolled
+                ? 'glass-nav max-w-5xl shadow-lg'
+                : 'max-w-6xl border-transparent bg-transparent')
           )}
         >
           <LocaleLink href="/" className="group flex items-center gap-2.5">
@@ -202,7 +214,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
         {isMenuOpen && <MobileNav pathname={pathname} onClose={closeMenu} />}
       </AnimatePresence>
 
-      <div className="h-20 print:hidden" aria-hidden />
+      <div className={cn(docked ? 'h-(--nav-h)' : 'h-20', 'print:hidden')} aria-hidden />
     </>
   );
 }

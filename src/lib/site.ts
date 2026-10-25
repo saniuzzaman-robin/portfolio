@@ -1,4 +1,4 @@
-import { Briefcase, FolderGit2, Layers, type LucideIcon } from 'lucide-react';
+import { Briefcase, FolderGit2, Layers, Wrench, type LucideIcon } from 'lucide-react';
 
 /** Canonical origin; override per environment with NEXT_PUBLIC_SITE_URL. */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://saniuzzaman.dev').replace(
@@ -23,7 +23,7 @@ export const RESUME_PDF_PATH = '/CV_SANIUZZAMAN_ROBIN.pdf';
 
 /** Labels live in the locale messages under `nav.<id>`. */
 export type NavLink = {
-  id: 'overview' | 'experience' | 'platforms';
+  id: 'overview' | 'experience' | 'platforms' | 'tools';
   href: string;
   icon: LucideIcon;
 };
@@ -32,6 +32,7 @@ export const NAV_LINKS: NavLink[] = [
   { id: 'overview', href: '/', icon: Layers },
   { id: 'experience', href: '/resume', icon: Briefcase },
   { id: 'platforms', href: '/projects', icon: FolderGit2 },
+  { id: 'tools', href: '/tools', icon: Wrench },
 ];
 
 export function isActivePath(pathname: string, href: string): boolean {
