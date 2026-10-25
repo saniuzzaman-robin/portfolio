@@ -1,0 +1,375 @@
+import {
+  ArrowRightLeft,
+  Binary,
+  Braces,
+  CaseSensitive,
+  Clock,
+  CodeXml,
+  Dices,
+  FileText,
+  Fingerprint,
+  GitCompareArrows,
+  KeyRound,
+  type LucideIcon,
+  Network,
+  Palette,
+  QrCode,
+  Regex,
+} from 'lucide-react';
+import type { Messages } from '@/i18n/messages/en';
+import type { ToolMessageKey } from '@/i18n/tools/en';
+
+/** Slugs come from the messages, so every registered tool must have a label in every locale. */
+export type ToolSlug = keyof Messages['tools']['items'] & ToolMessageKey;
+export type ToolCategory = keyof Messages['tools']['categories'];
+
+export type Tool = {
+  slug: ToolSlug;
+  category: ToolCategory;
+  icon: LucideIcon;
+  /** Extra search terms (untranslated technical names: "base64", "sha256"…). */
+  keywords: string[];
+};
+
+/** Every tool page, in display order. Drives the index, rail, ⌘K menu, sitemap and routes. */
+export const TOOLS: Tool[] = [
+  {
+    slug: 'json',
+    category: 'data',
+    icon: Braces,
+    keywords: ['json', 'formatter', 'validator', 'beautify', 'minify', 'lint', 'jsonpath', 'tree'],
+  },
+  {
+    slug: 'format',
+    category: 'data',
+    icon: CodeXml,
+    keywords: [
+      'formatter',
+      'beautifier',
+      'beautify',
+      'minify',
+      'minifier',
+      'prettier',
+      'html',
+      'css',
+      'scss',
+      'less',
+      'javascript',
+      'typescript',
+      'xml',
+      'sql',
+      'yaml',
+      'markdown',
+      'graphql',
+      'terser',
+      'uglify',
+      'pretty print',
+    ],
+  },
+  {
+    slug: 'convert',
+    category: 'data',
+    icon: ArrowRightLeft,
+    keywords: [
+      'converter',
+      'json to yaml',
+      'yaml to json',
+      'json to csv',
+      'csv to json',
+      'tsv',
+      'json to xml',
+      'xml to json',
+      'query string',
+      'json to typescript',
+      'typescript interface',
+      'zod schema',
+      'type generator',
+    ],
+  },
+  {
+    slug: 'encode',
+    category: 'encoding',
+    icon: Binary,
+    keywords: [
+      'base64',
+      'base32',
+      'hex',
+      'binary',
+      'url encode',
+      'percent-encoding',
+      'html entities',
+      'unicode',
+      'punycode',
+      'idn',
+      'quoted-printable',
+      'rot13',
+      'data uri',
+      'image to base64',
+      'url parser',
+    ],
+  },
+  {
+    slug: 'jwt',
+    category: 'security',
+    icon: KeyRound,
+    keywords: [
+      'jwt',
+      'json web token',
+      'jws',
+      'decode',
+      'verify',
+      'sign',
+      'debugger',
+      'claims',
+      'hs256',
+      'rs256',
+      'es256',
+      'eddsa',
+      'jwk',
+      'jwks',
+      'pem',
+      'bearer token',
+    ],
+  },
+  {
+    slug: 'crypto',
+    category: 'security',
+    icon: Fingerprint,
+    keywords: [
+      'hash',
+      'md5',
+      'sha1',
+      'sha256',
+      'sha512',
+      'sha3',
+      'keccak',
+      'crc32',
+      'checksum',
+      'hmac',
+      'aes',
+      'encrypt',
+      'decrypt',
+      'openssl',
+      'cryptojs',
+      'pbkdf2',
+      'bcrypt',
+      'key pair',
+      'rsa',
+      'ecdsa',
+      'ed25519',
+      'pem',
+      'jwk',
+    ],
+  },
+  {
+    slug: 'generate',
+    category: 'generators',
+    icon: Dices,
+    keywords: [
+      'uuid',
+      'guid',
+      'uuid v4',
+      'uuid v7',
+      'uuid v1',
+      'uuid v5',
+      'ulid',
+      'nanoid',
+      'objectid',
+      'mongodb',
+      'random',
+      'password generator',
+      'passphrase',
+      'diceware',
+      'entropy',
+      'random bytes',
+      'token',
+    ],
+  },
+  {
+    slug: 'qr-code',
+    category: 'generators',
+    icon: QrCode,
+    keywords: [
+      'qr code',
+      'qr generator',
+      'barcode',
+      'wifi qr',
+      'vcard',
+      'contact card',
+      'mailto',
+      'svg',
+      'png',
+      'error correction',
+    ],
+  },
+  {
+    slug: 'diff',
+    category: 'text',
+    icon: GitCompareArrows,
+    keywords: [
+      'diff',
+      'compare',
+      'text compare',
+      'json diff',
+      'json compare',
+      'side by side',
+      'unified diff',
+      'changes',
+      'merge',
+      'difference',
+      'diffchecker',
+    ],
+  },
+  {
+    slug: 'time',
+    category: 'infra',
+    icon: Clock,
+    keywords: [
+      'epoch',
+      'unix timestamp',
+      'timestamp converter',
+      'unix time',
+      'milliseconds',
+      'iso 8601',
+      'rfc 2822',
+      'time zone',
+      'timezone converter',
+      'utc',
+      'date difference',
+      'duration',
+      'cron',
+      'crontab',
+      'cron expression',
+      'quartz',
+      'schedule',
+      'next run',
+    ],
+  },
+  {
+    slug: 'network',
+    category: 'infra',
+    icon: Network,
+    keywords: [
+      'ip calculator',
+      'subnet calculator',
+      'cidr',
+      'ipv4',
+      'ipv6',
+      'netmask',
+      'subnet mask',
+      'wildcard mask',
+      'broadcast',
+      'host range',
+      'subnetting',
+      'vpc',
+      'overlap',
+      'private ip',
+      'rfc 1918',
+    ],
+  },
+  {
+    slug: 'regex',
+    category: 'text',
+    icon: Regex,
+    keywords: [
+      'regex',
+      'regexp',
+      'regular expression',
+      'regex tester',
+      'regex101',
+      'pattern',
+      'match',
+      'capture group',
+      'named group',
+      'replace',
+      'split',
+      'lookahead',
+      'lookbehind',
+      'backreference',
+    ],
+  },
+  {
+    slug: 'text',
+    category: 'text',
+    icon: CaseSensitive,
+    keywords: [
+      'case converter',
+      'camelcase',
+      'snake_case',
+      'kebab-case',
+      'title case',
+      'slug',
+      'slugify',
+      'sort lines',
+      'remove duplicate lines',
+      'word counter',
+      'character counter',
+      'string escape',
+      'unescape',
+      'lorem ipsum',
+    ],
+  },
+  {
+    slug: 'color',
+    category: 'web',
+    icon: Palette,
+    keywords: [
+      'color converter',
+      'color picker',
+      'hex',
+      'rgb',
+      'hsl',
+      'hwb',
+      'oklch',
+      'oklab',
+      'cmyk',
+      'contrast checker',
+      'wcag',
+      'apca',
+      'tints',
+      'shades',
+    ],
+  },
+  {
+    slug: 'markdown',
+    category: 'web',
+    icon: FileText,
+    keywords: [
+      'markdown',
+      'md',
+      'markdown editor',
+      'markdown preview',
+      'markdown to html',
+      'gfm',
+      'github flavored markdown',
+      'readme',
+      'commonmark',
+      'task list',
+    ],
+  },
+];
+
+export const TOOLS_PATH = '/tools';
+
+/** Shape of each `tools.items.<slug>` message entry. */
+export type ToolText = {
+  /** Short name for menus and the rail ("JSON"). */
+  label: string;
+  /** Full name for the page title and search results ("JSON Formatter & Validator"). */
+  title: string;
+  description: string;
+};
+
+/** Typed lookup: the assignment checks that every tool's messages match `ToolText`. */
+export function toolText(t: Messages, slug: ToolSlug): ToolText {
+  const items: Record<ToolSlug, ToolText> = t.tools.items;
+  return items[slug];
+}
+
+export function toolPath(slug: ToolSlug): `/${string}` {
+  return `${TOOLS_PATH}/${slug}`;
+}
+
+export function findTool(slug: string): Tool | undefined {
+  return TOOLS.find((tool) => tool.slug === slug);
+}

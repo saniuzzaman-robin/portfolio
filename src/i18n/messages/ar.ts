@@ -13,6 +13,7 @@ export const ar: Messages = {
     overview: { label: 'نظرة عامة', description: 'الأعمال والخبرة والمهارات' },
     experience: { label: 'الخبرة', description: 'السيرة الذاتية الكاملة والمسار المهني' },
     platforms: { label: 'المنصات', description: 'أنظمة صمّمتها وأطلقتها' },
+    tools: { label: 'الأدوات', description: 'أدوات للمطوّرين تعمل محليًا' },
   },
   navbar: {
     primary: 'التنقل الرئيسي',
@@ -49,6 +50,7 @@ export const ar: Messages = {
     noResults: 'لا توجد نتائج لـ “{query}”',
     hintNavigate: '↑↓ للتنقل · ↵ للاختيار',
     hintToggle: '⌘K للفتح/الإغلاق',
+    tools: 'الأدوات',
   },
   hero: {
     headline: 'أبني منتجات سريعة وموثوقة لأكثر من',
@@ -108,6 +110,117 @@ export const ar: Messages = {
     copyright: '© {year} {name}. بُني باستخدام Next.js وTailwind CSS.',
     backToTop: 'الأعلى',
   },
+  tools: {
+    label: 'الأدوات',
+    title: 'أدوات المطوّرين،',
+    accent: 'سريعة وخاصة.',
+    description:
+      'منسّقات ومرمِّزات ومولّدات وأدوات فحص لعمل هندسي يومي. كل شيء يعمل داخل متصفحك — لا يغادر ما تلصقه هذه الصفحة.',
+    search: 'ابحث في الأدوات',
+    searchPlaceholder: 'ابحث في الأدوات…',
+    noResults: 'لا توجد أدوات تطابق “{query}”',
+    categories: {
+      data: 'البيانات والصيغ',
+      encoding: 'الترميز',
+      security: 'الأمان',
+      generators: 'المولّدات',
+      text: 'النصوص',
+      web: 'الويب والتصميم',
+      infra: 'الوقت والشبكات',
+    },
+    items: {
+      json: {
+        label: 'JSON',
+        title: 'منسّق JSON ومدقّقه',
+        description:
+          'نسّق JSON وصغّره وتحقّق منه وأصلحه مع مواضع أخطاء دقيقة وعرض شجري قابل للبحث واستعلامات JSONPath. تبقى الأعداد الكبيرة كما هي تمامًا.',
+      },
+      format: {
+        label: 'التنسيق والتصغير',
+        title: 'منسّق الشيفرة ومصغّرها',
+        description:
+          'نسّق HTML وCSS وSCSS وLess وJavaScript وTypeScript وJSON وXML وSQL بلهجات متعددة وYAML وMarkdown وGraphQL باستخدام Prettier، وصغّر HTML وCSS وJavaScript وJSON وXML. يعرض مواضع الأخطاء بدقة ومقدار ما يوفّره التصغير.',
+      },
+      encode: {
+        label: 'ترميز / فك ترميز',
+        title: 'المرمِّز ومفكّك الترميز',
+        description:
+          'Base64 وBase32 وhex وbinary وURL وكيانات HTML وتهريبات يونيكود وpunycode وquoted-printable وROT13، في الاتجاهين. يحوّل الملفات أيضًا إلى base64 وdata URI والعكس، ويقسّم الروابط إلى أجزاء قابلة للتعديل.',
+      },
+      jwt: {
+        label: 'JWT',
+        title: 'مصحّح JWT',
+        description:
+          'فك ترميز رموز JSON Web Token والتحقق منها وتوقيعها. يعرض الأجزاء ملوّنة والمطالبات بصيغة مقروءة مع حالة الصلاحية، ويتحقق من تواقيع HS وRS وPS وES وEdDSA بسرّ أو مفتاح PEM أو شهادة أو JWK.',
+      },
+      crypto: {
+        label: 'التجزئة والتشفير',
+        title: 'أدوات التجزئة وHMAC والتشفير',
+        description:
+          'تجزئات MD5 وSHA-1 وSHA-2 وSHA-3 وKeccak وCRC-32 وقيم HMAC للنصوص أو الملفات، مع مقارنة المجاميع الاختبارية. تشفير AES-GCM/CBC/CTR متوافق مع OpenSSL وCryptoJS، وتجزئة bcrypt والتحقق منها، وأزواج مفاتيح RSA وEC وEd25519 بصيغة PEM أو JWK.',
+      },
+      generate: {
+        label: 'المولّدات',
+        title: 'مولّد UUID وULID وNanoID وكلمات المرور',
+        description:
+          'أنشئ معرّفات UUID (v1 وv3 وv4 وv5 وv6 وv7) وULID وNanoID وMongoDB ObjectId وبايتات عشوائية دفعةً واحدة، وافحص أي UUID أو ULID أو ObjectId لمعرفة إصداره والوقت المضمّن فيه. كلمات مرور وعبارات مرور قوية مع عرض الإنتروبيا، وكلها من مصدر آمن تشفيريًا.',
+      },
+      diff: {
+        label: 'المقارنة',
+        title: 'مقارنة النصوص وJSON',
+        description:
+          'قارن نصّين أو مستندَي JSON جنبًا إلى جنب أو في عرض موحّد، مع تمييز الكلمات والأحرف المتغيرة وطيّ الأسطر غير المتغيرة والتنقل بين التغييرات. يتجاهل وضع JSON ترتيب المفاتيح ويسرد كل مسار مضاف أو محذوف أو متغيّر.',
+      },
+      convert: {
+        label: 'التحويل',
+        title: 'محوّل JSON وYAML وCSV وXML',
+        description:
+          'حوّل JSON من وإلى YAML وCSV/TSV وXML وسلاسل الاستعلام، أو أنشئ واجهات TypeScript ومخططات Zod من عيّنة JSON. يدعم YAML متعدد المستندات وحقول CSV المقتبسة والأعمدة المتداخلة وسمات XML، ويحافظ على الأعداد الكبيرة كما هي.',
+      },
+      time: {
+        label: 'الوقت',
+        title: 'محوّل Epoch وفرق التواريخ وCron',
+        description:
+          'حوّل الطوابع الزمنية Unix (من الثواني إلى النانوثواني) من وإلى ISO 8601 وRFC 2822 وأي منطقة زمنية، واحسب المدة بين تاريخين، وأضف مددًا، واشرح تعبيرات cron مع مواعيد تشغيلها القادمة مع مراعاة التوقيت الصيفي. يدعم L وW و# في Quartz.',
+      },
+      regex: {
+        label: 'Regex',
+        title: 'مختبر التعابير النمطية',
+        description:
+          'اختبر تعابير JavaScript النمطية مع تظليل فوري للمطابقات، وجدول للمطابقات ومجموعات الالتقاط، ومعاينة للاستبدال والتقسيم، وشرح لكل رمز، وورقة مرجعية. يدعم كل الأعلام بما فيها v والمجموعات المسمّاة، ويوقف الأنماط الجامحة بدل تجميد التبويب.',
+      },
+      text: {
+        label: 'النص',
+        title: 'أدوات النص: حالة الأحرف والأسطر والعدّ والتهريب',
+        description:
+          'حوّل النص بين camelCase وsnake_case وkebab-case وTitle Case وغيرها، وأنشئ معرّفات URL، ورتّب الأسطر وأزل المكرر منها، واعدد الكلمات والأحرف والحروف المرئية والبايتات، وهرّب السلاسل لـ JSON أو JavaScript أو SQL أو التعابير النمطية أو CSV أو الصدفة، وولّد نص lorem ipsum.',
+      },
+      color: {
+        label: 'اللون',
+        title: 'محوّل الألوان وفاحص التباين',
+        description:
+          'حوّل أي لون CSS بين HEX وRGB وHSL وHWB وOKLCH وOKLab وCMYK، واختر الألوان بصريًا، وافحص تباين WCAG 2 وAPCA مقابل خلفية، وأنشئ سلّمًا من الدرجات الفاتحة والداكنة. يُشار إلى الألوان الواقعة خارج النطاق.',
+      },
+      network: {
+        label: 'الشبكة',
+        title: 'حاسبة الشبكات الفرعية وCIDR',
+        description:
+          'احسب كتل CIDR لـ IPv4 وIPv6: الشبكة وعنوان البث ونطاق المضيفين وقناع الشبكة وقناع البدل وعدد المضيفين وعرضًا ثنائيًا، مع تسمية النطاقات الخاصة والمحجوزة. قسّم كتلة إلى شبكات فرعية، وتحقّق من الكتل في قائمة التي تحتوي عنوانًا أو تتداخل فيما بينها.',
+      },
+      'qr-code': {
+        label: 'رمز QR',
+        title: 'مولّد رموز QR',
+        description:
+          'أنشئ رموز QR للنصوص والروابط وشبكات Wi-Fi وبطاقات جهات الاتصال ورسائل البريد الإلكتروني. اختر مستوى تصحيح الأخطاء والحجم والمنطقة الهادئة والألوان (مع تحذير عند انخفاض التباين)، ونزّل ملفات SVG أو PNG واضحة.',
+      },
+      markdown: {
+        label: 'Markdown',
+        title: 'محرر Markdown ومعاينته',
+        description:
+          'اكتب Markdown مع معاينة حيّة ومعقّمة: CommonMark مع جداول GitHub وقوائم المهام والشطب، وتمرير متزامن. انسخ HTML أو نزّله كصفحة كاملة.',
+      },
+    },
+  },
   projects: {
     label: 'المنصات',
     title: 'أنظمة',
@@ -157,6 +270,10 @@ export const ar: Messages = {
     projectsDescription:
       'منصات قيد التشغيل بناها Md. Saniuzzaman Robin: مواقيت الصلاة في MuslimPro، ومنصة التبرعات Giving، ومنصة البث Qalbox، ولوحات إدارة مؤسسية، وأتمتة الاختبارات — باستخدام Next.js وNestJS وAngular.',
     projectsCollection: 'منصات هندسية وتطبيقات قيد التشغيل',
+    toolsTitle: 'أدوات المطوّرين',
+    toolsDescription:
+      'أدوات مجانية وخاصة للمطوّرين تعمل بالكامل في متصفحك: منسّق JSON، ومرمِّزات، ومصحّح JWT، ودوال التجزئة، ومولّدات المعرّفات، والمقارنة، والمزيد.',
+    toolsCollection: 'أدوات مطوّرين تعمل في المتصفح',
     resumeTitle: 'الخبرة والسيرة الذاتية',
     resumeDescription:
       'السيرة الذاتية لـ Md. Saniuzzaman Robin: أكثر من 5 سنوات في هندسة البرمجيات لدى Bitsmedia (MuslimPro) وKONA Software Lab وSELISE Digital Platforms. المهارات والخبرة والتعليم والإنجازات.',

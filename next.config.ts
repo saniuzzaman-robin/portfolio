@@ -70,6 +70,22 @@ const nextConfig: NextConfig = {
     return [
       { source: '/about', destination: '/', permanent: true },
       { source: '/skills', destination: '/resume', permanent: true },
+      // Single-purpose tools from the old /tools section, merged into the new tool pages.
+      {
+        source: '/tools/:slug(base64|url|html-entities|image-base64)',
+        destination: '/tools/encode',
+        permanent: true,
+      },
+      { source: '/tools/:slug(minify|sql)', destination: '/tools/format', permanent: true },
+      { source: '/tools/hash', destination: '/tools/crypto', permanent: true },
+      { source: '/tools/:slug(uuid|password)', destination: '/tools/generate', permanent: true },
+      { source: '/tools/csv-json', destination: '/tools/convert', permanent: true },
+      { source: '/tools/:slug(timestamp|cron)', destination: '/tools/time', permanent: true },
+      {
+        source: '/tools/:slug(case-converter|slug|lorem)',
+        destination: '/tools/text',
+        permanent: true,
+      },
       // Changeloom story links: the Android app opens them (App Links); anyone else gets the Play Store.
       {
         source: '/s/:id(\\d+)',

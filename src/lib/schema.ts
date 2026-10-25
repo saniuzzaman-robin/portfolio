@@ -152,3 +152,29 @@ export function generateCollectionSchema(options: {
     },
   };
 }
+
+/**
+ * Generate WebApplication schema for a browser-based tool page
+ */
+export function generateWebAppSchema(options: {
+  name: string;
+  description: string;
+  url: string;
+  inLanguage: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: options.name,
+    description: options.description,
+    url: options.url,
+    inLanguage: options.inLanguage,
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    isPartOf: { '@id': `${siteConfig.url}/#website` },
+    author: { '@id': `${siteConfig.url}/#person` },
+  };
+}

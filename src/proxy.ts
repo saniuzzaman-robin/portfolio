@@ -5,7 +5,7 @@ import { DEFAULT_LOCALE, splitLocale } from '@/i18n/config';
  * Sections removed from the site for good. 410 Gone tells crawlers to drop these
  * URLs from the index faster than a 404 would.
  */
-const GONE_SECTIONS = ['/tools', '/games', '/blog'];
+const GONE_SECTIONS = ['/games', '/blog'];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

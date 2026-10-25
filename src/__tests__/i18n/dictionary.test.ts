@@ -8,6 +8,9 @@ import { bn } from '@/i18n/messages/bn';
 import { ar } from '@/i18n/messages/ar';
 import { bnContent } from '@/i18n/content/bn';
 import { arContent } from '@/i18n/content/ar';
+import { toolsEn } from '@/i18n/tools/en';
+import { toolsBn } from '@/i18n/tools/bn';
+import { toolsAr } from '@/i18n/tools/ar';
 
 /** Paths where an override array's length differs from the English source it aligns with. */
 function misalignedArrays(base: unknown, override: unknown, path = ''): string[] {
@@ -42,15 +45,23 @@ describe.each([
 });
 
 describe('messages', () => {
+  const placeholders = (value: unknown): string[] =>
+    typeof value === 'string'
+      ? (value.match(/\{\w+\}/g) ?? []).sort()
+      : Object.values(value as object).flatMap(placeholders);
+
   it.each([
     ['bn', bn],
     ['ar', ar],
   ])('%s keeps every placeholder used by English', (_, messages) => {
-    const placeholders = (value: unknown): string[] =>
-      typeof value === 'string'
-        ? (value.match(/\{\w+\}/g) ?? []).sort()
-        : Object.values(value as object).flatMap(placeholders);
     expect(placeholders(messages)).toEqual(placeholders(en));
+  });
+
+  it.each([
+    ['bn', toolsBn],
+    ['ar', toolsAr],
+  ])('%s tool strings keep every placeholder used by English', (_, messages) => {
+    expect(placeholders(messages)).toEqual(placeholders(toolsEn));
   });
 });
 

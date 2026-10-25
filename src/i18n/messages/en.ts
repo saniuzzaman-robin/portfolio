@@ -15,6 +15,7 @@ export const en = {
     overview: { label: 'Overview', description: 'Work, experience & skills' },
     experience: { label: 'Experience', description: 'Full resume & timeline' },
     platforms: { label: 'Platforms', description: 'Systems designed & shipped' },
+    tools: { label: 'Tools', description: 'Developer utilities that run locally' },
   },
   navbar: {
     primary: 'Primary',
@@ -51,6 +52,7 @@ export const en = {
     noResults: 'No results for “{query}”',
     hintNavigate: '↑↓ to navigate · ↵ to select',
     hintToggle: '⌘K to toggle',
+    tools: 'Tools',
   },
   hero: {
     headline: 'Building fast, resilient products for',
@@ -110,6 +112,117 @@ export const en = {
     copyright: '© {year} {name}. Built with Next.js & Tailwind CSS.',
     backToTop: 'Top',
   },
+  tools: {
+    label: 'Tools',
+    title: 'Developer tools,',
+    accent: 'fast & private.',
+    description:
+      'Formatters, encoders, generators and inspectors for everyday engineering work. Everything runs in your browser — nothing you paste leaves this tab.',
+    search: 'Search tools',
+    searchPlaceholder: 'Search tools…',
+    noResults: 'No tools match “{query}”',
+    categories: {
+      data: 'Data & formats',
+      encoding: 'Encoding',
+      security: 'Security',
+      generators: 'Generators',
+      text: 'Text',
+      web: 'Web & design',
+      infra: 'Time & network',
+    },
+    items: {
+      json: {
+        label: 'JSON',
+        title: 'JSON Formatter & Validator',
+        description:
+          'Format, minify, validate and repair JSON with exact error positions, a searchable tree view and JSONPath queries. Big numbers are kept exactly.',
+      },
+      format: {
+        label: 'Format & Minify',
+        title: 'Code Formatter & Minifier',
+        description:
+          'Beautify HTML, CSS, SCSS, Less, JavaScript, TypeScript, JSON, XML, SQL in 20 dialects, YAML, Markdown and GraphQL with Prettier, and minify HTML, CSS, JavaScript, JSON and XML. Shows exact error positions and how much minifying saves.',
+      },
+      encode: {
+        label: 'Encode / Decode',
+        title: 'Encoder & Decoder',
+        description:
+          'Base64, Base32, hex, binary, URL, HTML entities, Unicode escapes, punycode, quoted-printable and ROT13, both ways. Also converts files to base64 and data URIs and back, and splits URLs into editable parts.',
+      },
+      jwt: {
+        label: 'JWT',
+        title: 'JWT Debugger',
+        description:
+          'Decode, verify and sign JSON Web Tokens. Shows color-coded parts and readable claims with expiry status, and checks HS, RS, PS, ES and EdDSA signatures with a secret, PEM key, certificate or JWK.',
+      },
+      crypto: {
+        label: 'Hash & Crypto',
+        title: 'Hash, HMAC & Encryption Tools',
+        description:
+          'MD5, SHA-1, SHA-2, SHA-3, Keccak and CRC-32 hashes and HMACs of text or files, with checksum comparison. AES-GCM/CBC/CTR encryption compatible with OpenSSL and CryptoJS, bcrypt hashing and checking, and RSA, EC and Ed25519 key pairs as PEM or JWK.',
+      },
+      generate: {
+        label: 'Generators',
+        title: 'UUID, ULID, NanoID & Password Generator',
+        description:
+          'Generate UUIDs (v1, v3, v4, v5, v6, v7), ULIDs, NanoIDs, MongoDB ObjectIds and random bytes in bulk, and inspect any UUID, ULID or ObjectId for its version and embedded time. Strong passwords and passphrases with their entropy shown, all from a cryptographically secure source.',
+      },
+      diff: {
+        label: 'Diff',
+        title: 'Text & JSON Diff',
+        description:
+          'Compare two texts or JSON documents side by side or unified, with word- and character-level highlights, collapsible unchanged lines and change navigation. JSON mode ignores key order and lists every added, removed and changed path.',
+      },
+      convert: {
+        label: 'Convert',
+        title: 'JSON, YAML, CSV & XML Converter',
+        description:
+          'Convert JSON to and from YAML, CSV/TSV, XML and query strings, or generate TypeScript interfaces and Zod schemas from a JSON sample. Handles multi-document YAML, quoted CSV fields, nested columns and XML attributes, and keeps big numbers exact.',
+      },
+      time: {
+        label: 'Time',
+        title: 'Epoch Converter, Date Difference & Cron',
+        description:
+          'Convert Unix timestamps (seconds to nanoseconds) to and from ISO 8601, RFC 2822 and any time zone, measure the time between two dates, add durations, and explain cron expressions with their next runs, DST included. Supports Quartz L, W and #.',
+      },
+      regex: {
+        label: 'Regex',
+        title: 'Regex Tester',
+        description:
+          'Test JavaScript regular expressions with live match highlighting, a match and capture group table, replace and split previews, a token-by-token explanation and a cheat sheet. Supports every flag including d-style indices, v and named groups, and stops runaway patterns instead of freezing the tab.',
+      },
+      text: {
+        label: 'Text',
+        title: 'Text Tools: Case, Lines, Counter & Escape',
+        description:
+          'Convert text between camelCase, snake_case, kebab-case, Title Case and more, make URL slugs, sort and dedupe lines, count words, characters, graphemes and bytes, escape strings for JSON, JavaScript, SQL, regex, CSV or shell, and generate lorem ipsum.',
+      },
+      color: {
+        label: 'Color',
+        title: 'Color Converter & Contrast Checker',
+        description:
+          'Convert any CSS color between HEX, RGB, HSL, HWB, OKLCH, OKLab and CMYK, pick colors visually, check WCAG 2 contrast and APCA against a background, and build a tints and shades scale. Out-of-gamut colors are flagged.',
+      },
+      network: {
+        label: 'Network',
+        title: 'IP Subnet & CIDR Calculator',
+        description:
+          'Calculate IPv4 and IPv6 CIDR blocks: network, broadcast, host range, netmask, wildcard, host count and a binary view, with private and reserved ranges named. Split a block into subnets, and check which blocks in a list contain an address or overlap each other.',
+      },
+      'qr-code': {
+        label: 'QR Code',
+        title: 'QR Code Generator',
+        description:
+          'Make QR codes for text, URLs, Wi-Fi networks, contact cards and emails. Choose the error correction level, size, quiet zone and colors (with a warning when contrast is too low), and download crisp SVG or PNG files.',
+      },
+      markdown: {
+        label: 'Markdown',
+        title: 'Markdown Editor & Preview',
+        description:
+          'Write Markdown with a live, sanitized preview: CommonMark plus GitHub tables, task lists and strikethrough, with synced scrolling. Copy the HTML or download it as a complete page.',
+      },
+    },
+  },
   projects: {
     label: 'Platforms',
     title: "Systems I've",
@@ -159,6 +272,10 @@ export const en = {
     projectsDescription:
       'Production platforms built by Md. Saniuzzaman Robin: MuslimPro Prayer Times, the Giving donation platform, Qalbox streaming, enterprise admin consoles and test automation, built with Next.js, NestJS and Angular.',
     projectsCollection: 'Engineering platforms and production applications',
+    toolsTitle: 'Developer Tools',
+    toolsDescription:
+      'Free, private developer tools that run entirely in your browser: JSON formatter, encoders, JWT debugger, hashing, ID generators, diff and more.',
+    toolsCollection: 'Browser-based developer tools',
     resumeTitle: 'Experience & Resume',
     resumeDescription:
       'Resume of Md. Saniuzzaman Robin: 5+ years of software engineering across Bitsmedia (MuslimPro), KONA Software Lab and SELISE Digital Platforms. Skills, experience, education and achievements.',
@@ -167,5 +284,5 @@ export const en = {
   },
 };
 
-type Widen<T> = T extends string ? string : { [K in keyof T]: Widen<T[K]> };
+export type Widen<T> = T extends string ? string : { [K in keyof T]: Widen<T[K]> };
 export type Messages = Widen<typeof en>;

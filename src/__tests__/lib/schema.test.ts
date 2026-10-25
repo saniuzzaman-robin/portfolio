@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { generateBreadcrumbSchema, generateCollectionSchema } from '@/lib/schema';
+import {
+  generateBreadcrumbSchema,
+  generateCollectionSchema,
+  generateWebAppSchema,
+} from '@/lib/schema';
 
 describe('generateBreadcrumbSchema', () => {
   it('returns correct @context and @type', () => {
@@ -51,5 +55,20 @@ describe('generateCollectionSchema', () => {
     expect(list[0].position).toBe(1);
     expect(list[0].item.name).toBe('Proj A');
     expect(list[1].position).toBe(2);
+  });
+});
+
+describe('generateWebAppSchema', () => {
+  it('describes a free, browser-based developer application', () => {
+    const result = generateWebAppSchema({
+      name: 'JSON',
+      description: 'Format JSON',
+      url: 'https://example.com/tools/json',
+      inLanguage: 'en',
+    });
+    expect(result['@type']).toBe('WebApplication');
+    expect(result.applicationCategory).toBe('DeveloperApplication');
+    expect(result.offers.price).toBe('0');
+    expect(result.url).toBe('https://example.com/tools/json');
   });
 });
