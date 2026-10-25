@@ -121,6 +121,26 @@ export const en = {
     search: 'Search tools',
     searchPlaceholder: 'Search tools…',
     noResults: 'No tools match “{query}”',
+    privacy: {
+      title: 'Your data never leaves your device',
+      description:
+        'These tools are safe for everyone to use, including with private or sensitive input.',
+      points: {
+        local: {
+          title: 'Processed on your device',
+          text: 'Everything you paste, type or drop is handled by code running in your browser. There is no server that receives it, and no account is needed.',
+        },
+        noUpload: {
+          title: 'Nothing is uploaded or stored',
+          text: "The tools make no network requests with your input. The site's security policy also blocks pages from sending data anywhere except this site and Google Analytics, which only counts page visits.",
+        },
+        stored: {
+          title: 'Kept only in your browser',
+          text: "Inputs are saved in your browser's local storage so you can pick up where you left off. Keys, passwords and passphrases are never saved. On a shared computer, clear this site's data when you are done.",
+        },
+      },
+      seo: 'Runs entirely in your browser: nothing is uploaded.',
+    },
     categories: {
       data: 'Data & formats',
       encoding: 'Encoding',
@@ -274,7 +294,7 @@ export const en = {
     projectsCollection: 'Engineering platforms and production applications',
     toolsTitle: 'Developer Tools',
     toolsDescription:
-      'Free, private developer tools that run entirely in your browser: JSON formatter, encoders, JWT debugger, hashing, ID generators, diff and more.',
+      'Free, private developer tools that run entirely in your browser, so nothing is uploaded: JSON formatter, encoders, JWT debugger, hashing, ID generators, diff and more.',
     toolsCollection: 'Browser-based developer tools',
     resumeTitle: 'Experience & Resume',
     resumeDescription:

@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { ArrowUpRight, Search } from 'lucide-react';
 import { Container } from '@/components/ui/section';
 import { LocaleLink } from '@/components/ui/locale-link';
+import { TooltipLayer } from '@/components/ui/tooltip-layer';
 import { TOOLS, toolPath, toolText, type ToolCategory } from '@/lib/data/tools';
 import { useDictionary } from '@/i18n/provider';
 import { fmt } from '@/i18n/dictionary';
@@ -33,7 +34,7 @@ export function ToolsExplorer() {
   }, [query, t]);
 
   return (
-    <section aria-label={t.tools.label} className="pb-20 sm:pb-28">
+    <section aria-label={t.tools.label} className="pb-10 sm:pb-14">
       <Container>
         <label className="relative mb-6 flex max-w-md items-center">
           <span className="sr-only">{t.tools.search}</span>
@@ -99,6 +100,7 @@ export function ToolsExplorer() {
           ))}
         </div>
       </Container>
+      <TooltipLayer />
     </section>
   );
 }
