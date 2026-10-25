@@ -11,6 +11,7 @@ import { useLocale } from '@/i18n/use-locale';
 import { useDictionary } from '@/i18n/provider';
 import { useToolCommon } from '@/i18n/tools/provider';
 import { cn } from '@/lib/cn';
+import { Select } from './select';
 
 /**
  * The workbench's top bar: the page's <h1>, then tool-specific controls (`children`, which
@@ -50,34 +51,32 @@ function ToolSwitcher({ current, className }: { current: ToolSlug; className?: s
   const categories = Object.keys(t.tools.categories) as (keyof Messages['tools']['categories'])[];
 
   return (
-    <select
-      aria-label={common.switchTool}
+    <Select
+      label={common.switchTool}
       value={current}
-      onChange={(event) => {
-        const slug = event.target.value;
+      onChange={(slug) => {
         const tool = TOOLS.find((entry) => entry.slug === slug);
         router.push(localePath(locale, tool ? toolPath(tool.slug) : TOOLS_PATH));
       }}
+      options={[
+        { value: '', label: common.allTools },
+        ...categories.flatMap((category) => {
+          const tools = TOOLS.filter((tool) => tool.category === category);
+          if (tools.length === 0) return [];
+          return {
+            label: t.tools.categories[category],
+            options: tools.map((tool) => ({
+              value: tool.slug,
+              label: toolText(t, tool.slug).label,
+            })),
+          };
+        }),
+      ]}
       className={cn(
-        'h-7 max-w-40 shrink-0 cursor-pointer rounded-md border border-line bg-surface-2 ps-2 pe-1 text-xs font-semibold text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring',
+        'h-7 max-w-40 shrink-0 rounded-md border border-line bg-surface-2 ps-2 pe-1.5 text-xs font-semibold text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring',
         className
       )}
-    >
-      <option value="">{common.allTools}</option>
-      {categories.map((category) => {
-        const tools = TOOLS.filter((tool) => tool.category === category);
-        if (tools.length === 0) return null;
-        return (
-          <optgroup key={category} label={t.tools.categories[category]}>
-            {tools.map((tool) => (
-              <option key={tool.slug} value={tool.slug}>
-                {toolText(t, tool.slug).label}
-              </option>
-            ))}
-          </optgroup>
-        );
-      })}
-    </select>
+    />
   );
 }
 
@@ -273,7 +272,7 @@ export function ToolbarDivider() {
   return <span aria-hidden className="mx-1 h-4 w-px shrink-0 bg-line" />;
 }
 
-/** Compact native select for the toolbar (e.g. picking a codec or language). */
+/** Compact select for the toolbar (e.g. picking a codec or language). */
 export function ToolbarSelect<T extends string>({
   label,
   value,
@@ -289,21 +288,16 @@ export function ToolbarSelect<T extends string>({
   className?: string;
 }) {
   return (
-    <select
-      aria-label={label}
+    <Select
+      label={label}
       title={label}
       value={value}
-      onChange={(event) => onChange(event.target.value as T)}
+      onChange={onChange}
+      options={options}
       className={cn(
-        'h-7 max-w-44 shrink-0 cursor-pointer rounded-md border border-line bg-surface-2 ps-2 pe-1 text-xs font-medium text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring',
+        'h-7 max-w-44 shrink-0 rounded-md border border-line bg-surface-2 ps-2 pe-1.5 text-xs font-medium text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring',
         className
       )}
-    >
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
+    />
   );
 }

@@ -33,6 +33,8 @@ export const toolsEn = {
     resize: 'Resize panes',
     fileTooLarge: '“{name}” is larger than {size}.',
     fileReadFailed: 'Could not read “{name}”.',
+    filter: 'Filter',
+    noMatches: 'No matches',
   },
   json: {
     view: 'View',

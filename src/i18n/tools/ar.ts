@@ -28,6 +28,8 @@ export const toolsAr: ToolMessages = {
     resize: 'تغيير حجم الألواح',
     fileTooLarge: '“{name}” أكبر من {size}.',
     fileReadFailed: 'تعذّرت قراءة “{name}”.',
+    filter: 'تصفية',
+    noMatches: 'لا توجد نتائج مطابقة',
   },
   json: {
     view: 'العرض',

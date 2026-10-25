@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { SlidersHorizontal, type LucideIcon } from 'lucide-react';
 import { IconAction } from './toolbar';
+import { Select } from './select';
 import { useToolCommon } from '@/i18n/tools/provider';
 import { cn } from '@/lib/cn';
 
@@ -29,7 +30,8 @@ export function OptionsPopover({
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     };
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
+      // A select inside the panel prevents the default when Escape only closes its own list.
+      if (event.key !== 'Escape' || event.defaultPrevented) return;
       setOpen(false);
       rootRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
     };
@@ -100,7 +102,7 @@ export function Toggle({
   );
 }
 
-/** Labeled native select for option panels. */
+/** Labeled select for option panels. */
 export function SelectField<T extends string>({
   label,
   value,
@@ -112,21 +114,18 @@ export function SelectField<T extends string>({
   onChange: (value: T) => void;
   options: { value: T; label: string }[];
 }) {
+  // Not a <label>: clicking an option inside one would re-click the button and reopen the list.
   return (
-    <label className="flex items-center justify-between gap-3">
+    <div className="flex items-center justify-between gap-3">
       <span className="font-medium text-fg">{label}</span>
-      <select
+      <Select
+        label={label}
         value={value}
-        onChange={(event) => onChange(event.target.value as T)}
-        className="h-7 cursor-pointer rounded-md border border-line bg-surface-2 ps-2 pe-1 text-xs text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
+        onChange={onChange}
+        options={options}
+        className="h-7 min-w-0 rounded-md border border-line bg-surface-2 ps-2 pe-1.5 text-xs text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      />
+    </div>
   );
 }
 

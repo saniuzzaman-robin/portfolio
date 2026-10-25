@@ -35,7 +35,8 @@ const SMOKE: Record<ToolSlug, (page: Page) => Promise<void>> = {
     await expect(page.getByText(/Error at 1:6/)).toBeVisible();
   },
   format: async (page) => {
-    await page.getByRole('combobox', { name: toolsEn.format.language }).selectOption('css');
+    await page.getByRole('combobox', { name: toolsEn.format.language }).click();
+    await page.getByRole('option', { name: 'CSS', exact: true }).click();
     await fillEditor(page, page.getByRole('textbox', { name: common.input }), 'a{color:red}');
     await expect(page.getByRole('textbox', { name: common.output })).toContainText('color: red;');
   },
@@ -165,7 +166,8 @@ test.describe('Tool pages', () => {
     await page.goto(toolPath('json'));
     // Below `lg` the rail is replaced by a select in the tool header.
     if (isMobile) {
-      await page.getByRole('combobox', { name: common.switchTool }).selectOption('jwt');
+      await page.getByRole('combobox', { name: common.switchTool }).click();
+      await page.getByRole('option', { name: en.tools.items.jwt.label }).click();
     } else {
       await page
         .getByRole('navigation', { name: common.switchTool })
@@ -226,5 +228,41 @@ test.describe('Tool keyboard access', () => {
       await expect(radios.nth(1)).toBeFocused();
       await expect(radios.nth(1)).toHaveAttribute('aria-checked', 'true');
     }
+  });
+
+  test('selects open, navigate and choose from the keyboard', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Keyboard navigation is a desktop concern');
+    await page.goto(toolPath('format'));
+    const select = page.getByRole('combobox', { name: toolsEn.format.language });
+    const listbox = page.getByRole('listbox', { name: toolsEn.format.language });
+    await select.focus();
+    await page.keyboard.press('ArrowDown');
+    await expect(select).toHaveAttribute('aria-expanded', 'true');
+    await expect(listbox).toBeVisible();
+    const css = await listbox.getByRole('option', { name: 'CSS', exact: true }).getAttribute('id');
+    await page.keyboard.type('cs');
+    await expect(select).toHaveAttribute('aria-activedescendant', css ?? '');
+    await page.keyboard.press('Enter');
+    await expect(listbox).toBeHidden();
+    await expect(select).toHaveText('CSS');
+    await expect(select).toBeFocused();
+
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Escape');
+    await expect(listbox).toBeHidden();
+    await expect(select).toHaveText('CSS');
+  });
+
+  test('time zone select filters as you type', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Keyboard navigation is a desktop concern');
+    await page.goto(toolPath('time'));
+    const select = page.getByRole('combobox', { name: toolsEn.time.timeZone }).first();
+    await select.click();
+    await page.keyboard.type('tokyo');
+    await expect(page.getByRole('option')).toHaveCount(1);
+    await page.keyboard.press('Enter');
+    await expect(select).toHaveText('Asia/Tokyo');
+    await expect(select).toBeFocused();
   });
 });

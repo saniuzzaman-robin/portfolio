@@ -28,6 +28,8 @@ export const toolsBn: ToolMessages = {
     resize: 'প্যানের আকার বদলান',
     fileTooLarge: '“{name}” {size}-এর চেয়ে বড়।',
     fileReadFailed: '“{name}” পড়া যায়নি।',
+    filter: 'ফিল্টার করুন',
+    noMatches: 'কিছু মেলেনি',
   },
   json: {
     view: 'ভিউ',

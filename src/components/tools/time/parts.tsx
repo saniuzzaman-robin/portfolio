@@ -1,9 +1,10 @@
 'use client';
 
-import { useContext, useId, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { relativeTime } from '@/lib/tools/jwt/claims';
 import { systemTimeZone, timeZones } from '@/lib/tools/time/zone';
 import { CopyButton } from '@/components/tools/workbench/toolbar';
+import { Select } from '@/components/tools/workbench/select';
 import { DetailRowLabel } from '@/components/tools/crypto/parts';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
@@ -13,36 +14,31 @@ import { cn } from '@/lib/cn';
 const CONTROL_CLASSES =
   'h-7 w-full min-w-0 flex-1 basis-48 rounded-md border border-line bg-surface-2 px-2 font-mono text-xs text-fg outline-none placeholder:text-fg-subtle focus-visible:ring-2 focus-visible:ring-ring aria-invalid:border-danger';
 
-/** Labeled native select laid out like `TextField` (label column, control filling the rest). */
+/** Labeled select laid out like `TextField` (label column, control filling the rest). */
 export function SelectRow<T extends string>({
   label,
   value,
   onChange,
   options,
+  searchable,
 }: {
   label: string;
   value: T;
   onChange: (value: T) => void;
   options: { value: T; label: string }[];
+  searchable?: boolean;
 }) {
-  const id = useId();
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <label htmlFor={id} className="w-24 shrink-0 text-fg-subtle">
-        {label}
-      </label>
-      <select
-        id={id}
+      <span className="w-24 shrink-0 text-fg-subtle">{label}</span>
+      <Select
+        label={label}
         value={value}
-        onChange={(event) => onChange(event.target.value as T)}
-        className={cn(CONTROL_CLASSES, 'cursor-pointer font-sans')}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+        onChange={onChange}
+        options={options}
+        searchable={searchable}
+        className={cn(CONTROL_CLASSES, 'font-sans')}
+      />
     </div>
   );
 }
@@ -74,6 +70,7 @@ export function ZoneSelect({
       label={t.timeZone}
       value={value}
       onChange={onChange}
+      searchable
       options={[
         { value: '', label: local },
         ...zones.map((zone) => ({ value: zone, label: zone })),
