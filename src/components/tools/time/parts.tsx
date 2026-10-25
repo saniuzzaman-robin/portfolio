@@ -1,10 +1,11 @@
 'use client';
 
-import { useId, useMemo } from 'react';
+import { useContext, useId, useMemo } from 'react';
 import { relativeTime } from '@/lib/tools/jwt/claims';
 import { systemTimeZone, timeZones } from '@/lib/tools/time/zone';
 import { CopyButton } from '@/components/tools/workbench/toolbar';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { DetailRowLabel } from '@/components/tools/crypto/parts';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
 import { cn } from '@/lib/cn';
@@ -81,12 +82,17 @@ export function ZoneSelect({
   );
 }
 
-/** A technical value with a copy button, for `DetailList` rows. */
+/** A technical value with a copy button (named after its row), for `DetailList` rows. */
 export function CopyValue({ text, children }: { text: string; children?: React.ReactNode }) {
+  const common = useToolCommon();
+  const row = useContext(DetailRowLabel);
   return (
     <span className="flex items-start gap-1">
       <span className="min-w-0 flex-1 py-1 break-all">{children ?? text}</span>
-      <CopyButton getText={() => text} />
+      <CopyButton
+        getText={() => text}
+        label={row ? fmt(common.copyNamed, { name: row }) : undefined}
+      />
     </span>
   );
 }

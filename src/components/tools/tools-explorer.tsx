@@ -50,11 +50,12 @@ export function ToolsExplorer() {
           />
         </label>
 
-        {groups.length === 0 && query.trim() && (
-          <p role="status" className="text-sm text-fg-muted">
-            {fmt(t.tools.noResults, { query: query.trim() })}
-          </p>
-        )}
+        {/* Always mounted so screen readers announce the message when it appears. */}
+        <p role="status" className="text-sm text-fg-muted">
+          {groups.length === 0 && query.trim()
+            ? fmt(t.tools.noResults, { query: query.trim() })
+            : null}
+        </p>
 
         <div className="space-y-12">
           {groups.map(({ category, tools }) => (

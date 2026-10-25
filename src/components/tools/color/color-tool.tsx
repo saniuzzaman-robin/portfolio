@@ -18,7 +18,7 @@ import { OptionsPopover, Toggle } from '@/components/tools/workbench/options-pop
 import { SplitPane } from '@/components/tools/workbench/split-pane';
 import { StatusBar, StatusItem, ValidityStatus } from '@/components/tools/workbench/status-bar';
 import { PartHeading } from '@/components/tools/jwt/parts';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
 import { cn } from '@/lib/cn';
@@ -43,6 +43,7 @@ const hexOf = (color: Color) =>
 /** Converts, picks and checks colors: formats, contrast and a tint/shade scale. */
 export function ColorTool() {
   const t = useToolMessages<'color'>();
+  const common = useToolCommon();
   const locale = useLocale();
   const inputId = useId();
   const [input, setInput] = useColorInput();
@@ -144,13 +145,18 @@ export function ColorTool() {
                 <dt className="w-14 shrink-0 text-[11px] font-semibold text-fg-muted">
                   {t.formatLabels[format]}
                 </dt>
-                <dd
-                  dir="ltr"
-                  className="min-w-0 flex-1 py-1.5 text-start font-mono text-xs break-all text-fg select-all"
-                >
-                  {value}
+                <dd className="flex min-w-0 flex-1 items-center gap-2">
+                  <span
+                    dir="ltr"
+                    className="min-w-0 flex-1 py-1.5 text-start font-mono text-xs break-all text-fg select-all"
+                  >
+                    {value}
+                  </span>
+                  <CopyButton
+                    getText={() => value}
+                    label={fmt(common.copyNamed, { name: t.formatLabels[format] })}
+                  />
                 </dd>
-                <CopyButton getText={() => value} />
               </div>
             );
           })}

@@ -10,6 +10,7 @@ export const toolsBn: ToolMessages = {
     copy: 'কপি',
     copied: 'কপি হয়েছে',
     copyFailed: 'কপি করা যায়নি',
+    copyNamed: '{name} কপি করুন',
     clear: 'মুছে ফেলুন',
     swap: 'ইনপুট ও আউটপুট অদলবদল করুন',
     openFile: 'ফাইল খুলুন',

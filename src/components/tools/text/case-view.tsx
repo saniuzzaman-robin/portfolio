@@ -10,7 +10,7 @@ import { CursorStatus, StatusBar, StatusItem } from '@/components/tools/workbenc
 import type { CursorInfo } from '@/components/tools/workbench/code-editor';
 import { useLiveInput } from '@/components/tools/workbench/use-live-input';
 import { PartHeading } from '@/components/tools/jwt/parts';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import type { ToolMessages } from '@/i18n/tools/en';
 import { fmt } from '@/i18n/dictionary';
 import { useFormatNumber } from '@/components/tools/generate/parts';
@@ -30,6 +30,7 @@ const SEPARATOR_KEYS: Record<SlugSeparator, keyof ToolMessages['text']['slugSepa
 /** Every case style (and a slug) of the input at once, each with its own copy button. */
 export function CaseView({ picker }: { picker: React.ReactNode }) {
   const t = useToolMessages<'text'>();
+  const common = useToolCommon();
   const formatNumber = useFormatNumber();
   const input = useInput();
   const [slugOptions, setSlugOptions] = useSlugOptions();
@@ -58,7 +59,11 @@ export function CaseView({ picker }: { picker: React.ReactNode }) {
                 <h3 className="min-w-0 flex-1 truncate text-[11px] font-semibold text-fg-muted">
                   {row.label}
                 </h3>
-                <CopyButton getText={() => row.value} disabled={!row.value} />
+                <CopyButton
+                  getText={() => row.value}
+                  disabled={!row.value}
+                  label={fmt(common.copyNamed, { name: row.label })}
+                />
               </div>
               <pre
                 dir="ltr"

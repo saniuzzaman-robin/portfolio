@@ -10,6 +10,7 @@ export const toolsAr: ToolMessages = {
     copy: 'نسخ',
     copied: 'تم النسخ',
     copyFailed: 'تعذّر النسخ',
+    copyNamed: 'نسخ {name}',
     clear: 'مسح',
     swap: 'تبديل المدخل والمخرج',
     openFile: 'فتح ملف',

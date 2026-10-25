@@ -1,6 +1,6 @@
 'use client';
 
-import { useId } from 'react';
+import { createContext, useId } from 'react';
 import { useToolMessages } from '@/i18n/tools/provider';
 import { cn } from '@/lib/cn';
 
@@ -99,6 +99,9 @@ export function NumberField({
   );
 }
 
+/** The label of the `DetailList` row being rendered, so controls in it can name themselves. */
+export const DetailRowLabel = createContext<string | null>(null);
+
 /** Label/value grid; values are technical strings shown left-to-right. */
 export function DetailList({
   rows,
@@ -113,7 +116,7 @@ export function DetailList({
         <div key={label} className="contents">
           <dt className="text-fg-subtle">{label}</dt>
           <dd dir="ltr" className="min-w-0 text-start font-mono break-all text-fg">
-            {value}
+            <DetailRowLabel value={label}>{value}</DetailRowLabel>
           </dd>
         </div>
       ))}

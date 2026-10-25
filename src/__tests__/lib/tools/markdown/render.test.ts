@@ -28,9 +28,12 @@ describe('renderMarkdown', () => {
     const html = await plain('- [ ] todo\n- [x] done\n- plain');
     expect(html).toBe(
       '<ul class="contains-task-list">\n' +
-        '<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> todo</li>\n' +
-        '<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="" checked=""> done</li>\n' +
+        '<li class="task-list-item"><label><input type="checkbox" class="task-list-item-checkbox" disabled=""> todo</label></li>\n' +
+        '<li class="task-list-item"><label><input type="checkbox" class="task-list-item-checkbox" disabled="" checked=""> done</label></li>\n' +
         '<li>plain</li>\n</ul>\n'
+    );
+    expect(await plain('- [ ] parent\n  - child')).toContain(
+      '<label><input type="checkbox" class="task-list-item-checkbox" disabled=""> parent</label>\n<ul>'
     );
   });
 

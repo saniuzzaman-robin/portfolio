@@ -53,7 +53,7 @@ type Token = CoreState['tokens'][number];
 
 const TASK = /^\[([ xX])\][ \t]/;
 
-/** GFM task list items: `- [ ] todo` / `- [x] done` get a disabled checkbox. */
+/** GFM task list items: `- [ ] todo` / `- [x] done` get a disabled checkbox, labeled by the item text. */
 const taskLists: CoreRule = (state) => {
   const tokens = state.tokens;
   for (let index = 2; index < tokens.length; index++) {
@@ -71,8 +71,11 @@ const taskLists: CoreRule = (state) => {
     first.content = first.content.slice(match[0].length);
     const checkbox = new state.Token('html_inline', '', 0);
     const checked = match[1] !== ' ' ? ' checked' : '';
-    checkbox.content = `<input type="checkbox" class="task-list-item-checkbox" disabled${checked}> `;
+    checkbox.content = `<label><input type="checkbox" class="task-list-item-checkbox" disabled${checked}> `;
+    const close = new state.Token('html_inline', '', 0);
+    close.content = '</label>';
     inline.children.unshift(checkbox);
+    inline.children.push(close);
 
     const item = tokens[index - 2];
     item.attrJoin('class', 'task-list-item');

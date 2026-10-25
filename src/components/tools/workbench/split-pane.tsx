@@ -126,7 +126,7 @@ export function SplitPane({
         onPointerCancel={handlePointerUp}
         onKeyDown={handleKeyDown}
         onDoubleClick={() => setRatio(defaultRatio)}
-        className="relative z-10 h-px w-full shrink-0 cursor-row-resize touch-none bg-line transition-colors outline-none after:absolute after:-inset-1.5 after:content-[''] hover:bg-primary/60 focus-visible:bg-primary data-dragging:bg-primary md:h-auto md:w-px md:cursor-col-resize"
+        className="relative z-10 h-px w-full shrink-0 cursor-row-resize touch-none bg-line transition-colors outline-none after:absolute after:inset-x-0 after:-inset-y-1.5 after:content-[''] hover:bg-primary/60 focus-visible:bg-primary data-dragging:bg-primary md:h-auto md:w-px md:cursor-col-resize md:after:-inset-x-1.5 md:after:inset-y-0"
       />
       <div className="flex min-h-0 min-w-0 flex-1 basis-0 flex-col overflow-hidden">{second}</div>
     </div>

@@ -35,6 +35,10 @@ const TONES: Record<Tone, string> = {
   warning: 'text-warning',
 };
 
+/**
+ * One status bar entry. Muted items (sizes, counts, cursor) change on every keystroke, so they opt
+ * out of the bar's live region; the colored tones (valid, errors, warnings) are announced.
+ */
 export function StatusItem({
   tone = 'muted',
   onClick,
@@ -50,12 +54,14 @@ export function StatusItem({
   children: React.ReactNode;
 }) {
   const classes = cn('flex min-w-0 items-center gap-1 truncate', TONES[tone], className);
+  const live = tone === 'muted' ? 'off' : undefined;
   if (onClick) {
     return (
       <button
         type="button"
         onClick={onClick}
         title={title}
+        aria-live={live}
         className={cn(
           classes,
           'cursor-pointer hover:underline focus-visible:underline focus-visible:outline-none'
@@ -66,7 +72,7 @@ export function StatusItem({
     );
   }
   return (
-    <span title={title} className={classes}>
+    <span title={title} aria-live={live} className={classes}>
       {children}
     </span>
   );

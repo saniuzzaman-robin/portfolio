@@ -15,6 +15,7 @@ export const toolsEn = {
     copy: 'Copy',
     copied: 'Copied',
     copyFailed: 'Copy failed',
+    copyNamed: 'Copy {name}',
     clear: 'Clear',
     swap: 'Swap input and output',
     openFile: 'Open file',

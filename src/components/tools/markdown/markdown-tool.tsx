@@ -193,7 +193,7 @@ export function MarkdownTool() {
             aria-label={t.previewLabel}
             tabIndex={0}
             dir="auto"
-            className="markdown-preview px-5 py-4 focus-visible:outline-none"
+            className="markdown-preview px-5 py-4 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none focus-visible:ring-inset"
             // Sanitized by DOMPurify in `renderMarkdown`.
             dangerouslySetInnerHTML={{ __html: previewHtml }}
           />
