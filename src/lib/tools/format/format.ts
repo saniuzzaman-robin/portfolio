@@ -42,7 +42,9 @@ async function beautify(
 ): Promise<FormatResult> {
   switch (language) {
     case 'json': {
-      const parsed = parseJson(code);
+      // Lenient so JS object literals (single quotes, unquoted keys, comments, trailing commas)
+      // are repaired into strict JSON.
+      const parsed = parseJson(code, { lenient: true });
       if (!parsed.ok) return { ok: false, error: parsed.error };
       return formatted(`${stringifyJson(parsed.value, { indent: options.indent })}\n`);
     }
@@ -62,7 +64,7 @@ async function minify(
 ): Promise<FormatResult> {
   switch (language) {
     case 'json': {
-      const parsed = parseJson(code);
+      const parsed = parseJson(code, { lenient: true });
       return parsed.ok
         ? formatted(stringifyJson(parsed.value))
         : { ok: false, error: parsed.error };
