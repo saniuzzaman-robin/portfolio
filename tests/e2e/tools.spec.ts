@@ -186,6 +186,39 @@ test.describe('Tool pages', () => {
   });
 });
 
+test.describe('Manual run', () => {
+  test('edits mark the output stale until the next run; reloads do not run', async ({ page }) => {
+    await page.goto(toolPath('json'));
+    const input = page.getByRole('textbox', { name: common.input });
+    const output = page.getByRole('textbox', { name: common.output });
+    const action = toolsEn.json.format;
+    const hint = common.runHint.replace('{action}', action).replace('{shortcut}', 'Ctrl/⌘+Enter');
+    const stale = page.getByText(common.stale.replace('{action}', action));
+    await expect(output).toHaveAttribute('aria-placeholder', hint);
+
+    await fillEditor(page, input, '{"a":1}');
+    await page.getByRole('button', { name: action, exact: true }).click();
+    await expect(output).toContainText('"a": 1');
+    await expect(stale).toBeHidden();
+
+    await fillEditor(page, input, '{"b":2}');
+    await expect(stale).toBeVisible();
+    await expect(output).toContainText('"a": 1');
+    await stale.click();
+    await expect(output).toContainText('"b": 2');
+    await expect(stale).toBeHidden();
+
+    // The input is restored (once its debounced save lands), but the output waits for a run.
+    await expect
+      .poll(() => page.evaluate(() => localStorage.getItem('tools:json:input')))
+      .toBe(JSON.stringify('{"b":2}'));
+    await page.reload();
+    await expect(input).toContainText('{"b":2}');
+    await expect(output).toHaveAttribute('aria-placeholder', hint);
+    await expect(output).not.toContainText('"b": 2');
+  });
+});
+
 test.describe('Localized tool pages', () => {
   for (const locale of LOCALES) {
     test(`${localePath(locale, toolPath('json'))} is translated, editors stay LTR`, async ({
