@@ -34,12 +34,12 @@ const inter = Inter({
   display: 'swap',
 });
 
-// Only used for small labels; don't let it compete with critical fonts.
+// The hero code card is mono text above the fold: preloaded so it doesn't swap in late and
+// shift the layout.
 const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains',
   subsets: ['latin'],
   display: 'swap',
-  preload: false,
 });
 
 // Script fonts share one variable (`--font-script`, the fallback in the sans/heading stacks) and
