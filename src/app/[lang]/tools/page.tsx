@@ -58,6 +58,7 @@ export default async function Tools({ params }: { params: Promise<{ lang: string
         title={t.tools.title}
         accent={t.tools.accent}
         description={t.tools.description}
+        compact
       />
       <ToolsExplorer />
       <Footer lang={lang} />

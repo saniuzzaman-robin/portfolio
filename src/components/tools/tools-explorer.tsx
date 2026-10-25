@@ -35,7 +35,7 @@ export function ToolsExplorer() {
   return (
     <section aria-label={t.tools.label} className="pb-20 sm:pb-28">
       <Container>
-        <label className="relative mb-10 flex max-w-md items-center">
+        <label className="relative mb-6 flex max-w-md items-center">
           <span className="sr-only">{t.tools.search}</span>
           <Search
             className="pointer-events-none absolute start-3.5 size-4 text-fg-subtle"
@@ -57,13 +57,14 @@ export function ToolsExplorer() {
             : null}
         </p>
 
-        <div className="space-y-12">
+        {/* Categories flow down the columns so all tools fit on one desktop screen. */}
+        <div className="gap-x-6 sm:columns-2 lg:columns-3 xl:columns-4">
           {groups.map(({ category, tools }) => (
-            <div key={category}>
-              <h2 className="mb-4 font-mono text-xs font-medium tracking-wider text-fg-subtle uppercase">
+            <div key={category} className="mb-6 break-inside-avoid">
+              <h2 className="mb-2 font-mono text-[11px] font-medium tracking-wider text-fg-subtle uppercase">
                 {t.tools.categories[category]}
               </h2>
-              <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="space-y-2">
                 {tools.map((tool) => {
                   const text = toolText(t, tool.slug);
                   const Icon = tool.icon;
@@ -71,20 +72,21 @@ export function ToolsExplorer() {
                     <li key={tool.slug}>
                       <LocaleLink
                         href={toolPath(tool.slug)}
-                        className="group flex h-full gap-4 rounded-xl border border-line bg-surface p-4 transition-colors hover:border-primary/40 hover:bg-surface-2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                        title={text.description}
+                        className="group flex items-center gap-3 rounded-lg border border-line bg-surface px-3 py-2 transition-colors hover:border-primary/40 hover:bg-surface-2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                       >
-                        <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary-text">
-                          <Icon className="size-5" aria-hidden />
+                        <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary-text">
+                          <Icon className="size-4" aria-hidden />
                         </span>
                         <span className="min-w-0 flex-1">
                           <span className="flex items-center gap-1 font-heading text-sm font-semibold text-fg">
-                            {text.title}
+                            <span className="truncate">{text.label}</span>
                             <ArrowUpRight
-                              className="size-3.5 text-fg-subtle opacity-0 transition-opacity group-hover:opacity-100 rtl:-scale-x-100"
+                              className="size-3.5 shrink-0 text-fg-subtle opacity-0 transition-opacity group-hover:opacity-100 rtl:-scale-x-100"
                               aria-hidden
                             />
                           </span>
-                          <span className="mt-1 block text-[13px] leading-relaxed text-fg-muted">
+                          <span className="block truncate text-xs text-fg-muted">
                             {text.description}
                           </span>
                         </span>
