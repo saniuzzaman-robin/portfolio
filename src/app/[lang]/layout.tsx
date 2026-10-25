@@ -22,16 +22,18 @@ import { cn } from '@/lib/cn';
 import '../globals.css';
 
 // Variable fonts: one file per family covers every weight used.
+// `optional` (with the preload) keeps the size-matched fallback if a font isn't ready within
+// ~100ms, so a late font can't re-wrap the hero and shift the page.
 const jakartaSans = Plus_Jakarta_Sans({
   variable: '--font-jakarta',
   subsets: ['latin'],
-  display: 'swap',
+  display: 'optional',
 });
 
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
-  display: 'swap',
+  display: 'optional',
 });
 
 // The hero code card is mono text above the fold: preloaded so it doesn't swap in late and
