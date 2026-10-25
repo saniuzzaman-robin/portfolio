@@ -148,7 +148,7 @@ export function ProfileCard() {
         </div>
 
         <pre
-          className="overflow-x-auto py-4 pl-4 font-mono text-[11px] leading-6 sm:pl-0 sm:text-[13px] lg:text-[12px] xl:text-[13px]"
+          className="no-scrollbar overflow-x-auto py-4 pl-4 font-mono text-[11px] leading-6 sm:pl-0 sm:text-[13px] lg:text-[12px] xl:text-[13px]"
           aria-label={fmt(t.profileCard.summary, { role: cv.role, location: cv.location })}
         >
           <code className="block">
