@@ -5,8 +5,8 @@ import { useState } from 'react';
 /** Shown in hints and tooltips; `RunButton` listens for both modifiers. */
 export const RUN_SHORTCUT = 'Ctrl/⌘+Enter';
 
-/** Dims an output that no longer matches the input. */
-export const STALE_OUTPUT_CLASS = 'opacity-50 transition-opacity';
+/** Grays out an output that no longer matches the input (unlike dimming, it keeps text contrast). */
+export const STALE_OUTPUT_CLASS = 'grayscale transition-[filter]';
 
 type Snapshot = { texts: readonly string[]; scope: string };
 
