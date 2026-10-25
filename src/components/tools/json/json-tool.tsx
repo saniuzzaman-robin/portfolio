@@ -22,6 +22,7 @@ import {
   CopyButton,
   FileOpenButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
@@ -32,15 +33,21 @@ import { DropZone } from '@/components/tools/workbench/drop-zone';
 import { downloadFile, useFileLoader } from '@/components/tools/workbench/file';
 import {
   CursorStatus,
+  StaleStatus,
   StatusBar,
   StatusItem,
   ValidityStatus,
 } from '@/components/tools/workbench/status-bar';
 import { usePersistentState } from '@/components/tools/workbench/use-persistent-state';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
+import { cn } from '@/lib/cn';
 import { JsonTree } from './json-tree';
 
 const MODES = ['format', 'minify', 'tree', 'query', 'escape', 'unescape'] as const;
@@ -99,8 +106,16 @@ export function JsonTool() {
   const [wrap, setWrap] = usePersistentState('json:wrap', false);
   const [query, setQuery] = usePersistentState('json:query', '$');
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(input);
-  const file = useFileLoader('text', (content) => setInput(content));
+  const { value: live, run, ran, stale } = useRunInput(input);
+  const file = useFileLoader('text', (content) => {
+    setInput(content);
+    run(content);
+  });
+  // Opening a file or reusing the result is explicit, so the new input runs right away.
+  const replaceInput = (next: string) => {
+    setInput(next);
+    run(next);
+  };
 
   const textMode = mode === 'escape' || mode === 'unescape';
   const hasInput = live.trim() !== '';
@@ -174,7 +189,7 @@ export function JsonTool() {
 
   const repair = () => {
     const result = parseJson(input, { lenient: true });
-    if (result.ok) setInput(stringifyJson(result.value, { indent }));
+    if (result.ok) replaceInput(stringifyJson(result.value, { indent }));
   };
 
   const numbers = new Intl.NumberFormat(locale);
@@ -187,11 +202,15 @@ export function JsonTool() {
       : mode === 'unescape'
         ? t.unescapePlaceholder
         : t.inputPlaceholder;
-  const outputPlaceholder = output.error
-    ? t.invalidPlaceholder
-    : mode === 'query'
-      ? t.queryHint
-      : t.outputPlaceholder;
+  const runLabel = mode === 'tree' || mode === 'query' ? common.run : t[mode];
+  const runHint = fmt(common.runHint, { action: runLabel, shortcut: RUN_SHORTCUT });
+  const outputPlaceholder = !ran
+    ? runHint
+    : output.error
+      ? t.invalidPlaceholder
+      : mode === 'query'
+        ? t.queryHint
+        : t.outputPlaceholder;
 
   const inputPane = (
     <DropZone onFile={(picked) => void file.load(picked)}>
@@ -218,6 +237,7 @@ export function JsonTool() {
       readOnly
       wrap={wrap}
       placeholder={outputPlaceholder}
+      className={cn(stale && STALE_OUTPUT_CLASS)}
     />
   );
 
@@ -225,6 +245,7 @@ export function JsonTool() {
   if (mode === 'tree') {
     outputPane = parsed?.ok ? (
       <JsonTree
+        className={cn(stale && STALE_OUTPUT_CLASS)}
         root={parsed.value}
         onReveal={reveal}
         onQuery={(path) => {
@@ -234,7 +255,7 @@ export function JsonTool() {
       />
     ) : (
       <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">
-        {output.error ? t.invalidPlaceholder : t.outputPlaceholder}
+        {!ran ? runHint : output.error ? t.invalidPlaceholder : t.outputPlaceholder}
       </p>
     );
   } else if (mode === 'query') {
@@ -285,7 +306,7 @@ export function JsonTool() {
             <IconAction
               icon={Eraser}
               label={common.clear}
-              onClick={() => setInput('')}
+              onClick={() => replaceInput('')}
               disabled={!input}
             />
             <ToolbarDivider />
@@ -323,7 +344,7 @@ export function JsonTool() {
             <IconAction
               icon={ArrowLeftToLine}
               label={t.useOutput}
-              onClick={() => setInput(output.text)}
+              onClick={() => replaceInput(output.text)}
               disabled={!output.text}
               className="rtl:-scale-x-100"
             />
@@ -340,6 +361,7 @@ export function JsonTool() {
                 )
               }
             />
+            <RunButton label={runLabel} onRun={() => run()} />
           </>
         }
       >
@@ -360,6 +382,7 @@ export function JsonTool() {
             onReveal={output.error ? () => reveal(output.error!.from, output.error!.to) : undefined}
           />
         )}
+        {stale && <StaleStatus action={runLabel} onRun={() => run()} />}
         {file.error && <StatusItem tone="danger">{file.error}</StatusItem>}
         {warnings.length > 0 && (
           <StatusItem
@@ -386,8 +409,8 @@ export function JsonTool() {
         {hasInput && (
           <StatusItem className="shrink-0">
             {output.text && mode !== 'tree' && mode !== 'query'
-              ? fmt(t.sizeChange, { from: size(input), to: size(output.text) })
-              : size(input)}
+              ? fmt(t.sizeChange, { from: size(live), to: size(output.text) })
+              : size(live)}
           </StatusItem>
         )}
         <div className="hidden sm:contents">

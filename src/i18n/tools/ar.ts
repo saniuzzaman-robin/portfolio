@@ -30,6 +30,9 @@ export const toolsAr: ToolMessages = {
     fileReadFailed: 'تعذّرت قراءة “{name}”.',
     filter: 'تصفية',
     noMatches: 'لا توجد نتائج مطابقة',
+    run: 'تشغيل',
+    runHint: 'اضغط {action} أو {shortcut} لعرض النتيجة.',
+    stale: 'تغيّر الإدخال: اضغط {action}',
   },
   json: {
     view: 'العرض',
@@ -531,6 +534,7 @@ export const toolsAr: ToolMessages = {
   convert: {
     conversion: 'التحويل',
     direction: '{from} → {to}',
+    convert: 'تحويل',
     formats: {
       json: 'JSON',
       yaml: 'YAML',

@@ -29,6 +29,7 @@ import {
   CopyButton,
   FileOpenButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
@@ -40,6 +41,7 @@ import { DropZone } from '@/components/tools/workbench/drop-zone';
 import { downloadFile, useFileLoader } from '@/components/tools/workbench/file';
 import {
   CursorStatus,
+  StaleStatus,
   StatusBar,
   StatusItem,
   ValidityStatus,
@@ -48,11 +50,16 @@ import {
   usePersistentState,
   writePersistentState,
 } from '@/components/tools/workbench/use-persistent-state';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
+import { cn } from '@/lib/cn';
 import { SAMPLES } from './samples';
 
 const MODES = ['beautify', 'minify'] as const satisfies FormatMode[];
@@ -137,12 +144,18 @@ export function FormatTool() {
   const [options, setOptions] = usePersistentState('format:options', DEFAULT_OPTIONS, isOptions);
   const [wrap, setWrap] = usePersistentState('format:wrap', false);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(input);
+  const { value: live, run, ran, stale } = useRunInput(input, language);
+  // Opening a file or reusing the result is explicit, so the new input runs right away.
   const file = useFileLoader('text', (content, picked) => {
     const detected = languageForFile(picked.name) ?? language;
     writePersistentState(inputKey(detected), content);
     setLanguage(detected);
+    run(content, detected);
   });
+  const replaceInput = (next: string) => {
+    setInput(next);
+    run(next);
+  };
 
   const info = LANGUAGES[language];
   const effectiveMode: FormatMode = info.minify ? mode : 'beautify';
@@ -184,19 +197,20 @@ export function FormatTool() {
   const size = (text: string) => formatBytes(utf8Length(text), locale);
 
   const beautifying = effectiveMode === 'beautify';
+  const runLabel = t.modes[effectiveMode];
   let sizeStatus: string | null = null;
   if (hasInput && output && beautifying) {
-    sizeStatus = fmt(t.sizeChange, { from: size(input), to: size(output) });
+    sizeStatus = fmt(t.sizeChange, { from: size(live), to: size(output) });
   } else if (hasInput && output) {
-    const before = utf8Length(input);
+    const before = utf8Length(live);
     const after = utf8Length(output);
     sizeStatus = fmt(after <= before ? t.saved : t.grew, {
-      from: size(input),
+      from: size(live),
       to: size(output),
       percent: percent.format(before ? Math.abs(after - before) / before : 0),
     });
   } else if (hasInput) {
-    sizeStatus = size(input);
+    sizeStatus = size(live);
   }
 
   const minifiesJs = !beautifying && (language === 'javascript' || language === 'html');
@@ -231,7 +245,16 @@ export function FormatTool() {
       language={EDITOR_LANGUAGES[language]}
       readOnly
       wrap={wrap}
-      placeholder={error ? t.invalidPlaceholder : loadError ? t.loadFailed : t.outputPlaceholder}
+      placeholder={
+        !ran
+          ? fmt(common.runHint, { action: runLabel, shortcut: RUN_SHORTCUT })
+          : error
+            ? t.invalidPlaceholder
+            : loadError
+              ? t.loadFailed
+              : t.outputPlaceholder
+      }
+      className={cn(stale && STALE_OUTPUT_CLASS)}
     />
   );
 
@@ -245,7 +268,7 @@ export function FormatTool() {
             <IconAction
               icon={Eraser}
               label={common.clear}
-              onClick={() => setInput('')}
+              onClick={() => replaceInput('')}
               disabled={!input}
             />
             <ToolbarDivider />
@@ -324,7 +347,7 @@ export function FormatTool() {
             <IconAction
               icon={ArrowLeftToLine}
               label={t.useOutput}
-              onClick={() => setInput(output)}
+              onClick={() => replaceInput(output)}
               disabled={!output}
               className="rtl:-scale-x-100"
             />
@@ -335,6 +358,7 @@ export function FormatTool() {
               disabled={!output}
               onClick={download}
             />
+            <RunButton label={runLabel} onRun={() => run()} />
           </>
         }
       >
@@ -366,6 +390,7 @@ export function FormatTool() {
             {t.loadFailed}
           </StatusItem>
         )}
+        {stale && <StaleStatus action={runLabel} onRun={() => run()} />}
         {file.error && <StatusItem tone="danger">{file.error}</StatusItem>}
         {warnings.length > 0 && (
           <StatusItem

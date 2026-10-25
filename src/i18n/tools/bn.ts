@@ -30,6 +30,9 @@ export const toolsBn: ToolMessages = {
     fileReadFailed: '“{name}” পড়া যায়নি।',
     filter: 'ফিল্টার করুন',
     noMatches: 'কিছু মেলেনি',
+    run: 'চালান',
+    runHint: 'ফলাফল দেখতে {action} বা {shortcut} চাপুন।',
+    stale: 'ইনপুট বদলেছে: {action} চাপুন',
   },
   json: {
     view: 'ভিউ',
@@ -528,6 +531,7 @@ export const toolsBn: ToolMessages = {
   convert: {
     conversion: 'রূপান্তর',
     direction: '{from} → {to}',
+    convert: 'রূপান্তর করুন',
     formats: {
       json: 'JSON',
       yaml: 'YAML',

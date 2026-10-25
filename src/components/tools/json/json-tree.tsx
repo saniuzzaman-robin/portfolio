@@ -215,10 +215,12 @@ export function JsonTree({
   root,
   onReveal,
   onQuery,
+  className,
 }: {
   root: JsonNode;
   onReveal: (from: number, to: number) => void;
   onQuery: (path: string) => void;
+  className?: string;
 }) {
   const t = useToolMessages<'json'>();
   const locale = useLocale();
@@ -310,7 +312,7 @@ export function JsonTree({
   const selectedPath = selected.endsWith('#more') ? selected.slice(0, -5) : selected;
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <div className={cn('flex min-h-0 flex-1 flex-col', className)}>
       <label className="flex h-8 shrink-0 items-center gap-2 border-b border-line px-2.5">
         <Search className="size-3.5 shrink-0 text-fg-subtle" aria-hidden />
         <span className="sr-only">{t.search}</span>

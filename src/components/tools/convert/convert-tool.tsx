@@ -31,6 +31,7 @@ import {
   CopyButton,
   FileOpenButton,
   IconAction,
+  RunButton,
   ToolHeader,
   ToolbarDivider,
   ToolbarSelect,
@@ -46,6 +47,7 @@ import { DropZone } from '@/components/tools/workbench/drop-zone';
 import { downloadFile, useFileLoader } from '@/components/tools/workbench/file';
 import {
   CursorStatus,
+  StaleStatus,
   StatusBar,
   StatusItem,
   ValidityStatus,
@@ -54,11 +56,16 @@ import {
   usePersistentState,
   writePersistentState,
 } from '@/components/tools/workbench/use-persistent-state';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
+import { cn } from '@/lib/cn';
 import { SAMPLES } from './samples';
 
 const INDENTS = { '2': 2, '4': 4, tab: 'tab' } as const satisfies Record<string, JsonIndent>;
@@ -148,11 +155,13 @@ export function ConvertTool() {
   const [options, setOptions] = usePersistentState('convert:options', DEFAULT_OPTIONS, isOptions);
   const [wrap, setWrap] = usePersistentState('convert:wrap', false);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(input);
+  const { value: live, run, ran, stale } = useRunInput(input, from);
+  // Opening a file or converting back is explicit, so the new input runs right away.
   const file = useFileLoader('text', (content, picked) => {
     const detected = formatForFile(picked.name) ?? from;
     writePersistentState(inputKey(detected), content);
     if (detected !== from) setConversion(DEFAULT_CONVERSION[detected]);
+    run(content, detected);
   });
 
   const hasInput = live.trim() !== '';
@@ -196,8 +205,10 @@ export function ConvertTool() {
   // Convert back: the result becomes the input of the opposite conversion.
   const swap = () => {
     if (!reverse || !output) return;
-    writePersistentState(inputKey(conversionFormats(reverse)[0]), output);
+    const source = conversionFormats(reverse)[0];
+    writePersistentState(inputKey(source), output);
     setConversion(reverse);
+    run(output, source);
   };
 
   const set =
@@ -240,7 +251,16 @@ export function ConvertTool() {
       language={EDITOR_LANGUAGES[to]}
       readOnly
       wrap={wrap}
-      placeholder={error ? t.invalidPlaceholder : loadError ? t.loadFailed : t.outputPlaceholder}
+      placeholder={
+        !ran
+          ? fmt(common.runHint, { action: t.convert, shortcut: RUN_SHORTCUT })
+          : error
+            ? t.invalidPlaceholder
+            : loadError
+              ? t.loadFailed
+              : t.outputPlaceholder
+      }
+      className={cn(stale && STALE_OUTPUT_CLASS)}
     />
   );
 
@@ -254,7 +274,10 @@ export function ConvertTool() {
             <IconAction
               icon={Eraser}
               label={common.clear}
-              onClick={() => setInput('')}
+              onClick={() => {
+                setInput('');
+                run('');
+              }}
               disabled={!input}
             />
             <ToolbarDivider />
@@ -350,6 +373,7 @@ export function ConvertTool() {
                 )
               }
             />
+            <RunButton label={t.convert} onRun={() => run()} />
           </>
         }
       >
@@ -373,6 +397,7 @@ export function ConvertTool() {
             {t.loadFailed}
           </StatusItem>
         )}
+        {stale && <StaleStatus action={t.convert} onRun={() => run()} />}
         {file.error && <StatusItem tone="danger">{file.error}</StatusItem>}
         {warnings.length > 0 && (
           <StatusItem
@@ -387,7 +412,7 @@ export function ConvertTool() {
         {pending && <StatusItem className="shrink-0 max-sm:hidden">{t.working}</StatusItem>}
         {hasInput && (
           <StatusItem className="shrink-0">
-            {output ? fmt(t.sizeChange, { from: size(input), to: size(output) }) : size(input)}
+            {output ? fmt(t.sizeChange, { from: size(live), to: size(output) }) : size(live)}
           </StatusItem>
         )}
         <div className="hidden sm:contents">

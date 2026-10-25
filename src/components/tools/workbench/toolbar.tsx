@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Check, Copy, FolderOpen, X, type LucideIcon } from 'lucide-react';
+import { Check, Copy, FolderOpen, Play, X, type LucideIcon } from 'lucide-react';
 import { useCopyToClipboard } from '@/lib/use-copy-to-clipboard';
 import { TOOLS, TOOLS_PATH, toolPath, toolText, type ToolSlug } from '@/lib/data/tools';
 import type { Messages } from '@/i18n/messages/en';
@@ -12,6 +12,7 @@ import { useDictionary } from '@/i18n/provider';
 import { useToolCommon } from '@/i18n/tools/provider';
 import { cn } from '@/lib/cn';
 import { Select } from './select';
+import { RUN_SHORTCUT } from './use-run';
 
 /**
  * The workbench's top bar: the page's <h1>, then tool-specific controls (`children`, which
@@ -127,6 +128,38 @@ export function IconAction({
       )}
     >
       <Icon className="size-3.75" aria-hidden />
+    </button>
+  );
+}
+
+/**
+ * The tool's primary action (Format, Convert…), which runs the input through it. Ctrl/⌘+Enter
+ * triggers it from anywhere on the page; it is caught before the editors see it, so it never
+ * inserts a line.
+ */
+export function RunButton({ label, onRun }: { label: string; onRun: () => void }) {
+  const onShortcut = useEffectEvent(onRun);
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Enter' || !(event.metaKey || event.ctrlKey) || event.isComposing) return;
+      event.preventDefault();
+      event.stopPropagation();
+      onShortcut();
+    };
+    window.addEventListener('keydown', handleKeyDown, true);
+    return () => window.removeEventListener('keydown', handleKeyDown, true);
+  }, []);
+
+  return (
+    <button
+      type="button"
+      onClick={() => onRun()}
+      aria-keyshortcuts="Control+Enter Meta+Enter"
+      title={`${label} (${RUN_SHORTCUT})`}
+      className="ms-1 inline-flex h-7 shrink-0 cursor-pointer items-center gap-1.5 rounded-md bg-primary-strong px-2.5 text-xs font-semibold text-primary-fg transition-[filter] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-surface focus-visible:outline-none max-sm:px-2"
+    >
+      <Play className="size-3.5 fill-current" aria-hidden />
+      <span className="max-sm:sr-only">{label}</span>
     </button>
   );
 }

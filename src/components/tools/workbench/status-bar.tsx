@@ -1,9 +1,10 @@
 'use client';
 
-import { CircleAlert, CircleCheck, ShieldCheck } from 'lucide-react';
+import { CircleAlert, CircleCheck, RefreshCw, ShieldCheck } from 'lucide-react';
 import { useToolCommon } from '@/i18n/tools/provider';
 import { fmt } from '@/i18n/dictionary';
 import type { CursorInfo } from './code-editor';
+import { RUN_SHORTCUT } from './use-run';
 import { cn } from '@/lib/cn';
 
 /** VS Code-style strip under the panes: live status on the start side, privacy note at the end. */
@@ -100,6 +101,17 @@ export function ValidityStatus({
       <CircleAlert className="size-3 shrink-0" aria-hidden />
       <span className="shrink-0">{fmt(common.errorAt, { line: error.line, col: error.col })}</span>
       <span className="truncate font-sans">— {error.message}</span>
+    </StatusItem>
+  );
+}
+
+/** "Input changed: press Format" while the output lags behind the input; clicking it runs. */
+export function StaleStatus({ action, onRun }: { action: string; onRun: () => void }) {
+  const common = useToolCommon();
+  return (
+    <StatusItem tone="warning" onClick={onRun} title={RUN_SHORTCUT} className="shrink-0">
+      <RefreshCw className="size-3 shrink-0" aria-hidden />
+      {fmt(common.stale, { action })}
     </StatusItem>
   );
 }

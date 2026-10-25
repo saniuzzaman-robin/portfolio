@@ -30,18 +30,22 @@ function trackErrors(page: Page) {
 const SMOKE: Record<ToolSlug, (page: Page) => Promise<void>> = {
   json: async (page) => {
     await fillEditor(page, page.getByRole('textbox', { name: common.input }), '{"b":1,"a":[2]}');
+    await page.getByRole('button', { name: toolsEn.json.format, exact: true }).click();
     await expect(page.getByRole('textbox', { name: common.output })).toContainText('"b": 1,');
     await fillEditor(page, page.getByRole('textbox', { name: common.input }), '{"b":}');
+    await page.keyboard.press('ControlOrMeta+Enter');
     await expect(page.getByText(/Error at 1:6/)).toBeVisible();
   },
   format: async (page) => {
     await page.getByRole('combobox', { name: toolsEn.format.language }).click();
     await page.getByRole('option', { name: 'CSS', exact: true }).click();
     await fillEditor(page, page.getByRole('textbox', { name: common.input }), 'a{color:red}');
+    await page.getByRole('button', { name: toolsEn.format.modes.beautify, exact: true }).click();
     await expect(page.getByRole('textbox', { name: common.output })).toContainText('color: red;');
   },
   convert: async (page) => {
     await fillEditor(page, page.getByRole('textbox', { name: common.input }), '{"name":"Ada"}');
+    await page.getByRole('button', { name: toolsEn.convert.convert, exact: true }).click();
     await expect(page.getByRole('textbox', { name: common.output })).toContainText('name: Ada');
   },
   encode: async (page) => {

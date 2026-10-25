@@ -35,6 +35,9 @@ export const toolsEn = {
     fileReadFailed: 'Could not read “{name}”.',
     filter: 'Filter',
     noMatches: 'No matches',
+    run: 'Run',
+    runHint: 'Press {action} or {shortcut} to see the result.',
+    stale: 'Input changed: press {action}',
   },
   json: {
     view: 'View',
@@ -533,6 +536,7 @@ export const toolsEn = {
   convert: {
     conversion: 'Conversion',
     direction: '{from} → {to}',
+    convert: 'Convert',
     formats: {
       json: 'JSON',
       yaml: 'YAML',
