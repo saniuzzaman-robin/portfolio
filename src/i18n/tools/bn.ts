@@ -709,6 +709,7 @@ export const toolsBn: ToolMessages = {
     nextRunAt: 'পরের রান {time}',
   },
   diff: {
+    newDiff: 'নতুন ডিফ',
     compare: 'তুলনা',
     compareAction: 'তুলনা করুন',
     modes: { text: 'টেক্সট', json: 'JSON' },

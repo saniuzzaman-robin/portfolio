@@ -25,6 +25,8 @@ export function useRunInputs<S = null>(
   values: readonly string[];
   settings: S;
   run: (next?: readonly string[], nextScope?: string, nextSettings?: S) => void;
+  /** Forgets the last run, as if none had happened. */
+  reset: () => void;
   ran: boolean;
   stale: boolean;
 } {
@@ -41,6 +43,7 @@ export function useRunInputs<S = null>(
         settings: nextSettings,
         key: nextSettings === settings ? key : JSON.stringify(nextSettings),
       }),
+    reset: () => setSnapshot(null),
     ran: current !== null,
     stale:
       current !== null &&

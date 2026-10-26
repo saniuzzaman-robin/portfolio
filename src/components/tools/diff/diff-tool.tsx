@@ -26,12 +26,7 @@ import {
   ValidityStatus,
 } from '@/components/tools/workbench/status-bar';
 import { usePersistentState } from '@/components/tools/workbench/use-persistent-state';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
-import {
-  RUN_SHORTCUT,
-  STALE_OUTPUT_CLASS,
-  useRunInputs,
-} from '@/components/tools/workbench/use-run';
+import { STALE_OUTPUT_CLASS, useRunInputs } from '@/components/tools/workbench/use-run';
 import { PartHeading } from '@/components/tools/jwt/parts';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
@@ -51,7 +46,7 @@ const isView = (value: unknown): value is View => VIEWS.includes(value as View);
 /** Text sides are edited in the diff itself; JSON is edited raw and compared normalized. */
 const MODE_VIEWS: Record<Mode, readonly View[]> = {
   text: ['split', 'unified'],
-  json: VIEWS,
+  json: ['split', 'unified', 'changes'],
 };
 
 const GRANULARITIES = ['smart', 'word', 'char'] as const satisfies readonly Granularity[];
@@ -134,10 +129,10 @@ export function DiffTool() {
   const t = useToolMessages<'diff'>();
   const locale = useLocale();
   const mergeRef = useRef<MergeEditorHandle>(null);
-  const inputRefs = {
-    a: useRef<CodeEditorHandle>(null),
-    b: useRef<CodeEditorHandle>(null),
-  };
+  // Separate statements: hooks inside an object literal can end up skipped by the React Compiler.
+  const inputARef = useRef<CodeEditorHandle>(null);
+  const inputBRef = useRef<CodeEditorHandle>(null);
+  const inputRefs = { a: inputARef, b: inputBRef };
   const [a, setA] = usePersistentState('diff:a', SAMPLE_A);
   const [b, setB] = usePersistentState('diff:b', SAMPLE_B);
   const [mode, setMode] = usePersistentState<Mode>('diff:mode', 'text', isMode);
@@ -145,30 +140,33 @@ export function DiffTool() {
   const [options, setOptions] = usePersistentState('diff:options', DEFAULT_OPTIONS, isOptions);
   const [wrap, setWrap] = usePersistentState('diff:wrap', false);
   const json = mode === 'json';
-  // Text sides are edited inside the diff, so their edits show as typed; JSON sides and the
-  // options (and a mode switch) only apply on Compare.
-  const { value: textA } = useLiveInput(a);
-  const { value: textB } = useLiveInput(b);
-  const compared = useRunInputs(json ? [a, b] : [], mode, options);
-  const [liveA, liveB] = json ? compared.values : [textA, textB];
+  // The two inputs show until Compare; then the diff replaces them (read-only) until New diff.
+  const compared = useRunInputs([a, b], mode, options);
+  const [liveA, liveB] = compared.values;
   const stale = compared.stale;
   const applied = compared.settings;
-  // Opening, swapping and clearing are explicit, so JSON compares the new sides right away.
+  const comparing = compared.ran;
+  // Opening a file or clearing goes back to the inputs; swapping redoes the diff reversed.
   const replaceSides = (nextA: string, nextB: string) => {
     setA(nextA);
     setB(nextB);
-    if (json) compared.run([nextA, nextB]);
+    compared.reset();
   };
-  // The raw inputs view shows no result, so comparing from it moves on to the side-by-side diff.
-  const compare = () => {
-    compared.run();
-    if (storedView === 'inputs') setView('split');
+  const swapSides = () => {
+    setA(b);
+    setB(a);
+    if (comparing) compared.run([b, a]);
   };
+  const compare = () => compared.run();
+  // With a diff showing and nothing changed, the primary action starts over.
+  const newDiff = () => compared.reset();
+  const primaryNewDiff = comparing && !stale;
   const fileA = useFileLoader('text', (content) => replaceSides(content, b));
   const fileB = useFileLoader('text', (content) => replaceSides(a, content));
 
   const views = MODE_VIEWS[mode];
   const view = views.includes(storedView) ? storedView : 'split';
+  const primaryLabel = primaryNewDiff ? t.newDiff : t.compareAction;
   const merged = view === 'split' || view === 'unified';
   const labels = { a: t.original, b: t.changed };
   const placeholders = useMemo(
@@ -238,7 +236,7 @@ export function DiffTool() {
           value={side === 'a' ? a : b}
           onChange={(value) => setSide(side, value)}
           label={labels[side]}
-          language="json"
+          language={json ? 'json' : 'plain'}
           wrap={wrap}
           placeholder={placeholders[side]}
           diagnostics={error ? [{ ...error, severity: 'error' }] : undefined}
@@ -248,14 +246,8 @@ export function DiffTool() {
   };
 
   let body: React.ReactNode;
-  if (view === 'inputs') {
+  if (!comparing) {
     body = <SplitPane id="diff-inputs" first={inputPane('a')} second={inputPane('b')} />;
-  } else if (!compared.ran) {
-    body = (
-      <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">
-        {fmt(common.runHint, { action: t.compareAction, shortcut: RUN_SHORTCUT })}
-      </p>
-    );
   } else if (!comparable) {
     body = (
       <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">
@@ -293,15 +285,14 @@ export function DiffTool() {
         <MergeEditor
           key={`${mode}:${view}:${ignoreWhitespace}:${ignoreCase}:${granularity}:${collapse}`}
           ref={mergeRef}
-          layout={view}
+          layout={view === 'unified' ? 'unified' : 'split'}
           collapse={collapse}
           diff={diff}
           a={json ? jsonA.text : a}
           b={json ? jsonB.text : b}
-          onChange={json ? undefined : setSide}
           labels={labels}
           placeholders={placeholders}
-          readOnly={json}
+          readOnly
           language={json ? 'json' : 'plain'}
           wrap={wrap}
         />
@@ -320,7 +311,7 @@ export function DiffTool() {
             <IconAction
               icon={ArrowLeftRight}
               label={t.swap}
-              onClick={() => replaceSides(b, a)}
+              onClick={swapSides}
               disabled={a === b}
             />
             <IconAction
@@ -372,7 +363,11 @@ export function DiffTool() {
                 />
               )}
             </OptionsPopover>
-            <RunButton label={t.compareAction} onRun={compare} pending={stale} />
+            <RunButton
+              label={primaryLabel}
+              onRun={primaryNewDiff ? newDiff : compare}
+              pending={stale}
+            />
           </>
         }
       >
@@ -383,13 +378,17 @@ export function DiffTool() {
           options={MODES.map((value) => ({ value, label: t.modes[value] }))}
         />
         <ToolbarDivider />
-        <Segmented
-          label={t.view}
-          value={view}
-          onChange={setView}
-          options={views.map((value) => ({ value, label: t.views[value] }))}
-        />
-        <ToolbarDivider />
+        {comparing && (
+          <>
+            <Segmented
+              label={t.view}
+              value={view}
+              onChange={setView}
+              options={views.map((value) => ({ value, label: t.views[value] }))}
+            />
+            <ToolbarDivider />
+          </>
+        )}
         <IconAction
           icon={ChevronUp}
           label={t.previous}
@@ -406,7 +405,7 @@ export function DiffTool() {
       <div
         className={cn(
           'flex min-h-0 min-w-0 flex-1 flex-col',
-          stale && view !== 'inputs' && STALE_OUTPUT_CLASS
+          stale && comparing && STALE_OUTPUT_CLASS
         )}
       >
         {body}
@@ -419,10 +418,7 @@ export function DiffTool() {
               message: fmt(t.sideError, { side: labels[side], message: error.message }),
               ...positionAt(side === 'a' ? liveA : liveB, error.from),
             }}
-            onReveal={() => {
-              if (view === 'inputs') inputRefs[side].current?.reveal(error.from, error.to);
-              else setView('inputs');
-            }}
+            onReveal={newDiff}
           />
         ))}
         {stale && <StaleStatus action={t.compareAction} onRun={compare} />}

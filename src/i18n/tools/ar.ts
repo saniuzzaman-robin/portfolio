@@ -713,6 +713,7 @@ export const toolsAr: ToolMessages = {
     nextRunAt: 'التشغيل التالي {time}',
   },
   diff: {
+    newDiff: 'مقارنة جديدة',
     compare: 'المقارنة',
     compareAction: 'قارِن',
     modes: { text: 'نص', json: 'JSON' },
