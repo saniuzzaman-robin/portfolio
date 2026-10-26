@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Download, RefreshCw } from 'lucide-react';
+import { Download } from 'lucide-react';
 import {
   BYTE_FORMATS,
   ID_KINDS,
@@ -22,6 +22,7 @@ import { CodeEditor } from '@/components/tools/workbench/code-editor';
 import {
   CopyButton,
   IconAction,
+  RunButton,
   ToolHeader,
   ToolbarDivider,
   ToolbarSelect,
@@ -29,8 +30,10 @@ import {
 import { SelectField, Toggle } from '@/components/tools/workbench/options-popover';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
 import { downloadFile } from '@/components/tools/workbench/file';
-import { StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import { StaleStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS, useApplied } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { NumberField, TextField } from '@/components/tools/crypto/parts';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { fmt } from '@/i18n/dictionary';
@@ -60,12 +63,19 @@ export function IdsView({ picker }: { picker: React.ReactNode }) {
   const { kind } = options;
   const fixed = isFixedKind(kind);
 
-  // `run` changes the request (and so generates again) when new IDs are asked for.
-  const request = useMemo(() => ({ options, run }), [options, run]);
-  const task = useMemo(() => () => getGenerator().generate(request.options), [request]);
+  // Nothing is generated until Generate; `run` makes every press a new batch.
+  const { applied, apply, stale } = useApplied({ options, run });
+  const generate = () => {
+    setRun(run + 1);
+    apply({ options, run: run + 1 });
+  };
+  const task = useMemo(
+    () => applied && (() => getGenerator().generate(applied.options)),
+    [applied]
+  );
   const job = useAsyncResult(task);
   // Keep showing the previous IDs while new ones are made, instead of flashing an empty pane.
-  const result = job.value ?? job.latest;
+  const result = task ? (job.value ?? job.latest) : undefined;
   const ids = result?.ok ? result.ids : null;
   const output = ids ? ids.join('\n') : '';
   const failure = result && !result.ok ? result : null;
@@ -177,7 +187,14 @@ export function IdsView({ picker }: { picker: React.ReactNode }) {
       value={output}
       label={common.output}
       readOnly
-      placeholder={failure ? t.errorPlaceholder : ''}
+      placeholder={
+        failure
+          ? t.errorPlaceholder
+          : applied
+            ? ''
+            : fmt(common.runHint, { action: common.generate, shortcut: RUN_SHORTCUT })
+      }
+      className={cn(stale && STALE_OUTPUT_CLASS)}
     />
   );
 
@@ -188,18 +205,13 @@ export function IdsView({ picker }: { picker: React.ReactNode }) {
         actions={
           <>
             <IconAction
-              icon={RefreshCw}
-              label={t.regenerate}
-              onClick={() => setRun(run + 1)}
-              disabled={fixed}
-            />
-            <IconAction
               icon={Download}
               label={common.download}
               disabled={!output}
               onClick={() => downloadFile(`${output}\n`, `${kind}.txt`, 'text/plain')}
             />
             <CopyButton getText={() => output} disabled={!output} />
+            <RunButton label={common.generate} onRun={generate} pending={stale} />
           </>
         }
       >
@@ -214,6 +226,7 @@ export function IdsView({ picker }: { picker: React.ReactNode }) {
       </ToolHeader>
       <SplitPane id="generate-ids" first={settingsPane} second={outputPane} defaultRatio={0.4} />
       <StatusBar>
+        {stale && <StaleStatus action={common.generate} onRun={generate} />}
         {failure && (
           <StatusItem tone="danger" title={failure.error} className="font-sans">
             {failure.error}

@@ -86,7 +86,7 @@ export function EncodeView({
   publicKey: GeneratedPublicKey | null;
   onPublicKey: (publicKey: GeneratedPublicKey | null) => void;
   /** Header and payload as of the last Sign (owned by the tool, so the decoder can hand some over). */
-  runner: ReturnType<typeof useRunInputs>;
+  runner: ReturnType<typeof useRunInputs<KeyFields>>;
   /** Opens the signed token in the decoder. */
   onVerify: (token: string, alg: JwsAlgorithm) => void;
 }) {
@@ -97,7 +97,7 @@ export function EncodeView({
   const payloadRef = useRef<CodeEditorHandle>(null);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
   const [generateError, setGenerateError] = useState<string | null>(null);
-  const { values, run, ran, stale } = runner;
+  const { values, settings: signedKeys, run, ran, stale } = runner;
   const [signedHeader, signedPayload] = values;
 
   const rawAlg = useMemo(() => headerAlg(header), [header]);
@@ -105,15 +105,16 @@ export function EncodeView({
   const family = alg ? algorithmInfo(alg).family : null;
   // Signing uses the algorithm of the header that was signed, which may lag behind the editor.
   const signedAlg = useMemo(() => headerAlg(signedHeader), [signedHeader]);
-  const keyText = keyFor(signedAlg, keys);
+  const keyText = keyFor(signedAlg, signedKeys);
   const edSupported = useAsyncResult(supportsEd25519).value !== false;
 
   const task = useMemo(
     () =>
       ran
-        ? () => signJwt(signedHeader, signedPayload, keyText, { secretEncoding: keys.encoding })
+        ? () =>
+            signJwt(signedHeader, signedPayload, keyText, { secretEncoding: signedKeys.encoding })
         : null,
-    [ran, signedHeader, signedPayload, keyText, keys.encoding]
+    [ran, signedHeader, signedPayload, keyText, signedKeys.encoding]
   );
   const signing = useAsyncResult(task);
   // While a new signature is computed, keep showing the previous result instead of flickering.
@@ -258,7 +259,7 @@ export function EncodeView({
               disabled={!output || !isJwsAlgorithm(signedAlg)}
             />
             <CopyButton getText={() => output} disabled={!output} />
-            <RunButton label={t.sign} onRun={() => run()} />
+            <RunButton label={t.sign} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -271,9 +272,7 @@ export function EncodeView({
             if (!next) return;
             const updated = withHeaderAlg(header, next);
             if (updated === null) return;
-            // Picking an algorithm is explicit, so the token is signed with it right away.
             onHeader(updated);
-            run([updated, payload]);
           }}
           options={algOptions}
         />

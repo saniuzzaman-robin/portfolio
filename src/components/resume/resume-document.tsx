@@ -25,7 +25,7 @@ function Heading({ id, children }: { id: string; children: React.ReactNode }) {
       as="h2"
       direction="left"
       id={id}
-      className="mb-6 flex items-center gap-3 font-mono text-xs font-medium tracking-wider text-fg-subtle uppercase"
+      className="mb-6 flex break-after-avoid items-center gap-3 font-mono text-xs font-medium tracking-wider text-fg-subtle uppercase print:mb-3"
     >
       {children}
       <DrawLine className="flex-1 bg-line" />
@@ -36,7 +36,7 @@ function Heading({ id, children }: { id: string; children: React.ReactNode }) {
 function AsideCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="h-full rounded-3xl border border-line bg-surface p-6 shadow-card transition-colors duration-300 hover:border-line-strong print:border-0 print:p-0 print:shadow-none">
-      <h2 className="mb-4 font-mono text-[11px] font-medium tracking-wider text-fg-subtle uppercase">
+      <h2 className="mb-4 font-mono text-[11px] font-medium tracking-wider text-fg-subtle uppercase print:mb-2">
         {title}
       </h2>
       {children}
@@ -162,7 +162,7 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
       </header>
 
       <Container className="grid gap-12 pb-20 sm:pb-28 lg:grid-cols-12 lg:gap-14 print:block print:pb-0">
-        <div className="space-y-16 lg:col-span-8 print:space-y-8">
+        <div className="space-y-16 lg:col-span-8 print:space-y-5">
           {/* Above the fold. The summary is the LCP element, so it paints statically. */}
           <section aria-labelledby="profile-heading">
             <Enter direction="left" delay={0.45}>
@@ -175,10 +175,10 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
             <Stagger>
               <Heading id="experience-heading">{t.resume.experience}</Heading>
             </Stagger>
-            <ol className="relative space-y-12 ps-6 sm:ps-8 print:space-y-6 print:border-s print:border-line">
+            <ol className="relative space-y-12 ps-6 sm:ps-8 print:space-y-4 print:border-s print:border-line">
               <ScrollRail className="inset-s-0 print:hidden" />
               {cv.experience.map((job) => (
-                <li key={job.company} className="relative break-inside-avoid">
+                <li key={job.company} className="relative">
                   <Stagger stagger={0.06}>
                     <StaggerItem
                       direction="scale"
@@ -204,7 +204,12 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
                     >
                       {job.location}
                     </StaggerItem>
-                    <Stagger as="ul" trigger="inherit" stagger={0.05} className="mt-5 space-y-3">
+                    <Stagger
+                      as="ul"
+                      trigger="inherit"
+                      stagger={0.05}
+                      className="mt-5 space-y-3 print:mt-2 print:space-y-1.5"
+                    >
                       {job.achievements.map((item) => (
                         <StaggerItem
                           as="li"
@@ -220,7 +225,7 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
                       as="ul"
                       trigger="inherit"
                       stagger={0.03}
-                      className="mt-5 flex flex-wrap gap-1.5"
+                      className="mt-5 flex flex-wrap gap-1.5 print:mt-2"
                       aria-label={t.common.technologies}
                     >
                       {job.skills.map((skill) => (
@@ -263,11 +268,11 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
           </Stagger>
         </div>
 
-        <aside className="lg:col-span-4 print:mt-8">
+        <aside className="lg:col-span-4 print:mt-5">
           <Stagger
             stagger={0.12}
             delay={0.2}
-            className="grid gap-5 md:grid-cols-2 lg:sticky lg:top-28 lg:block lg:space-y-5"
+            className="grid gap-5 md:grid-cols-2 lg:sticky lg:top-28 lg:block lg:space-y-5 print:static print:grid print:grid-cols-2 print:gap-4 print:space-y-0"
           >
             <StaggerItem direction="right">
               <AsideCard title={t.resume.atAGlance}>

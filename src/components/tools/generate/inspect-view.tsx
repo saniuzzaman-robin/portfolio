@@ -4,10 +4,15 @@ import { useMemo } from 'react';
 import { inspectId, type InspectedId } from '@/lib/tools/generate/inspect';
 import { relativeTime } from '@/lib/tools/jwt/claims';
 import { CodeEditor } from '@/components/tools/workbench/code-editor';
-import { ToolHeader } from '@/components/tools/workbench/toolbar';
+import { RunButton, ToolHeader } from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
-import { useDebouncedValue } from '@/components/tools/workbench/use-live-input';
+import { StaleStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { useNow } from '@/components/tools/workbench/use-now';
 import { DetailList } from '@/components/tools/crypto/parts';
 import { PartHeading, StateBadge } from '@/components/tools/jwt/parts';
@@ -24,7 +29,6 @@ type Formats = { local: Intl.DateTimeFormat; relative: Intl.RelativeTimeFormat }
 
 /** Lines inspected at most; each one renders a block of details. */
 const MAX_LINES = 100;
-const TYPING_DELAY_MS = 150;
 
 type Line = { text: string; id: InspectedId | null };
 
@@ -34,7 +38,7 @@ export function InspectView({ picker }: { picker: React.ReactNode }) {
   const common = useToolCommon();
   const formatNumber = useFormatNumber();
   const [input, setInput] = useInspectInput();
-  const typed = useDebouncedValue(input, TYPING_DELAY_MS);
+  const { value: typed, run, ran, stale } = useRunInput(input);
   const allLines = useMemo(
     () =>
       typed
@@ -53,9 +57,13 @@ export function InspectView({ picker }: { picker: React.ReactNode }) {
   const resultsPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col">
       <PartHeading>{t.details}</PartHeading>
-      <div className="min-h-0 flex-1 overflow-auto">
+      <div className={cn('min-h-0 flex-1 overflow-auto', stale && STALE_OUTPUT_CLASS)}>
         {lines.length === 0 ? (
-          <p className="p-3 text-xs text-fg-subtle">{t.inspectEmpty}</p>
+          <p className="p-3 text-xs text-fg-subtle">
+            {ran
+              ? t.inspectEmpty
+              : fmt(common.runHint, { action: t.inspectAction, shortcut: RUN_SHORTCUT })}
+          </p>
         ) : (
           <ul className="divide-y divide-line">
             {lines.map((line, index) => (
@@ -83,7 +91,12 @@ export function InspectView({ picker }: { picker: React.ReactNode }) {
 
   return (
     <>
-      <ToolHeader slug="generate">{picker}</ToolHeader>
+      <ToolHeader
+        slug="generate"
+        actions={<RunButton label={t.inspectAction} onRun={() => run()} pending={stale} />}
+      >
+        {picker}
+      </ToolHeader>
       <SplitPane
         id="generate-inspect"
         first={
@@ -97,6 +110,12 @@ export function InspectView({ picker }: { picker: React.ReactNode }) {
         second={resultsPane}
       />
       <StatusBar>
+        {stale && <StaleStatus action={t.inspectAction} onRun={() => run()} />}
+        {ran && allLines.length === 0 && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.inspectAction })}
+          </StatusItem>
+        )}
         {recognized > 0 && (
           <StatusItem tone="success" className="shrink-0">
             {fmt(t.recognized, { count: formatNumber(recognized) })}

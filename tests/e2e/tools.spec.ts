@@ -57,6 +57,10 @@ const SMOKE: Record<ToolSlug, (page: Page) => Promise<void>> = {
     await page.getByRole('button', { name: toolsEn.jwt.decode, exact: true }).click();
     await expect(page.getByText(toolsEn.jwt.verified, { exact: true }).first()).toBeVisible();
     await page.getByRole('textbox', { name: toolsEn.jwt.secret }).fill('wrong-secret');
+    // Nothing re-verifies on its own: the change is flagged until Decode runs again.
+    await expect(page.getByText(`Changes not applied: press ${toolsEn.jwt.decode}`)).toBeVisible();
+    await expect(page.getByText(toolsEn.jwt.verified, { exact: true }).first()).toBeVisible();
+    await page.keyboard.press('ControlOrMeta+Enter');
     await expect(
       page.getByText(toolsEn.jwt.invalidSignature, { exact: true }).first()
     ).toBeVisible();
@@ -69,27 +73,32 @@ const SMOKE: Record<ToolSlug, (page: Page) => Promise<void>> = {
     ).toBeVisible();
   },
   generate: async (page) => {
+    await page.getByRole('button', { name: common.generate, exact: true }).click();
     await expect(
       page.getByText(/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/).first()
     ).toBeVisible();
   },
   'qr-code': async (page) => {
     await page.getByRole('textbox', { name: 'URL' }).fill('https://example.org/e2e');
+    await page.getByRole('button', { name: common.generate, exact: true }).click();
     await expect(page.getByRole('img', { name: toolsEn['qr-code'].previewLabel })).toBeVisible();
     await expect(page.getByRole('button', { name: toolsEn['qr-code'].downloadPng })).toBeEnabled();
   },
   diff: async (page) => {
     await fillEditor(page, page.getByRole('textbox', { name: toolsEn.diff.original }), 'one\ntwo');
     await fillEditor(page, page.getByRole('textbox', { name: toolsEn.diff.changed }), 'one\n2');
+    await page.getByRole('button', { name: toolsEn.diff.compareAction, exact: true }).click();
     await expect(page.getByRole('deletion').filter({ hasText: 'two' }).first()).toBeVisible();
     await expect(page.getByRole('insertion').filter({ hasText: '2' }).first()).toBeVisible();
   },
   time: async (page) => {
     await page.getByRole('textbox', { name: toolsEn.time.value }).fill('0');
+    await page.getByRole('button', { name: toolsEn.time.convertAction, exact: true }).click();
     await expect(page.getByText('1970-01-01T00:00:00Z', { exact: true }).first()).toBeVisible();
   },
   network: async (page) => {
     await page.getByRole('textbox', { name: 'CIDR' }).fill('10.0.0.0/30');
+    await page.getByRole('button', { name: toolsEn.network.calculateAction, exact: true }).click();
     await expect(
       page.getByRole('definition').filter({ hasText: '10.0.0.3' }).first()
     ).toBeVisible();
@@ -100,16 +109,19 @@ const SMOKE: Record<ToolSlug, (page: Page) => Promise<void>> = {
       page.getByRole('textbox', { name: toolsEn.regex.text }),
       'on 2024-01-02'
     );
+    await page.getByRole('button', { name: toolsEn.regex.modes.match, exact: true }).click();
     await expect(page.getByRole('table', { name: toolsEn.regex.panels.matches })).toContainText(
       '2024-01-02'
     );
   },
   text: async (page) => {
     await fillEditor(page, page.getByRole('textbox', { name: common.input }), 'hello world');
+    await page.getByRole('button', { name: toolsEn.text.caseAction, exact: true }).click();
     await expect(page.getByText('helloWorld', { exact: true })).toBeVisible();
   },
   color: async (page) => {
     await page.getByRole('textbox', { name: toolsEn.color.input }).fill('#ff0000');
+    await page.getByRole('button', { name: common.run, exact: true }).click();
     await expect(page.getByRole('definition').filter({ hasText: 'rgb(255 0 0)' })).toBeVisible();
   },
   markdown: async (page) => {
@@ -118,6 +130,7 @@ const SMOKE: Record<ToolSlug, (page: Page) => Promise<void>> = {
       page.getByRole('textbox', { name: toolsEn.markdown.editor }),
       '# Hi e2e'
     );
+    await page.getByRole('button', { name: toolsEn.markdown.render, exact: true }).click();
     await expect(
       page
         .getByRole('document', { name: toolsEn.markdown.previewLabel })

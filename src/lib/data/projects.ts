@@ -53,7 +53,7 @@ export const PROJECTS: Project[] = [
     description:
       'Built the Qalbox streaming experience on MuslimPro: completed the shorts page independently, integrated live streaming, wired up search, and fixed numerous platform bugs. Added OG tags, sitemaps, and the first round of SEO for Qalbox pages.',
     technologies: ['Next.js', 'Video Streaming', 'Live Streaming', 'SEO', 'TypeScript'],
-    link: 'https://app.muslimpro.com/qalbox',
+    link: 'https://qalbox.com',
     icon: Play,
   },
   {

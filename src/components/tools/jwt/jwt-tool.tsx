@@ -27,8 +27,8 @@ export function JwtTool() {
   const [header, setHeader] = useSignHeader();
   const [payload, setPayload] = useSignPayload();
   // Here rather than in the views, so a hand-off between modes runs right away.
-  const decodeRun = useRunInput(token);
-  const signRun = useRunInputs([header, payload]);
+  const decodeRun = useRunInput(token, '', verifyKeys);
+  const signRun = useRunInputs([header, payload], '', signKeys);
 
   const picker = (
     <Segmented

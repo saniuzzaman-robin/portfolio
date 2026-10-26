@@ -16,24 +16,39 @@ import { PartHeading, StateBadge } from '@/components/tools/jwt/parts';
 import { useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
+import { cn } from '@/lib/cn';
 import { Swatch } from './swatch';
-import { useBackgroundInput, useParsedColor } from './state';
+import { useMemo } from 'react';
+import { parseColor } from '@/lib/tools/color/parse';
+import { useParsedColor } from './state';
 
 const LEVELS = Object.keys(WCAG_LEVELS) as WcagLevel[];
 
 /** WCAG 2 ratio and APCA Lc of the current color as text on a chosen background. */
 export function ContrastPanel({
   text,
+  input,
+  onInput,
+  appliedInput,
   onSwap,
+  className,
 }: {
   text: Color;
-  onSwap: (background: string) => void;
+  /** The background field's text, and what it was when the color was last applied. */
+  input: string;
+  onInput: (background: string) => void;
+  appliedInput: string;
+  onSwap: () => void;
+  className?: string;
 }) {
   const t = useToolMessages<'color'>();
   const locale = useLocale();
   const id = useId();
-  const [input, setInput] = useBackgroundInput();
-  const { result, color: background } = useParsedColor(input);
+  const { result } = useParsedColor(input);
+  const background = useMemo(() => {
+    const parsed = parseColor(appliedInput);
+    return parsed.ok ? parsed.color : null;
+  }, [appliedInput]);
   const ratio = background ? wcagContrast(text, background) : null;
   const lc = background ? apcaContrast(text, background) : null;
   const level = lc === null ? null : apcaLevel(lc);
@@ -51,10 +66,7 @@ export function ContrastPanel({
             icon={ArrowUpDown}
             label={t.swapColors}
             disabled={!result.ok}
-            onClick={() => {
-              onSwap(input);
-              setInput(formatColor(text, text.alpha < 1 ? 'hex8' : 'hex', { legacy: false }));
-            }}
+            onClick={onSwap}
           />
         }
       >
@@ -69,7 +81,7 @@ export function ContrastPanel({
           <input
             id={id}
             value={input}
-            onChange={(event) => setInput(event.target.value)}
+            onChange={(event) => onInput(event.target.value)}
             aria-invalid={!result.ok || undefined}
             spellCheck={false}
             autoCapitalize="off"
@@ -80,7 +92,7 @@ export function ContrastPanel({
         </div>
         {!result.ok && input.trim() !== '' && <p className="text-danger">{result.message}</p>}
         {background && ratio !== null && lc !== null && (
-          <>
+          <div className={cn('space-y-3', className)}>
             <div
               className="space-y-1 rounded-md border border-line p-3"
               style={{
@@ -131,7 +143,7 @@ export function ContrastPanel({
               </div>
             </div>
             <p className="text-[11px] text-fg-subtle">{t.contrastHint}</p>
-          </>
+          </div>
         )}
       </div>
     </section>

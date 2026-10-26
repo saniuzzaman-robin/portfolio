@@ -139,7 +139,16 @@ export function IconAction({
  * triggers it from anywhere on the page; it is caught before the editors see it, so it never
  * inserts a line.
  */
-export function RunButton({ label, onRun }: { label: string; onRun: () => void }) {
+export function RunButton({
+  label,
+  onRun,
+  pending,
+}: {
+  label: string;
+  onRun: () => void;
+  /** True when the input or settings changed since the last run: marks the button with a dot. */
+  pending?: boolean;
+}) {
   const onShortcut = useEffectEvent(onRun);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -158,10 +167,16 @@ export function RunButton({ label, onRun }: { label: string; onRun: () => void }
       onClick={() => onRun()}
       aria-keyshortcuts="Control+Enter Meta+Enter"
       title={`${label} (${RUN_SHORTCUT})`}
-      className="ms-1 inline-flex h-7 shrink-0 cursor-pointer items-center gap-1.5 rounded-md bg-primary-strong px-2.5 text-xs font-semibold text-primary-fg transition-[filter] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-surface focus-visible:outline-none max-sm:px-2"
+      className="relative ms-1 inline-flex h-7 shrink-0 cursor-pointer items-center gap-1.5 rounded-md bg-primary-strong px-2.5 text-xs font-semibold text-primary-fg transition-[filter] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-surface focus-visible:outline-none max-sm:px-2"
     >
       <Play className="size-3.5 fill-current" aria-hidden />
       <span className="max-sm:sr-only">{label}</span>
+      {pending && (
+        <span
+          aria-hidden
+          className="absolute -end-1 -top-1 size-2.5 rounded-full border-2 border-surface bg-warning"
+        />
+      )}
     </button>
   );
 }

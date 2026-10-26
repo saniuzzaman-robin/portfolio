@@ -77,7 +77,10 @@ export function TextCodecView({
   const [options, setOptions] = useCodecOptions();
   const [wrap, setWrap] = useWrap();
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live, run, ran, stale } = useRunInput(input);
+  const symmetric = SYMMETRIC.has(codec);
+  const direction = symmetric ? 'encode' : storedDirection;
+  const settings = { codec, direction, options };
+  const { value: live, settings: applied, run, ran, stale } = useRunInput(input, '', settings);
   // Opening a file or reusing the result is explicit, so the new input runs right away.
   const replaceInput = (next: string) => {
     setInput(next);
@@ -85,13 +88,12 @@ export function TextCodecView({
   };
   const file = useFileLoader('text', replaceInput);
 
-  const symmetric = SYMMETRIC.has(codec);
-  const direction = symmetric ? 'encode' : storedDirection;
   const hasInput = live !== '';
+  const appliedSymmetric = SYMMETRIC.has(applied.codec);
 
   const result = useMemo(
-    () => (hasInput ? runCodec(codec, direction, live, options) : null),
-    [hasInput, codec, direction, live, options]
+    () => (hasInput ? runCodec(applied.codec, applied.direction, live, applied.options) : null),
+    [hasInput, applied.codec, applied.direction, live, applied.options]
   );
   const output = result?.ok ? result.value : '';
   const error = result && !result.ok ? result.error : null;
@@ -99,11 +101,14 @@ export function TextCodecView({
 
   // Offer a better codec when encoding text that already looks encoded, or when decoding fails.
   const detection = useMemo(
-    () => ((!symmetric && direction === 'encode') || error ? detectEncoding(live) : null),
-    [symmetric, direction, error, live]
+    () =>
+      (!appliedSymmetric && applied.direction === 'encode') || error ? detectEncoding(live) : null,
+    [appliedSymmetric, applied.direction, error, live]
   );
   const suggestion =
-    detection && !(detection === codec && direction === 'decode') ? detection : null;
+    detection && !(detection === applied.codec && applied.direction === 'decode')
+      ? detection
+      : null;
 
   const diagnostics = useMemo(
     (): EditorDiagnostic[] => (error ? [{ ...error, severity: 'error' }] : NO_DIAGNOSTICS),
@@ -111,8 +116,10 @@ export function TextCodecView({
   );
 
   const swap = () => {
-    replaceInput(output);
-    if (!symmetric) setDirection(direction === 'encode' ? 'decode' : 'encode');
+    const nextDirection = applied.direction === 'encode' ? 'decode' : 'encode';
+    setInput(output);
+    if (!symmetric) setDirection(nextDirection);
+    run(output, '', { codec, direction: symmetric ? 'encode' : nextDirection, options });
   };
 
   const setCodecOptions = <K extends keyof CodecOptions>(key: K, value: CodecOptions[K]) =>
@@ -202,9 +209,9 @@ export function TextCodecView({
               icon={Download}
               label={common.download}
               disabled={!output}
-              onClick={() => downloadFile(output, `${direction}d.txt`)}
+              onClick={() => downloadFile(output, `${applied.direction}d.txt`)}
             />
-            <RunButton label={runLabel} onRun={() => run()} />
+            <RunButton label={runLabel} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -249,7 +256,7 @@ export function TextCodecView({
       </ToolHeader>
       <SplitPane id="encode" first={inputPane} second={outputPane} />
       <StatusBar>
-        {hasInput && (direction === 'decode' || error) && (
+        {hasInput && (applied.direction === 'decode' || error) && (
           <ValidityStatus
             error={error && { message: error.message, ...positionAt(live, error.from) }}
             onReveal={error ? () => inputRef.current?.reveal(error.from, error.to) : undefined}
@@ -261,6 +268,11 @@ export function TextCodecView({
           </StatusItem>
         )}
         {stale && <StaleStatus action={runLabel} onRun={() => run()} />}
+        {ran && !hasInput && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: runLabel })}
+          </StatusItem>
+        )}
         {file.error && <StatusItem tone="danger">{file.error}</StatusItem>}
         {suggestion && (
           <StatusItem
@@ -269,6 +281,9 @@ export function TextCodecView({
             onClick={() => {
               onMode(suggestion);
               setDirection('decode');
+              if (suggestion !== 'file') {
+                run(undefined, '', { codec: suggestion, direction: 'decode', options });
+              }
             }}
           >
             <Lightbulb className="size-3 shrink-0" aria-hidden />

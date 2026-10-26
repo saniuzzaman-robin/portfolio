@@ -34,7 +34,7 @@
   --warning: #fbbf24;
   --ring: #818cf8;
 
-  --nav-glass: rgb(7 7 9 / 0.82);
+  --nav-glass: rgb(7 7 9);
   --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 24px 48px -24px rgb(0 0 0 / 0.8);
   --shadow-pop: 0 32px 64px -24px rgb(0 0 0 / 0.9);
   --glow: rgb(99 102 241 / 0.18);
@@ -77,7 +77,7 @@
   --warning: #92400e;
   --ring: #4f46e5;
 
-  --nav-glass: rgb(255 255 255 / 0.86);
+  --nav-glass: rgb(255 255 255);
   --shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.06), 0 16px 40px -16px rgb(15 23 42 / 0.22);
   --shadow-pop: 0 24px 48px -16px rgb(15 23 42 / 0.2);
   --glow: rgb(79 70 229 / 0.1);
@@ -97,7 +97,13 @@
 /* Theme-independent layout metrics. */
 :root {
   /* Height of the docked navbar on tool workbenches. */
-  --nav-h: 3rem;
+  --nav-h: 3.5rem;
+}
+
+@media (min-width: 96rem) {
+  :root {
+    --nav-h: 4rem;
+  }
 }
 
 @theme inline {
@@ -618,7 +624,16 @@
     color-scheme: light;
   }
   body {
-    font-size: 11pt;
+    font-size: 10pt;
+  }
+  /* Let long jobs flow across pages (no half-empty pages) but keep bullets and headings whole. */
+  li,
+  dl > div {
+    break-inside: avoid;
+  }
+  h2,
+  h3 {
+    break-after: avoid;
   }
   /* Scroll-reveal content that was never scrolled into view must still print. */
   [style*='opacity'] {
@@ -626,6 +641,6 @@
     transform: none !important;
   }
   @page {
-    margin: 14mm;
+    margin: 12mm;
   }
 }

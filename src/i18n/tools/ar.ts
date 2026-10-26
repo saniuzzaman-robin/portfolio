@@ -32,7 +32,9 @@ export const toolsAr: ToolMessages = {
     noMatches: 'لا توجد نتائج مطابقة',
     run: 'تشغيل',
     runHint: 'اضغط {action} أو {shortcut} لعرض النتيجة.',
-    stale: 'تغيّر الإدخال: اضغط {action}',
+    generate: 'إنشاء',
+    stale: 'لم تُطبَّق التغييرات: اضغط {action}',
+    enterInput: 'أدخل بعض المدخلات ثم اضغط {action}.',
   },
   json: {
     view: 'العرض',
@@ -290,6 +292,9 @@ export const toolsAr: ToolMessages = {
     bits: '{bits} بت',
     hmac: 'HMAC: تجزئة بمفتاح سري',
     hmacKey: 'مفتاح HMAC',
+    hmacKeyRequired: 'أدخل مفتاح HMAC.',
+    passwordRequired: 'أدخل كلمة مرور.',
+    bcryptHashRequired: 'أدخل تجزئة bcrypt للمقارنة معها.',
     hmacKeyPlaceholder: 'المفتاح السري المشترك',
     keyEncoding: 'ترميز المفتاح',
     noHmac: 'لا يوجد HMAC لـ CRC-32.',
@@ -381,6 +386,7 @@ export const toolsAr: ToolMessages = {
       'مفاتيح PEM بصيغة PKCS#8 (الخاص) وSPKI (العام). تُسمّى مفاتيح JWK ببصمتها وفق RFC 7638.',
   },
   generate: {
+    inspectAction: 'افحص',
     tool: 'الأداة',
     modes: {
       ids: 'المعرّفات',
@@ -578,6 +584,9 @@ export const toolsAr: ToolMessages = {
     sizeChange: '{from} → {to}',
   },
   time: {
+    convertAction: 'تحويل',
+    calculateAction: 'احسب',
+    explainAction: 'اشرح',
     tool: 'الأداة',
     modes: { convert: 'Epoch والتاريخ', diff: 'الفرق والمدة', cron: 'Cron' },
     timeZone: 'المنطقة الزمنية',
@@ -934,6 +943,9 @@ export const toolsAr: ToolMessages = {
     },
   },
   text: {
+    caseAction: 'تحويل',
+    countAction: 'عدّ',
+    linesAction: 'معالجة',
     tool: 'الأداة',
     modes: {
       case: 'حالة الأحرف والمعرّف',
@@ -1121,6 +1133,9 @@ export const toolsAr: ToolMessages = {
     useColor: 'استخدم {color}',
   },
   network: {
+    calculateAction: 'احسب',
+    splitAction: 'قسّم',
+    analyzeAction: 'حلّل',
     tool: 'الأداة',
     modes: {
       calculator: 'حاسبة CIDR',
@@ -1218,6 +1233,8 @@ export const toolsAr: ToolMessages = {
     invalidLines: 'الأسطر غير الصالحة: {count}',
   },
   'qr-code': {
+    contentRequired: 'املأ المحتوى أولًا.',
+    fixFields: 'أصلح الحقول المحددة أولًا.',
     content: 'المحتوى',
     types: { text: 'نص', url: 'رابط', wifi: 'Wi-Fi', vcard: 'جهة اتصال', email: 'بريد إلكتروني' },
     text: 'النص',
@@ -1281,6 +1298,7 @@ export const toolsAr: ToolMessages = {
     versionStatus: 'الإصدار {version} · {size}×{size} وحدة',
   },
   markdown: {
+    render: 'عرض',
     editor: 'Markdown',
     inputPlaceholder: 'اكتب Markdown أو الصقه، أو أفلت ملف ‎.md…',
     previewLabel: 'المعاينة المعروضة',

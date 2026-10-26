@@ -20,18 +20,20 @@ import { formatBytes, utf8Length } from '@/lib/tools/bytes';
 import {
   CopyButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
 } from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import { StaleStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
 import { downloadFile } from '@/components/tools/workbench/file';
-import { useDebouncedValue } from '@/components/tools/workbench/use-live-input';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS, useApplied } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
 import { NumberField } from '@/components/tools/crypto/parts';
 import { PartHeading } from '@/components/tools/jwt/parts';
 import { Note, SelectRow } from '@/components/tools/time/parts';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
 import { ContentForm } from './content-form';
@@ -45,7 +47,6 @@ import {
   type Appearance,
 } from './state';
 
-const TYPING_DELAY_MS = 120;
 /** Below this WCAG ratio, phone cameras start missing modules. */
 const MIN_CONTRAST = 4;
 
@@ -55,6 +56,41 @@ const hexOf = (color: Color) =>
 function parsed(text: string): Color | null {
   const result = parseColor(text);
   return result.ok ? result.color : null;
+}
+
+type Inspection = {
+  colors: RenderOptions | null;
+  ratio: number | null;
+  inverted: boolean;
+  sizeOk: boolean;
+  marginOk: boolean;
+  valid: boolean;
+};
+
+/** Validates an appearance: its colors parse, and size and margin are whole numbers in range. */
+function inspect(appearance: Appearance): Inspection {
+  const foreground = parsed(appearance.foreground);
+  const background = parsed(appearance.background);
+  const colors: RenderOptions | null =
+    foreground && background
+      ? { foreground: hexOf(foreground), background: hexOf(background), margin: appearance.margin }
+      : null;
+  const sizeOk =
+    Number.isInteger(appearance.size) &&
+    appearance.size >= SIZE_RANGE.min &&
+    appearance.size <= SIZE_RANGE.max;
+  const marginOk =
+    Number.isInteger(appearance.margin) &&
+    appearance.margin >= MARGIN_RANGE.min &&
+    appearance.margin <= MARGIN_RANGE.max;
+  return {
+    colors,
+    ratio: foreground && background ? wcagContrast(foreground, background) : null,
+    inverted: foreground && background ? apcaContrast(foreground, background) < 0 : false,
+    sizeOk,
+    marginOk,
+    valid: colors !== null && sizeOk && marginOk,
+  };
 }
 
 /** Draws the code at exactly `pixels` square, with module edges rounded to whole pixels. */
@@ -136,15 +172,22 @@ function ColorField({
 /** QR codes for text, URLs, Wi-Fi, contacts and email, with SVG and PNG downloads. */
 export function QrCodeTool() {
   const t = useToolMessages<'qr-code'>();
+  const common = useToolCommon();
   const locale = useLocale();
   const [type, setType] = useContentType();
   const [fields, setFields] = useQrFields();
   const [appearance, setAppearance] = useAppearance();
   const update = (patch: Partial<Appearance>) => setAppearance({ ...appearance, ...patch });
 
+  // Nothing is generated until Generate (or Ctrl/⌘+Enter); the form only validates as you type.
+  const { applied, apply, stale } = useApplied({ type, fields, appearance });
   const payload = useMemo(() => buildPayload(type, fields), [type, fields]);
-  const text = useDebouncedValue(payload.text, TYPING_DELAY_MS);
-  const level = appearance.level;
+  const appliedPayload = useMemo(
+    () => (applied ? buildPayload(applied.type, applied.fields) : null),
+    [applied]
+  );
+  const text = appliedPayload?.text ?? '';
+  const level = applied?.appearance.level ?? appearance.level;
   const task = useMemo(() => (text ? () => createQr(text, level) : null), [text, level]);
   const { value: current, latest, error: loadError } = useAsyncResult(task);
   // Keep the previous code on screen while the next one is computed.
@@ -152,41 +195,37 @@ export function QrCodeTool() {
   const matrix = result?.ok ? result.matrix : null;
   const tooBig = current && !current.ok ? current.message : null;
 
-  const foreground = parsed(appearance.foreground);
-  const background = parsed(appearance.background);
-  const colors: RenderOptions | null =
-    foreground && background
-      ? { foreground: hexOf(foreground), background: hexOf(background), margin: appearance.margin }
-      : null;
-  const ratio = foreground && background ? wcagContrast(foreground, background) : null;
-  const inverted = foreground && background ? apcaContrast(foreground, background) < 0 : false;
-  const sizeOk =
-    Number.isInteger(appearance.size) &&
-    appearance.size >= SIZE_RANGE.min &&
-    appearance.size <= SIZE_RANGE.max;
-  const marginOk =
-    Number.isInteger(appearance.margin) &&
-    appearance.margin >= MARGIN_RANGE.min &&
-    appearance.margin <= MARGIN_RANGE.max;
-  const shown = matrix && colors && marginOk ? { matrix, colors } : null;
-  // Downloads wait until the code matches the current content (typing is debounced).
+  const draftCheck = inspect(appearance);
+  const check = applied ? inspect(applied.appearance) : null;
+  const { ratio, inverted } = draftCheck;
+  const colors = check?.colors ?? null;
+  const shown = matrix && colors && check?.marginOk ? { matrix, colors } : null;
+  // Downloads wait until the code matches the current content and appearance.
   const exportable =
-    shown && sizeOk && current?.ok && text === payload.text
+    shown && check?.sizeOk && current?.ok && !stale
       ? { matrix: current.matrix, colors: shown.colors }
       : null;
   const numbers = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 });
+  const problem = !applied
+    ? null
+    : !appliedPayload?.text
+      ? t.contentRequired
+      : !check?.valid
+        ? t.fixFields
+        : null;
+  const generate = () => apply();
 
   const downloadSvg = () => {
     if (!exportable) return;
     downloadFile(
-      qrToSvg(exportable.matrix, exportable.colors, appearance.size),
+      qrToSvg(exportable.matrix, exportable.colors, applied!.appearance.size),
       'qr-code.svg',
       'image/svg+xml'
     );
   };
   const downloadPng = () => {
     if (!exportable) return;
-    renderPng(exportable.matrix, exportable.colors, appearance.size).then(
+    renderPng(exportable.matrix, exportable.colors, applied!.appearance.size).then(
       (blob) => downloadFile(blob, 'qr-code.png', 'image/png'),
       (error: unknown) => console.error('PNG export failed:', error)
     );
@@ -261,7 +300,7 @@ export function QrCodeTool() {
             max={MARGIN_RANGE.max}
             hint={fmt(t.marginHint, { ...MARGIN_RANGE, spec: SPEC_MARGIN })}
           />
-          {marginOk && appearance.margin < SPEC_MARGIN && (
+          {draftCheck.marginOk && appearance.margin < SPEC_MARGIN && (
             <Note tone="warning">{fmt(t.marginWarning, { spec: SPEC_MARGIN })}</Note>
           )}
         </div>
@@ -273,7 +312,9 @@ export function QrCodeTool() {
   const previewPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto">
       <PartHeading>{t.preview}</PartHeading>
-      <div className="flex flex-1 items-center justify-center p-4">
+      <div
+        className={cn('flex flex-1 items-center justify-center p-4', stale && STALE_OUTPUT_CLASS)}
+      >
         {shown ? (
           <svg
             viewBox={`0 0 ${side} ${side}`}
@@ -287,20 +328,25 @@ export function QrCodeTool() {
           </svg>
         ) : (
           <p className="text-xs text-fg-subtle">
-            {tooBig ? fmt(t.tooBig, { level }) : loadError ? t.loadFailed : t.empty}
+            {!applied
+              ? fmt(common.runHint, { action: common.generate, shortcut: RUN_SHORTCUT })
+              : (problem ??
+                (tooBig ? fmt(t.tooBig, { level }) : loadError ? t.loadFailed : t.empty))}
           </p>
         )}
       </div>
-      {payload.text && (
+      {appliedPayload?.text && (
         <section className="shrink-0">
-          <PartHeading actions={<CopyButton getText={() => payload.text} label={t.copyPayload} />}>
+          <PartHeading
+            actions={<CopyButton getText={() => appliedPayload.text} label={t.copyPayload} />}
+          >
             {t.payload}
           </PartHeading>
           <pre
             dir="ltr"
             className="max-h-40 overflow-auto p-3 text-start font-mono text-[11px] break-all whitespace-pre-wrap text-fg-muted select-all"
           >
-            {payload.text}
+            {appliedPayload.text}
           </pre>
         </section>
       )}
@@ -325,6 +371,7 @@ export function QrCodeTool() {
               onClick={downloadPng}
               disabled={!exportable}
             />
+            <RunButton label={common.generate} onRun={generate} pending={stale} />
           </>
         }
       >
@@ -337,6 +384,13 @@ export function QrCodeTool() {
       </ToolHeader>
       <SplitPane id="qr-code" first={formPane} second={previewPane} defaultRatio={0.45} />
       <StatusBar>
+        {stale && <StaleStatus action={common.generate} onRun={generate} />}
+        {problem && (
+          <StatusItem tone="danger" className="font-sans">
+            <CircleAlert className="size-3 shrink-0" aria-hidden />
+            {problem}
+          </StatusItem>
+        )}
         {tooBig ? (
           <StatusItem tone="danger" title={tooBig}>
             <CircleAlert className="size-3 shrink-0" aria-hidden />
@@ -349,9 +403,9 @@ export function QrCodeTool() {
             </StatusItem>
           )
         )}
-        {payload.text && (
+        {appliedPayload?.text && (
           <StatusItem className="shrink-0 max-sm:hidden">
-            {formatBytes(utf8Length(payload.text), locale)}
+            {formatBytes(utf8Length(appliedPayload.text), locale)}
           </StatusItem>
         )}
       </StatusBar>

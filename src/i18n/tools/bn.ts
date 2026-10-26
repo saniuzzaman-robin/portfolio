@@ -32,7 +32,9 @@ export const toolsBn: ToolMessages = {
     noMatches: 'কিছু মেলেনি',
     run: 'চালান',
     runHint: 'ফলাফল দেখতে {action} বা {shortcut} চাপুন।',
-    stale: 'ইনপুট বদলেছে: {action} চাপুন',
+    generate: 'তৈরি করুন',
+    stale: 'পরিবর্তন প্রয়োগ হয়নি: {action} চাপুন',
+    enterInput: 'কিছু ইনপুট দিন, তারপর {action} চাপুন।',
   },
   json: {
     view: 'ভিউ',
@@ -286,6 +288,9 @@ export const toolsBn: ToolMessages = {
     bits: '{bits} বিট',
     hmac: 'HMAC: সিক্রেট কী দিয়ে হ্যাশ',
     hmacKey: 'HMAC কী',
+    hmacKeyRequired: 'একটি HMAC কী দিন।',
+    passwordRequired: 'একটি পাসওয়ার্ড দিন।',
+    bcryptHashRequired: 'যাচাইয়ের জন্য bcrypt হ্যাশ দিন।',
     hmacKeyPlaceholder: 'শেয়ার্ড সিক্রেট কী',
     keyEncoding: 'কী-এর এনকোডিং',
     noHmac: 'CRC-32-এর কোনো HMAC নেই।',
@@ -377,6 +382,7 @@ export const toolsBn: ToolMessages = {
       'PEM কী হলো PKCS#8 (প্রাইভেট) ও SPKI (পাবলিক)। JWK-এর নাম দেওয়া হয় এর RFC 7638 থাম্বপ্রিন্ট দিয়ে।',
   },
   generate: {
+    inspectAction: 'পরীক্ষা করুন',
     tool: 'টুল',
     modes: {
       ids: 'আইডি',
@@ -575,6 +581,9 @@ export const toolsBn: ToolMessages = {
     sizeChange: '{from} → {to}',
   },
   time: {
+    convertAction: 'রূপান্তর',
+    calculateAction: 'হিসাব করুন',
+    explainAction: 'ব্যাখ্যা করুন',
     tool: 'টুল',
     modes: { convert: 'এপক ও তারিখ', diff: 'ব্যবধান ও সময়কাল', cron: 'ক্রন' },
     timeZone: 'টাইম জোন',
@@ -930,6 +939,9 @@ export const toolsBn: ToolMessages = {
     },
   },
   text: {
+    caseAction: 'রূপান্তর',
+    countAction: 'গণনা করুন',
+    linesAction: 'প্রসেস করুন',
     tool: 'টুল',
     modes: {
       case: 'কেস ও স্লাগ',
@@ -1118,6 +1130,9 @@ export const toolsBn: ToolMessages = {
     useColor: '{color} ব্যবহার করুন',
   },
   network: {
+    calculateAction: 'হিসাব করুন',
+    splitAction: 'ভাগ করুন',
+    analyzeAction: 'বিশ্লেষণ করুন',
     tool: 'টুল',
     modes: {
       calculator: 'CIDR ক্যালকুলেটর',
@@ -1215,6 +1230,8 @@ export const toolsBn: ToolMessages = {
     invalidLines: 'অবৈধ লাইন: {count}',
   },
   'qr-code': {
+    contentRequired: 'আগে কনটেন্ট পূরণ করুন।',
+    fixFields: 'আগে চিহ্নিত ঘরগুলো ঠিক করুন।',
     content: 'বিষয়বস্তু',
     types: { text: 'টেক্সট', url: 'URL', wifi: 'Wi-Fi', vcard: 'কন্টাক্ট', email: 'ইমেইল' },
     text: 'টেক্সট',
@@ -1278,6 +1295,7 @@ export const toolsBn: ToolMessages = {
     versionStatus: 'ভার্সন {version} · {size}×{size} মডিউল',
   },
   markdown: {
+    render: 'রেন্ডার',
     editor: 'Markdown',
     inputPlaceholder: 'Markdown লিখুন বা পেস্ট করুন, অথবা একটি .md ফাইল ছেড়ে দিন…',
     previewLabel: 'রেন্ডার করা প্রিভিউ',

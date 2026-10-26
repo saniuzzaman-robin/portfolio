@@ -106,7 +106,10 @@ export function JsonTool() {
   const [wrap, setWrap] = usePersistentState('json:wrap', false);
   const [query, setQuery] = usePersistentState('json:query', '$');
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live, run, ran, stale } = useRunInput(input);
+  const settings = { mode, options, query };
+  const { value: live, settings: applied, run, ran, stale } = useRunInput(input, '', settings);
+  const view = applied.mode;
+  const appliedOptions = applied.options;
   const file = useFileLoader('text', (content) => {
     setInput(content);
     run(content);
@@ -118,25 +121,35 @@ export function JsonTool() {
   };
 
   const textMode = mode === 'escape' || mode === 'unescape';
+  const appliedTextMode = view === 'escape' || view === 'unescape';
   const hasInput = live.trim() !== '';
-  const indent = INDENTS[options.indent];
+  const indent = INDENTS[appliedOptions.indent];
 
   const parsed = useMemo(
-    () => (!textMode && hasInput ? parseJson(live, { lenient: options.lenient }) : null),
-    [textMode, hasInput, live, options.lenient]
+    () =>
+      !appliedTextMode && hasInput ? parseJson(live, { lenient: appliedOptions.lenient }) : null,
+    [appliedTextMode, hasInput, live, appliedOptions.lenient]
   );
 
   // Repair is offered when strict parsing fails but the lenient parser understands the input.
   const repairable = useMemo(
     () =>
-      parsed !== null && !parsed.ok && !options.lenient && parseJson(live, { lenient: true }).ok,
-    [parsed, options.lenient, live]
+      parsed !== null &&
+      !parsed.ok &&
+      !appliedOptions.lenient &&
+      parseJson(live, { lenient: true }).ok,
+    [parsed, appliedOptions.lenient, live]
   );
 
   const compiledQuery = useMemo(
-    () => (mode === 'query' && query.trim() ? compilePath(query) : null),
-    [mode, query]
+    () => (view === 'query' && applied.query.trim() ? compilePath(applied.query) : null),
+    [view, applied.query]
   );
+  // Syntax errors show as the path is typed; the results still wait for a run.
+  const draftQueryError = useMemo(() => {
+    const compiled = mode === 'query' && query.trim() ? compilePath(query) : null;
+    return compiled && !compiled.ok ? compiled.error : null;
+  }, [mode, query]);
 
   const queryResult = useMemo(
     () =>
@@ -145,28 +158,31 @@ export function JsonTool() {
   );
 
   const output = useMemo((): Output => {
-    if (mode === 'escape') return live ? { text: escapeJsonString(live), error: null } : EMPTY;
-    if (mode === 'unescape') {
+    if (view === 'escape') return live ? { text: escapeJsonString(live), error: null } : EMPTY;
+    if (view === 'unescape') {
       if (!live) return EMPTY;
       const result = unescapeJsonString(live);
       return result.ok ? { text: result.value, error: null } : { text: '', error: result.error };
     }
     if (!parsed) return EMPTY;
     if (!parsed.ok) return { text: '', error: parsed.error };
-    if (mode === 'query') {
+    if (view === 'query') {
       if (!queryResult) return EMPTY;
       const items = queryResult.matches.map((match) => match.node);
       const array = { type: 'array' as const, items, from: 0, to: 0 };
-      return { text: stringifyJson(array, { indent, sortKeys: options.sortKeys }), error: null };
+      return {
+        text: stringifyJson(array, { indent, sortKeys: appliedOptions.sortKeys }),
+        error: null,
+      };
     }
     return {
       text: stringifyJson(parsed.value, {
-        indent: mode === 'minify' ? undefined : indent,
-        sortKeys: options.sortKeys,
+        indent: view === 'minify' ? undefined : indent,
+        sortKeys: appliedOptions.sortKeys,
       }),
       error: null,
     };
-  }, [mode, live, parsed, queryResult, indent, options.sortKeys]);
+  }, [view, live, parsed, queryResult, indent, appliedOptions.sortKeys]);
 
   const stats = useMemo(() => (parsed?.ok ? jsonStats(parsed.value) : null), [parsed]);
 
@@ -194,7 +210,7 @@ export function JsonTool() {
 
   const numbers = new Intl.NumberFormat(locale);
   const size = (text: string) => formatBytes(utf8Length(text), locale);
-  const showValidity = hasInput && mode !== 'escape';
+  const showValidity = hasInput && view !== 'escape';
 
   const placeholder =
     mode === 'escape'
@@ -208,7 +224,7 @@ export function JsonTool() {
     ? runHint
     : output.error
       ? t.invalidPlaceholder
-      : mode === 'query'
+      : view === 'query'
         ? t.queryHint
         : t.outputPlaceholder;
 
@@ -233,7 +249,7 @@ export function JsonTool() {
     <CodeEditor
       value={output.text}
       label={common.output}
-      language={mode === 'unescape' ? 'plain' : 'json'}
+      language={view === 'unescape' ? 'plain' : 'json'}
       readOnly
       wrap={wrap}
       placeholder={outputPlaceholder}
@@ -242,7 +258,7 @@ export function JsonTool() {
   );
 
   let outputPane: React.ReactNode = outputEditor;
-  if (mode === 'tree') {
+  if (view === 'tree') {
     outputPane = parsed?.ok ? (
       <JsonTree
         className={cn(stale && STALE_OUTPUT_CLASS)}
@@ -251,6 +267,7 @@ export function JsonTool() {
         onQuery={(path) => {
           setQuery(path);
           setMode('query');
+          run(undefined, undefined, { mode: 'query', options, query: path });
         }}
       />
     ) : (
@@ -258,8 +275,8 @@ export function JsonTool() {
         {!ran ? runHint : output.error ? t.invalidPlaceholder : t.outputPlaceholder}
       </p>
     );
-  } else if (mode === 'query') {
-    const queryError = compiledQuery && !compiledQuery.ok ? compiledQuery.error : null;
+  } else if (mode === 'query' || view === 'query') {
+    const queryError = draftQueryError;
     outputPane = (
       <>
         <label className="flex h-8 shrink-0 items-center gap-2 border-b border-line px-2.5">
@@ -356,12 +373,12 @@ export function JsonTool() {
               onClick={() =>
                 downloadFile(
                   output.text,
-                  DOWNLOAD_NAMES[mode],
-                  textMode ? undefined : 'application/json;charset=utf-8'
+                  DOWNLOAD_NAMES[view],
+                  appliedTextMode ? undefined : 'application/json;charset=utf-8'
                 )
               }
             />
-            <RunButton label={runLabel} onRun={() => run()} />
+            <RunButton label={runLabel} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -383,6 +400,11 @@ export function JsonTool() {
           />
         )}
         {stale && <StaleStatus action={runLabel} onRun={() => run()} />}
+        {ran && !hasInput && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: runLabel })}
+          </StatusItem>
+        )}
         {file.error && <StatusItem tone="danger">{file.error}</StatusItem>}
         {warnings.length > 0 && (
           <StatusItem
@@ -399,7 +421,7 @@ export function JsonTool() {
             {fmt(t.stats, { keys: numbers.format(stats.keys), depth: numbers.format(stats.depth) })}
           </StatusItem>
         )}
-        {mode === 'query' && queryResult && (
+        {view === 'query' && queryResult && (
           <StatusItem className="shrink-0">
             {fmt(queryResult.truncated ? t.resultsTruncated : t.results, {
               count: numbers.format(queryResult.matches.length),
@@ -408,7 +430,7 @@ export function JsonTool() {
         )}
         {hasInput && (
           <StatusItem className="shrink-0">
-            {output.text && mode !== 'tree' && mode !== 'query'
+            {output.text && view !== 'tree' && view !== 'query'
               ? fmt(t.sizeChange, { from: size(live), to: size(output.text) })
               : size(live)}
           </StatusItem>

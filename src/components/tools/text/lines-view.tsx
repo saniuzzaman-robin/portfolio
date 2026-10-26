@@ -8,6 +8,7 @@ import { CodeEditor, type CursorInfo } from '@/components/tools/workbench/code-e
 import {
   CopyButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
@@ -19,9 +20,15 @@ import {
   Toggle,
 } from '@/components/tools/workbench/options-popover';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { CursorStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import {
+  CursorStatus,
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+} from '@/components/tools/workbench/status-bar';
 import { downloadFile } from '@/components/tools/workbench/file';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
 import { useFormatNumber } from '@/components/tools/generate/parts';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
@@ -39,23 +46,26 @@ export function LinesView({ picker }: { picker: React.ReactNode }) {
   const t = useToolMessages<'text'>();
   const locale = useLocale();
   const formatNumber = useFormatNumber();
-  const input = useInput();
   const [options, setOptions] = useLineOptions();
+  const [shuffles, setShuffles] = useState(0);
+  const input = useInput({ options, shuffles });
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const [run, setRun] = useState(0);
-  const { value: live } = useLiveInput(input.input);
+  const { value: live, settings: applied, run, ran, stale } = input.runner;
 
-  // `run` changes the request (and so shuffles again) when asked to.
-  const request = useMemo(() => ({ live, options, locale, run }), [live, options, locale, run]);
-  // Shuffling is random, so lines are processed after hydration, never during render.
+  // Shuffling is random, so lines are processed after hydration, never during render. Every run
+  // shuffles again (`shuffles` is part of the snapshot, so asking to reshuffle re-runs).
   const task = useMemo(
-    () => async () => processLines(request.live, request.options, request.locale, getRandom()),
-    [request]
+    () => (ran ? async () => processLines(live, applied.options, locale, getRandom()) : null),
+    [ran, live, applied, locale]
   );
   const job = useAsyncResult(task);
-  const result = job.value ?? job.latest;
+  const result = task ? (job.value ?? job.latest) : undefined;
   const output = result?.text ?? '';
   const sorting = options.order === 'sort';
+  const reshuffle = () => {
+    setShuffles(shuffles + 1);
+    run(undefined, '', { options, shuffles: shuffles + 1 });
+  };
 
   const outputPane = (
     <CodeEditor
@@ -63,7 +73,12 @@ export function LinesView({ picker }: { picker: React.ReactNode }) {
       label={common.output}
       readOnly
       wrap={input.wrap}
-      placeholder={t.outputPlaceholder}
+      placeholder={
+        ran
+          ? t.outputPlaceholder
+          : fmt(common.runHint, { action: t.linesAction, shortcut: RUN_SHORTCUT })
+      }
+      className={cn(stale && STALE_OUTPUT_CLASS)}
     />
   );
 
@@ -128,12 +143,12 @@ export function LinesView({ picker }: { picker: React.ReactNode }) {
             </OptionsPopover>
             <ToolbarDivider />
             {options.order === 'shuffle' && (
-              <IconAction icon={Shuffle} label={t.reshuffle} onClick={() => setRun(run + 1)} />
+              <IconAction icon={Shuffle} label={t.reshuffle} onClick={reshuffle} />
             )}
             <IconAction
               icon={ArrowLeftToLine}
               label={t.useOutput}
-              onClick={() => input.setInput(output)}
+              onClick={() => input.replace(output)}
               disabled={!output}
               className="rtl:-scale-x-100"
             />
@@ -144,6 +159,7 @@ export function LinesView({ picker }: { picker: React.ReactNode }) {
               disabled={!output}
               onClick={() => downloadFile(output, 'lines.txt')}
             />
+            <RunButton label={t.linesAction} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -162,6 +178,12 @@ export function LinesView({ picker }: { picker: React.ReactNode }) {
         second={outputPane}
       />
       <StatusBar>
+        {stale && <StaleStatus action={t.linesAction} onRun={() => run()} />}
+        {ran && live === '' && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.linesAction })}
+          </StatusItem>
+        )}
         {input.file.error && <StatusItem tone="danger">{input.file.error}</StatusItem>}
         {result && (
           <>

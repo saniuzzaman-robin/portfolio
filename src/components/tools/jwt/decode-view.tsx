@@ -68,7 +68,7 @@ export function DecodeView({
   keys: KeyFields;
   onKeys: (keys: KeyFields) => void;
   /** The token as of the last Decode (owned by the tool, so the encoder can hand one over). */
-  runner: ReturnType<typeof useRunInput>;
+  runner: ReturnType<typeof useRunInput<KeyFields>>;
   /** Opens the token's header and payload in the encoder. */
   onEdit: (decoded: DecodedJwt) => void;
 }) {
@@ -77,7 +77,7 @@ export function DecodeView({
   const locale = useLocale();
   const inputRef = useRef<CodeEditorHandle>(null);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live, run, ran, stale } = runner;
+  const { value: live, settings: appliedKeys, run, ran, stale } = runner;
 
   const hasInput = live.trim() !== '';
   const result = useMemo(() => (hasInput ? decodeJwt(live) : null), [hasInput, live]);
@@ -87,14 +87,14 @@ export function DecodeView({
 
   const alg = decoded?.alg ?? null;
   const family = isJwsAlgorithm(alg) ? algorithmInfo(alg).family : null;
-  const keyText = family === 'hmac' ? keys.secret : keys.key;
+  const keyText = family === 'hmac' ? appliedKeys.secret : appliedKeys.key;
   // Unknown or missing algorithms still "verify", so the lib can explain why they can't be checked.
   const task = useMemo(
     () =>
       decoded && alg !== 'none' && (keyText || !family)
-        ? () => verifyJwt(decoded, keyText, { secretEncoding: keys.encoding })
+        ? () => verifyJwt(decoded, keyText, { secretEncoding: appliedKeys.encoding })
         : null,
-    [decoded, alg, family, keyText, keys.encoding]
+    [decoded, alg, family, keyText, appliedKeys.encoding]
   );
   const verification = useAsyncResult(task);
 
@@ -217,7 +217,7 @@ export function DecodeView({
               disabled={!decoded}
             />
             <CopyButton getText={() => token.trim()} disabled={!token.trim()} />
-            <RunButton label={t.decode} onRun={() => run()} />
+            <RunButton label={t.decode} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -259,6 +259,11 @@ export function DecodeView({
           </>
         )}
         {stale && <StaleStatus action={t.decode} onRun={() => run()} />}
+        {ran && !hasInput && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.decode })}
+          </StatusItem>
+        )}
         {hasInput && (
           <StatusItem className="shrink-0 max-sm:hidden">
             {formatBytes(utf8Length(live.trim()), locale)}

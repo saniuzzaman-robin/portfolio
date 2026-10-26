@@ -19,12 +19,24 @@ import {
 import {
   CopyButton,
   IconAction,
+  RunButton,
   ToolHeader,
   ToolbarDivider,
 } from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem, ValidityStatus } from '@/components/tools/workbench/status-bar';
+import {
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+  ValidityStatus,
+} from '@/components/tools/workbench/status-bar';
 import { usePersistentState } from '@/components/tools/workbench/use-persistent-state';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
@@ -62,13 +74,15 @@ export function UrlPartsView({ picker }: { picker: React.ReactNode }) {
   // The last model the table produced; it wins while the URL text is still the text it built.
   const [edited, setEdited] = useState<Model | null>(null);
 
-  const parsed = useMemo(() => (input.trim() ? parseUrl(input) : null), [input]);
+  const { value: live, run, ran, stale } = useRunInput(input);
+
+  const parsed = useMemo(() => (live.trim() ? parseUrl(live) : null), [live]);
   const error = parsed && !parsed.ok ? parsed.error : null;
   const model: Model | null =
-    edited?.text === input
+    edited?.text === live
       ? edited
       : parsed?.ok
-        ? { text: input, parts: parsed.value, params: parseQuery(parsed.value.query) }
+        ? { text: live, parts: parsed.value, params: parseQuery(parsed.value.query) }
         : null;
 
   const diagnostics = useMemo(
@@ -80,6 +94,8 @@ export function UrlPartsView({ picker }: { picker: React.ReactNode }) {
     const text = buildUrl(parts);
     setEdited({ text, parts, params });
     setInput(text);
+    // The table is the result, so editing it rewrites the URL and shows it right away.
+    run(text);
   };
 
   const setField = (field: Field, value: string) => {
@@ -104,7 +120,11 @@ export function UrlPartsView({ picker }: { picker: React.ReactNode }) {
   );
 
   const outputPane = model ? (
-    <div role="group" aria-label={t.urlParts} className="min-h-0 flex-1 overflow-auto p-3 text-xs">
+    <div
+      role="group"
+      aria-label={t.urlParts}
+      className={cn('min-h-0 flex-1 overflow-auto p-3 text-xs', stale && STALE_OUTPUT_CLASS)}
+    >
       <div className="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1.5">
         {FIELDS.map((field) => (
           <FieldRow key={field} id={`${id}-${field}`} label={t[field]}>
@@ -181,7 +201,13 @@ export function UrlPartsView({ picker }: { picker: React.ReactNode }) {
     </div>
   ) : (
     <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">
-      {error ? t.invalidPlaceholder : t.outputPlaceholder}
+      {!ran
+        ? fmt(common.runHint, { action: common.run, shortcut: RUN_SHORTCUT })
+        : !live.trim()
+          ? fmt(common.enterInput, { action: common.run })
+          : error
+            ? t.invalidPlaceholder
+            : t.outputPlaceholder}
     </p>
   );
 
@@ -194,7 +220,10 @@ export function UrlPartsView({ picker }: { picker: React.ReactNode }) {
             <IconAction
               icon={Eraser}
               label={common.clear}
-              onClick={() => setInput('')}
+              onClick={() => {
+                setInput('');
+                run('');
+              }}
               disabled={!input}
             />
             <ToolbarDivider />
@@ -206,6 +235,7 @@ export function UrlPartsView({ picker }: { picker: React.ReactNode }) {
             />
             <ToolbarDivider />
             <CopyButton getText={() => input} disabled={!input} />
+            <RunButton label={common.run} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -213,11 +243,17 @@ export function UrlPartsView({ picker }: { picker: React.ReactNode }) {
       </ToolHeader>
       <SplitPane id="encode-url" first={inputPane} second={outputPane} />
       <StatusBar>
-        {input.trim() && (
+        {live.trim() && (
           <ValidityStatus
-            error={error && { message: error.message, ...positionAt(input, error.from) }}
+            error={error && { message: error.message, ...positionAt(live, error.from) }}
             onReveal={error ? () => inputRef.current?.reveal(error.from, error.to) : undefined}
           />
+        )}
+        {stale && <StaleStatus action={common.run} onRun={() => run()} />}
+        {ran && !live.trim() && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: common.run })}
+          </StatusItem>
         )}
         {model && (
           <StatusItem className="shrink-0">

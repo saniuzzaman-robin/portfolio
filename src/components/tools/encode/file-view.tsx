@@ -42,6 +42,7 @@ import { usePersistentState } from '@/components/tools/workbench/use-persistent-
 import {
   RUN_SHORTCUT,
   STALE_OUTPUT_CLASS,
+  useApplied,
   useRunInput,
 } from '@/components/tools/workbench/use-run';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
@@ -97,18 +98,28 @@ function FileEncoder({ picker }: { picker: React.ReactNode }) {
     isOutputFormat
   );
   const [wrap, setWrap] = useWrap();
+  // Opening or removing a file is explicit, so it encodes right away; the format waits.
+  const { applied, apply, reset, stale } = useApplied({ picked, format });
   const loader = useFileLoader(
     'bytes',
-    (bytes, file) => setPicked({ name: file.name, type: file.type, bytes }),
+    (bytes, file) => {
+      const next = { name: file.name, type: file.type, bytes };
+      setPicked(next);
+      apply({ picked: next, format });
+    },
     MAX_FILE_BYTES
   );
 
+  const encoded = applied?.picked ?? null;
   const detected = useMemo(() => (picked ? detectFileType(picked.bytes) : null), [picked]);
-  const mime = detected?.mime || picked?.type || FALLBACK_MIME;
+  const encodedType = useMemo(() => (encoded ? detectFileType(encoded.bytes) : null), [encoded]);
+  const mime = encodedType?.mime || encoded?.type || FALLBACK_MIME;
   const output = useMemo(() => {
-    if (!picked) return '';
-    return format === 'dataUri' ? toDataUri(picked.bytes, mime) : encodeBase64(picked.bytes);
-  }, [picked, format, mime]);
+    if (!encoded) return '';
+    return applied?.format === 'dataUri'
+      ? toDataUri(encoded.bytes, mime)
+      : encodeBase64(encoded.bytes);
+  }, [encoded, applied?.format, mime]);
   const truncated = output.length > OUTPUT_PREVIEW_CHARS;
 
   const load = (file: File) => void loader.load(file);
@@ -134,7 +145,10 @@ function FileEncoder({ picker }: { picker: React.ReactNode }) {
       label={common.output}
       readOnly
       wrap={wrap}
-      placeholder={t.dropHere}
+      placeholder={
+        picked ? fmt(common.runHint, { action: t.encode, shortcut: RUN_SHORTCUT }) : t.dropHere
+      }
+      className={cn(stale && STALE_OUTPUT_CLASS)}
     />
   );
 
@@ -148,7 +162,10 @@ function FileEncoder({ picker }: { picker: React.ReactNode }) {
             <IconAction
               icon={Eraser}
               label={common.clear}
-              onClick={() => setPicked(null)}
+              onClick={() => {
+                setPicked(null);
+                reset();
+              }}
               disabled={!picked}
             />
             <ToolbarDivider />
@@ -164,8 +181,9 @@ function FileEncoder({ picker }: { picker: React.ReactNode }) {
               icon={Download}
               label={common.download}
               disabled={!output}
-              onClick={() => downloadFile(output, `${picked?.name ?? 'file'}.base64.txt`)}
+              onClick={() => downloadFile(output, `${encoded?.name ?? 'file'}.base64.txt`)}
             />
+            <RunButton label={t.encode} onRun={() => apply()} pending={stale} />
           </>
         }
       >
@@ -185,6 +203,12 @@ function FileEncoder({ picker }: { picker: React.ReactNode }) {
       </ToolHeader>
       <SplitPane id="encode-file" first={inputPane} second={outputPane} />
       <StatusBar>
+        {stale && <StaleStatus action={t.encode} onRun={() => apply()} />}
+        {applied && !applied.picked && (
+          <StatusItem tone="danger" className="font-sans">
+            {t.dropHere}
+          </StatusItem>
+        )}
         {loader.error && <StatusItem tone="danger">{loader.error}</StatusItem>}
         {truncated && (
           <StatusItem tone="warning">
@@ -313,6 +337,11 @@ function FileDecoder({ picker }: { picker: React.ReactNode }) {
           />
         )}
         {stale && <StaleStatus action={t.decode} onRun={() => run()} />}
+        {ran && !hasInput && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.decode })}
+          </StatusItem>
+        )}
         {loader.error && <StatusItem tone="danger">{loader.error}</StatusItem>}
         {decoded && (
           <StatusItem className="shrink-0">
