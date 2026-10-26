@@ -72,7 +72,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
         direction="down"
         className={cn(
           'pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center print:hidden',
-          !docked && 'px-3 py-3 sm:px-4 sm:py-4'
+          !docked && 'px-2 py-2'
         )}
       >
         <nav
@@ -81,20 +81,20 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
             'pointer-events-auto flex w-full items-center justify-between gap-2.5 border transition-all duration-300 sm:gap-4',
             docked
               ? 'h-(--nav-h) border-x-0 border-t-0 border-b-line bg-surface px-3 sm:px-4'
-              : 'rounded-full px-3.5 py-2 sm:px-5 sm:py-2.5',
+              : 'rounded-full px-3 py-2 sm:px-3.5 sm:py-2.5',
             !docked &&
               (scrolled
-                ? 'glass-nav max-w-5xl shadow-lg xl:max-w-6xl'
-                : 'max-w-6xl border-transparent bg-transparent xl:max-w-7xl')
+                ? 'glass-nav max-w-5xl shadow-lg 2xl:max-w-6xl'
+                : 'max-w-6xl border-transparent bg-transparent 2xl:max-w-7xl')
           )}
         >
           <LocaleLink href="/" className="group flex items-center gap-2.5">
-            <Avatar className="size-10 transition-transform group-hover:scale-105 xl:size-11" />
+            <Avatar className="size-10 transition-transform group-hover:scale-105 2xl:size-11" />
             <span className="flex flex-col">
-              <span className="font-heading text-xs font-bold tracking-tight text-fg xl:text-base">
+              <span className="font-heading text-xs font-bold tracking-tight text-fg 2xl:text-base">
                 {CV_DATA.name}
               </span>
-              <span className="font-mono text-[10px] font-medium text-primary-text xl:text-xs">
+              <span className="font-mono text-[10px] font-medium text-primary-text 2xl:text-xs">
                 {cv.title} • {fmt(t.navbar.years, { years: CV_DATA.yearsOfExperience })}
               </span>
             </span>
@@ -109,7 +109,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
                   href={link.href}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'relative rounded-full px-3.5 py-1 text-xs font-semibold transition-colors duration-200 xl:text-sm',
+                    'relative rounded-full px-3.5 py-1 text-xs font-semibold transition-colors duration-200 lg:px-3 2xl:text-sm',
                     active ? 'text-primary-fg' : 'text-fg-muted hover:text-fg'
                   )}
                 >
@@ -133,7 +133,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onOpenCommand}
-                className="hidden cursor-pointer items-center gap-1.5 rounded-full border border-line-strong bg-surface-2 px-3 py-1.5 font-mono text-xs text-fg-muted transition-colors hover:border-primary hover:text-fg sm:inline-flex xl:text-sm"
+                className="hidden cursor-pointer items-center gap-1.5 rounded-full border border-line-strong bg-surface-2 px-3 py-1.5 font-mono text-xs text-fg-muted transition-colors hover:border-primary hover:text-fg sm:inline-flex 2xl:text-sm"
                 aria-keyshortcuts="Meta+K Control+K"
               >
                 <Command className="size-3" />
@@ -149,7 +149,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               whileTap={{ scale: 0.95 }}
               href={RESUME_PDF_PATH}
               download
-              className="hidden items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 font-mono text-xs font-semibold text-primary-text transition-colors hover:border-primary hover:bg-primary/20 sm:inline-flex xl:text-sm"
+              className="hidden items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 font-mono text-xs font-semibold text-primary-text transition-colors hover:border-primary hover:bg-primary/20 sm:inline-flex 2xl:text-sm"
             >
               <Download className="size-3" />
               <span>{t.navbar.resume}</span>
@@ -160,7 +160,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               whileHover={{ scale: 1.08, rotate: 15 }}
               whileTap={{ scale: 0.92 }}
               onClick={toggleTheme}
-              className="flex size-9 cursor-pointer items-center justify-center rounded-full border border-line-strong bg-surface-2 text-fg shadow-xs transition-colors hover:border-primary xl:size-10"
+              className="flex size-9 cursor-pointer items-center justify-center rounded-full border border-line-strong bg-surface-2 text-fg shadow-xs transition-colors hover:border-primary 2xl:size-10"
               aria-label={isDark ? t.navbar.toLight : t.navbar.toDark}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -214,7 +214,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
         {isMenuOpen && <MobileNav pathname={pathname} onClose={closeMenu} />}
       </AnimatePresence>
 
-      <div className={cn(docked ? 'h-(--nav-h)' : 'h-20', 'print:hidden')} aria-hidden />
+      <div className={cn(docked ? 'h-(--nav-h)' : 'h-18', 'print:hidden')} aria-hidden />
     </>
   );
 }
