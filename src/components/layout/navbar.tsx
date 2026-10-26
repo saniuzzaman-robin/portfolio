@@ -84,17 +84,17 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               : 'rounded-full px-3.5 py-2 sm:px-5 sm:py-2.5',
             !docked &&
               (scrolled
-                ? 'glass-nav max-w-5xl shadow-lg'
-                : 'max-w-6xl border-transparent bg-transparent')
+                ? 'glass-nav max-w-5xl shadow-lg xl:max-w-6xl'
+                : 'max-w-6xl border-transparent bg-transparent xl:max-w-7xl')
           )}
         >
           <LocaleLink href="/" className="group flex items-center gap-2.5">
-            <Avatar className="size-9 transition-transform group-hover:scale-105" />
+            <Avatar className="size-10 transition-transform group-hover:scale-105 xl:size-11" />
             <span className="flex flex-col">
-              <span className="font-heading text-xs font-bold tracking-tight text-fg">
+              <span className="font-heading text-xs font-bold tracking-tight text-fg xl:text-base">
                 {CV_DATA.name}
               </span>
-              <span className="font-mono text-[10px] font-medium text-primary-text">
+              <span className="font-mono text-[10px] font-medium text-primary-text xl:text-xs">
                 {cv.title} • {fmt(t.navbar.years, { years: CV_DATA.yearsOfExperience })}
               </span>
             </span>
@@ -109,7 +109,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
                   href={link.href}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'relative rounded-full px-3.5 py-1 text-xs font-semibold transition-colors duration-200',
+                    'relative rounded-full px-3.5 py-1 text-xs font-semibold transition-colors duration-200 xl:text-sm',
                     active ? 'text-primary-fg' : 'text-fg-muted hover:text-fg'
                   )}
                 >
@@ -133,7 +133,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onOpenCommand}
-                className="hidden cursor-pointer items-center gap-1.5 rounded-full border border-line-strong bg-surface-2 px-3 py-1.5 font-mono text-xs text-fg-muted transition-colors hover:border-primary hover:text-fg sm:inline-flex"
+                className="hidden cursor-pointer items-center gap-1.5 rounded-full border border-line-strong bg-surface-2 px-3 py-1.5 font-mono text-xs text-fg-muted transition-colors hover:border-primary hover:text-fg sm:inline-flex xl:text-sm"
                 aria-keyshortcuts="Meta+K Control+K"
               >
                 <Command className="size-3" />
@@ -149,7 +149,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               whileTap={{ scale: 0.95 }}
               href={RESUME_PDF_PATH}
               download
-              className="hidden items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 font-mono text-xs font-semibold text-primary-text transition-colors hover:border-primary hover:bg-primary/20 sm:inline-flex"
+              className="hidden items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 font-mono text-xs font-semibold text-primary-text transition-colors hover:border-primary hover:bg-primary/20 sm:inline-flex xl:text-sm"
             >
               <Download className="size-3" />
               <span>{t.navbar.resume}</span>
@@ -160,7 +160,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               whileHover={{ scale: 1.08, rotate: 15 }}
               whileTap={{ scale: 0.92 }}
               onClick={toggleTheme}
-              className="flex size-8 cursor-pointer items-center justify-center rounded-full border border-line-strong bg-surface-2 text-fg shadow-xs transition-colors hover:border-primary"
+              className="flex size-9 cursor-pointer items-center justify-center rounded-full border border-line-strong bg-surface-2 text-fg shadow-xs transition-colors hover:border-primary xl:size-10"
               aria-label={isDark ? t.navbar.toLight : t.navbar.toDark}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -188,7 +188,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               onPointerEnter={loadMobileNav}
               onTouchStart={loadMobileNav}
               onFocus={loadMobileNav}
-              className="flex size-8 cursor-pointer items-center justify-center rounded-full border border-line bg-surface-2 text-fg-muted lg:hidden"
+              className="flex size-9 cursor-pointer items-center justify-center rounded-full border border-line bg-surface-2 text-fg-muted lg:hidden"
               aria-label={t.navbar.toggleMenu}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-nav"
