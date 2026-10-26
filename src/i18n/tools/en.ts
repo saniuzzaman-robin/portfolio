@@ -717,6 +717,7 @@ export const toolsEn = {
     nextRunAt: 'Next run {time}',
   },
   diff: {
+    newDiff: 'New diff',
     compare: 'Compare',
     compareAction: 'Compare',
     modes: { text: 'Text', json: 'JSON' },
