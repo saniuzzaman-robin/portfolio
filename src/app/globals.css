@@ -624,7 +624,16 @@
     color-scheme: light;
   }
   body {
-    font-size: 11pt;
+    font-size: 10pt;
+  }
+  /* Let long jobs flow across pages (no half-empty pages) but keep bullets and headings whole. */
+  li,
+  dl > div {
+    break-inside: avoid;
+  }
+  h2,
+  h3 {
+    break-after: avoid;
   }
   /* Scroll-reveal content that was never scrolled into view must still print. */
   [style*='opacity'] {
@@ -632,6 +641,6 @@
     transform: none !important;
   }
   @page {
-    margin: 14mm;
+    margin: 12mm;
   }
 }
