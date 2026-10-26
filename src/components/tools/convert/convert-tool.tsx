@@ -155,13 +155,16 @@ export function ConvertTool() {
   const [options, setOptions] = usePersistentState('convert:options', DEFAULT_OPTIONS, isOptions);
   const [wrap, setWrap] = usePersistentState('convert:wrap', false);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live, run, ran, stale } = useRunInput(input, from);
+  const settings = { conversion, options };
+  const { value: live, settings: applied, run, ran, stale } = useRunInput(input, from, settings);
+  const [, appliedTo] = conversionFormats(applied.conversion);
   // Opening a file or converting back is explicit, so the new input runs right away.
   const file = useFileLoader('text', (content, picked) => {
     const detected = formatForFile(picked.name) ?? from;
     writePersistentState(inputKey(detected), content);
-    if (detected !== from) setConversion(DEFAULT_CONVERSION[detected]);
-    run(content, detected);
+    const next = detected !== from ? DEFAULT_CONVERSION[detected] : conversion;
+    if (detected !== from) setConversion(next);
+    run(content, detected, { conversion: next, options });
   });
 
   const hasInput = live.trim() !== '';
@@ -169,16 +172,16 @@ export function ConvertTool() {
 
   const convertOptions = useMemo(
     (): ConvertOptions => ({
-      ...options,
-      indent: INDENTS[options.indent],
-      delimiter: DELIMITERS[options.delimiter],
+      ...applied.options,
+      indent: INDENTS[applied.options.indent],
+      delimiter: DELIMITERS[applied.options.delimiter],
     }),
-    [options]
+    [applied.options]
   );
 
   const task = useMemo(
-    () => (hasInput ? () => runConvert(live, conversion, convertOptions) : null),
-    [hasInput, live, conversion, convertOptions]
+    () => (hasInput ? () => runConvert(live, applied.conversion, convertOptions) : null),
+    [hasInput, live, applied.conversion, convertOptions]
   );
   const { value: current, latest, pending, error: loadError } = useAsyncResult(task);
   // While a new result is computing, keep showing the previous one instead of flickering.
@@ -208,7 +211,7 @@ export function ConvertTool() {
     const source = conversionFormats(reverse)[0];
     writePersistentState(inputKey(source), output);
     setConversion(reverse);
-    run(output, source);
+    run(output, source, { conversion: reverse, options });
   };
 
   const set =
@@ -248,7 +251,7 @@ export function ConvertTool() {
     <CodeEditor
       value={output}
       label={common.output}
-      language={EDITOR_LANGUAGES[to]}
+      language={EDITOR_LANGUAGES[appliedTo]}
       readOnly
       wrap={wrap}
       placeholder={
@@ -368,12 +371,12 @@ export function ConvertTool() {
               onClick={() =>
                 downloadFile(
                   output,
-                  `converted.${DATA_FORMATS[to].extension}`,
-                  `${DATA_FORMATS[to].mime};charset=utf-8`
+                  `converted.${DATA_FORMATS[appliedTo].extension}`,
+                  `${DATA_FORMATS[appliedTo].mime};charset=utf-8`
                 )
               }
             />
-            <RunButton label={t.convert} onRun={() => run()} />
+            <RunButton label={t.convert} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -398,6 +401,11 @@ export function ConvertTool() {
           </StatusItem>
         )}
         {stale && <StaleStatus action={t.convert} onRun={() => run()} />}
+        {ran && !hasInput && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.convert })}
+          </StatusItem>
+        )}
         {file.error && <StatusItem tone="danger">{file.error}</StatusItem>}
         {warnings.length > 0 && (
           <StatusItem

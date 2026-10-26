@@ -144,7 +144,16 @@ export function FormatTool() {
   const [options, setOptions] = usePersistentState('format:options', DEFAULT_OPTIONS, isOptions);
   const [wrap, setWrap] = usePersistentState('format:wrap', false);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live, run, ran, stale } = useRunInput(input, language);
+  const {
+    value: live,
+    settings: applied,
+    run,
+    ran,
+    stale,
+  } = useRunInput(input, language, {
+    mode,
+    options,
+  });
   // Opening a file or reusing the result is explicit, so the new input runs right away.
   const file = useFileLoader('text', (content, picked) => {
     const detected = languageForFile(picked.name) ?? language;
@@ -159,23 +168,24 @@ export function FormatTool() {
 
   const info = LANGUAGES[language];
   const effectiveMode: FormatMode = info.minify ? mode : 'beautify';
+  const appliedMode: FormatMode = info.minify ? applied.mode : 'beautify';
   const hasInput = live.trim() !== '';
 
   const formatOptions = useMemo(
     (): FormatOptions => ({
-      indent: INDENTS[options.indent],
-      printWidth: Number(options.printWidth),
-      sqlDialect: options.sqlDialect,
-      keywordCase: options.keywordCase,
-      mangle: options.mangle,
-      minifyInline: options.minifyInline,
+      indent: INDENTS[applied.options.indent],
+      printWidth: Number(applied.options.printWidth),
+      sqlDialect: applied.options.sqlDialect,
+      keywordCase: applied.options.keywordCase,
+      mangle: applied.options.mangle,
+      minifyInline: applied.options.minifyInline,
     }),
-    [options]
+    [applied.options]
   );
 
   const task = useMemo(
-    () => (hasInput ? () => runFormat(live, language, effectiveMode, formatOptions) : null),
-    [hasInput, live, language, effectiveMode, formatOptions]
+    () => (hasInput ? () => runFormat(live, language, appliedMode, formatOptions) : null),
+    [hasInput, live, language, appliedMode, formatOptions]
   );
   const { value: current, latest, pending, error: loadError } = useAsyncResult(task);
   // While a new result is computing, keep showing the previous one instead of flickering.
@@ -196,7 +206,7 @@ export function FormatTool() {
   const percent = new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: 1 });
   const size = (text: string) => formatBytes(utf8Length(text), locale);
 
-  const beautifying = effectiveMode === 'beautify';
+  const beautifying = appliedMode === 'beautify';
   const runLabel = t.modes[effectiveMode];
   let sizeStatus: string | null = null;
   if (hasInput && output && beautifying) {
@@ -213,7 +223,8 @@ export function FormatTool() {
     sizeStatus = size(live);
   }
 
-  const minifiesJs = !beautifying && (language === 'javascript' || language === 'html');
+  const optionsBeautify = effectiveMode === 'beautify';
+  const minifiesJs = !optionsBeautify && (language === 'javascript' || language === 'html');
   const download = () =>
     downloadFile(
       output,
@@ -278,9 +289,9 @@ export function FormatTool() {
               pressed={wrap}
               onClick={() => setWrap(!wrap)}
             />
-            {(beautifying || minifiesJs) && (
+            {(optionsBeautify || minifiesJs) && (
               <OptionsPopover>
-                {beautifying && (
+                {optionsBeautify && (
                   <SelectField
                     label={t.indent}
                     value={options.indent}
@@ -292,7 +303,7 @@ export function FormatTool() {
                     ]}
                   />
                 )}
-                {beautifying && PRETTIER.has(language) && (
+                {optionsBeautify && PRETTIER.has(language) && (
                   <SelectField
                     label={t.printWidth}
                     value={options.printWidth}
@@ -358,7 +369,7 @@ export function FormatTool() {
               disabled={!output}
               onClick={download}
             />
-            <RunButton label={runLabel} onRun={() => run()} />
+            <RunButton label={runLabel} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -391,6 +402,11 @@ export function FormatTool() {
           </StatusItem>
         )}
         {stale && <StaleStatus action={runLabel} onRun={() => run()} />}
+        {ran && !hasInput && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: runLabel })}
+          </StatusItem>
+        )}
         {file.error && <StatusItem tone="danger">{file.error}</StatusItem>}
         {warnings.length > 0 && (
           <StatusItem

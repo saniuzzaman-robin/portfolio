@@ -36,8 +36,10 @@ export const toolsEn = {
     filter: 'Filter',
     noMatches: 'No matches',
     run: 'Run',
+    generate: 'Generate',
     runHint: 'Press {action} or {shortcut} to see the result.',
-    stale: 'Input changed: press {action}',
+    stale: 'Changes not applied: press {action}',
+    enterInput: 'Enter some input, then press {action}.',
   },
   json: {
     view: 'View',
@@ -291,6 +293,9 @@ export const toolsEn = {
     bits: '{bits} bits',
     hmac: 'HMAC: hash with a secret key',
     hmacKey: 'HMAC key',
+    hmacKeyRequired: 'Enter an HMAC key.',
+    passwordRequired: 'Enter a password.',
+    bcryptHashRequired: 'Enter the bcrypt hash to check against.',
     hmacKeyPlaceholder: 'The shared secret key',
     keyEncoding: 'Key encoding',
     noHmac: 'CRC-32 has no HMAC.',
@@ -382,6 +387,7 @@ export const toolsEn = {
       'PEM keys are PKCS#8 (private) and SPKI (public). JWKs are named by their RFC 7638 thumbprint.',
   },
   generate: {
+    inspectAction: 'Inspect',
     tool: 'Tool',
     modes: {
       ids: 'IDs',
@@ -580,6 +586,9 @@ export const toolsEn = {
     sizeChange: '{from} → {to}',
   },
   time: {
+    convertAction: 'Convert',
+    calculateAction: 'Calculate',
+    explainAction: 'Explain',
     tool: 'Tool',
     modes: { convert: 'Epoch & date', diff: 'Difference & duration', cron: 'Cron' },
     timeZone: 'Time zone',
@@ -938,6 +947,9 @@ export const toolsEn = {
     },
   },
   text: {
+    caseAction: 'Convert',
+    countAction: 'Count',
+    linesAction: 'Process',
     tool: 'Tool',
     modes: {
       case: 'Case & slug',
@@ -1121,6 +1133,9 @@ export const toolsEn = {
     useColor: 'Use {color}',
   },
   network: {
+    calculateAction: 'Calculate',
+    splitAction: 'Split',
+    analyzeAction: 'Analyze',
     tool: 'Tool',
     modes: {
       calculator: 'CIDR calculator',
@@ -1218,6 +1233,8 @@ export const toolsEn = {
     invalidLines: 'Invalid lines: {count}',
   },
   'qr-code': {
+    contentRequired: 'Fill in the content first.',
+    fixFields: 'Fix the highlighted fields first.',
     content: 'Content',
     types: { text: 'Text', url: 'URL', wifi: 'Wi-Fi', vcard: 'Contact', email: 'Email' },
     text: 'Text',
@@ -1282,6 +1299,7 @@ export const toolsEn = {
     versionStatus: 'Version {version} · {size}×{size} modules',
   },
   markdown: {
+    render: 'Render',
     editor: 'Markdown',
     inputPlaceholder: 'Write or paste Markdown, or drop a .md file…',
     previewLabel: 'Rendered preview',

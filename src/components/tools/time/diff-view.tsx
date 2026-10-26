@@ -13,20 +13,19 @@ import {
   type CalendarParts,
 } from '@/lib/tools/time/duration';
 import { DAY, HOUR, MINUTE, SECOND, localMs, wallTime, zoneOffset } from '@/lib/tools/time/zone';
-import { IconAction, ToolHeader } from '@/components/tools/workbench/toolbar';
+import { IconAction, RunButton, ToolHeader } from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
-import { useDebouncedValue } from '@/components/tools/workbench/use-live-input';
+import { StaleStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS, useApplied } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { useNow } from '@/components/tools/workbench/use-now';
 import { DetailList, TextField } from '@/components/tools/crypto/parts';
 import { PartHeading } from '@/components/tools/jwt/parts';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
 import { CopyValue, Note, ZoneSelect, resolveZone, translated, useTimeFormats } from './parts';
 import { useDiffInputs, useZone } from './state';
-
-const TYPING_DELAY_MS = 150;
 
 type Row = [label: string, value: React.ReactNode];
 
@@ -68,25 +67,35 @@ function formatParts(parts: CalendarParts, locale: string): string {
 /** Two dates (empty = now): their difference, and a duration added to or taken from the start. */
 export function DiffView({ picker }: { picker: React.ReactNode }) {
   const t = useToolMessages<'time'>();
+  const common = useToolCommon();
   const locale = useLocale();
   const now = useNow();
   const hydrated = now !== null;
   const inputs = useDiffInputs();
   const [zone, setZone] = useZone();
-  const start = useDebouncedValue(inputs.start, TYPING_DELAY_MS);
-  const end = useDebouncedValue(inputs.end, TYPING_DELAY_MS);
-  const durationText = useDebouncedValue(inputs.duration, TYPING_DELAY_MS);
-  const timeZone = resolveZone(zone, hydrated);
+  // Nothing is calculated until Calculate (or Ctrl/⌘+Enter); fields only validate as you type.
+  const { applied, apply, stale } = useApplied({
+    start: inputs.start,
+    end: inputs.end,
+    duration: inputs.duration,
+    zone,
+  });
+  const draftZone = resolveZone(zone, hydrated);
+  const timeZone = resolveZone(applied?.zone ?? zone, hydrated);
   const formats = useTimeFormats(timeZone);
 
-  const read = (text: string): TimeInput | null => {
-    if (!timeZone || now === null) return null;
+  const read = (text: string, readZone: string | null): TimeInput | null => {
+    if (!readZone || now === null) return null;
     if (!text.trim())
       return { ok: true, kind: 'epoch', instant: { ms: now, nanos: 0, digits: 0 }, unit: 'ms' };
-    return parseTimeInput(text, { unit: 'auto', timeZone });
+    return parseTimeInput(text, { unit: 'auto', timeZone: readZone });
   };
-  const startParsed = read(start);
-  const endParsed = read(end);
+  const draftStart = read(inputs.start, draftZone);
+  const draftEnd = read(inputs.end, draftZone);
+  const draftDuration = useMemo(() => parseDuration(inputs.duration), [inputs.duration]);
+  const startParsed = applied ? read(applied.start, timeZone) : null;
+  const endParsed = applied ? read(applied.end, timeZone) : null;
+  const durationText = applied?.duration ?? '';
   const duration = useMemo(() => parseDuration(durationText), [durationText]);
   const numbers = new Intl.NumberFormat(locale, { maximumFractionDigits: 3 });
 
@@ -163,7 +172,7 @@ export function DiffView({ picker }: { picker: React.ReactNode }) {
           value={inputs.start}
           onChange={inputs.setStart}
           placeholder={t.datePlaceholder}
-          invalid={startParsed?.ok === false}
+          invalid={draftStart?.ok === false}
         >
           <IconAction
             icon={Clock}
@@ -171,13 +180,13 @@ export function DiffView({ picker }: { picker: React.ReactNode }) {
             onClick={() => inputs.setStart(String(Date.now()))}
           />
         </TextField>
-        {fieldError(startParsed)}
+        {fieldError(draftStart)}
         <TextField
           label={t.end}
           value={inputs.end}
           onChange={inputs.setEnd}
           placeholder={t.datePlaceholder}
-          invalid={endParsed?.ok === false}
+          invalid={draftEnd?.ok === false}
         >
           <IconAction
             icon={Clock}
@@ -185,16 +194,16 @@ export function DiffView({ picker }: { picker: React.ReactNode }) {
             onClick={() => inputs.setEnd(String(Date.now()))}
           />
         </TextField>
-        {fieldError(endParsed)}
+        {fieldError(draftEnd)}
         <TextField
           label={t.duration}
           value={inputs.duration}
           onChange={inputs.setDuration}
           placeholder={t.durationPlaceholder}
-          invalid={!duration.ok && durationText.trim() !== ''}
+          invalid={!draftDuration.ok && inputs.duration.trim() !== ''}
         />
-        {!duration.ok && durationText.trim() !== '' && (
-          <Note tone="danger">{duration.message}</Note>
+        {!draftDuration.ok && inputs.duration.trim() !== '' && (
+          <Note tone="danger">{draftDuration.message}</Note>
         )}
         <ZoneSelect value={zone} onChange={setZone} hydrated={hydrated} />
         <Note>{t.diffHint}</Note>
@@ -205,19 +214,25 @@ export function DiffView({ picker }: { picker: React.ReactNode }) {
   const resultsPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto">
       <PartHeading>{t.difference}</PartHeading>
-      <div className="p-3">
+      <div className={cn('p-3', stale && STALE_OUTPUT_CLASS)}>
         {differenceRows.length > 0 ? (
           <DetailList rows={differenceRows} className="items-start" />
         ) : (
-          <p className="text-xs text-fg-subtle">{hydrated ? t.fixInput : ' '}</p>
+          <p className="text-xs text-fg-subtle">
+            {!applied
+              ? fmt(common.runHint, { action: t.calculateAction, shortcut: RUN_SHORTCUT })
+              : hydrated
+                ? t.fixInput
+                : ' '}
+          </p>
         )}
       </div>
       <PartHeading>{t.duration}</PartHeading>
-      <div className="p-3">
+      <div className={cn('p-3', stale && STALE_OUTPUT_CLASS)}>
         {durationRows.length > 0 ? (
           <DetailList rows={durationRows} className="items-start" />
         ) : (
-          <p className="text-xs text-fg-subtle">{hydrated ? t.durationHint : ' '}</p>
+          <p className="text-xs text-fg-subtle">{applied && hydrated ? t.durationHint : ' '}</p>
         )}
       </div>
     </div>
@@ -229,9 +244,15 @@ export function DiffView({ picker }: { picker: React.ReactNode }) {
 
   return (
     <>
-      <ToolHeader slug="time">{picker}</ToolHeader>
+      <ToolHeader
+        slug="time"
+        actions={<RunButton label={t.calculateAction} onRun={() => apply()} pending={stale} />}
+      >
+        {picker}
+      </ToolHeader>
       <SplitPane id="time-diff" first={inputsPane} second={resultsPane} />
       <StatusBar>
+        {stale && <StaleStatus action={t.calculateAction} onRun={() => apply()} />}
         {errors > 0 && (
           <StatusItem tone="danger">
             <CircleAlert className="size-3 shrink-0" aria-hidden />

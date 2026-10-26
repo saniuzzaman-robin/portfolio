@@ -20,6 +20,7 @@ import {
 import {
   CopyButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
@@ -29,11 +30,14 @@ import { OptionsPopover, SelectField, Toggle } from '@/components/tools/workbenc
 import { SplitPane } from '@/components/tools/workbench/split-pane';
 import {
   CursorStatus,
+  StaleStatus,
   StatusBar,
   StatusItem,
   ValidityStatus,
 } from '@/components/tools/workbench/status-bar';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
+import { fmt } from '@/i18n/dictionary';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import type { ToolMessages } from '@/i18n/tools/en';
 import { InputActions, InputPane, useInput } from './parts';
@@ -49,20 +53,24 @@ const QUOTE_KEYS: Record<JsQuote, keyof ToolMessages['text']['jsQuotes']> = {
 export function EscapeView({ picker }: { picker: React.ReactNode }) {
   const common = useToolCommon();
   const t = useToolMessages<'text'>();
-  const input = useInput();
   const inputRef = useRef<CodeEditorHandle>(null);
   const [target, setTarget] = useEscapeTarget();
   const [direction, setDirection] = useDirection();
   const [options, setOptions] = useEscapeOptions();
+  const input = useInput({ target, direction, options });
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(input.input);
+  const { value: live, settings: applied, run, ran, stale } = input.runner;
 
-  const escaping = direction === 'escape';
+  const appliedEscaping = applied.direction === 'escape';
   const result = useMemo(
     (): FormatResult =>
-      escaping ? formatted(escapeText(live, target, options)) : unescapeText(live, target, options),
-    [escaping, live, target, options]
+      appliedEscaping
+        ? formatted(escapeText(live, applied.target, applied.options))
+        : unescapeText(live, applied.target, applied.options),
+    [appliedEscaping, live, applied.target, applied.options]
   );
+  const escaping = direction === 'escape';
+  const runLabel = t.directions[direction];
   const output = result.ok ? result.text : '';
   const error = result.ok ? null : result.error;
   const diagnostics = useMemo(
@@ -74,8 +82,10 @@ export function EscapeView({ picker }: { picker: React.ReactNode }) {
   const showOptions = (escaping && quoting) || target === 'sql';
 
   const swap = () => {
+    const next = appliedEscaping ? 'unescape' : 'escape';
     input.setInput(output);
-    setDirection(escaping ? 'unescape' : 'escape');
+    setDirection(next);
+    run(output, '', { target, direction: next, options });
   };
 
   const outputPane = (
@@ -85,10 +95,17 @@ export function EscapeView({ picker }: { picker: React.ReactNode }) {
         label={common.output}
         readOnly
         wrap={input.wrap}
-        placeholder={error ? t.invalidPlaceholder : t.outputPlaceholder}
+        placeholder={
+          !ran
+            ? fmt(common.runHint, { action: runLabel, shortcut: RUN_SHORTCUT })
+            : error
+              ? t.invalidPlaceholder
+              : t.outputPlaceholder
+        }
+        className={cn(stale && STALE_OUTPUT_CLASS)}
       />
       <p className="shrink-0 border-t border-line bg-surface px-3 py-1.5 text-[11px] text-fg-subtle">
-        {t.targetHints[target]}
+        {t.targetHints[applied.target]}
       </p>
     </div>
   );
@@ -149,6 +166,7 @@ export function EscapeView({ picker }: { picker: React.ReactNode }) {
               disabled={!output}
             />
             <CopyButton getText={() => output} disabled={!output} />
+            <RunButton label={runLabel} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -183,6 +201,12 @@ export function EscapeView({ picker }: { picker: React.ReactNode }) {
         second={outputPane}
       />
       <StatusBar>
+        {stale && <StaleStatus action={runLabel} onRun={() => run()} />}
+        {ran && live === '' && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: runLabel })}
+          </StatusItem>
+        )}
         {input.file.error && <StatusItem tone="danger">{input.file.error}</StatusItem>}
         {live !== '' && (
           <ValidityStatus

@@ -55,7 +55,8 @@ const LARGE_INPUT_BYTES = 4 * 1024 * 1024;
 
 const encoder = new TextEncoder();
 
-type PickedFile = { name: string; bytes: Uint8Array<ArrayBuffer> };
+type PickedFile = { id: number; name: string; bytes: Uint8Array<ArrayBuffer> };
+let nextFileId = 0;
 type HmacFields = { key: string; encoding: TextEncoding };
 
 function digestName(algorithm: HashAlgorithm, hmac: boolean): string {
@@ -70,41 +71,61 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
   const [text, setText] = useHashInput();
   const [algorithms, setAlgorithms] = useHashAlgorithms();
   const [format, setFormat] = useDigestFormat();
-  const [hmacOn, setHmacOn] = useHmacEnabled();
+  const [hmacEnabled, setHmacOn] = useHmacEnabled();
   const [hmac, setHmac] = useState<HmacFields>({ key: '', encoding: 'utf8' });
   const [expected, setExpected] = useState('');
   const [file, setFile] = useState<PickedFile | null>(null);
   const [progress, setProgress] = useState<{ data: Uint8Array; done: number } | null>(null);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  // Text waits for Hash; a picked file is hashed right away.
-  const { value: live, run, ran, stale: textStale } = useRunInput(text);
-  const stale = !file && textStale;
+  // The file as of the last run (bytes stay out of the snapshot, which is compared as JSON).
+  const [appliedFile, setAppliedFile] = useState<PickedFile | null>(null);
+  const draft = {
+    algorithms: HASH_ALGORITHMS.filter((algorithm) => algorithms.includes(algorithm)),
+    format,
+    hmac: hmacEnabled ? hmac : null,
+    file: file && { id: file.id, name: file.name },
+  };
+  const { value: live, settings: applied, run, ran, stale } = useRunInput(text, '', draft);
+  // Everything waits for Hash; opening or removing a file is explicit, so it runs right away.
+  const apply = (nextText = text, nextFile = file) => {
+    setFile(nextFile);
+    setAppliedFile(nextFile);
+    run(nextText, '', {
+      ...draft,
+      file: nextFile && { id: nextFile.id, name: nextFile.name },
+    });
+  };
   const loader = useFileLoader(
     'bytes',
-    (bytes, picked) => setFile({ name: picked.name, bytes }),
+    (bytes, picked) => apply(text, { id: ++nextFileId, name: picked.name, bytes }),
     MAX_FILE_BYTES
   );
 
   const textData = useMemo(() => encoder.encode(live), [live]);
-  const data = file?.bytes ?? textData;
-  const selected = useMemo(
-    () => HASH_ALGORITHMS.filter((algorithm) => algorithms.includes(algorithm)),
-    [algorithms]
-  );
+  const data = appliedFile?.bytes ?? textData;
+  const selected = applied.algorithms;
+  const hmacOn = applied.hmac !== null;
   const key = useMemo(
-    () => (hmacOn ? textBytes(hmac.key, hmac.encoding) : null),
-    [hmacOn, hmac.key, hmac.encoding]
+    () => (applied.hmac ? textBytes(applied.hmac.key, applied.hmac.encoding) : null),
+    [applied.hmac]
   );
   const keyError = key && !key.ok ? key.error.message : null;
   const hmacKey = key?.ok ? key.value : undefined;
+  const hmacKeyMissing = ran && applied.hmac !== null && !applied.hmac.key;
+  // The key field flags a malformed key as it is typed; hashing waits for the run.
+  const draftKey = useMemo(
+    () => (hmacEnabled ? textBytes(hmac.key, hmac.encoding) : null),
+    [hmacEnabled, hmac.key, hmac.encoding]
+  );
+  const draftKeyError = draftKey && !draftKey.ok ? draftKey.error.message : null;
 
-  const idle = !file && !ran;
+  const idle = !ran;
   const task = useMemo(() => {
-    if (idle || keyError || selected.length === 0) return null;
+    if (idle || keyError || hmacKeyMissing || selected.length === 0) return null;
     const onProgress =
       data.length > LARGE_INPUT_BYTES ? (done: number) => setProgress({ data, done }) : undefined;
     return (signal: AbortSignal) => hashAll(selected, data, { hmacKey, signal, onProgress });
-  }, [idle, selected, data, hmacKey, keyError]);
+  }, [idle, selected, data, hmacKey, keyError, hmacKeyMissing]);
   const hashing = useAsyncResult(task);
   // While typing, keep the previous digests on screen; for big inputs show progress instead.
   const digests = hashing.value ?? (data.length > LARGE_INPUT_BYTES ? undefined : hashing.latest);
@@ -120,7 +141,7 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
       algorithm,
       name: digestName(algorithm, hmacOn && applies),
       applies,
-      value: digest ? formatDigest(digest, format) : '',
+      value: digest ? formatDigest(digest, applied.format) : '',
       matched: digest !== undefined && digestMatches(expected, digest),
     };
   });
@@ -164,14 +185,14 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
           />
         )}
       </DropZone>
-      {hmacOn && (
+      {hmacEnabled && (
         <SecretPanel>
           <TextField
             label={t.hmacKey}
             value={hmac.key}
             onChange={(value) => setHmac({ ...hmac, key: value })}
             placeholder={t.hmacKeyPlaceholder}
-            invalid={keyError !== null}
+            invalid={draftKeyError !== null || hmacKeyMissing}
           >
             <Segmented
               label={t.keyEncoding}
@@ -261,16 +282,15 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
               icon={Eraser}
               label={common.clear}
               onClick={() => {
-                setFile(null);
                 setText('');
-                run('');
+                apply('', null);
                 loader.clearError();
               }}
               disabled={!file && !text}
             />
             <ToolbarDivider />
             <CopyButton getText={() => allText} disabled={!allText} label={t.copyAll} />
-            <RunButton label={t.hash} onRun={() => run()} />
+            <RunButton label={t.hash} onRun={() => apply()} pending={stale} />
           </>
         }
       >
@@ -290,8 +310,8 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
         <IconAction
           icon={KeyRound}
           label={t.hmac}
-          pressed={hmacOn}
-          onClick={() => setHmacOn(!hmacOn)}
+          pressed={hmacEnabled}
+          onClick={() => setHmacOn(!hmacEnabled)}
         />
         <OptionsPopover label={t.algorithms} icon={ListChecks}>
           {HASH_ALGORITHMS.map((algorithm) => (
@@ -306,11 +326,21 @@ export function HashView({ picker }: { picker: React.ReactNode }) {
       </ToolHeader>
       <SplitPane id="crypto-hash" first={inputPane} second={outputPane} />
       <StatusBar>
-        {stale && <StaleStatus action={t.hash} onRun={() => run()} />}
+        {stale && <StaleStatus action={t.hash} onRun={() => apply()} />}
         {loader.error && <StatusItem tone="danger">{loader.error}</StatusItem>}
-        {keyError && (
-          <StatusItem tone="danger" title={keyError} className="font-sans">
-            {t.hmacKey}: {keyError}
+        {(keyError ?? draftKeyError) && (
+          <StatusItem tone="danger" title={keyError ?? draftKeyError!} className="font-sans">
+            {t.hmacKey}: {keyError ?? draftKeyError}
+          </StatusItem>
+        )}
+        {hmacKeyMissing && (
+          <StatusItem tone="danger" className="font-sans">
+            {t.hmacKeyRequired}
+          </StatusItem>
+        )}
+        {ran && selected.length === 0 && (
+          <StatusItem tone="danger" className="font-sans">
+            {t.noAlgorithms}
           </StatusItem>
         )}
         {hashing.error && (

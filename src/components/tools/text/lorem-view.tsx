@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Download, RefreshCw } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { Random } from '@/lib/tools/generate/random';
 import { LOREM_LIMITS, LOREM_UNITS, generateLorem } from '@/lib/tools/text/lorem';
 import { countText } from '@/lib/tools/text/count';
@@ -9,15 +9,18 @@ import { CodeEditor } from '@/components/tools/workbench/code-editor';
 import {
   CopyButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
 } from '@/components/tools/workbench/toolbar';
 import { Toggle } from '@/components/tools/workbench/options-popover';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import { StaleStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
 import { downloadFile } from '@/components/tools/workbench/file';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS, useApplied } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { NumberField } from '@/components/tools/crypto/parts';
 import { useFormatNumber } from '@/components/tools/generate/parts';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
@@ -36,11 +39,19 @@ export function LoremView({ picker }: { picker: React.ReactNode }) {
   const [wrap] = useWrap();
   const [run, setRun] = useState(0);
 
-  const request = useMemo(() => ({ options, run }), [options, run]);
+  // Nothing is generated until Generate; `run` makes every press new text.
+  const { applied, apply, stale } = useApplied({ options, run });
+  const generate = () => {
+    setRun(run + 1);
+    apply({ options, run: run + 1 });
+  };
   // Random text is generated after hydration, so server and client markup agree.
-  const task = useMemo(() => async () => generateLorem(getRandom(), request.options), [request]);
+  const task = useMemo(
+    () => applied && (async () => generateLorem(getRandom(), applied.options)),
+    [applied]
+  );
   const job = useAsyncResult(task);
-  const result = job.value ?? job.latest;
+  const result = task ? (job.value ?? job.latest) : undefined;
   const text = result?.ok ? result.text : '';
   const max = LOREM_LIMITS[options.unit];
   const error = result && !result.ok ? fmt(t.badCount, { max: formatNumber(result.max) }) : null;
@@ -73,10 +84,14 @@ export function LoremView({ picker }: { picker: React.ReactNode }) {
     <CodeEditor
       value={text}
       label={common.output}
-      language={options.html ? 'html' : 'plain'}
+      language={applied?.options.html ? 'html' : 'plain'}
       readOnly
       wrap={wrap}
-      placeholder={error ?? ''}
+      placeholder={
+        error ??
+        (applied ? '' : fmt(common.runHint, { action: common.generate, shortcut: RUN_SHORTCUT }))
+      }
+      className={cn(stale && STALE_OUTPUT_CLASS)}
     />
   );
 
@@ -86,14 +101,14 @@ export function LoremView({ picker }: { picker: React.ReactNode }) {
         slug="text"
         actions={
           <>
-            <IconAction icon={RefreshCw} label={t.regenerate} onClick={() => setRun(run + 1)} />
             <CopyButton getText={() => text} disabled={!text} />
             <IconAction
               icon={Download}
               label={common.download}
               disabled={!text}
-              onClick={() => downloadFile(text, options.html ? 'lorem.html' : 'lorem.txt')}
+              onClick={() => downloadFile(text, applied?.options.html ? 'lorem.html' : 'lorem.txt')}
             />
+            <RunButton label={common.generate} onRun={generate} pending={stale} />
           </>
         }
       >
@@ -110,6 +125,7 @@ export function LoremView({ picker }: { picker: React.ReactNode }) {
       </ToolHeader>
       <SplitPane id="text-lorem" first={settingsPane} second={outputPane} defaultRatio={0.3} />
       <StatusBar>
+        {stale && <StaleStatus action={common.generate} onRun={generate} />}
         {error && <StatusItem tone="danger">{error}</StatusItem>}
         {text && (
           <StatusItem className="shrink-0">

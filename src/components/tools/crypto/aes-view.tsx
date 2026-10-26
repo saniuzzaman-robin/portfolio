@@ -79,24 +79,39 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
   const [input, setInput] = useState(SAMPLE_PLAINTEXT);
   const [secrets, setSecrets] = useState(NO_SECRETS);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live, run, ran, stale } = useRunInput(input);
+  const {
+    value: live,
+    settings: applied,
+    run,
+    ran,
+    stale,
+  } = useRunInput(input, '', {
+    direction,
+    settings,
+    secrets,
+  });
   const replaceInput = (next: string) => {
     setInput(next);
     run(next);
   };
 
   const { source, mode } = settings;
-  const encrypting = direction === 'encrypt';
+  const encrypting = applied.direction === 'encrypt';
+  const appliedSettings = applied.settings;
+  const appliedSecrets = applied.secrets;
   const missingSecret =
-    source === 'raw' ? !secrets.key.trim() || !secrets.iv.trim() : !secrets.passphrase;
+    appliedSettings.source === 'raw'
+      ? !appliedSecrets.key.trim() || !appliedSecrets.iv.trim()
+      : !appliedSecrets.passphrase;
+  const missingInput = !live.trim();
 
   const task = useMemo(() => {
-    if (!ran || missingSecret || (!encrypting && !live.trim())) return null;
+    if (!ran || missingSecret || missingInput) return null;
     return (): Promise<EncryptResult | DecryptResult> =>
       encrypting
-        ? encryptAes(encoder.encode(live), settings, secrets)
-        : decryptAes(live, settings, secrets);
-  }, [ran, missingSecret, encrypting, live, settings, secrets]);
+        ? encryptAes(encoder.encode(live), appliedSettings, appliedSecrets)
+        : decryptAes(live, appliedSettings, appliedSecrets);
+  }, [ran, missingSecret, missingInput, encrypting, live, appliedSettings, appliedSecrets]);
   const running = useAsyncResult(task);
   const result = task ? (running.value ?? running.latest) : undefined;
   const failure = result && !result.ok ? result : null;
@@ -114,20 +129,30 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
   const swap = () => {
     if (!output || output.hex) return;
     // Reusing the result is explicit, so it runs right away.
-    replaceInput(output.text);
-    setDirection(encrypting ? 'decrypt' : 'encrypt');
+    const nextDirection = encrypting ? 'decrypt' : 'encrypt';
+    setInput(output.text);
+    setDirection(nextDirection);
+    run(output.text, '', { direction: nextDirection, settings, secrets });
   };
 
   const format =
     source === 'pbkdf2' ? t.formatPbkdf2 : source === 'openssl' ? t.formatOpenssl : t.formatRaw;
-  const command = opensslCommand(settings, direction);
-  const runLabel = encrypting ? t.encrypt : t.decrypt;
-  const placeholder = missingSecret
-    ? source === 'raw'
-      ? t.enterKey
-      : t.enterPassphrase
-    : !ran
-      ? fmt(common.runHint, { action: runLabel, shortcut: RUN_SHORTCUT })
+  const command = opensslCommand(appliedSettings, applied.direction);
+  const runLabel = direction === 'encrypt' ? t.encrypt : t.decrypt;
+  const appliedLabel = encrypting ? t.encrypt : t.decrypt;
+  const missing = ran
+    ? missingInput
+      ? fmt(common.enterInput, { action: appliedLabel })
+      : missingSecret
+        ? appliedSettings.source === 'raw'
+          ? t.enterKey
+          : t.enterPassphrase
+        : null
+    : null;
+  const placeholder = !ran
+    ? fmt(common.runHint, { action: runLabel, shortcut: RUN_SHORTCUT })
+    : missing
+      ? missing
       : failure
         ? t.errorPlaceholder
         : t.outputPlaceholder;
@@ -151,7 +176,10 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
               value={secrets.key}
               onChange={(key) => setSecrets({ ...secrets, key })}
               placeholder={t.keyPlaceholder}
-              invalid={failure?.field === 'key'}
+              invalid={
+                failure?.field === 'key' ||
+                (!!missing && !missingInput && !appliedSecrets.key.trim())
+              }
             >
               <IconAction
                 icon={Dices}
@@ -164,7 +192,9 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
               value={secrets.iv}
               onChange={(iv) => setSecrets({ ...secrets, iv })}
               placeholder={fmt(t.ivPlaceholder, { bytes: ivLength(mode) })}
-              invalid={failure?.field === 'iv'}
+              invalid={
+                failure?.field === 'iv' || (!!missing && !missingInput && !appliedSecrets.iv.trim())
+              }
             >
               <IconAction
                 icon={Dices}
@@ -179,7 +209,10 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
             value={secrets.passphrase}
             onChange={(passphrase) => setSecrets({ ...secrets, passphrase })}
             placeholder={t.passphrasePlaceholder}
-            invalid={failure?.field === 'passphrase'}
+            invalid={
+              failure?.field === 'passphrase' ||
+              (!!missing && !missingInput && !appliedSecrets.passphrase)
+            }
           />
         )}
       </SecretPanel>
@@ -235,7 +268,7 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
             />
             <ToolbarDivider />
             <CopyButton getText={() => output?.text ?? ''} disabled={!output} />
-            <RunButton label={runLabel} onRun={() => run()} />
+            <RunButton label={runLabel} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -309,6 +342,11 @@ export function AesView({ picker }: { picker: React.ReactNode }) {
       <SplitPane id="crypto-aes" first={inputPane} second={outputPane} />
       <StatusBar>
         {stale && <StaleStatus action={runLabel} onRun={() => run()} />}
+        {missing && (
+          <StatusItem tone="danger" title={missing} className="font-sans">
+            {missing}
+          </StatusItem>
+        )}
         {failure && (
           <StatusItem tone="danger" title={failure.error} className="font-sans">
             {failure.error}

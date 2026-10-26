@@ -12,24 +12,22 @@ import { utf8Length } from '@/lib/tools/bytes';
 import {
   CopyButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
 } from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import { StaleStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
-import { useDebouncedValue } from '@/components/tools/workbench/use-live-input';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS, useApplied } from '@/components/tools/workbench/use-run';
 import { PartHeading } from '@/components/tools/jwt/parts';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { fmt } from '@/i18n/dictionary';
 import { cn } from '@/lib/cn';
 import { DetailList, SecretPanel, TextField } from './parts';
 import { runBcrypt } from './run-bcrypt';
 import { BCRYPT_SLIDER_MAX, useBcryptAction, useBcryptCost } from './state';
-
-/** Wait for a pause in typing: every keystroke would otherwise start a slow hash. */
-const TYPING_DELAY_MS = 250;
 
 /** bcrypt hash and verify; the work runs in a worker. */
 export function BcryptView({ picker }: { picker: React.ReactNode }) {
@@ -38,19 +36,32 @@ export function BcryptView({ picker }: { picker: React.ReactNode }) {
   const [cost, setCost] = useBcryptCost();
   const [password, setPassword] = useState('');
   const [hash, setHash] = useState('');
-  const [run, setRun] = useState(0);
-  const typedPassword = useDebouncedValue(password, TYPING_DELAY_MS);
-  const typedHash = useDebouncedValue(hash, TYPING_DELAY_MS);
+  const [salt, setSalt] = useState(0);
+  // Hashing is slow, so nothing starts until Hash/Verify; `salt` asks for a fresh salt.
+  const { applied, apply, stale } = useApplied({ action, cost, password, hash, salt });
+  const common = useToolCommon();
 
-  const parsed = useMemo(() => (typedHash.trim() ? parseBcryptHash(typedHash) : null), [typedHash]);
-  // `run` changes the request (and so restarts the job) when a new salt is asked for.
+  // The field flags a malformed hash as it is typed; the check itself waits for the run.
+  const parsed = useMemo(() => (hash.trim() ? parseBcryptHash(hash) : null), [hash]);
+  const appliedHash = applied?.hash ?? '';
+  const appliedParsed = useMemo(
+    () => (appliedHash.trim() ? parseBcryptHash(appliedHash) : null),
+    [appliedHash]
+  );
   const request = useMemo(() => {
-    if (!typedPassword) return null;
-    if (action === 'hash') return { kind: 'hash', password: typedPassword, cost, run } as const;
-    return parsed?.ok
-      ? ({ kind: 'compare', password: typedPassword, hash: typedHash } as const)
+    if (!applied?.password) return null;
+    if (applied.action === 'hash') {
+      return {
+        kind: 'hash',
+        password: applied.password,
+        cost: applied.cost,
+        salt: applied.salt,
+      } as const;
+    }
+    return appliedParsed?.ok
+      ? ({ kind: 'compare', password: applied.password, hash: applied.hash } as const)
       : null;
-  }, [action, typedPassword, cost, run, parsed, typedHash]);
+  }, [applied, appliedParsed]);
   const task = useMemo(
     () =>
       request &&
@@ -61,8 +72,22 @@ export function BcryptView({ picker }: { picker: React.ReactNode }) {
     [request]
   );
   const job = useAsyncResult(task);
-  const response = task ? job.value : undefined;
-  const failure = response && !response.ok ? response.error : (job.error ?? null);
+  const shown = applied !== null && applied.action === action;
+  const response = shown && task ? job.value : undefined;
+  const problem = !applied
+    ? null
+    : !applied.password
+      ? t.passwordRequired
+      : applied.action === 'verify'
+        ? !applied.hash.trim()
+          ? t.bcryptHashRequired
+          : appliedParsed?.ok === false
+            ? appliedParsed.error
+            : null
+        : null;
+  const label = action === 'hash' ? t.hash : t.verify;
+  const hint = fmt(common.runHint, { action: label, shortcut: RUN_SHORTCUT });
+  const failure = response && !response.ok ? response.error : shown ? (job.error ?? null) : null;
   const hashed = response?.ok && response.kind === 'hash' ? response.hash : null;
   const match = response?.ok && response.kind === 'compare' ? response.match : null;
   const hashedParts = useMemo(() => {
@@ -81,6 +106,7 @@ export function BcryptView({ picker }: { picker: React.ReactNode }) {
           value={password}
           onChange={setPassword}
           placeholder={action === 'hash' ? t.passwordPlaceholder : t.checkPasswordPlaceholder}
+          invalid={shown && !applied.password}
         />
         {action === 'hash' ? (
           <CostSlider value={cost} onChange={setCost} />
@@ -90,7 +116,7 @@ export function BcryptView({ picker }: { picker: React.ReactNode }) {
             value={hash}
             onChange={setHash}
             placeholder={t.bcryptHashPlaceholder}
-            invalid={parsed?.ok === false}
+            invalid={parsed?.ok === false || (shown && !!problem && !!applied.password)}
           />
         )}
       </div>
@@ -107,8 +133,11 @@ export function BcryptView({ picker }: { picker: React.ReactNode }) {
               <IconAction
                 icon={RefreshCw}
                 label={t.newSalt}
-                onClick={() => setRun(run + 1)}
-                disabled={job.pending}
+                onClick={() => {
+                  setSalt(salt + 1);
+                  apply({ action, cost, password, hash, salt: salt + 1 });
+                }}
+                disabled={job.pending || !password}
               />
               <CopyButton getText={() => hashed ?? ''} disabled={!hashed} />
             </>
@@ -116,7 +145,9 @@ export function BcryptView({ picker }: { picker: React.ReactNode }) {
         >
           {t.bcryptHash}
         </PartHeading>
-        <div className="min-h-0 flex-1 space-y-4 overflow-auto p-3">
+        <div
+          className={cn('min-h-0 flex-1 space-y-4 overflow-auto p-3', stale && STALE_OUTPUT_CLASS)}
+        >
           <p
             dir="ltr"
             className={cn(
@@ -124,7 +155,7 @@ export function BcryptView({ picker }: { picker: React.ReactNode }) {
               hashed ? 'text-fg' : 'text-fg-subtle'
             )}
           >
-            {hashed ?? (job.pending ? t.working : t.bcryptPlaceholder)}
+            {hashed ?? (job.pending ? t.working : shown ? t.bcryptPlaceholder : hint)}
           </p>
           {hashedParts && <HashParts parts={hashedParts} />}
         </div>
@@ -132,10 +163,12 @@ export function BcryptView({ picker }: { picker: React.ReactNode }) {
     ) : (
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         <PartHeading>{t.verify}</PartHeading>
-        <div className="min-h-0 flex-1 space-y-4 overflow-auto p-3">
+        <div
+          className={cn('min-h-0 flex-1 space-y-4 overflow-auto p-3', stale && STALE_OUTPUT_CLASS)}
+        >
           {match === null ? (
             <p className="text-xs text-fg-subtle">
-              {job.pending ? t.working : t.verifyPlaceholder}
+              {job.pending ? t.working : shown ? t.verifyPlaceholder : hint}
             </p>
           ) : (
             <p
@@ -152,14 +185,17 @@ export function BcryptView({ picker }: { picker: React.ReactNode }) {
               {match ? t.passwordMatches : t.passwordMismatch}
             </p>
           )}
-          {parsed?.ok && <HashParts parts={parsed.value} />}
+          {shown && appliedParsed?.ok && <HashParts parts={appliedParsed.value} />}
         </div>
       </div>
     );
 
   return (
     <>
-      <ToolHeader slug="crypto">
+      <ToolHeader
+        slug="crypto"
+        actions={<RunButton label={label} onRun={() => apply()} pending={stale} />}
+      >
         {picker}
         <ToolbarDivider />
         <Segmented
@@ -174,9 +210,14 @@ export function BcryptView({ picker }: { picker: React.ReactNode }) {
       </ToolHeader>
       <SplitPane id="crypto-bcrypt" first={inputPane} second={outputPane} />
       <StatusBar>
-        {action === 'verify' && parsed && !parsed.ok && (
-          <StatusItem tone="danger" title={parsed.error} className="font-sans">
-            {parsed.error}
+        {stale && <StaleStatus action={label} onRun={() => apply()} />}
+        {(problem ?? (action === 'verify' && parsed && !parsed.ok ? parsed.error : null)) && (
+          <StatusItem
+            tone="danger"
+            title={problem ?? (parsed && !parsed.ok ? parsed.error : undefined)}
+            className="font-sans"
+          >
+            {problem ?? (parsed && !parsed.ok ? parsed.error : null)}
           </StatusItem>
         )}
         {failure && (

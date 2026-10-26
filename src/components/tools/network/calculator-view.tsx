@@ -4,9 +4,15 @@ import { useMemo } from 'react';
 import { Eraser } from 'lucide-react';
 import { binaryGroups, expandIpv6, formatIp, reverseDnsName } from '@/lib/tools/network/ip';
 import { describeCidr, formatCidr, parseCidr, type SpecialRange } from '@/lib/tools/network/cidr';
-import { IconAction, ToolHeader } from '@/components/tools/workbench/toolbar';
+import { IconAction, RunButton, ToolHeader } from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import { StaleStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { DetailList, TextField } from '@/components/tools/crypto/parts';
 import { PartHeading } from '@/components/tools/jwt/parts';
 import { CopyValue, Note, translated } from '@/components/tools/time/parts';
@@ -31,7 +37,14 @@ export function CalculatorView({ picker }: { picker: React.ReactNode }) {
   const t = useToolMessages<'network'>();
   const [input, setInput] = useCidrInput();
   const formatCount = useFormatCount();
-  const parsed = useMemo(() => (input.trim() ? parseCidr(input) : null), [input]);
+  // Results wait for Calculate (or Ctrl/⌘+Enter); the field only validates as you type.
+  const { value: live, run, ran, stale } = useRunInput(input);
+  const draft = useMemo(() => (input.trim() ? parseCidr(input) : null), [input]);
+  const parsed = useMemo(() => (live.trim() ? parseCidr(live) : null), [live]);
+  const pick = (next: string) => {
+    setInput(next);
+    run(next);
+  };
   const details = parsed?.ok ? describeCidr(parsed.value) : null;
 
   const scopeText = (ranges: SpecialRange[]) =>
@@ -94,18 +107,18 @@ export function CalculatorView({ picker }: { picker: React.ReactNode }) {
           value={input}
           onChange={setInput}
           placeholder={t.cidrPlaceholder}
-          invalid={parsed?.ok === false}
+          invalid={draft?.ok === false || (ran && !live.trim())}
         >
           <IconAction
             icon={Eraser}
             label={common.clear}
-            onClick={() => setInput('')}
+            onClick={() => pick('')}
             disabled={!input}
           />
         </TextField>
         <Note>{t.cidrHint}</Note>
-        <Examples label={t.examples} values={EXAMPLES} onPick={setInput} />
-        {parsed?.ok === false && <Note tone="danger">{parsed.message}</Note>}
+        <Examples label={t.examples} values={EXAMPLES} onPick={pick} />
+        {draft?.ok === false && <Note tone="danger">{draft.message}</Note>}
         {details?.hostBitsSet && (
           <Note tone="warning">{fmt(t.hostBitsNote, { network: formatCidr(details.cidr) })}</Note>
         )}
@@ -116,15 +129,23 @@ export function CalculatorView({ picker }: { picker: React.ReactNode }) {
   const resultsPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto">
       <PartHeading>{t.results}</PartHeading>
-      <div className="p-3">
+      <div className={cn('p-3', stale && STALE_OUTPUT_CLASS)}>
         {rows.length > 0 ? (
           <DetailList rows={rows} className="items-start" />
         ) : (
-          <p className="text-xs text-fg-subtle">{translated(parsed ? t.fixInput : t.empty)}</p>
+          <p className="text-xs text-fg-subtle">
+            {translated(
+              !ran
+                ? fmt(common.runHint, { action: t.calculateAction, shortcut: RUN_SHORTCUT })
+                : parsed
+                  ? t.fixInput
+                  : t.empty
+            )}
+          </p>
         )}
       </div>
       {details && (
-        <section>
+        <section className={cn(stale && STALE_OUTPUT_CLASS)}>
           <PartHeading>{t.binary}</PartHeading>
           <div className="space-y-2 p-3 text-xs">
             <DetailList
@@ -165,7 +186,12 @@ export function CalculatorView({ picker }: { picker: React.ReactNode }) {
 
   return (
     <>
-      <ToolHeader slug="network">{picker}</ToolHeader>
+      <ToolHeader
+        slug="network"
+        actions={<RunButton label={t.calculateAction} onRun={() => run()} pending={stale} />}
+      >
+        {picker}
+      </ToolHeader>
       <SplitPane
         id="network-calculator"
         first={inputPane}
@@ -173,6 +199,12 @@ export function CalculatorView({ picker }: { picker: React.ReactNode }) {
         defaultRatio={0.4}
       />
       <StatusBar>
+        {stale && <StaleStatus action={t.calculateAction} onRun={() => run()} />}
+        {ran && !live.trim() && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.calculateAction })}
+          </StatusItem>
+        )}
         <ErrorStatus result={parsed} />
         {details && (
           <StatusItem tone="success" className="shrink-0">

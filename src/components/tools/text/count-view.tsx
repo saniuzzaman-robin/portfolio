@@ -2,14 +2,20 @@
 
 import { useMemo, useState } from 'react';
 import { READING_WPM, SPEAKING_WPM, countText, type TextCounts } from '@/lib/tools/text/count';
-import { ToolHeader } from '@/components/tools/workbench/toolbar';
+import { RunButton, ToolHeader } from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { CursorStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import {
+  CursorStatus,
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+} from '@/components/tools/workbench/status-bar';
 import type { CursorInfo } from '@/components/tools/workbench/code-editor';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { PartHeading } from '@/components/tools/jwt/parts';
 import { useFormatNumber } from '@/components/tools/generate/parts';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
 import { InputActions, InputPane, useInput } from './parts';
@@ -29,11 +35,12 @@ const COUNTERS = [
 /** Characters, words, lines, bytes and reading time for the input. */
 export function CountView({ picker }: { picker: React.ReactNode }) {
   const t = useToolMessages<'text'>();
+  const common = useToolCommon();
   const locale = useLocale();
   const formatNumber = useFormatNumber();
   const input = useInput();
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(input.input);
+  const { value: live, run, ran, stale } = input.runner;
   const counts = useMemo(() => countText(live, locale), [live, locale]);
 
   const duration = (seconds: number) =>
@@ -47,7 +54,12 @@ export function CountView({ picker }: { picker: React.ReactNode }) {
   const statsPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col">
       <PartHeading>{t.statistics}</PartHeading>
-      <div className="min-h-0 flex-1 overflow-auto p-3">
+      <div className={cn('min-h-0 flex-1 overflow-auto p-3', stale && STALE_OUTPUT_CLASS)}>
+        {!ran && (
+          <p className="mb-3 text-xs text-fg-subtle">
+            {fmt(common.runHint, { action: t.countAction, shortcut: RUN_SHORTCUT })}
+          </p>
+        )}
         <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-3">
           {COUNTERS.map((key) => (
             <div key={key} className="bg-surface px-3 py-2" title={t.counterHints[key]}>
@@ -80,7 +92,15 @@ export function CountView({ picker }: { picker: React.ReactNode }) {
 
   return (
     <>
-      <ToolHeader slug="text" actions={<InputActions input={input} />}>
+      <ToolHeader
+        slug="text"
+        actions={
+          <>
+            <InputActions input={input} />
+            <RunButton label={t.countAction} onRun={() => run()} pending={stale} />
+          </>
+        }
+      >
         {picker}
       </ToolHeader>
       <SplitPane
@@ -89,6 +109,12 @@ export function CountView({ picker }: { picker: React.ReactNode }) {
         second={statsPane}
       />
       <StatusBar>
+        {stale && <StaleStatus action={t.countAction} onRun={() => run()} />}
+        {ran && live === '' && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.countAction })}
+          </StatusItem>
+        )}
         {input.file.error && <StatusItem tone="danger">{input.file.error}</StatusItem>}
         <StatusItem className="shrink-0">
           {fmt(t.wordCount, { count: formatNumber(counts.words) })}

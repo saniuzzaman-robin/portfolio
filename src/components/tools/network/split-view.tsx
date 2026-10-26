@@ -4,13 +4,15 @@ import { useMemo } from 'react';
 import { ADDRESS_BITS, formatIp } from '@/lib/tools/network/ip';
 import { blockSize, describeCidr, formatCidr, parseCidr } from '@/lib/tools/network/cidr';
 import { prefixForCount, splitCidr } from '@/lib/tools/network/subnet';
-import { CopyButton, Segmented, ToolHeader } from '@/components/tools/workbench/toolbar';
+import { CopyButton, RunButton, Segmented, ToolHeader } from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import { StaleStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS, useApplied } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { NumberField, TextField } from '@/components/tools/crypto/parts';
 import { PartHeading } from '@/components/tools/jwt/parts';
 import { Note, translated } from '@/components/tools/time/parts';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
 import { ErrorStatus, useFormatCount } from './parts';
@@ -24,29 +26,40 @@ const MAX_COUNT = 65536;
 /** Splits a block into equal subnets, by new prefix length or by how many are needed. */
 export function SplitView({ picker }: { picker: React.ReactNode }) {
   const t = useToolMessages<'network'>();
+  const common = useToolCommon();
   const locale = useLocale();
   const formatCount = useFormatCount();
   const [options, setOptions] = useSplitOptions();
   const update = (patch: Partial<SplitOptions>) => setOptions({ ...options, ...patch });
+  // The table waits for Split (or Ctrl/⌘+Enter); the form only validates as you type.
+  const { applied, apply, stale } = useApplied({ options });
+  const used = applied?.options ?? options;
 
-  const block = useMemo(
+  const draftBlock = useMemo(
     () => (options.block.trim() ? parseCidr(options.block) : null),
     [options.block]
   );
+  const draftCidr = draftBlock?.ok ? draftBlock.value : null;
+  const bits = draftCidr ? ADDRESS_BITS[draftCidr.version] : 32;
+
+  const block = useMemo(
+    () => (applied && used.block.trim() ? parseCidr(used.block) : null),
+    [applied, used.block]
+  );
   const cidr = block?.ok ? block.value : null;
-  const bits = cidr ? ADDRESS_BITS[cidr.version] : 32;
 
   const target = useMemo(() => {
     if (!cidr) return null;
-    if (options.by === 'count') return prefixForCount(cidr, options.count);
-    return { ok: true as const, value: options.prefix };
-  }, [cidr, options.by, options.count, options.prefix]);
+    if (used.by === 'count') return prefixForCount(cidr, used.count);
+    return { ok: true as const, value: used.prefix };
+  }, [cidr, used.by, used.count, used.prefix]);
 
   const split = useMemo(
     () => (cidr && target?.ok ? splitCidr(cidr, target.value, MAX_LISTED) : null),
     [cidr, target]
   );
   const result = split?.ok ? split.value : null;
+  const missingBlock = applied !== null && !used.block.trim();
   const error =
     block?.ok === false
       ? block
@@ -69,7 +82,7 @@ export function SplitView({ picker }: { picker: React.ReactNode }) {
           value={options.block}
           onChange={(value) => update({ block: value })}
           placeholder={t.cidrPlaceholder}
-          invalid={block?.ok === false}
+          invalid={draftBlock?.ok === false || missingBlock}
         />
         <div className="flex flex-wrap items-center gap-2">
           <span className="w-24 shrink-0 text-fg-subtle">{t.splitBy}</span>
@@ -88,9 +101,9 @@ export function SplitView({ picker }: { picker: React.ReactNode }) {
             label={t.newPrefix}
             value={options.prefix}
             onChange={(prefix) => update({ prefix })}
-            min={cidr?.prefix ?? 0}
+            min={draftCidr?.prefix ?? 0}
             max={bits}
-            hint={fmt(t.prefixRange, { min: cidr?.prefix ?? 0, max: bits })}
+            hint={fmt(t.prefixRange, { min: draftCidr?.prefix ?? 0, max: bits })}
           />
         ) : (
           <NumberField
@@ -102,7 +115,8 @@ export function SplitView({ picker }: { picker: React.ReactNode }) {
             hint={t.countHint}
           />
         )}
-        {error && <Note tone="danger">{error.message}</Note>}
+        {draftBlock?.ok === false && <Note tone="danger">{draftBlock.message}</Note>}
+        {error && error !== draftBlock && <Note tone="danger">{error.message}</Note>}
         {result && subnetSize !== null && (
           <Note>
             {fmt(t.splitSummary, {
@@ -131,7 +145,7 @@ export function SplitView({ picker }: { picker: React.ReactNode }) {
         {t.subnets}
       </PartHeading>
       {result ? (
-        <div className="min-h-0 flex-1 overflow-auto">
+        <div className={cn('min-h-0 flex-1 overflow-auto', stale && STALE_OUTPUT_CLASS)}>
           <table dir="ltr" className="w-full border-collapse text-xs">
             <thead className="sticky top-0 bg-surface text-[11px] text-fg-muted">
               <tr className="border-b border-line">
@@ -172,16 +186,33 @@ export function SplitView({ picker }: { picker: React.ReactNode }) {
           )}
         </div>
       ) : (
-        <p className="p-3 text-xs text-fg-subtle">{error ? t.fixInput : t.empty}</p>
+        <p className="p-3 text-xs text-fg-subtle">
+          {!applied
+            ? fmt(common.runHint, { action: t.splitAction, shortcut: RUN_SHORTCUT })
+            : error
+              ? t.fixInput
+              : t.empty}
+        </p>
       )}
     </div>
   );
 
   return (
     <>
-      <ToolHeader slug="network">{picker}</ToolHeader>
+      <ToolHeader
+        slug="network"
+        actions={<RunButton label={t.splitAction} onRun={() => apply()} pending={stale} />}
+      >
+        {picker}
+      </ToolHeader>
       <SplitPane id="network-split" first={formPane} second={tablePane} defaultRatio={0.35} />
       <StatusBar>
+        {stale && <StaleStatus action={t.splitAction} onRun={() => apply()} />}
+        {missingBlock && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.splitAction })}
+          </StatusItem>
+        )}
         <ErrorStatus result={error} />
         {result && (
           <StatusItem tone="success" className="shrink-0">

@@ -3,12 +3,23 @@
 import { useMemo, useState } from 'react';
 import { CASES, convertCase } from '@/lib/tools/text/case';
 import { SLUG_SEPARATORS, slugifyLines, type SlugSeparator } from '@/lib/tools/text/slug';
-import { CopyButton, ToolHeader, ToolbarDivider } from '@/components/tools/workbench/toolbar';
+import {
+  CopyButton,
+  RunButton,
+  ToolHeader,
+  ToolbarDivider,
+} from '@/components/tools/workbench/toolbar';
 import { OptionsPopover, SelectField, Toggle } from '@/components/tools/workbench/options-popover';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { CursorStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import {
+  CursorStatus,
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+} from '@/components/tools/workbench/status-bar';
 import type { CursorInfo } from '@/components/tools/workbench/code-editor';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { PartHeading } from '@/components/tools/jwt/parts';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import type { ToolMessages } from '@/i18n/tools/en';
@@ -32,26 +43,30 @@ export function CaseView({ picker }: { picker: React.ReactNode }) {
   const t = useToolMessages<'text'>();
   const common = useToolCommon();
   const formatNumber = useFormatNumber();
-  const input = useInput();
   const [slugOptions, setSlugOptions] = useSlugOptions();
+  const input = useInput(slugOptions);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(input.input);
+  const { value: live, settings: applied, run, ran, stale } = input.runner;
 
   const rows = useMemo(
     () => [
       ...CASES.map((kind) => ({ key: kind, label: t.cases[kind], value: convertCase(live, kind) })),
-      { key: 'slug', label: t.slug, value: slugifyLines(live, slugOptions) },
+      { key: 'slug', label: t.slug, value: slugifyLines(live, applied) },
     ],
-    [live, slugOptions, t]
+    [live, applied, t]
   );
   const lines = live === '' ? 0 : splitLines(live).lines.length;
 
   const outputPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col">
       <PartHeading>{t.conversions}</PartHeading>
-      <div className="min-h-0 flex-1 overflow-auto">
+      <div className={cn('min-h-0 flex-1 overflow-auto', stale && STALE_OUTPUT_CLASS)}>
         {live === '' ? (
-          <p className="p-3 text-xs text-fg-subtle">{t.caseEmpty}</p>
+          <p className="p-3 text-xs text-fg-subtle">
+            {ran
+              ? t.caseEmpty
+              : fmt(common.runHint, { action: t.caseAction, shortcut: RUN_SHORTCUT })}
+          </p>
         ) : (
           rows.map((row) => (
             <section key={row.key} className="border-b border-line">
@@ -110,6 +125,7 @@ export function CaseView({ picker }: { picker: React.ReactNode }) {
                 onChange={(lowercase) => setSlugOptions({ ...slugOptions, lowercase })}
               />
             </OptionsPopover>
+            <RunButton label={t.caseAction} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -121,6 +137,12 @@ export function CaseView({ picker }: { picker: React.ReactNode }) {
         second={outputPane}
       />
       <StatusBar>
+        {stale && <StaleStatus action={t.caseAction} onRun={() => run()} />}
+        {ran && live === '' && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.caseAction })}
+          </StatusItem>
+        )}
         {input.file.error && <StatusItem tone="danger">{input.file.error}</StatusItem>}
         <StatusItem className="shrink-0">
           {fmt(t.lineCount, { count: formatNumber(lines) })}

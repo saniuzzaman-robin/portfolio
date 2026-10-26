@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { RefreshCw } from 'lucide-react';
 import { Random } from '@/lib/tools/generate/random';
 import {
   AMBIGUOUS,
@@ -19,17 +18,18 @@ import {
 } from '@/lib/tools/generate/password';
 import {
   CopyButton,
-  IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
 } from '@/components/tools/workbench/toolbar';
 import { SelectField, Toggle } from '@/components/tools/workbench/options-popover';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import { StaleStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS, useApplied } from '@/components/tools/workbench/use-run';
 import { PartHeading } from '@/components/tools/jwt/parts';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import type { ToolMessages } from '@/i18n/tools/en';
 import { fmt } from '@/i18n/dictionary';
 import { cn } from '@/lib/cn';
@@ -59,27 +59,31 @@ const getRandom = () => (random ??= new Random());
 /** Passwords and diceware-style passphrases with their entropy. Never persisted. */
 export function PasswordView({ picker }: { picker: React.ReactNode }) {
   const t = useToolMessages<'generate'>();
+  const common = useToolCommon();
   const formatNumber = useFormatNumber();
   const [kind, setKind] = usePasswordKind();
   const [passwordOptions, setPasswordOptions] = usePasswordOptions();
   const [passphraseOptions, setPassphraseOptions] = usePassphraseOptions();
   const [run, setRun] = useState(0);
 
-  // `run` changes the request (and so generates again) when a new password is asked for.
-  const request = useMemo(
-    () => ({ kind, passwordOptions, passphraseOptions, run }),
-    [kind, passwordOptions, passphraseOptions, run]
-  );
+  // Nothing is generated until Generate; `run` makes every press a new password.
+  const { applied, apply, stale } = useApplied({ kind, passwordOptions, passphraseOptions, run });
+  const generate = () => {
+    setRun(run + 1);
+    apply({ kind, passwordOptions, passphraseOptions, run: run + 1 });
+  };
   // Generated in an effect, never during render: the server must not produce a password.
   const task = useMemo(
-    () => async () =>
-      request.kind === 'password'
-        ? generatePassword(getRandom(), request.passwordOptions)
-        : generatePassphrase(getRandom(), request.passphraseOptions),
-    [request]
+    () =>
+      applied &&
+      (async () =>
+        applied.kind === 'password'
+          ? generatePassword(getRandom(), applied.passwordOptions)
+          : generatePassphrase(getRandom(), applied.passphraseOptions)),
+    [applied]
   );
   const job = useAsyncResult(task);
-  const result = job.value ?? job.latest;
+  const result = task ? (job.value ?? job.latest) : undefined;
   const password = result?.ok ? result.password : null;
   const strength = result?.ok ? strengthOf(result.bits) : null;
 
@@ -174,17 +178,12 @@ export function PasswordView({ picker }: { picker: React.ReactNode }) {
 
   const outputPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-      <PartHeading
-        actions={
-          <>
-            <IconAction icon={RefreshCw} label={t.regenerate} onClick={() => setRun(run + 1)} />
-            <CopyButton getText={() => password ?? ''} disabled={!password} />
-          </>
-        }
-      >
+      <PartHeading actions={<CopyButton getText={() => password ?? ''} disabled={!password} />}>
         {kind === 'password' ? t.password : t.passphrase}
       </PartHeading>
-      <div className="min-h-0 flex-1 space-y-4 overflow-auto p-3">
+      <div
+        className={cn('min-h-0 flex-1 space-y-4 overflow-auto p-3', stale && STALE_OUTPUT_CLASS)}
+      >
         <p
           dir="ltr"
           className={cn(
@@ -192,7 +191,11 @@ export function PasswordView({ picker }: { picker: React.ReactNode }) {
             password ? 'text-fg' : 'text-sm text-fg-subtle'
           )}
         >
-          {password ?? error ?? ''}
+          {password ??
+            error ??
+            (applied
+              ? ''
+              : fmt(common.runHint, { action: common.generate, shortcut: RUN_SHORTCUT }))}
         </p>
         {result?.ok && strength && (
           <div className="space-y-1.5 text-xs">
@@ -224,7 +227,10 @@ export function PasswordView({ picker }: { picker: React.ReactNode }) {
 
   return (
     <>
-      <ToolHeader slug="generate">
+      <ToolHeader
+        slug="generate"
+        actions={<RunButton label={common.generate} onRun={generate} pending={stale} />}
+      >
         {picker}
         <ToolbarDivider />
         <Segmented
@@ -239,6 +245,7 @@ export function PasswordView({ picker }: { picker: React.ReactNode }) {
       </ToolHeader>
       <SplitPane id="generate-password" first={settingsPane} second={outputPane} />
       <StatusBar>
+        {stale && <StaleStatus action={common.generate} onRun={generate} />}
         {error && (
           <StatusItem tone="danger" className="font-sans">
             {error}

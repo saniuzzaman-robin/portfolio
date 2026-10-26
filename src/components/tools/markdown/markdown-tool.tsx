@@ -21,6 +21,7 @@ import {
   CopyButton,
   FileOpenButton,
   IconAction,
+  RunButton,
   ToolHeader,
   ToolbarDivider,
 } from '@/components/tools/workbench/toolbar';
@@ -28,9 +29,19 @@ import { OptionsPopover, Toggle } from '@/components/tools/workbench/options-pop
 import { SplitPane } from '@/components/tools/workbench/split-pane';
 import { DropZone } from '@/components/tools/workbench/drop-zone';
 import { downloadFile, useFileLoader } from '@/components/tools/workbench/file';
-import { CursorStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import {
+  CursorStatus,
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+} from '@/components/tools/workbench/status-bar';
 import { usePersistentState } from '@/components/tools/workbench/use-persistent-state';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
@@ -88,21 +99,26 @@ export function MarkdownTool() {
   const [wrap, setWrap] = usePersistentState('markdown:wrap', true);
   const [sync, setSync] = usePersistentState('markdown:sync', true);
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(input);
-  const file = useFileLoader('text', (content) => setInput(content));
+  // The preview renders on Render (or Ctrl/⌘+Enter); opening or clearing a file is explicit.
+  const { value: live, settings: applied, run, ran, stale } = useRunInput(input, '', options);
+  const replaceInput = (next: string) => {
+    setInput(next);
+    run(next);
+  };
+  const file = useFileLoader('text', replaceInput);
 
   const task = useMemo(
     () => async () => {
       const [preview, exported] = await Promise.all([
-        renderMarkdown(live, options, 'preview'),
-        renderMarkdown(live, options, 'export'),
+        renderMarkdown(live, applied, 'preview'),
+        renderMarkdown(live, applied, 'export'),
       ]);
       return { preview, exported };
     },
-    [live, options]
+    [live, applied]
   );
-  const { value: current, latest, error: loadError } = useAsyncResult(task);
-  const rendered = current ?? latest;
+  const { value: current, latest, error: loadError } = useAsyncResult(ran ? task : null);
+  const rendered = ran ? (current ?? latest) : undefined;
   const previewHtml = rendered?.preview.html ?? '';
   const exportedHtml = rendered?.exported.html ?? '';
   const blocked = rendered?.preview.blockedImages ?? 0;
@@ -145,7 +161,7 @@ export function MarkdownTool() {
 
   const download = () =>
     downloadFile(
-      standaloneHtml(exportedHtml, documentTitle(input) ?? t.untitled),
+      standaloneHtml(exportedHtml, documentTitle(live) ?? t.untitled),
       'document.html',
       'text/html;charset=utf-8'
     );
@@ -186,7 +202,11 @@ export function MarkdownTool() {
           </span>
         </p>
       )}
-      <div ref={previewRef} onScroll={onPreviewScroll} className="min-h-0 flex-1 overflow-auto">
+      <div
+        ref={previewRef}
+        onScroll={onPreviewScroll}
+        className={cn('min-h-0 flex-1 overflow-auto', stale && STALE_OUTPUT_CLASS)}
+      >
         {previewHtml ? (
           <div
             role="document"
@@ -198,7 +218,13 @@ export function MarkdownTool() {
             dangerouslySetInnerHTML={{ __html: previewHtml }}
           />
         ) : (
-          <p className="p-3 text-xs text-fg-subtle">{loadError ? t.loadFailed : t.empty}</p>
+          <p className="p-3 text-xs text-fg-subtle">
+            {loadError
+              ? t.loadFailed
+              : !ran
+                ? fmt(common.runHint, { action: t.render, shortcut: RUN_SHORTCUT })
+                : t.empty}
+          </p>
         )}
       </div>
     </div>
@@ -214,7 +240,7 @@ export function MarkdownTool() {
             <IconAction
               icon={Eraser}
               label={common.clear}
-              onClick={() => setInput('')}
+              onClick={() => replaceInput('')}
               disabled={!input}
             />
             <ToolbarDivider />
@@ -249,11 +275,18 @@ export function MarkdownTool() {
               onClick={download}
               disabled={!exportedHtml}
             />
+            <RunButton label={t.render} onRun={() => run()} pending={stale} />
           </>
         }
       />
       <SplitPane id="markdown" first={editorPane} second={previewPane} />
       <StatusBar>
+        {stale && <StaleStatus action={t.render} onRun={() => run()} />}
+        {ran && !live.trim() && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.render })}
+          </StatusItem>
+        )}
         {file.error && (
           <StatusItem tone="danger" title={file.error}>
             <span className="truncate font-sans">{file.error}</span>

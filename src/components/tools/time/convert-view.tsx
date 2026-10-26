@@ -12,14 +12,20 @@ import {
   type Instant,
 } from '@/lib/tools/time/instant';
 import { formatOffset, wallTime, zoneOffset } from '@/lib/tools/time/zone';
-import { CopyButton, IconAction, ToolHeader } from '@/components/tools/workbench/toolbar';
+import {
+  CopyButton,
+  IconAction,
+  RunButton,
+  ToolHeader,
+} from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
-import { useDebouncedValue } from '@/components/tools/workbench/use-live-input';
+import { StaleStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS, useApplied } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { useNow } from '@/components/tools/workbench/use-now';
 import { DetailList, TextField } from '@/components/tools/crypto/parts';
 import { PartHeading } from '@/components/tools/jwt/parts';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { fmt } from '@/i18n/dictionary';
 import {
   CopyValue,
@@ -32,7 +38,6 @@ import {
 } from './parts';
 import { useConvertInput, useUnit, useZone, type UnitOption } from './state';
 
-const TYPING_DELAY_MS = 150;
 const UNIT_OPTIONS: UnitOption[] = ['auto', 's', 'ms', 'us', 'ns'];
 
 type Row = [label: string, value: React.ReactNode];
@@ -40,30 +45,44 @@ type Row = [label: string, value: React.ReactNode];
 /** Epoch ↔ date in one input: a number is a timestamp, anything else is read as a date. */
 export function ConvertView({ picker }: { picker: React.ReactNode }) {
   const t = useToolMessages<'time'>();
+  const common = useToolCommon();
   const now = useNow();
   const hydrated = now !== null;
   const [input, setInput] = useConvertInput();
   const [unit, setUnit] = useUnit();
   const [zone, setZone] = useZone();
-  const typed = useDebouncedValue(input, TYPING_DELAY_MS);
+  // Nothing converts until Convert (or Ctrl/⌘+Enter); the field only validates as you type.
+  const { applied, apply, stale } = useApplied({ input, unit, zone });
   const timeZone = resolveZone(zone, hydrated);
-  const formats = useTimeFormats(timeZone);
+  const appliedZone = resolveZone(applied?.zone ?? zone, hydrated);
+  const formats = useTimeFormats(appliedZone);
   const utc = useTimeFormats('UTC');
 
+  const draft = useMemo(
+    () => (input.trim() && timeZone ? parseTimeInput(input, { unit, timeZone }) : null),
+    [input, unit, timeZone]
+  );
+  const appliedText = applied?.input ?? '';
   const parsed = useMemo(
-    () => (typed.trim() && timeZone ? parseTimeInput(typed, { unit, timeZone }) : null),
-    [typed, unit, timeZone]
+    () =>
+      applied && appliedText.trim() && appliedZone
+        ? parseTimeInput(appliedText, { unit: applied.unit, timeZone: appliedZone })
+        : null,
+    [applied, appliedText, appliedZone]
   );
   // An empty input follows the clock.
   let instant: Instant | null = null;
   if (parsed?.ok) instant = parsed.instant;
-  else if (!parsed && now !== null && !typed.trim()) instant = { ms: now, nanos: 0, digits: 0 };
+  else if (applied && !parsed && now !== null && !appliedText.trim()) {
+    instant = { ms: now, nanos: 0, digits: 0 };
+  }
+  const timeZoneForRows = appliedZone;
 
   const rows: Row[] = [];
-  if (instant && timeZone && formats && utc && now !== null) {
+  if (instant && timeZoneForRows && formats && utc && now !== null) {
     const epoch = epochValues(instant);
-    const offset = zoneOffset(instant.ms, timeZone);
-    const wall = wallTime(instant.ms, timeZone);
+    const offset = zoneOffset(instant.ms, timeZoneForRows);
+    const wall = wallTime(instant.ms, timeZoneForRows);
     const week = isoWeek(wall);
     const value = (text: string) => <CopyValue text={text} />;
     const text = (content: string) => <CopyValue text={content}>{translated(content)}</CopyValue>;
@@ -73,9 +92,9 @@ export function ConvertView({ picker }: { picker: React.ReactNode }) {
       [t.rows.microseconds, value(epoch.us)],
       [t.rows.nanoseconds, value(epoch.ns)],
       [t.rows.isoUtc, value(formatIso(instant))],
-      [fmt(t.rows.isoZone, { zone: timeZone }), value(formatIso(instant, offset))],
+      [fmt(t.rows.isoZone, { zone: timeZoneForRows }), value(formatIso(instant, offset))],
       [t.rows.rfc2822, value(formatRfc2822(instant.ms, offset))],
-      [fmt(t.rows.zoned, { zone: timeZone }), text(formats.full(instant.ms))],
+      [fmt(t.rows.zoned, { zone: timeZoneForRows }), text(formats.full(instant.ms))],
       [t.rows.utc, text(utc.full(instant.ms))],
       [t.rows.relative, text(formats.relative(instant.ms, now))],
       [t.rows.offset, value(formatOffset(offset))],
@@ -108,13 +127,24 @@ export function ConvertView({ picker }: { picker: React.ReactNode }) {
           value={input}
           onChange={setInput}
           placeholder={t.inputPlaceholder}
-          invalid={parsed?.ok === false}
+          invalid={draft?.ok === false}
         >
-          <IconAction icon={Clock} label={t.useNow} onClick={() => setInput(String(Date.now()))} />
+          <IconAction
+            icon={Clock}
+            label={t.useNow}
+            onClick={() => {
+              const next = String(Date.now());
+              setInput(next);
+              apply({ input: next, unit, zone });
+            }}
+          />
           <IconAction
             icon={Eraser}
             label={t.followClock}
-            onClick={() => setInput('')}
+            onClick={() => {
+              setInput('');
+              apply({ input: '', unit, zone });
+            }}
             disabled={!input}
           />
         </TextField>
@@ -126,11 +156,11 @@ export function ConvertView({ picker }: { picker: React.ReactNode }) {
         />
         <ZoneSelect value={zone} onChange={setZone} hydrated={hydrated} />
         <Note>{t.inputHint}</Note>
-        {parsed?.ok === false && <Note tone="danger">{parsed.message}</Note>}
-        {parsed?.ok && parsed.kind === 'date' && parsed.resolution === 'gap' && timeZone && (
+        {draft?.ok === false && <Note tone="danger">{draft.message}</Note>}
+        {draft?.ok && draft.kind === 'date' && draft.resolution === 'gap' && timeZone && (
           <Note tone="warning">{fmt(t.gapNote, { zone: timeZone })}</Note>
         )}
-        {parsed?.ok && parsed.kind === 'date' && parsed.resolution === 'overlap' && timeZone && (
+        {draft?.ok && draft.kind === 'date' && draft.resolution === 'overlap' && timeZone && (
           <Note tone="warning">{fmt(t.overlapNote, { zone: timeZone })}</Note>
         )}
       </div>
@@ -140,11 +170,17 @@ export function ConvertView({ picker }: { picker: React.ReactNode }) {
   const resultsPane = (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col">
       <PartHeading>{t.results}</PartHeading>
-      <div className="min-h-0 flex-1 overflow-auto p-3">
+      <div className={cn('min-h-0 flex-1 overflow-auto p-3', stale && STALE_OUTPUT_CLASS)}>
         {rows.length > 0 ? (
           <DetailList rows={rows} className="items-start" />
         ) : (
-          <p className="text-xs text-fg-subtle">{parsed?.ok === false ? t.fixInput : ' '}</p>
+          <p className="text-xs text-fg-subtle">
+            {!applied
+              ? fmt(common.runHint, { action: t.convertAction, shortcut: RUN_SHORTCUT })
+              : parsed?.ok === false
+                ? t.fixInput
+                : ' '}
+          </p>
         )}
       </div>
     </div>
@@ -164,15 +200,23 @@ export function ConvertView({ picker }: { picker: React.ReactNode }) {
         {parsed.kind === 'epoch' ? fmt(t.readAs, { unit: t.units[parsed.unit] }) : t.readAsDate}
       </StatusItem>
     );
-  } else if (hydrated) {
+  } else if (applied && hydrated) {
     status = <StatusItem>{t.showingNow}</StatusItem>;
   }
 
   return (
     <>
-      <ToolHeader slug="time">{picker}</ToolHeader>
+      <ToolHeader
+        slug="time"
+        actions={<RunButton label={t.convertAction} onRun={() => apply()} pending={stale} />}
+      >
+        {picker}
+      </ToolHeader>
       <SplitPane id="time-convert" first={nowPane} second={resultsPane} />
-      <StatusBar>{status}</StatusBar>
+      <StatusBar>
+        {stale && <StaleStatus action={t.convertAction} onRun={() => apply()} />}
+        {status}
+      </StatusBar>
     </>
   );
 }

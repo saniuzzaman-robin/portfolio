@@ -15,6 +15,7 @@ import {
   CopyButton,
   FileOpenButton,
   IconAction,
+  RunButton,
   Segmented,
   ToolHeader,
   ToolbarDivider,
@@ -22,9 +23,19 @@ import {
 import { SplitPane } from '@/components/tools/workbench/split-pane';
 import { DropZone } from '@/components/tools/workbench/drop-zone';
 import { useFileLoader } from '@/components/tools/workbench/file';
-import { CursorStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import {
+  CursorStatus,
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+} from '@/components/tools/workbench/status-bar';
 import { usePersistentState } from '@/components/tools/workbench/use-persistent-state';
-import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
 import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import { useLocale } from '@/i18n/use-locale';
@@ -68,24 +79,36 @@ export function RegexTool() {
   const textRef = useRef<CodeEditorHandle>(null);
   const patternRef = useRef<HTMLInputElement>(null);
   const replacementRef = useRef<HTMLInputElement>(null);
-  const { value: live } = useLiveInput(text);
-  const file = useFileLoader('text', (content) => setText(content));
+  // Matching waits for Run (or Ctrl/⌘+Enter); opening, clearing or reusing text is explicit.
+  const settings = { pattern, flags, mode, replacement };
+  const { value: live, settings: applied, run, ran, stale } = useRunInput(text, '', settings);
+  const replaceText = (next: string) => {
+    setText(next);
+    run(next);
+  };
+  const file = useFileLoader('text', replaceText);
+  const view = applied.mode;
 
+  // The pattern is checked and explained as it is typed; matching uses the last run's.
   const compiled = useMemo(() => (pattern ? compileRegex(pattern, flags) : null), [pattern, flags]);
   const explanation = useMemo(() => explainRegex(pattern, flags), [pattern, flags]);
+  const appliedCompiled = useMemo(
+    () => (applied.pattern ? compileRegex(applied.pattern, applied.flags) : null),
+    [applied.pattern, applied.flags]
+  );
 
   const task = useMemo(() => {
-    if (!compiled?.ok) return null;
+    if (!ran || !appliedCompiled?.ok) return null;
     const request: RegexRequest = {
-      pattern,
-      flags,
+      pattern: applied.pattern,
+      flags: applied.flags,
       text: live,
-      mode,
-      replacement,
+      mode: applied.mode,
+      replacement: applied.replacement,
       limit: MATCH_LIMIT,
     };
     return (signal: AbortSignal) => runRegexInWorker(request, signal);
-  }, [compiled, pattern, flags, live, mode, replacement]);
+  }, [ran, appliedCompiled, applied, live]);
   const { value: current, latest, pending, error: workerError } = useAsyncResult(task);
   // While a new run is in flight, keep showing the previous result instead of flickering.
   const outcome = task ? (current ?? latest) : undefined;
@@ -112,10 +135,10 @@ export function RegexTool() {
     () => (result?.pieces ? JSON.stringify(result.pieces, null, 2) : ''),
     [result]
   );
-  const output = mode === 'replace' ? (result?.output ?? '') : mode === 'split' ? splitText : '';
+  const output = view === 'replace' ? (result?.output ?? '') : view === 'split' ? splitText : '';
 
   const copyText = () =>
-    mode === 'match'
+    view === 'match'
       ? (result?.matches ?? []).map((match) => live.slice(match.start, match.end)).join('\n')
       : output;
 
@@ -132,13 +155,16 @@ export function RegexTool() {
 
   const numbers = new Intl.NumberFormat(locale);
   const milliseconds = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 });
-  const placeholder = !pattern
-    ? t.emptyPlaceholder
-    : compiled && !compiled.ok
-      ? t.invalidPlaceholder
-      : timedOut
-        ? t.timedOutPlaceholder
-        : t.outputPlaceholder;
+  const runLabel = t.modes[mode];
+  const placeholder = !ran
+    ? fmt(common.runHint, { action: runLabel, shortcut: RUN_SHORTCUT })
+    : !applied.pattern
+      ? t.emptyPlaceholder
+      : appliedCompiled && !appliedCompiled.ok
+        ? t.invalidPlaceholder
+        : timedOut
+          ? t.timedOutPlaceholder
+          : t.outputPlaceholder;
 
   const textPane = (
     <DropZone onFile={(picked) => void file.load(picked)}>
@@ -156,14 +182,16 @@ export function RegexTool() {
   );
 
   const resultPanel =
-    mode === 'match' ? (
+    view === 'match' ? (
       result ? (
-        <MatchesPanel
-          text={live}
-          matches={result.matches}
-          groups={explanation.groups}
-          onReveal={(from, to) => textRef.current?.reveal(from, to)}
-        />
+        <div className={cn('flex min-h-0 flex-1 flex-col', stale && STALE_OUTPUT_CLASS)}>
+          <MatchesPanel
+            text={live}
+            matches={result.matches}
+            groups={explanation.groups}
+            onReveal={(from, to) => textRef.current?.reveal(from, to)}
+          />
+        </div>
       ) : (
         <p className="p-3 text-xs text-fg-subtle">{placeholder}</p>
       )
@@ -171,10 +199,11 @@ export function RegexTool() {
       <CodeEditor
         value={output}
         label={common.output}
-        language={mode === 'split' ? 'json' : 'plain'}
+        language={view === 'split' ? 'json' : 'plain'}
         readOnly
         wrap={wrap}
         placeholder={placeholder}
+        className={cn(stale && STALE_OUTPUT_CLASS)}
       />
     );
 
@@ -220,7 +249,7 @@ export function RegexTool() {
             <IconAction
               icon={Eraser}
               label={t.clearText}
-              onClick={() => setText('')}
+              onClick={() => replaceText('')}
               disabled={!text}
             />
             <ToolbarDivider />
@@ -231,20 +260,21 @@ export function RegexTool() {
               onClick={() => setWrap(!wrap)}
             />
             <ToolbarDivider />
-            {mode === 'replace' && (
+            {view === 'replace' && (
               <IconAction
                 icon={ArrowLeftToLine}
                 label={t.useOutput}
-                onClick={() => setText(output)}
+                onClick={() => replaceText(output)}
                 disabled={!result}
                 className="rtl:-scale-x-100"
               />
             )}
             <CopyButton
               getText={copyText}
-              disabled={!result || (mode === 'match' && result.matches.length === 0)}
-              label={mode === 'match' ? t.copyMatches : common.copy}
+              disabled={!result || (view === 'match' && result.matches.length === 0)}
+              label={view === 'match' ? t.copyMatches : common.copy}
             />
+            <RunButton label={runLabel} onRun={() => run()} pending={stale} />
           </>
         }
       >
@@ -269,6 +299,16 @@ export function RegexTool() {
       />
       <SplitPane id="regex" first={textPane} second={sidePane} defaultRatio={0.55} />
       <StatusBar>
+        {stale && <StaleStatus action={runLabel} onRun={() => run()} />}
+        {ran && !applied.pattern && (
+          <StatusItem
+            tone="danger"
+            className="font-sans"
+            onClick={() => patternRef.current?.focus()}
+          >
+            {t.emptyPlaceholder}
+          </StatusItem>
+        )}
         {compiled && !compiled.ok && (
           <StatusItem
             tone="danger"
@@ -304,7 +344,7 @@ export function RegexTool() {
             {fmt(t.matchesTruncated, { count: numbers.format(MATCH_LIMIT) })}
           </StatusItem>
         )}
-        {result?.pieces && mode === 'split' && (
+        {result?.pieces && view === 'split' && (
           <StatusItem className="shrink-0">
             {fmt(t.pieces, { count: numbers.format(result.pieces.length) })}
           </StatusItem>

@@ -145,12 +145,14 @@ export function DiffTool() {
   const [options, setOptions] = usePersistentState('diff:options', DEFAULT_OPTIONS, isOptions);
   const [wrap, setWrap] = usePersistentState('diff:wrap', false);
   const json = mode === 'json';
-  // Text sides are edited inside the diff, so it stays live; JSON compares on Compare.
+  // Text sides are edited inside the diff, so their edits show as typed; JSON sides and the
+  // options (and a mode switch) only apply on Compare.
   const { value: textA } = useLiveInput(a);
   const { value: textB } = useLiveInput(b);
-  const compared = useRunInputs([a, b]);
+  const compared = useRunInputs(json ? [a, b] : [], mode, options);
   const [liveA, liveB] = json ? compared.values : [textA, textB];
-  const stale = json && compared.stale;
+  const stale = compared.stale;
+  const applied = compared.settings;
   // Opening, swapping and clearing are explicit, so JSON compares the new sides right away.
   const replaceSides = (nextA: string, nextB: string) => {
     setA(nextA);
@@ -178,15 +180,15 @@ export function DiffTool() {
     [setA, setB]
   );
 
-  const jsonA = useJsonSide(json, liveA, options.ignoreArrayOrder);
-  const jsonB = useJsonSide(json, liveB, options.ignoreArrayOrder);
+  const jsonA = useJsonSide(json, liveA, applied.ignoreArrayOrder);
+  const jsonB = useJsonSide(json, liveB, applied.ignoreArrayOrder);
   const jsonErrors = (['a', 'b'] as const).flatMap((side) => {
     const { parsed } = side === 'a' ? jsonA : jsonB;
     return parsed && !parsed.ok ? [{ side, error: parsed.error }] : [];
   });
   const comparable = !json || jsonErrors.length === 0;
 
-  const { ignoreWhitespace, ignoreCase, granularity, collapse } = options;
+  const { ignoreWhitespace, ignoreCase, granularity, collapse } = applied;
   const diff = useCallback(
     (x: string, y: string) => diffText(x, y, { ignoreWhitespace, ignoreCase, granularity }).changes,
     [ignoreWhitespace, ignoreCase, granularity]
@@ -196,20 +198,20 @@ export function DiffTool() {
   const docB = json ? jsonB.text : liveB;
   const textDiff = useMemo(
     () =>
-      merged && comparable
+      compared.ran && merged && comparable
         ? diffText(docA, docB, { ignoreWhitespace, ignoreCase, granularity })
         : null,
-    [merged, comparable, docA, docB, ignoreWhitespace, ignoreCase, granularity]
+    [compared.ran, merged, comparable, docA, docB, ignoreWhitespace, ignoreCase, granularity]
   );
 
   const jsonDiff = useMemo(
     () =>
       view === 'changes' && jsonA.parsed?.ok && jsonB.parsed?.ok
         ? diffJson(jsonA.parsed.value, jsonB.parsed.value, {
-            ignoreArrayOrder: options.ignoreArrayOrder,
+            ignoreArrayOrder: applied.ignoreArrayOrder,
           })
         : null,
-    [view, jsonA.parsed, jsonB.parsed, options.ignoreArrayOrder]
+    [view, jsonA.parsed, jsonB.parsed, applied.ignoreArrayOrder]
   );
 
   const numbers = new Intl.NumberFormat(locale);
@@ -248,7 +250,7 @@ export function DiffTool() {
   let body: React.ReactNode;
   if (view === 'inputs') {
     body = <SplitPane id="diff-inputs" first={inputPane('a')} second={inputPane('b')} />;
-  } else if (json && !compared.ran) {
+  } else if (!compared.ran) {
     body = (
       <p className="m-auto max-w-xs p-6 text-center text-xs text-fg-subtle">
         {fmt(common.runHint, { action: t.compareAction, shortcut: RUN_SHORTCUT })}
@@ -338,17 +340,17 @@ export function DiffTool() {
               <Toggle
                 label={t.ignoreWhitespace}
                 hint={t.ignoreWhitespaceHint}
-                checked={ignoreWhitespace}
+                checked={options.ignoreWhitespace}
                 onChange={(value) => setOptions({ ...options, ignoreWhitespace: value })}
               />
               <Toggle
                 label={t.ignoreCase}
-                checked={ignoreCase}
+                checked={options.ignoreCase}
                 onChange={(value) => setOptions({ ...options, ignoreCase: value })}
               />
               <SelectField
                 label={t.highlight}
-                value={granularity}
+                value={options.granularity}
                 onChange={(value) => setOptions({ ...options, granularity: value })}
                 options={GRANULARITIES.map((value) => ({
                   value,
@@ -358,7 +360,7 @@ export function DiffTool() {
               <Toggle
                 label={t.collapse}
                 hint={t.collapseHint}
-                checked={collapse}
+                checked={options.collapse}
                 onChange={(value) => setOptions({ ...options, collapse: value })}
               />
               {json && (
@@ -370,7 +372,7 @@ export function DiffTool() {
                 />
               )}
             </OptionsPopover>
-            {json && <RunButton label={t.compareAction} onRun={compare} />}
+            <RunButton label={t.compareAction} onRun={compare} pending={stale} />
           </>
         }
       >
@@ -392,13 +394,13 @@ export function DiffTool() {
           icon={ChevronUp}
           label={t.previous}
           onClick={() => mergeRef.current?.goTo('previous')}
-          disabled={!merged || !comparable || identical}
+          disabled={!compared.ran || !merged || !comparable || identical}
         />
         <IconAction
           icon={ChevronDown}
           label={t.next}
           onClick={() => mergeRef.current?.goTo('next')}
-          disabled={!merged || !comparable || identical}
+          disabled={!compared.ran || !merged || !comparable || identical}
         />
       </ToolHeader>
       <div
@@ -424,6 +426,11 @@ export function DiffTool() {
           />
         ))}
         {stale && <StaleStatus action={t.compareAction} onRun={compare} />}
+        {compared.ran && !hasInput && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.compareAction })}
+          </StatusItem>
+        )}
         {fileA.error && <StatusItem tone="danger">{fileA.error}</StatusItem>}
         {fileB.error && <StatusItem tone="danger">{fileB.error}</StatusItem>}
         {stats && hasInput && identical && <StatusItem tone="success">{t.identical}</StatusItem>}

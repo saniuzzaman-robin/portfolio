@@ -11,10 +11,21 @@ import {
   type CursorInfo,
   type EditorDiagnostic,
 } from '@/components/tools/workbench/code-editor';
-import { IconAction, ToolHeader } from '@/components/tools/workbench/toolbar';
+import { IconAction, RunButton, ToolHeader } from '@/components/tools/workbench/toolbar';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { CursorStatus, StatusBar, StatusItem } from '@/components/tools/workbench/status-bar';
+import {
+  CursorStatus,
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+} from '@/components/tools/workbench/status-bar';
 import { useLiveInput } from '@/components/tools/workbench/use-live-input';
+import {
+  RUN_SHORTCUT,
+  STALE_OUTPUT_CLASS,
+  useRunInput,
+} from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { TextField } from '@/components/tools/crypto/parts';
 import { PartHeading, StateBadge } from '@/components/tools/jwt/parts';
 import { Note } from '@/components/tools/time/parts';
@@ -33,7 +44,10 @@ export function ListView({ picker }: { picker: React.ReactNode }) {
   const [list, setList] = useCidrList();
   const [lookup, setLookup] = useLookup();
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
-  const { value: live } = useLiveInput(list);
+  // Results wait for Analyze (or Ctrl/⌘+Enter); invalid lines are flagged as you type.
+  const { value: live, settings: appliedLookup, run, ran, stale } = useRunInput(list, '', lookup);
+  const { value: typed } = useLiveInput(list);
+  const typedErrors = useMemo(() => parseCidrList(typed).errors, [typed]);
 
   const parsed = useMemo(() => parseCidrList(live), [live]);
   const { overlaps, truncated } = useMemo(
@@ -42,11 +56,12 @@ export function ListView({ picker }: { picker: React.ReactNode }) {
   );
   const diagnostics = useMemo(
     (): EditorDiagnostic[] =>
-      parsed.errors.map((error) => ({ ...error, severity: 'error' as const })),
-    [parsed]
+      typedErrors.map((error) => ({ ...error, severity: 'error' as const })),
+    [typedErrors]
   );
 
-  const address = lookup.trim() ? parseIp(lookup) : null;
+  const draftAddress = lookup.trim() ? parseIp(lookup) : null;
+  const address = ran && appliedLookup.trim() ? parseIp(appliedLookup) : null;
   const containing = address?.ok
     ? parsed.entries.filter((entry) =>
         containsAddress(entry.cidr, address.value.version, address.value.value)
@@ -90,7 +105,7 @@ export function ListView({ picker }: { picker: React.ReactNode }) {
 
   const resultsPane = (
     <div className="min-h-0 min-w-0 flex-1 overflow-auto">
-      <section>
+      <section className={cn(stale && STALE_OUTPUT_CLASS)}>
         <PartHeading>{t.lookup}</PartHeading>
         <div className="space-y-2 p-3 text-xs">
           <TextField
@@ -98,7 +113,7 @@ export function ListView({ picker }: { picker: React.ReactNode }) {
             value={lookup}
             onChange={setLookup}
             placeholder={t.lookupPlaceholder}
-            invalid={address?.ok === false}
+            invalid={draftAddress?.ok === false}
           >
             <IconAction
               icon={Eraser}
@@ -107,7 +122,7 @@ export function ListView({ picker }: { picker: React.ReactNode }) {
               disabled={!lookup}
             />
           </TextField>
-          {address?.ok === false && <Note tone="danger">{address.message}</Note>}
+          {draftAddress?.ok === false && <Note tone="danger">{draftAddress.message}</Note>}
           {address?.ok &&
             (containing.length > 0 ? (
               <>
@@ -123,11 +138,17 @@ export function ListView({ picker }: { picker: React.ReactNode }) {
             ))}
         </div>
       </section>
-      <section>
+      <section className={cn(stale && STALE_OUTPUT_CLASS)}>
         <PartHeading>{fmt(t.overlapsHeading, { count: overlaps.length })}</PartHeading>
         <div className="p-3 text-xs">
           {overlaps.length === 0 ? (
-            <Note>{parsed.entries.length ? t.noOverlaps : t.empty}</Note>
+            <Note>
+              {!ran
+                ? fmt(common.runHint, { action: t.analyzeAction, shortcut: RUN_SHORTCUT })
+                : parsed.entries.length
+                  ? t.noOverlaps
+                  : t.empty}
+            </Note>
           ) : (
             <ul className="divide-y divide-line">
               {overlaps.map((overlap) => (
@@ -150,28 +171,40 @@ export function ListView({ picker }: { picker: React.ReactNode }) {
     </div>
   );
 
-  const firstError = parsed.errors[0];
+  const firstError = ran ? parsed.errors[0] : typedErrors[0];
   return (
     <>
       <ToolHeader
         slug="network"
         actions={
-          <IconAction
-            icon={Eraser}
-            label={common.clear}
-            onClick={() => setList('')}
-            disabled={!list}
-          />
+          <>
+            <IconAction
+              icon={Eraser}
+              label={common.clear}
+              onClick={() => {
+                setList('');
+                run('');
+              }}
+              disabled={!list}
+            />
+            <RunButton label={t.analyzeAction} onRun={() => run()} pending={stale} />
+          </>
         }
       >
         {picker}
       </ToolHeader>
       <SplitPane id="network-list" first={editorPane} second={resultsPane} />
       <StatusBar>
+        {stale && <StaleStatus action={t.analyzeAction} onRun={() => run()} />}
+        {ran && !live.trim() && (
+          <StatusItem tone="danger" className="font-sans">
+            {fmt(common.enterInput, { action: t.analyzeAction })}
+          </StatusItem>
+        )}
         {firstError && (
           <StatusItem tone="danger" onClick={() => reveal(firstError)} title={firstError.message}>
             <CircleAlert className="size-3 shrink-0" aria-hidden />
-            <span className="shrink-0">{fmt(t.invalidLines, { count: parsed.errors.length })}</span>
+            <span className="shrink-0">{fmt(t.invalidLines, { count: typedErrors.length })}</span>
             <span className="truncate font-sans">
               — {fmt(t.line, { line: firstError.line })}: {firstError.message}
             </span>

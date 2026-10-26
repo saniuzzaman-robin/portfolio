@@ -13,16 +13,22 @@ import { describeCron } from '@/lib/tools/time/describe';
 import { nextRuns } from '@/lib/tools/time/schedule';
 import { formatIso } from '@/lib/tools/time/instant';
 import { zoneOffset } from '@/lib/tools/time/zone';
-import { ToolHeader } from '@/components/tools/workbench/toolbar';
+import { RunButton, ToolHeader } from '@/components/tools/workbench/toolbar';
 import { Toggle } from '@/components/tools/workbench/options-popover';
 import { SplitPane } from '@/components/tools/workbench/split-pane';
-import { StatusBar, StatusItem, ValidityStatus } from '@/components/tools/workbench/status-bar';
-import { useDebouncedValue } from '@/components/tools/workbench/use-live-input';
+import {
+  StaleStatus,
+  StatusBar,
+  StatusItem,
+  ValidityStatus,
+} from '@/components/tools/workbench/status-bar';
+import { RUN_SHORTCUT, STALE_OUTPUT_CLASS, useApplied } from '@/components/tools/workbench/use-run';
+import { cn } from '@/lib/cn';
 import { useAsyncResult } from '@/components/tools/workbench/use-async-result';
 import { useNow } from '@/components/tools/workbench/use-now';
 import { TextField } from '@/components/tools/crypto/parts';
 import { PartHeading, StateBadge } from '@/components/tools/jwt/parts';
-import { useToolMessages } from '@/i18n/tools/provider';
+import { useToolCommon, useToolMessages } from '@/i18n/tools/provider';
 import type { ToolMessages } from '@/i18n/tools/en';
 import { useLocale } from '@/i18n/use-locale';
 import { fmt } from '@/i18n/dictionary';
@@ -31,7 +37,6 @@ import { RUN_COUNTS, useCronInput, useQuartz, useRunCount, useZone } from './sta
 
 type TimeMessages = ToolMessages['time'];
 
-const TYPING_DELAY_MS = 150;
 /** Values listed per field before "+N more". */
 const MAX_VALUES = 12;
 
@@ -51,6 +56,7 @@ type Preset = keyof typeof PRESETS;
 /** Explains cron expressions: a field-by-field builder, a sentence and the next runs. */
 export function CronView({ picker }: { picker: React.ReactNode }) {
   const t = useToolMessages<'time'>();
+  const common = useToolCommon();
   const locale = useLocale();
   const now = useNow();
   const hydrated = now !== null;
@@ -58,15 +64,23 @@ export function CronView({ picker }: { picker: React.ReactNode }) {
   const [quartz, setQuartz] = useQuartz();
   const [count, setCount] = useRunCount();
   const [zone, setZone] = useZone();
-  const typed = useDebouncedValue(expression, TYPING_DELAY_MS);
-  const timeZone = resolveZone(zone, hydrated);
+  // The sentence and next runs wait for Explain (or Ctrl/⌘+Enter); the builder checks as you type.
+  const { applied, apply, stale } = useApplied({ expression, quartz, count, zone });
+  const typed = expression;
+  const timeZone = resolveZone(applied?.zone ?? zone, hydrated);
   const formats = useTimeFormats(timeZone);
   const parsed = useMemo(() => parseCron(typed, { quartz }), [typed, quartz]);
-  const cron = parsed.ok ? parsed.cron : null;
+  const draftCron = parsed.ok ? parsed.cron : null;
+  const appliedParsed = useMemo(
+    () => (applied ? parseCron(applied.expression, { quartz: applied.quartz }) : null),
+    [applied]
+  );
+  const cron = appliedParsed?.ok ? appliedParsed.cron : null;
+  const appliedQuartz = applied?.quartz ?? quartz;
 
   const describeTask = useMemo(
-    () => (cron ? () => describeCron(cron.expanded, { locale, quartz }) : null),
-    [cron, locale, quartz]
+    () => (cron ? () => describeCron(cron.expanded, { locale, quartz: appliedQuartz }) : null),
+    [cron, locale, appliedQuartz]
   );
   const { value: description, error: describeError } = useAsyncResult(describeTask);
 
@@ -75,14 +89,14 @@ export function CronView({ picker }: { picker: React.ReactNode }) {
   const schedule = useMemo(
     () =>
       cron && timeZone && second !== null
-        ? nextRuns(cron, second * 1000, Number(count), timeZone)
+        ? nextRuns(cron, second * 1000, Number(applied?.count ?? count), timeZone)
         : null,
-    [cron, timeZone, second, count]
+    [cron, timeZone, second, applied?.count, count]
   );
 
   // Builder rows come from the typed fields, so a field with an error can still be edited.
-  const tokens = cron
-    ? cron.expanded.split(' ')
+  const tokens = draftCron
+    ? draftCron.expanded.split(' ')
     : typed.trim().startsWith('@')
       ? []
       : typed.trim().split(/\s+/);
@@ -95,8 +109,8 @@ export function CronView({ picker }: { picker: React.ReactNode }) {
   };
 
   const toggleQuartz = (next: boolean) => {
-    if (cron && !cron.macro) {
-      const converted = switchSyntax(cron, next);
+    if (draftCron && !draftCron.macro) {
+      const converted = switchSyntax(draftCron, next);
       if (converted) setExpression(converted);
     }
     setQuartz(next);
@@ -131,7 +145,7 @@ export function CronView({ picker }: { picker: React.ReactNode }) {
           <FieldTable
             order={order}
             tokens={tokens}
-            fields={cron?.fields}
+            fields={draftCron?.fields}
             errorField={parsed.ok ? undefined : parsed.error.field}
             onEdit={editField}
           />
@@ -146,9 +160,16 @@ export function CronView({ picker }: { picker: React.ReactNode }) {
       <p
         dir="auto"
         lang={description && locale === 'bn' ? 'en' : undefined}
-        className="shrink-0 border-b border-line p-3 text-sm text-fg"
+        className={cn(
+          'shrink-0 border-b border-line p-3 text-sm text-fg',
+          stale && STALE_OUTPUT_CLASS
+        )}
       >
-        {cron ? (description ?? (describeError ? t.describeFailed : ' ')) : t.fixExpression}
+        {!applied
+          ? fmt(common.runHint, { action: t.explainAction, shortcut: RUN_SHORTCUT })
+          : cron
+            ? (description ?? (describeError ? t.describeFailed : ' '))
+            : t.fixExpression}
       </p>
       <PartHeading>{t.nextRuns}</PartHeading>
       <div className="shrink-0 space-y-2 border-b border-line p-3 text-xs">
@@ -160,7 +181,7 @@ export function CronView({ picker }: { picker: React.ReactNode }) {
           options={RUN_COUNTS.map((value) => ({ value, label: fmt(t.runCount, { count: value }) }))}
         />
       </div>
-      <div className="min-h-0 flex-1 overflow-auto">
+      <div className={cn('min-h-0 flex-1 overflow-auto', stale && STALE_OUTPUT_CLASS)}>
         {schedule && formats && now !== null && timeZone && (
           <>
             <ol className="divide-y divide-line text-xs">
@@ -204,9 +225,15 @@ export function CronView({ picker }: { picker: React.ReactNode }) {
   const nextRun = schedule?.runs[0];
   return (
     <>
-      <ToolHeader slug="time">{picker}</ToolHeader>
+      <ToolHeader
+        slug="time"
+        actions={<RunButton label={t.explainAction} onRun={() => apply()} pending={stale} />}
+      >
+        {picker}
+      </ToolHeader>
       <SplitPane id="time-cron" first={inputPane} second={runsPane} />
       <StatusBar>
+        {stale && <StaleStatus action={t.explainAction} onRun={() => apply()} />}
         <ValidityStatus
           error={
             parsed.ok
