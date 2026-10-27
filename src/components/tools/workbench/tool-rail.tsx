@@ -86,7 +86,7 @@ export function ToolRail({ current }: { current: ToolSlug }) {
         aria-expanded={expanded}
         className="mt-auto hidden size-9 shrink-0 items-center justify-center self-end rounded-md text-fg-subtle transition-colors hover:bg-surface-2 hover:text-fg focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none lg:flex"
       >
-        <ToggleIcon className="size-4.5 rtl:-scale-x-100" aria-hidden />
+        <ToggleIcon className="size-5 rtl:-scale-x-100" aria-hidden />
       </button>
     </nav>
   );
