@@ -30,7 +30,7 @@ function RailLink({
       className={cn(
         'relative flex h-9 w-full shrink-0 items-center overflow-hidden rounded-md ps-2.25 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
         active
-          ? 'bg-primary/10 text-primary-text before:absolute before:inset-y-2 before:start-0 before:w-0.5 before:rounded-full before:bg-primary'
+          ? 'bg-primary/10 text-primary-text before:absolute before:inset-y-2 before:inset-s-0 before:w-0.5 before:rounded-full before:bg-primary'
           : 'text-fg-subtle hover:bg-surface-2 hover:text-fg'
       )}
     >
