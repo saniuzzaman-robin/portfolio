@@ -24,14 +24,16 @@ export function LanguageSwitcher({
   const path = useUnprefixedPath();
   const { t } = useDictionary();
 
-  // The tools section is English-only, so there is nothing to switch to.
-  if (path === TOOLS_PATH || path.startsWith(`${TOOLS_PATH}/`)) return null;
+  // The tools section is English-only: keep the switcher in place (no header jump) but disabled.
+  const disabled = path === TOOLS_PATH || path.startsWith(`${TOOLS_PATH}/`);
 
   return (
     <ul
       aria-label={t.common.language}
+      title={disabled ? t.common.languageUnavailable : undefined}
       className={cn(
         'flex items-center gap-1 rounded-full border border-line bg-surface-2 p-1',
+        disabled && 'cursor-not-allowed opacity-50',
         variant === 'full' && 'grid grid-cols-3 rounded-2xl',
         className
       )}
@@ -42,10 +44,11 @@ export function LanguageSwitcher({
         return (
           <li key={locale}>
             <a
-              href={localePath(locale, path)}
+              href={disabled ? undefined : localePath(locale, path)}
               hrefLang={locale}
               lang={locale}
-              onClick={onNavigate}
+              onClick={disabled ? undefined : onNavigate}
+              aria-disabled={disabled || undefined}
               aria-current={active ? 'true' : undefined}
               aria-label={variant === 'compact' ? label : undefined}
               className={cn(
@@ -53,7 +56,8 @@ export function LanguageSwitcher({
                 variant === 'compact'
                   ? 'rounded-full px-2.5 py-1 text-[11px]'
                   : 'rounded-xl py-2.5 text-xs',
-                active ? 'bg-elevated text-primary-text shadow-sm' : 'text-fg-subtle hover:text-fg'
+                active ? 'bg-elevated text-primary-text shadow-sm' : 'text-fg-subtle',
+                !active && !disabled && 'hover:text-fg'
               )}
             >
               {variant === 'compact' ? short : label}

@@ -8,6 +8,7 @@ export const bn: LocaleMessages = {
     downloadResume: 'রেজিউমে ডাউনলোড করুন',
     email: 'ইমেইল',
     language: 'ভাষা',
+    languageUnavailable: 'টুলস অন্য ভাষায় উপলব্ধ নয়',
   },
   nav: {
     overview: { label: 'সারসংক্ষেপ', description: 'কাজ, অভিজ্ঞতা ও দক্ষতা' },

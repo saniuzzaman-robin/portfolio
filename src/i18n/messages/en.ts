@@ -10,6 +10,7 @@ export const en = {
     downloadResume: 'Download resume',
     email: 'Email',
     language: 'Language',
+    languageUnavailable: 'Tools are not available in other languages',
   },
   nav: {
     overview: { label: 'Overview', description: 'Work, experience & skills' },
