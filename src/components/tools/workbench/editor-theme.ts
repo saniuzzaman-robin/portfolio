@@ -23,7 +23,8 @@ export const editorTheme = EditorView.theme({
     border: 'none',
     borderRight: '1px solid var(--line)',
   },
-  '.cm-lineNumbers .cm-gutterElement': { padding: '0 6px 0 10px', minWidth: '28px' },
+  // Room for three digits (plus padding) so side-by-side editors keep equal gutters.
+  '.cm-lineNumbers .cm-gutterElement': { padding: '0 6px 0 10px', minWidth: 'calc(3ch + 16px)' },
   '.cm-foldGutter .cm-gutterElement': { padding: '0 4px 0 0', cursor: 'pointer' },
   '.cm-activeLine': { backgroundColor: 'color-mix(in srgb, var(--primary) 6%, transparent)' },
   '.cm-activeLineGutter': { backgroundColor: 'transparent', color: 'var(--fg)' },
