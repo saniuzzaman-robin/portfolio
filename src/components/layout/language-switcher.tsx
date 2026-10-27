@@ -4,6 +4,7 @@ import { LOCALES, LOCALE_META, localePath } from '@/i18n/config';
 import { useLocale, useUnprefixedPath } from '@/i18n/use-locale';
 import { cn } from '@/lib/cn';
 import { useDictionary } from '@/i18n/provider';
+import { TOOLS_PATH } from '@/lib/data/tools';
 
 /**
  * Links to the current page in every locale. Plain `<a>` on purpose: all locales share the
@@ -22,6 +23,9 @@ export function LanguageSwitcher({
   const current = useLocale();
   const path = useUnprefixedPath();
   const { t } = useDictionary();
+
+  // The tools section is English-only, so there is nothing to switch to.
+  if (path === TOOLS_PATH || path.startsWith(`${TOOLS_PATH}/`)) return null;
 
   return (
     <ul

@@ -184,6 +184,7 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
                   <m.li key={link.href} {...item(i + 1, sign)}>
                     <LocaleLink
                       href={link.href}
+                      englishOnly={link.englishOnly}
                       onClick={onClose}
                       aria-current={active ? 'page' : undefined}
                       className={cn(

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { localeUrl, pageMetadata } from '@/lib/metadata';
-import { toLocale } from '@/i18n/config';
+import { DEFAULT_LOCALE, toLocale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/server';
 import { getToolPayload } from '@/i18n/tools/server';
 import { SchemaScript } from '@/components/reusable/schema-script';
@@ -11,11 +11,11 @@ import { TOOLS, TOOLS_PATH, findTool, toolPath, toolText } from '@/lib/data/tool
 
 type Params = Promise<{ lang: string; tool: string }>;
 
-// Only registered tools are prerendered; any other slug 404s.
+// Only registered tools are prerendered, in English; any other slug or locale 404s.
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return TOOLS.map((tool) => ({ tool: tool.slug }));
+  return TOOLS.map((tool) => ({ lang: DEFAULT_LOCALE, tool: tool.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
@@ -31,6 +31,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     description: `${text.description} ${t.tools.privacy.seo}`,
     path: toolPath(tool.slug),
     keywords: tool.keywords,
+    englishOnly: true,
   });
 }
 
@@ -59,7 +60,7 @@ export default async function ToolPage({ params }: { params: Params }) {
           inLanguage: lang,
         })}
       />
-      <ToolShell slug={tool.slug} messages={getToolPayload(lang, tool.slug)} />
+      <ToolShell slug={tool.slug} messages={getToolPayload(tool.slug)} />
     </>
   );
 }

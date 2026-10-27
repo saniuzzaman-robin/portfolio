@@ -13,8 +13,6 @@ import { CONTENT_TYPES } from '@/lib/tools/qr/content';
 import { HASH_ALGORITHMS } from '@/lib/tools/crypto/hash';
 import { ID_KINDS } from '@/lib/tools/generate/ids';
 import { en } from '@/i18n/messages/en';
-import { bn } from '@/i18n/messages/bn';
-import { ar } from '@/i18n/messages/ar';
 
 /** What each tool's settings accept, so a preset can't point at a view that doesn't exist. */
 const MODES: Record<string, readonly string[]> = {
@@ -72,17 +70,15 @@ describe('tool presets', () => {
     expect(new Set(views).size).toBe(views.length);
   });
 
-  it('have a title and description in every locale', () => {
-    for (const messages of [en, bn, ar]) {
-      for (const preset of TOOL_PRESETS) {
-        const text = messages.tools.presets[preset.key];
-        expect(text.title.trim(), preset.key).not.toBe('');
-        expect(text.description.trim(), preset.key).not.toBe('');
-      }
-      expect(Object.keys(messages.tools.presets).sort()).toEqual(
-        TOOL_PRESETS.map((preset) => preset.key).sort()
-      );
+  it('have a title and description', () => {
+    for (const preset of TOOL_PRESETS) {
+      const text = en.tools.presets[preset.key];
+      expect(text.title.trim(), preset.key).not.toBe('');
+      expect(text.description.trim(), preset.key).not.toBe('');
     }
+    expect(Object.keys(en.tools.presets).sort()).toEqual(
+      TOOL_PRESETS.map((preset) => preset.key).sort()
+    );
   });
 
   it('resolve from their path segments', () => {

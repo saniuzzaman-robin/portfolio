@@ -29,6 +29,7 @@ export function pageMetadata({
   path,
   keywords,
   type = 'website',
+  englishOnly = false,
 }: {
   lang: Locale;
   /** Page title; the root layout template appends the site owner's name. */
@@ -38,6 +39,8 @@ export function pageMetadata({
   path: `/${string}`;
   keywords?: string[];
   type?: 'website' | 'profile';
+  /** Page exists in the default locale only: no hreflang alternates. */
+  englishOnly?: boolean;
 }): Metadata {
   const { cv } = getDictionary(lang);
   const fullTitle = title ? `${title} | ${CV_DATA.name}` : `${CV_DATA.name} | ${cv.title}`;
@@ -47,7 +50,10 @@ export function pageMetadata({
     ...(title ? { title } : { title: { absolute: fullTitle } }),
     description,
     keywords,
-    alternates: { canonical: localeUrl(lang, path), languages: languageAlternates(path) },
+    alternates: {
+      canonical: localeUrl(lang, path),
+      ...(!englishOnly && { languages: languageAlternates(path) }),
+    },
     openGraph: {
       type,
       url: localeUrl(lang, path),
@@ -55,7 +61,9 @@ export function pageMetadata({
       description,
       siteName: SITE_NAME,
       locale: LOCALE_META[lang].ogLocale,
-      alternateLocale: LOCALES.filter((l) => l !== lang).map((l) => LOCALE_META[l].ogLocale),
+      ...(!englishOnly && {
+        alternateLocale: LOCALES.filter((l) => l !== lang).map((l) => LOCALE_META[l].ogLocale),
+      }),
       images: [image],
     },
     twitter: {

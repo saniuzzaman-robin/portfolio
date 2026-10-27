@@ -26,13 +26,15 @@ export type NavLink = {
   id: 'overview' | 'experience' | 'platforms' | 'tools';
   href: string;
   icon: LucideIcon;
+  /** Page exists at the unprefixed (English) URL only. */
+  englishOnly?: boolean;
 };
 
 export const NAV_LINKS: NavLink[] = [
   { id: 'overview', href: '/', icon: Layers },
   { id: 'experience', href: '/resume', icon: Briefcase },
   { id: 'platforms', href: '/projects', icon: FolderGit2 },
-  { id: 'tools', href: '/tools', icon: Wrench },
+  { id: 'tools', href: '/tools', icon: Wrench, englishOnly: true },
 ];
 
 export function isActivePath(pathname: string, href: string): boolean {

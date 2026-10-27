@@ -58,7 +58,7 @@ export function Footer({ lang }: { lang: Locale }) {
             <ul className="space-y-1">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <LocaleLink href={link.href} className={linkClass}>
+                  <LocaleLink href={link.href} englishOnly={link.englishOnly} className={linkClass}>
                     {t.nav[link.id].label}
                   </LocaleLink>
                 </li>

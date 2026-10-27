@@ -496,3 +496,18 @@ export const en = {
 
 export type Widen<T> = T extends string ? string : { [K in keyof T]: Widen<T[K]> };
 export type Messages = Widen<typeof en>;
+
+/** Non-default locales leave out the tools pages, which are English-only. */
+export type LocaleMessages = Omit<Messages, 'tools' | 'meta'> & {
+  meta: Omit<Messages['meta'], 'toolsTitle' | 'toolsDescription' | 'toolsCollection'>;
+};
+
+/** Adds the English tools strings to a locale's messages (the `/tools` pages are English-only). */
+export function withEnglishTools(messages: LocaleMessages): Messages {
+  const { toolsTitle, toolsDescription, toolsCollection } = en.meta;
+  return {
+    ...messages,
+    tools: en.tools,
+    meta: { ...messages.meta, toolsTitle, toolsDescription, toolsCollection },
+  };
+}

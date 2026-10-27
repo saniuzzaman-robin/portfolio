@@ -107,6 +107,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
                 <LocaleLink
                   key={link.href}
                   href={link.href}
+                  englishOnly={link.englishOnly}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
                     'relative rounded-full px-3.5 py-1 text-xs font-semibold transition-colors duration-200 lg:px-3 2xl:text-sm',
