@@ -10,6 +10,8 @@ export const toolsEn = {
     actions: 'Tool actions',
     allTools: 'All tools',
     switchTool: 'Switch tool',
+    collapseRail: 'Collapse sidebar',
+    expandRail: 'Expand sidebar',
     input: 'Input',
     output: 'Output',
     copy: 'Copy',
