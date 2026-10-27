@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useRef, useSyncExternalStore } from 'react';
+import { GripHorizontal, GripVertical } from 'lucide-react';
 import { usePersistentState } from './use-persistent-state';
 import { useToolCommon } from '@/i18n/tools/provider';
 import { cn } from '@/lib/cn';
@@ -126,8 +127,19 @@ export function SplitPane({
         onPointerCancel={handlePointerUp}
         onKeyDown={handleKeyDown}
         onDoubleClick={() => setRatio(defaultRatio)}
-        className="relative z-10 h-px w-full shrink-0 cursor-row-resize touch-none bg-line transition-colors outline-none after:absolute after:inset-x-0 after:-inset-y-1.5 after:content-[''] hover:bg-primary/60 focus-visible:bg-primary data-dragging:bg-primary md:h-auto md:w-px md:cursor-col-resize md:after:-inset-x-1.5 md:after:inset-y-0"
-      />
+        className="group relative z-10 h-px w-full shrink-0 cursor-row-resize touch-none bg-line transition-colors outline-none after:absolute after:inset-x-0 after:-inset-y-1.5 after:content-[''] hover:bg-primary/60 focus-visible:bg-primary data-dragging:bg-primary md:h-auto md:w-px md:cursor-col-resize md:after:-inset-x-1.5 md:after:inset-y-0"
+      >
+        <span
+          aria-hidden
+          className="pointer-events-none absolute start-1/2 top-1/2 flex h-4 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-surface-2 text-fg-subtle transition-colors group-hover:border-primary/60 group-hover:text-primary group-focus-visible:border-primary group-focus-visible:text-primary group-data-dragging:border-primary group-data-dragging:text-primary md:h-9 md:w-4 ltr:-translate-x-1/2 rtl:translate-x-1/2"
+        >
+          {sideBySide ? (
+            <GripVertical className="size-3.5" />
+          ) : (
+            <GripHorizontal className="size-3.5" />
+          )}
+        </span>
+      </div>
       <div className="flex min-h-0 min-w-0 flex-1 basis-0 flex-col overflow-hidden">{second}</div>
     </div>
   );
