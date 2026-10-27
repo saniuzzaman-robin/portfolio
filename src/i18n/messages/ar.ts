@@ -8,6 +8,7 @@ export const ar: LocaleMessages = {
     downloadResume: 'تنزيل السيرة الذاتية',
     email: 'البريد الإلكتروني',
     language: 'اللغة',
+    languageUnavailable: 'الأدوات غير متوفرة بلغات أخرى',
   },
   nav: {
     overview: { label: 'نظرة عامة', description: 'الأعمال والخبرة والمهارات' },
