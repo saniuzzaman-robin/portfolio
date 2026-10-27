@@ -3,14 +3,11 @@ import { buildDictionary, deepMerge, fmt } from '@/i18n/dictionary';
 import { CV_DATA } from '@/lib/cv-data';
 import { PROJECTS } from '@/lib/data/projects';
 import { SKILL_DOMAINS } from '@/lib/data/skills';
-import { en } from '@/i18n/messages/en';
+import { en, withEnglishTools } from '@/i18n/messages/en';
 import { bn } from '@/i18n/messages/bn';
 import { ar } from '@/i18n/messages/ar';
 import { bnContent } from '@/i18n/content/bn';
 import { arContent } from '@/i18n/content/ar';
-import { toolsEn } from '@/i18n/tools/en';
-import { toolsBn } from '@/i18n/tools/bn';
-import { toolsAr } from '@/i18n/tools/ar';
 
 /** Paths where an override array's length differs from the English source it aligns with. */
 function misalignedArrays(base: unknown, override: unknown, path = ''): string[] {
@@ -37,7 +34,7 @@ describe.each([
   });
 
   it('keep icons and non-text fields from the English source', () => {
-    const dict = buildDictionary('bn', bn, content);
+    const dict = buildDictionary('bn', withEnglishTools(bn), content);
     expect(dict.projects.map((p) => p.icon)).toEqual(PROJECTS.map((p) => p.icon));
     expect(dict.projects.map((p) => p.link)).toEqual(PROJECTS.map((p) => p.link));
     expect(dict.cv.stats.map((s) => s.numeric)).toEqual(CV_DATA.stats.map((s) => s.numeric));
@@ -54,14 +51,16 @@ describe('messages', () => {
     ['bn', bn],
     ['ar', ar],
   ])('%s keeps every placeholder used by English', (_, messages) => {
-    expect(placeholders(messages)).toEqual(placeholders(en));
+    expect(placeholders(withEnglishTools(messages)).sort()).toEqual(placeholders(en).sort());
   });
 
   it.each([
-    ['bn', toolsBn],
-    ['ar', toolsAr],
-  ])('%s tool strings keep every placeholder used by English', (_, messages) => {
-    expect(placeholders(messages)).toEqual(placeholders(toolsEn));
+    ['bn', bn],
+    ['ar', ar],
+  ])('%s falls back to the English tools strings', (_, messages) => {
+    const merged = withEnglishTools(messages);
+    expect(merged.tools).toBe(en.tools);
+    expect(merged.meta.toolsTitle).toBe(en.meta.toolsTitle);
   });
 });
 

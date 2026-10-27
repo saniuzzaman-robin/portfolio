@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { localeUrl, pageMetadata } from '@/lib/metadata';
-import { toLocale } from '@/i18n/config';
+import { DEFAULT_LOCALE, toLocale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/server';
 import { PageHeader } from '@/components/ui/section';
 import { ToolsExplorer } from '@/components/tools/tools-explorer';
@@ -10,6 +10,13 @@ import { Footer } from '@/components/layout/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { generateBreadcrumbSchema, generateCollectionSchema } from '@/lib/schema';
 import { TOOLS, TOOLS_PATH, toolPath, toolText } from '@/lib/data/tools';
+
+// The tools section is English-only; `/bn/tools` and `/ar/tools` are 410 in the proxy.
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return [{ lang: DEFAULT_LOCALE }];
+}
 
 export async function generateMetadata({
   params,
@@ -24,6 +31,7 @@ export async function generateMetadata({
     description: t.meta.toolsDescription,
     path: TOOLS_PATH,
     keywords: ['developer tools', 'online dev tools', ...TOOLS.flatMap((tool) => tool.keywords)],
+    englishOnly: true,
   });
 }
 

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { localeUrl, pageMetadata } from '@/lib/metadata';
-import { toLocale } from '@/i18n/config';
+import { DEFAULT_LOCALE, toLocale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/server';
 import { getToolPayload } from '@/i18n/tools/server';
 import { SchemaScript } from '@/components/reusable/schema-script';
@@ -12,11 +12,15 @@ import { TOOL_PRESETS, findPreset, presetPath, presetText } from '@/lib/data/too
 
 type Params = Promise<{ lang: string; tool: string; preset: string }>;
 
-// Only registered presets are prerendered; any other segment 404s.
+// Only registered presets are prerendered, in English; any other segment or locale 404s.
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return TOOL_PRESETS.map((preset) => ({ tool: preset.slug, preset: preset.key }));
+  return TOOL_PRESETS.map((preset) => ({
+    lang: DEFAULT_LOCALE,
+    tool: preset.slug,
+    preset: preset.key,
+  }));
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
@@ -33,6 +37,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     description: `${text.description} ${t.tools.privacy.seo}`,
     path: presetPath(preset),
     keywords: [...preset.keywords, ...tool.keywords],
+    englishOnly: true,
   });
 }
 
@@ -66,7 +71,7 @@ export default async function ToolPresetPage({ params }: { params: Params }) {
       />
       <ToolShell
         slug={tool.slug}
-        messages={getToolPayload(lang, tool.slug)}
+        messages={getToolPayload(tool.slug)}
         preset={{ title: text.title, params: preset.params }}
       />
     </>

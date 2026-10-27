@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { DEFAULT_LOCALE, localePath, splitLocale } from '@/i18n/config';
+import { TOOLS_PATH } from '@/lib/data/tools';
 import { presetForQuery, presetPath } from '@/lib/data/tool-presets';
 
 /**
@@ -15,6 +16,11 @@ export function proxy(request: NextRequest) {
   }
 
   const { locale, path } = splitLocale(pathname);
+
+  // The tools section is English-only; its translated URLs are gone.
+  if (locale !== DEFAULT_LOCALE && (path === TOOLS_PATH || path.startsWith(`${TOOLS_PATH}/`))) {
+    return new NextResponse('Gone', { status: 410, headers: { 'X-Robots-Tag': 'noindex' } });
+  }
 
   // `/tools/generate?mode=ids&kind=uuid-v4` → `/tools/generate/uuid-generator`: the preset page
   // is the indexable URL for that view, so a permanent redirect consolidates the two.

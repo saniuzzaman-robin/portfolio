@@ -1,12 +1,9 @@
 import { test, expect, type Locator, type Page } from '@playwright/test';
 import { TOOLS, TOOLS_PATH, toolPath, type ToolSlug } from '../../src/lib/data/tools';
-import { LOCALES, LOCALE_META, localePath } from '../../src/i18n/config';
+import { LOCALES, localePath } from '../../src/i18n/config';
 import { en } from '../../src/i18n/messages/en';
-import { bn } from '../../src/i18n/messages/bn';
-import { ar } from '../../src/i18n/messages/ar';
 import { toolsEn } from '../../src/i18n/tools/en';
 
-const MESSAGES = { en, bn, ar };
 const common = toolsEn.common;
 
 /** Replaces a CodeMirror editor's whole document, the way a user would type or paste it. */
@@ -232,25 +229,27 @@ test.describe('Manual run', () => {
   });
 });
 
-test.describe('Localized tool pages', () => {
-  for (const locale of LOCALES) {
-    test(`${localePath(locale, toolPath('json'))} is translated, editors stay LTR`, async ({
-      page,
-    }) => {
-      const errors = trackErrors(page);
-      const response = await page.goto(localePath(locale, toolPath('json')));
-      expect(response?.status()).toBe(200);
-      await expect(page.locator('html')).toHaveAttribute('dir', LOCALE_META[locale].dir);
-      await expect(page.locator('h1')).toHaveText(MESSAGES[locale].tools.items.json.title);
-      await expect(
-        page.locator('.cm-editor').first().locator('xpath=ancestor::*[@dir][1]')
-      ).toHaveAttribute('dir', 'ltr');
-      // No horizontal page scroll: only the panes scroll.
-      const overflow = await page.evaluate(
-        () => document.documentElement.scrollWidth - window.innerWidth
-      );
-      expect(overflow).toBeLessThanOrEqual(0);
-      expect(errors).toEqual([]);
+test.describe('Tool pages are English-only', () => {
+  test(`${toolPath('json')} renders in English with no horizontal scroll`, async ({ page }) => {
+    const errors = trackErrors(page);
+    const response = await page.goto(toolPath('json'));
+    expect(response?.status()).toBe(200);
+    await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
+    await expect(page.locator('h1')).toHaveText(en.tools.items.json.title);
+    // No horizontal page scroll: only the panes scroll.
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+    expect(errors).toEqual([]);
+  });
+
+  for (const locale of LOCALES.filter((l) => l !== 'en')) {
+    test(`${localePath(locale, TOOLS_PATH)} and its tools are gone`, async ({ request }) => {
+      for (const path of [TOOLS_PATH, toolPath('json')]) {
+        const response = await request.get(localePath(locale, path));
+        expect(response.status()).toBe(410);
+      }
     });
   }
 });
@@ -268,19 +267,14 @@ test.describe('Tool keyboard access', () => {
     await expect(input).not.toBeFocused();
   });
 
-  test('mode switches use arrow keys, mirrored in RTL', async ({ page, isMobile }) => {
+  test('mode switches use arrow keys', async ({ page, isMobile }) => {
     test.skip(isMobile, 'Keyboard navigation is a desktop concern');
-    for (const [locale, next] of [
-      ['en', 'ArrowRight'],
-      ['ar', 'ArrowLeft'],
-    ] as const) {
-      await page.goto(localePath(locale, toolPath('json')));
-      const radios = page.getByRole('radiogroup').first().getByRole('radio');
-      await radios.first().focus();
-      await page.keyboard.press(next);
-      await expect(radios.nth(1)).toBeFocused();
-      await expect(radios.nth(1)).toHaveAttribute('aria-checked', 'true');
-    }
+    await page.goto(toolPath('json'));
+    const radios = page.getByRole('radiogroup').first().getByRole('radio');
+    await radios.first().focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(radios.nth(1)).toBeFocused();
+    await expect(radios.nth(1)).toHaveAttribute('aria-checked', 'true');
   });
 
   test('selects open, navigate and choose from the keyboard', async ({ page, isMobile }) => {

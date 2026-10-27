@@ -21,7 +21,7 @@ import { useCopyToClipboard } from '@/lib/use-copy-to-clipboard';
 import { CV_DATA } from '@/lib/cv-data';
 import { NAV_LINKS, RESUME_PDF_PATH } from '@/lib/site';
 import { TOOLS, toolPath, toolText } from '@/lib/data/tools';
-import { localePath } from '@/i18n/config';
+import { DEFAULT_LOCALE, localePath, type Locale } from '@/i18n/config';
 import { useLocale } from '@/i18n/use-locale';
 import { useDictionary } from '@/i18n/provider';
 import { fmt } from '@/i18n/dictionary';
@@ -57,6 +57,17 @@ export function CommandMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () 
   return <AnimatePresence>{isOpen && <CommandPalette onClose={onClose} />}</AnimatePresence>;
 }
 
+/** English-only pages have no locale prefix: from another locale that is a full page load. */
+function goTo(
+  router: ReturnType<typeof useRouter>,
+  locale: Locale,
+  href: string,
+  englishOnly = false
+) {
+  if (englishOnly && locale !== DEFAULT_LOCALE) window.location.assign(href);
+  else router.push(localePath(locale, href));
+}
+
 function CommandPalette({ onClose }: { onClose: () => void }) {
   const router = useRouter();
   const locale = useLocale();
@@ -76,7 +87,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
           label: t.nav[link.id].label,
           hint: link.href,
           icon: link.icon,
-          run: () => router.push(localePath(locale, link.href)),
+          run: () => goTo(router, locale, link.href, link.englishOnly),
         })),
       },
       {
@@ -87,7 +98,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
           hint: toolPath(tool.slug),
           keywords: tool.keywords.join(' '),
           icon: tool.icon,
-          run: () => router.push(localePath(locale, toolPath(tool.slug))),
+          run: () => goTo(router, locale, toolPath(tool.slug), true),
         })),
       },
       {
