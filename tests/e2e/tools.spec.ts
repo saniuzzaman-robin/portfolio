@@ -134,6 +134,31 @@ const SMOKE: Record<ToolSlug, (page: Page) => Promise<void>> = {
         .getByRole('heading', { name: 'Hi e2e' })
     ).toBeVisible();
   },
+  playground: async (page) => {
+    await fillEditor(
+      page,
+      page.getByRole('textbox', { name: toolsEn.playground.editor }),
+      'console.log({ sum: 1 + 1 });\nawait new Promise((resolve) => setTimeout(resolve, 50));'
+    );
+    await page.getByRole('button', { name: toolsEn.playground.run, exact: true }).click();
+    const output = page.getByRole('log', { name: toolsEn.playground.outputLabel });
+    await expect(output.getByText('{ sum: 2 }', { exact: true })).toBeVisible();
+    await expect(output).toContainText(toolsEn.playground.finished.replace(' {time}', ''));
+
+    // A type error blocks the run. The first TypeScript run fetches the libs and starts the compiler.
+    await page.getByText(toolsEn.playground.languages.typescript, { exact: true }).click();
+    await fillEditor(
+      page,
+      page.getByRole('textbox', { name: toolsEn.playground.editor }),
+      'const s: string = 1;\nconsole.log("ran");'
+    );
+    await page.getByRole('button', { name: toolsEn.playground.run, exact: true }).click();
+    await expect(
+      page.getByText(toolsEn.playground.rejected.replace('{count}', '1'), { exact: true })
+    ).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText(/Error at 1:7/)).toBeVisible();
+    await expect(output.getByText('ran', { exact: true })).toHaveCount(0);
+  },
 };
 
 test.describe('Tools index', () => {
