@@ -40,6 +40,9 @@ const VIEWS: Record<ToolSlug, ComponentType> = {
   markdown: dynamic(() =>
     import('@/components/tools/markdown/markdown-tool').then((mod) => mod.MarkdownTool)
   ),
+  playground: dynamic(() =>
+    import('@/components/tools/playground/playground-tool').then((mod) => mod.PlaygroundTool)
+  ),
 };
 
 export function ToolView({ slug }: { slug: ToolSlug }) {
