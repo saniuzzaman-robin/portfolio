@@ -11,7 +11,7 @@ Next.js 16 App Router · React 19 (React Compiler on) · Tailwind v4 (CSS-first,
 
 ## Layout
 
-- `src/app/[lang]/` — routes: `/`, `/projects`, `/resume` (plus `layout`, `template`, `error`, `not-found`, `[...rest]` catch-all 404). `src/app/` keeps `manifest.ts`, `robots.ts`, `sitemap.ts`.
+- `src/app/[lang]/` — routes: `/`, `/projects`, `/resume` (plus `layout`, `template`, `error`, `not-found`, `[...rest]` catch-all 404). `src/app/` keeps `manifest.ts`, `robots.ts`, `sitemap.ts`, and `typescript-lib.json/route.ts` (force-static TS lib `.d.ts` files for the code playground's compiler worker; skipped by the proxy matcher because of the dot).
 - `src/i18n/` — `config.ts` (locales `en`/`bn`/`ar`, `LOCALE_META` dir, `localePath`), `messages/{en,bn,ar}.ts` (UI strings), `content/{bn,ar}.ts` (text overrides for CV/projects/skills), `server.ts` (`getDictionary`), `provider.tsx` (`useDictionary`), `use-locale.ts`.
 - `src/proxy.ts` — 410s for removed sections, rewrites unprefixed URLs to `/en/*`, 308s `/en/*` to unprefixed.
 - `src/components/{home,projects,resume}/` — page sections. `layout/` — shell, navbar, command menu, footer. `ui/` — primitives (button, badge, section, motion, spotlight-card). `reusable/` — theme provider, GA, JSON-LD, skip link.
@@ -27,7 +27,7 @@ Next.js 16 App Router · React 19 (React Compiler on) · Tailwind v4 (CSS-first,
 - Text content changes go in `src/lib/cv-data.ts` / `src/lib/data/*`, not in components. UI strings go in `src/i18n/messages/*` (all three locales). Adding/reordering items in the English data requires the same change in `src/i18n/content/{bn,ar}.ts` (`dictionary.test.ts` catches drift).
 - i18n: English is unprefixed, `bn`/`ar` are prefixed. Server code uses `getDictionary(lang)`; client code uses `useDictionary()` (never import `i18n/server` in client code). Internal links use `LocaleLink` with an unprefixed `href`; cross-locale links must be plain `<a>`.
 - RTL (`ar`): use logical classes (`ms/ps/start/end/border-s/rounded-s/text-start`), `rtl:` for the rest (`rtl:-scale-x-100` on directional arrows). Motion `left`/`right` mean inline start/end. Wrap Latin-only strings shown in RTL text (names, companies, phone) in `<bdi>` or `dir="ltr"`.
-- CSP lives in `next.config.ts`; adding any third-party origin (scripts, images, fonts) requires updating it.
+- CSP lives in `next.config.ts`; adding any third-party origin (scripts, images, fonts) requires updating it. `worker-src 'self' blob:` is there for the code playground's Blob module workers.
 
 ## Don't read
 
