@@ -340,6 +340,7 @@ export const en = {
       text: 'Text',
       web: 'Web & design',
       infra: 'Time & network',
+      code: 'Code',
     },
     items: {
       json: {
@@ -431,6 +432,12 @@ export const en = {
         title: 'Markdown Editor & Preview',
         description:
           'Write Markdown with a live, sanitized preview: CommonMark plus GitHub tables, task lists and strikethrough, with synced scrolling. Copy the HTML or download it as a complete page.',
+      },
+      playground: {
+        label: 'Playground',
+        title: 'JavaScript & TypeScript Playground',
+        description:
+          'Run JavaScript and TypeScript in your browser and see console output with inspected objects, tables, groups and timers. Top-level await works, TypeScript is type-checked with the real compiler, and code runs in an isolated worker with a time limit.',
       },
     },
   },

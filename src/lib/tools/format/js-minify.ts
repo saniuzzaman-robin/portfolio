@@ -5,9 +5,9 @@ export type JsMinifyOptions = {
   mangle: boolean;
 };
 
-type TerserParseError = Error & { line: number; col: number; pos: number };
+export type TerserParseError = Error & { line: number; col: number; pos: number };
 
-const isParseError = (error: unknown): error is TerserParseError =>
+export const isParseError = (error: unknown): error is TerserParseError =>
   error instanceof Error && typeof (error as Partial<TerserParseError>).pos === 'number';
 
 /**

@@ -1332,6 +1332,32 @@ export const toolsEn = {
     blockedImagesHint:
       'This site’s security policy only allows its own and data: images in the preview. They are kept in the exported HTML.',
   },
+  playground: {
+    run: 'Run',
+    stop: 'Stop',
+    language: 'Language',
+    languages: { javascript: 'JavaScript', typescript: 'TypeScript' },
+    editor: 'Code',
+    inputPlaceholder: 'Write {language} here, or drop a file…',
+    outputLabel: 'Console output',
+    clearOutput: 'Clear output',
+    copyOutput: 'Copy output',
+    sandboxHint:
+      'Code runs in an isolated worker: no DOM or page access, and a {limit} time limit. Imports are not supported.',
+    running: 'Running…',
+    noOutput: 'Finished without output.',
+    finished: 'Finished in {time}',
+    stopped: 'Stopped after {time}',
+    timedOut:
+      'Stopped after {time}, the time limit. Look for an endless loop or an interval that is never cleared.',
+    truncated: 'Only the first {count} lines are shown.',
+    invalid: 'The code could not be loaded. Check it for syntax errors.',
+    syntaxError: 'Syntax error',
+    compileError: 'Compile error',
+    rejected: 'Not run. Errors found by the compiler: {count}.',
+    uncaught: 'Uncaught errors: {count}',
+    runFailed: 'The runner could not start. Reload the page and try again.',
+  },
 };
 
 export type ToolMessages = Widen<typeof toolsEn>;

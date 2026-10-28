@@ -15,6 +15,7 @@ import {
   Palette,
   QrCode,
   Regex,
+  SquareTerminal,
 } from 'lucide-react';
 import type { Messages } from '@/i18n/messages/en';
 import type { ToolMessageKey } from '@/i18n/tools/en';
@@ -345,6 +346,25 @@ export const TOOLS: Tool[] = [
       'readme',
       'commonmark',
       'task list',
+    ],
+  },
+  {
+    slug: 'playground',
+    category: 'code',
+    icon: SquareTerminal,
+    keywords: [
+      'javascript',
+      'typescript',
+      'js playground',
+      'ts playground',
+      'repl',
+      'run code',
+      'code runner',
+      'online compiler',
+      'console',
+      'type checker',
+      'top-level await',
+      'sandbox',
     ],
   },
 ];
