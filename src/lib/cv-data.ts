@@ -22,7 +22,7 @@ export const CV_DATA = {
     'Software Engineer with 5+ years of experience building high-traffic, production-grade applications for millions of global users. Expert in Next.js/NestJS/MongoDB/Redis and Angular. Proven track record in microservices design, tech leadership, performance optimization, and transforming complex business requirements into scalable architectures. Strong computer science foundation rooted in competitive programming.',
 
   shortBio:
-    'Software Engineer with 5+ years of experience building high-traffic, production-grade applications for millions of global users with Next.js, NestJS, and Angular.',
+    'Software Engineer with 5+ years building high-traffic, production-grade apps for millions with Next.js, NestJS, and Angular.',
 
   // Key metrics
   stats: [

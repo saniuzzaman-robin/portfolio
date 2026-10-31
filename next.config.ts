@@ -101,6 +101,11 @@ const nextConfig: NextConfig = {
     return [
       { source: '/:path*', headers: securityHeaders },
       {
+        // Link-preview checkers render the OG image cross-origin; CORP same-origin would block it.
+        source: '/og_image.png',
+        headers: [{ key: 'Cross-Origin-Resource-Policy', value: 'cross-origin' }],
+      },
+      {
         // Android verifies App Links against this file: JSON, no redirects.
         source: '/.well-known/assetlinks.json',
         headers: [{ key: 'Content-Type', value: 'application/json' }],
