@@ -5,6 +5,8 @@ import { DEFAULT_LOCALE, toLocale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/server';
 import { getToolPayload } from '@/i18n/tools/server';
 import { SchemaScript } from '@/components/reusable/schema-script';
+import { ToolGuide } from '@/components/tools/tool-guide';
+import { TOOL_GUIDES } from '@/lib/data/tool-guides';
 import { ToolShell } from '@/components/tools/workbench/tool-shell';
 import { generateBreadcrumbSchema, generateWebAppSchema } from '@/lib/schema';
 import { TOOLS, TOOLS_PATH, findTool, toolPath, toolText } from '@/lib/data/tools';
@@ -61,6 +63,7 @@ export default async function ToolPage({ params }: { params: Params }) {
         })}
       />
       <ToolShell slug={tool.slug} messages={getToolPayload(tool.slug)} />
+      <ToolGuide t={t} title={text.title} guide={TOOL_GUIDES[tool.slug]} />
     </>
   );
 }

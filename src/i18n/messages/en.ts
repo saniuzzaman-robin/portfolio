@@ -142,6 +142,7 @@ export const en = {
       },
       seo: 'Runs entirely in your browser: nothing is uploaded.',
     },
+    guide: { about: 'About this tool', uses: 'Common uses', faq: 'Frequently asked questions' },
     presetsTitle: 'Popular tasks',
     presets: {
       'uuid-generator': {

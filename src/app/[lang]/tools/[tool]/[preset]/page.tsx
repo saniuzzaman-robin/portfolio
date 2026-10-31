@@ -5,10 +5,12 @@ import { DEFAULT_LOCALE, toLocale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/server';
 import { getToolPayload } from '@/i18n/tools/server';
 import { SchemaScript } from '@/components/reusable/schema-script';
+import { ToolGuide } from '@/components/tools/tool-guide';
 import { ToolShell } from '@/components/tools/workbench/tool-shell';
 import { generateBreadcrumbSchema, generateWebAppSchema } from '@/lib/schema';
 import { TOOLS_PATH, findTool, toolPath, toolText } from '@/lib/data/tools';
 import { TOOL_PRESETS, findPreset, presetPath, presetText } from '@/lib/data/tool-presets';
+import { PRESET_GUIDES, TOOL_GUIDES } from '@/lib/data/tool-guides';
 
 type Params = Promise<{ lang: string; tool: string; preset: string }>;
 
@@ -73,6 +75,12 @@ export default async function ToolPresetPage({ params }: { params: Params }) {
         slug={tool.slug}
         messages={getToolPayload(tool.slug)}
         preset={{ title: text.title, params: preset.params }}
+      />
+      <ToolGuide
+        t={t}
+        title={text.title}
+        guide={PRESET_GUIDES[preset.key]}
+        uses={TOOL_GUIDES[tool.slug].uses}
       />
     </>
   );
