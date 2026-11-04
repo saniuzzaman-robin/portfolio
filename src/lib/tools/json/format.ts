@@ -118,3 +118,14 @@ export function unescapeJsonString(text: string): UnescapeResult {
   }
   return { ok: true, value: result.value.value };
 }
+
+/**
+ * The pretty-printed form of pasted text when it is a compact (single-line) JSON object or
+ * array; null otherwise, so already-formatted JSON, scalars and non-JSON paste untouched.
+ */
+export function formatPastedJson(text: string, indent: JsonIndent): string | null {
+  const trimmed = text.trim();
+  if (!/^[[{]/.test(trimmed) || trimmed.includes('\n')) return null;
+  const result = parseJson(trimmed);
+  return result.ok ? stringifyJson(result.value, { indent }) : null;
+}

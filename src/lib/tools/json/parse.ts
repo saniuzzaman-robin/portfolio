@@ -21,7 +21,13 @@ export type JsonNode = JsonObject | JsonArray | JsonString | JsonNumber | JsonBo
 export type JsonEntry = { key: string; keyFrom: number; keyTo: number; value: JsonNode };
 
 /** A problem in the source text, as a UTF-16 offset range (what editors use). */
-export type JsonIssue = { message: string; from: number; to: number };
+export type JsonIssue = {
+  message: string;
+  from: number;
+  to: number;
+  /** Deleting `from..to` resolves this issue (a comment, a trailing comma). */
+  removable?: boolean;
+};
 
 export type ParseResult =
   | { ok: true; value: JsonNode; warnings: JsonIssue[] }
@@ -64,8 +70,13 @@ export function parseJson(text: string, options: ParseOptions = {}): ParseResult
   // A byte-order mark is common in files saved on Windows; it isn't part of the document.
   let pos = text.charCodeAt(0) === 0xfeff ? 1 : 0;
 
-  const fail = (message: string, from: number, to = from + 1): never => {
-    throw new JsonSyntaxError({ message, from, to: Math.min(Math.max(from, to), length) });
+  const fail = (message: string, from: number, to = from + 1, removable?: boolean): never => {
+    throw new JsonSyntaxError({
+      message,
+      from,
+      to: Math.min(Math.max(from, to), length),
+      ...(removable && { removable }),
+    });
   };
 
   /** "end of input", "'x'" or "U+00A0" for invisible characters. */
@@ -115,7 +126,7 @@ export function parseJson(text: string, options: ParseOptions = {}): ParseResult
       } else {
         return;
       }
-      if (!lenient) fail('Comments are not allowed in JSON', start, pos);
+      if (!lenient) fail('Comments are not allowed in JSON', start, pos, true);
     }
   };
 
@@ -257,7 +268,7 @@ export function parseJson(text: string, options: ParseOptions = {}): ParseResult
       pos++;
       skip();
       if (text.charCodeAt(pos) === 125) {
-        if (!lenient) fail('Trailing commas are not allowed in JSON', comma);
+        if (!lenient) fail('Trailing commas are not allowed in JSON', comma, comma + 1, true);
         pos++;
         return { type: 'object', entries, from: start, to: pos };
       }
@@ -286,7 +297,7 @@ export function parseJson(text: string, options: ParseOptions = {}): ParseResult
       pos++;
       skip();
       if (text.charCodeAt(pos) === 93) {
-        if (!lenient) fail('Trailing commas are not allowed in JSON', comma);
+        if (!lenient) fail('Trailing commas are not allowed in JSON', comma, comma + 1, true);
         pos++;
         return { type: 'array', items, from: start, to: pos };
       }

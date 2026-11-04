@@ -5,6 +5,7 @@ import { ArrowLeftToLine, Download, Eraser, TextWrap, WandSparkles } from 'lucid
 import { parseJson, positionAt, type JsonIssue } from '@/lib/tools/json/parse';
 import {
   escapeJsonString,
+  formatPastedJson,
   stringifyJson,
   unescapeJsonString,
   type JsonIndent,
@@ -17,6 +18,7 @@ import {
   type CodeEditorHandle,
   type CursorInfo,
   type EditorDiagnostic,
+  type EditorDiagnosticFix,
 } from '@/components/tools/workbench/code-editor';
 import {
   CopyButton,
@@ -104,6 +106,7 @@ export function JsonTool() {
   const [mode, setMode] = usePersistentState<Mode>('json:mode', 'format', isMode);
   const [options, setOptions] = usePersistentState('json:options', DEFAULT_OPTIONS, isOptions);
   const [wrap, setWrap] = usePersistentState('json:wrap', false);
+  const [formatOnPaste, setFormatOnPaste] = usePersistentState('json:formatOnPaste', true);
   const [query, setQuery] = usePersistentState('json:query', '$');
   const [cursor, setCursor] = useState<CursorInfo | null>(null);
   const settings = { mode, options, query };
@@ -192,9 +195,31 @@ export function JsonTool() {
       ...warning,
       severity: 'warning',
     }));
-    if (output.error) list.push({ ...output.error, severity: 'error' });
+    if (output.error) {
+      const { removable, ...issue } = output.error;
+      const fixes: EditorDiagnosticFix[] = [];
+      if (removable) fixes.push({ label: t.fixRemove, insert: '' });
+      if (repairable) {
+        const repaired = parseJson(live, { lenient: true });
+        if (repaired.ok) {
+          fixes.push({
+            label: t.fixRepair,
+            insert: stringifyJson(repaired.value, { indent }),
+            from: 0,
+            to: live.length,
+          });
+        }
+      }
+      list.push({ ...issue, severity: 'error', fixes });
+    }
     return list;
-  }, [parsed, output.error]);
+  }, [parsed, output.error, repairable, live, indent, t.fixRemove, t.fixRepair]);
+
+  const pasteTransform = useMemo(
+    () =>
+      formatOnPaste && !textMode ? (text: string) => formatPastedJson(text, indent) : undefined,
+    [formatOnPaste, textMode, indent]
+  );
 
   const errorStatus = output.error && {
     message: output.error.message,
@@ -239,6 +264,7 @@ export function JsonTool() {
         wrap={wrap}
         placeholder={placeholder}
         diagnostics={diagnostics}
+        transformPaste={pasteTransform}
         onCursor={setCursor}
         autoFocus
       />
@@ -355,6 +381,12 @@ export function JsonTool() {
                 hint={t.lenientHint}
                 checked={options.lenient}
                 onChange={(lenient) => setOptions({ ...options, lenient })}
+              />
+              <Toggle
+                label={t.formatOnPaste}
+                hint={t.formatOnPasteHint}
+                checked={formatOnPaste}
+                onChange={setFormatOnPaste}
               />
             </OptionsPopover>
             <ToolbarDivider />

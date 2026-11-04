@@ -51,6 +51,8 @@ export type EditorOptions = {
   /** Selection to restore (e.g. carried over from the fallback textarea). */
   selection?: { anchor: number; head: number };
   autoFocus?: boolean;
+  /** Rewrites pasted text before it is inserted; null leaves the paste alone. */
+  transformPaste?: (text: string) => string | null;
   onChange: (value: string) => void;
   onCursor: (cursor: CursorInfo) => void;
   /** The 0-based, fractional source line at the top of the viewport, on every scroll. */
@@ -65,6 +67,7 @@ export type EditorController = {
   setPlaceholder(text: string): void;
   setDiagnostics(diagnostics: Diagnostic[]): void;
   setMarks(marks: EditorMark[]): void;
+  setTransformPaste(transform: ((text: string) => string | null) | undefined): void;
   /** Selects `from..to` (clamped to the document) and scrolls it into view. */
   reveal(from: number, to?: number): void;
   /** Scrolls so the 0-based, fractional `line` is at the top (the inverse of `onScrollLine`). */
@@ -181,6 +184,7 @@ export function createEditor(parent: HTMLElement, options: EditorOptions): Edito
   const wrap = new Compartment();
   const placeholder = new Compartment();
   let current = options.value;
+  let transformPaste = options.transformPaste;
 
   const view = new EditorView({
     parent,
@@ -203,6 +207,20 @@ export function createEditor(parent: HTMLElement, options: EditorOptions): Edito
         readOnly.of(readOnlyExtension(options.readOnly)),
         wrap.of(options.wrap ? EditorView.lineWrapping : []),
         placeholder.of(options.placeholder ? placeholderText(options.placeholder) : []),
+        EditorView.domEventHandlers({
+          paste(event, pasteView) {
+            if (!transformPaste || pasteView.state.readOnly) return false;
+            const text = event.clipboardData?.getData('text/plain');
+            const next = text ? transformPaste(text) : null;
+            if (next === null || next === text) return false;
+            event.preventDefault();
+            pasteView.dispatch(pasteView.state.replaceSelection(next), {
+              scrollIntoView: true,
+              userEvent: 'input.paste',
+            });
+            return true;
+          },
+        }),
         EditorView.updateListener.of((update) => {
           if (update.docChanged) {
             current = update.state.doc.toString();
@@ -255,6 +273,9 @@ export function createEditor(parent: HTMLElement, options: EditorOptions): Edito
         to: Math.min(Math.max(d.from, d.to), length),
       }));
       view.dispatch(setDiagnostics(view.state, clamped));
+    },
+    setTransformPaste(transform) {
+      transformPaste = transform;
     },
     setMarks(marks) {
       const length = view.state.doc.length;
