@@ -263,7 +263,7 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
           </m.div>
         </div>
 
-        <div className="relative border-t border-line bg-surface/80 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur">
+        <div className="glass relative border-t border-line px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <a
             href={RESUME_PDF_PATH}
             download
