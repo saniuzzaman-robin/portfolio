@@ -4,6 +4,7 @@ import { useEffect, useEffectEvent, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Check, Copy, FolderOpen, Play, X, type LucideIcon } from 'lucide-react';
 import { useCopyToClipboard } from '@/lib/use-copy-to-clipboard';
+import { trackToolEvent } from '@/lib/analytics';
 import { TOOLS, TOOLS_PATH, toolPath, toolText, type ToolSlug } from '@/lib/data/tools';
 import type { Messages } from '@/i18n/messages/en';
 import { localePath } from '@/i18n/config';
@@ -149,7 +150,11 @@ export function RunButton({
   /** True when the input or settings changed since the last run: marks the button with a dot. */
   pending?: boolean;
 }) {
-  const onShortcut = useEffectEvent(onRun);
+  const handleRun = () => {
+    trackToolEvent('run');
+    onRun();
+  };
+  const onShortcut = useEffectEvent(handleRun);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Enter' || !(event.metaKey || event.ctrlKey) || event.isComposing) return;
@@ -164,7 +169,7 @@ export function RunButton({
   return (
     <button
       type="button"
-      onClick={() => onRun()}
+      onClick={handleRun}
       aria-keyshortcuts="Control+Enter Meta+Enter"
       title={`${label} (${RUN_SHORTCUT})`}
       className="relative ms-1 inline-flex h-7 shrink-0 cursor-pointer items-center gap-1.5 rounded-md bg-primary-strong px-2.5 text-xs font-semibold text-primary-fg transition-[filter] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-surface focus-visible:outline-none max-sm:px-2"
@@ -205,7 +210,10 @@ export function CopyButton({
       icon={icon}
       label={text}
       disabled={disabled}
-      onClick={() => void copy(getText())}
+      onClick={() => {
+        trackToolEvent('copy');
+        void copy(getText());
+      }}
       className={cn(status === 'copied' && 'text-success', status === 'error' && 'text-danger')}
     />
   );

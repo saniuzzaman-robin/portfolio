@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
+import { trackToolEvent } from '@/lib/analytics';
 import { formatBytes } from '@/lib/tools/bytes';
 import { fmt } from '@/i18n/dictionary';
 import { useLocale } from '@/i18n/use-locale';
@@ -56,6 +57,7 @@ export function downloadFile(data: BlobPart, filename: string, type = 'text/plai
   anchor.href = url;
   anchor.download = filename;
   anchor.click();
+  trackToolEvent('download');
   // Revoke after the click has been handled; revoking synchronously can cancel the download.
   setTimeout(() => URL.revokeObjectURL(url), 0);
 }

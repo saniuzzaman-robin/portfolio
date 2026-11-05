@@ -14,7 +14,7 @@ import {
 import { SocialIcon } from '@/components/reusable/social-icon';
 import { PrintButton } from '@/components/resume/print-button';
 import { CV_DATA } from '@/lib/cv-data';
-import { RESUME_PDF_PATH } from '@/lib/site';
+import { ResumeDownloadLink } from '@/components/reusable/resume-download-link';
 import type { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/server';
 
@@ -148,10 +148,10 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
             </div>
             <div className="flex shrink-0 gap-3 print:hidden">
               <Enter direction="scale" delay={0.5}>
-                <a href={RESUME_PDF_PATH} download className={buttonClass()}>
+                <ResumeDownloadLink location="resume" className={buttonClass()}>
                   <Download className="size-4 transition-transform group-hover:translate-y-0.5" />
                   {t.resume.downloadPdf}
-                </a>
+                </ResumeDownloadLink>
               </Enter>
               <Enter direction="scale" delay={0.58}>
                 <PrintButton label={t.resume.print} />

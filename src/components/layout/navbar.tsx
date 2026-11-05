@@ -13,6 +13,7 @@ const loadMobileNav = () => import('@/components/layout/mobile-nav');
 const MobileNav = dynamic(() => loadMobileNav().then((mod) => mod.MobileNav), { ssr: false });
 import { CV_DATA } from '@/lib/cv-data';
 import { NAV_LINKS, RESUME_PDF_PATH, isActivePath } from '@/lib/site';
+import { trackCvDownload } from '@/lib/analytics';
 import { TOOLS_PATH } from '@/lib/data/tools';
 import { cn } from '@/lib/cn';
 import { Enter } from '@/components/ui/motion';
@@ -150,6 +151,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
               whileTap={{ scale: 0.95 }}
               href={RESUME_PDF_PATH}
               download
+              onClick={() => trackCvDownload('navbar')}
               className="hidden items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 font-mono text-xs font-semibold text-primary-text transition-colors hover:border-primary hover:bg-primary/20 sm:inline-flex 2xl:text-sm"
             >
               <Download className="size-3" />

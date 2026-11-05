@@ -5,7 +5,8 @@ import { Container } from '@/components/ui/section';
 import { Stagger, StaggerItem } from '@/components/ui/motion';
 import { SocialIcon } from '@/components/reusable/social-icon';
 import { CV_DATA } from '@/lib/cv-data';
-import { NAV_LINKS, RESUME_PDF_PATH } from '@/lib/site';
+import { NAV_LINKS } from '@/lib/site';
+import { ResumeDownloadLink } from '@/components/reusable/resume-download-link';
 import { cn } from '@/lib/cn';
 import type { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/server';
@@ -64,9 +65,9 @@ export function Footer({ lang }: { lang: Locale }) {
                 </li>
               ))}
               <li>
-                <a href={RESUME_PDF_PATH} download className={linkClass}>
+                <ResumeDownloadLink location="footer" className={linkClass}>
                   {t.common.resumePdf}
-                </a>
+                </ResumeDownloadLink>
               </li>
             </ul>
           </nav>
