@@ -1,29 +1,28 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { trackCvDownload, trackToolEvent } from '@/lib/analytics';
 
 describe('trackToolEvent', () => {
-  const gtag = vi.fn();
-
   beforeEach(() => {
-    window.gtag = gtag;
+    window.dataLayer = [];
   });
 
   afterEach(() => {
-    gtag.mockReset();
-    delete window.gtag;
+    delete window.dataLayer;
     window.history.replaceState(null, '', '/');
   });
 
   it('sends the tool slug from the URL', () => {
     window.history.replaceState(null, '', '/tools/json?mode=minify');
     trackToolEvent('run');
-    expect(gtag).toHaveBeenCalledWith('event', 'tool_run', { tool: 'json' });
+    expect(window.dataLayer).toStrictEqual([
+      { event: 'tool_run', tool: 'json', preset: undefined },
+    ]);
   });
 
   it('includes the preset on a preset page', () => {
     window.history.replaceState(null, '', '/tools/format/sql');
     trackToolEvent('copy');
-    expect(gtag).toHaveBeenCalledWith('event', 'tool_copy', { tool: 'format', preset: 'sql' });
+    expect(window.dataLayer).toStrictEqual([{ event: 'tool_copy', tool: 'format', preset: 'sql' }]);
   });
 
   it('ignores pages outside a tool', () => {
@@ -31,11 +30,11 @@ describe('trackToolEvent', () => {
       window.history.replaceState(null, '', path);
       trackToolEvent('download');
     }
-    expect(gtag).not.toHaveBeenCalled();
+    expect(window.dataLayer).toStrictEqual([]);
   });
 
-  it('is a no-op when gtag is not loaded', () => {
-    delete window.gtag;
+  it('is a no-op when GTM is not loaded', () => {
+    delete window.dataLayer;
     window.history.replaceState(null, '', '/tools/json');
     expect(() => trackToolEvent('run')).not.toThrow();
   });
@@ -43,13 +42,12 @@ describe('trackToolEvent', () => {
 
 describe('trackCvDownload', () => {
   afterEach(() => {
-    delete window.gtag;
+    delete window.dataLayer;
   });
 
   it('sends the download location', () => {
-    const gtag = vi.fn();
-    window.gtag = gtag;
+    window.dataLayer = [];
     trackCvDownload('navbar');
-    expect(gtag).toHaveBeenCalledWith('event', 'cv_download', { location: 'navbar' });
+    expect(window.dataLayer).toStrictEqual([{ event: 'cv_download', location: 'navbar' }]);
   });
 });

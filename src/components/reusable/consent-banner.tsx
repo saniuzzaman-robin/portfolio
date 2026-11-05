@@ -10,10 +10,10 @@ import {
   setAnalyticsConsent,
   subscribeConsent,
 } from '@/lib/consent';
-import { GA_MEASUREMENT_ID } from '@/lib/site';
 
 /**
- * Asks once for analytics cookies; "Cookie settings" in the footer reopens it. Hidden until
+ * Asks once for analytics cookies; "Cookie settings" in the footer reopens it. Rendered only
+ * when `isAnalyticsEnabled()`. Hidden until
  * hydrated (the server can't know the saved choice), so returning visitors never see it flash.
  */
 export function ConsentBanner() {
@@ -23,7 +23,7 @@ export function ConsentBanner() {
     () => readConsent() === null || isEditingConsent(),
     () => false
   );
-  if (!GA_MEASUREMENT_ID || !visible) return null;
+  if (!visible) return null;
 
   return (
     <section
@@ -53,7 +53,6 @@ export function ConsentBanner() {
 
 /** Footer link that reopens the banner so a choice can be changed or withdrawn. */
 export function ConsentSettingsButton({ label }: { label: string }) {
-  if (!GA_MEASUREMENT_ID) return null;
   return (
     <button
       type="button"

@@ -9,11 +9,11 @@ import {
 import { SkipLink } from '@/components/reusable/skip-link';
 import { ConsentBanner } from '@/components/reusable/consent-banner';
 import { SchemaScript } from '@/components/reusable/schema-script';
-import { GoogleAnalytics } from '@/components/reusable/google-analytics';
+import { GoogleTagManager } from '@/components/reusable/google-tag-manager';
 import { ThemeProvider } from '@/components/reusable/theme-provider';
 import { generateWebsiteSchema } from '@/lib/schema';
 import { CV_DATA } from '@/lib/cv-data';
-import { OG_IMAGE, SITE_NAME, SITE_URL } from '@/lib/site';
+import { OG_IMAGE, SITE_NAME, SITE_URL, isAnalyticsEnabled } from '@/lib/site';
 import { THEME_COLORS, THEME_INIT_SCRIPT } from '@/lib/theme';
 import { AppShell } from '@/components/layout/app-shell';
 import { LOCALES, LOCALE_META, toLocale, type Locale } from '@/i18n/config';
@@ -155,7 +155,7 @@ export default async function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <SchemaScript schema={generateWebsiteSchema()} />
-        <GoogleAnalytics />
+        <GoogleTagManager />
       </head>
       <body className="flex min-h-dvh flex-col">
         <ThemeProvider>
@@ -166,7 +166,7 @@ export default async function RootLayout({
                 {children}
               </main>
             </AppShell>
-            <ConsentBanner />
+            {isAnalyticsEnabled() && <ConsentBanner />}
           </I18nProvider>
         </ThemeProvider>
       </body>
