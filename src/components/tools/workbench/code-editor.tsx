@@ -12,7 +12,12 @@ export type EditorDiagnostic = {
   to: number;
   message: string;
   severity: 'error' | 'warning' | 'info';
+  /** One-click fixes offered in the diagnostic's tooltip. */
+  fixes?: EditorDiagnosticFix[];
 };
+
+/** Replaces `from..to` (default: the diagnostic's own range) with `insert`. */
+export type EditorDiagnosticFix = { label: string; insert: string; from?: number; to?: number };
 
 export type CodeEditorHandle = {
   focus(): void;
@@ -34,6 +39,8 @@ type CodeEditorProps = {
   diagnostics?: EditorDiagnostic[];
   /** Highlighted ranges; style them with `cm-mark-*` classes from `editor-theme.ts`. */
   marks?: EditorMark[];
+  /** Rewrites pasted text before it is inserted; null keeps the paste as is. */
+  transformPaste?: (text: string) => string | null;
   onCursor?: (cursor: CursorInfo) => void;
   /** The 0-based, fractional source line at the top of the viewport, whenever it scrolls. */
   onScrollLine?: (line: number) => void;
@@ -60,6 +67,7 @@ export function CodeEditor({
   placeholder = '',
   diagnostics = NO_DIAGNOSTICS,
   marks = NO_MARKS,
+  transformPaste,
   onCursor,
   onScrollLine,
   autoFocus = false,
@@ -75,6 +83,7 @@ export function CodeEditor({
   const latest = useRef({
     value,
     onChange,
+    transformPaste,
     onCursor,
     onScrollLine,
     readOnly,
@@ -87,6 +96,7 @@ export function CodeEditor({
     latest.current = {
       value,
       onChange,
+      transformPaste,
       onCursor,
       onScrollLine,
       readOnly,
@@ -117,6 +127,7 @@ export function CodeEditor({
               ? { anchor: fallback.selectionStart, head: fallback.selectionEnd }
               : undefined,
           autoFocus: hadFocus || props.autoFocus,
+          transformPaste: props.transformPaste,
           onChange: (next) => latest.current.onChange?.(next),
           onCursor: (cursor) => latest.current.onCursor?.(cursor),
           onScrollLine: (line) => latest.current.onScrollLine?.(line),
@@ -151,8 +162,31 @@ export function CodeEditor({
   }, [ready, placeholder]);
 
   useEffect(() => {
-    if (ready) controllerRef.current?.setDiagnostics(diagnostics);
+    if (!ready) return;
+    controllerRef.current?.setDiagnostics(
+      diagnostics.map(({ fixes, ...diagnostic }) => ({
+        ...diagnostic,
+        actions: fixes?.map((fix) => ({
+          name: fix.label,
+          apply: (view, from, to) => {
+            const length = view.state.doc.length;
+            view.dispatch({
+              changes: {
+                from: Math.min(fix.from ?? from, length),
+                to: Math.min(fix.to ?? to, length),
+                insert: fix.insert,
+              },
+              userEvent: 'input.fix',
+            });
+          },
+        })),
+      }))
+    );
   }, [ready, diagnostics]);
+
+  useEffect(() => {
+    if (ready) controllerRef.current?.setTransformPaste(transformPaste);
+  }, [ready, transformPaste]);
 
   useEffect(() => {
     if (ready) controllerRef.current?.setMarks(marks);

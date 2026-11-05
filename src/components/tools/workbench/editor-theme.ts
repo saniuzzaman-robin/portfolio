@@ -83,6 +83,16 @@ export const editorTheme = EditorView.theme({
     boxShadow: 'var(--shadow-pop)',
     overflow: 'hidden',
   },
+  '.cm-tooltip.cm-tooltip-autocomplete > ul': { fontFamily: 'var(--font-mono)', fontSize: '12px' },
+  '.cm-tooltip-autocomplete ul li[aria-selected]': {
+    backgroundColor: 'color-mix(in srgb, var(--primary) 22%, transparent)',
+    color: 'var(--fg)',
+  },
+  '.cm-completionMatchedText': { textDecoration: 'none', color: 'var(--primary-text)' },
+  '.cm-bracket-0': { color: 'var(--primary-text)' },
+  '.cm-bracket-1': { color: 'var(--warning)' },
+  '.cm-bracket-2': { color: 'var(--success)' },
+  '.cm-bracket-3': { color: 'var(--accent)' },
   // Highlights set through `CodeEditor`'s `marks` (regex matches and their groups).
   '.cm-mark-match': {
     backgroundColor: 'color-mix(in srgb, var(--primary) 22%, transparent)',
