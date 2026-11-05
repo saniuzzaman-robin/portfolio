@@ -7,6 +7,7 @@ import {
   Noto_Sans_Bengali,
 } from 'next/font/google';
 import { SkipLink } from '@/components/reusable/skip-link';
+import { ConsentBanner } from '@/components/reusable/consent-banner';
 import { SchemaScript } from '@/components/reusable/schema-script';
 import { GoogleAnalytics } from '@/components/reusable/google-analytics';
 import { ThemeProvider } from '@/components/reusable/theme-provider';
@@ -165,6 +166,7 @@ export default async function RootLayout({
                 {children}
               </main>
             </AppShell>
+            <ConsentBanner />
           </I18nProvider>
         </ThemeProvider>
       </body>

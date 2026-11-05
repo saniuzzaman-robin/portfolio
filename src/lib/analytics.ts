@@ -1,9 +1,13 @@
+import type { AnalyticsConsent } from '@/lib/consent';
 import { TOOLS_PATH } from '@/lib/data/tools';
 
 declare global {
   interface Window {
     /** Defined by `GoogleAnalytics` only on the production host. */
-    gtag?: (command: 'event', name: string, params?: Record<string, string>) => void;
+    gtag?: {
+      (command: 'event', name: string, params?: Record<string, string>): void;
+      (command: 'consent', action: 'update', params: { analytics_storage: AnalyticsConsent }): void;
+    };
   }
 }
 

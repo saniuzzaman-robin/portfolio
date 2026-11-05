@@ -7,6 +7,7 @@ import { SocialIcon } from '@/components/reusable/social-icon';
 import { CV_DATA } from '@/lib/cv-data';
 import { NAV_LINKS } from '@/lib/site';
 import { ResumeDownloadLink } from '@/components/reusable/resume-download-link';
+import { ConsentSettingsButton } from '@/components/reusable/consent-banner';
 import { cn } from '@/lib/cn';
 import type { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/server';
@@ -99,7 +100,10 @@ export function Footer({ lang }: { lang: Locale }) {
           <p className="py-2">
             {fmt(t.footer.copyright, { year: new Date().getFullYear(), name: CV_DATA.name })}
           </p>
-          <BackToTop label={t.footer.backToTop} />
+          <div className="flex items-center gap-4">
+            <ConsentSettingsButton label={t.consent.settings} />
+            <BackToTop label={t.footer.backToTop} />
+          </div>
         </Container>
       </div>
     </footer>
