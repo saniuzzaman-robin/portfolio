@@ -11,7 +11,7 @@ export const SITE_NAME = 'Saniuzzaman Robin';
 export const OG_IMAGE = { url: '/og_image.png', width: 1200, height: 630 } as const;
 
 const GA_ID_PATTERN = /^G-[A-Z0-9]+$/;
-const rawGaId = process.env.NEXT_PUBLIC_GA_ID ?? 'G-DD0B9SX4B6';
+const rawGaId = process.env.NEXT_PUBLIC_GA_ID ?? 'G-FJ14TV7H6V';
 
 /**
  * Google Analytics 4 measurement ID; set NEXT_PUBLIC_GA_ID to override or '' to disable.
