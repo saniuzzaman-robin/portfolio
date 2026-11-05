@@ -115,7 +115,7 @@ export function Capabilities({ lang }: { lang: Locale }) {
                       as="li"
                       key={item.title}
                       direction="right"
-                      className="group flex gap-3 rounded-ss-2xl rounded-se-md rounded-ee-2xl rounded-es-md border border-line bg-bg/60 p-4 backdrop-blur-sm transition-colors duration-300 hover:border-primary/40"
+                      className="group glass flex gap-3 rounded-ss-2xl rounded-se-md rounded-ee-2xl rounded-es-md border border-line p-4 transition-colors duration-300 hover:border-primary/40"
                     >
                       <Icon className="mt-0.5 size-4 shrink-0 text-primary-text transition-transform duration-500 ease-out-expo group-hover:scale-125 group-hover:-rotate-8" />
                       <div>

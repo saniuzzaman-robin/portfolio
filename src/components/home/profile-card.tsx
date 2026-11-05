@@ -60,7 +60,7 @@ function FloatingChip({
         style={{ z: 40 }}
         animate={{ y: [0, -6, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay }}
-        className="flex items-center gap-2 rounded-full border border-line-strong bg-elevated/90 px-3 py-1.5 font-mono text-[11px] font-medium text-fg shadow-pop backdrop-blur"
+        className="glass flex items-center gap-2 rounded-full border border-line-strong px-3 py-1.5 font-mono text-[11px] font-medium text-fg shadow-pop"
       >
         <Icon className="size-3.5 text-primary-text" />
         {label}
