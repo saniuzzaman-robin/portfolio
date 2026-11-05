@@ -111,6 +111,14 @@ export const bn: LocaleMessages = {
     copyright: '© {year} {name}। Next.js ও Tailwind CSS দিয়ে তৈরি।',
     backToTop: 'উপরে',
   },
+  consent: {
+    label: 'কুকি সম্মতি',
+    message:
+      'কোন পেজ ও টুল ব্যবহার হয় তা জানতে আমি Google Analytics কুকি ব্যবহার করি। কোনো বিজ্ঞাপন নেই, আর টুলে আপনি যা লেখেন তা সংগ্রহ করা হয় না।',
+    accept: 'গ্রহণ করুন',
+    decline: 'প্রত্যাখ্যান করুন',
+    settings: 'কুকি সেটিংস',
+  },
   projects: {
     label: 'প্ল্যাটফর্ম',
     title: 'যেসব সিস্টেম আমি',

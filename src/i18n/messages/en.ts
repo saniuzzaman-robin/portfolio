@@ -113,6 +113,14 @@ export const en = {
     copyright: '© {year} {name}. Built with Next.js & Tailwind CSS.',
     backToTop: 'Top',
   },
+  consent: {
+    label: 'Cookie consent',
+    message:
+      'I use Google Analytics cookies to see which pages and tools get used. No ads, and nothing you enter in the tools is collected.',
+    accept: 'Accept',
+    decline: 'Decline',
+    settings: 'Cookie settings',
+  },
   tools: {
     label: 'Tools',
     title: 'Developer tools,',

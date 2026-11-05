@@ -111,6 +111,14 @@ export const ar: LocaleMessages = {
     copyright: '© {year} {name}. بُني باستخدام Next.js وTailwind CSS.',
     backToTop: 'الأعلى',
   },
+  consent: {
+    label: 'الموافقة على ملفات تعريف الارتباط',
+    message:
+      'أستخدم ملفات تعريف الارتباط من Google Analytics لمعرفة الصفحات والأدوات الأكثر استخدامًا. لا توجد إعلانات، ولا يُجمع أي شيء تُدخله في الأدوات.',
+    accept: 'قبول',
+    decline: 'رفض',
+    settings: 'إعدادات ملفات تعريف الارتباط',
+  },
   projects: {
     label: 'المنصات',
     title: 'أنظمة',
