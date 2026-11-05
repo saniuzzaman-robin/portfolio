@@ -12,6 +12,7 @@ import { SocialIcon } from '@/components/reusable/social-icon';
 import { ProfileCard } from '@/components/home/profile-card';
 import { CV_DATA } from '@/lib/cv-data';
 import { RESUME_PDF_PATH } from '@/lib/site';
+import { trackCvDownload } from '@/lib/analytics';
 import { cn } from '@/lib/cn';
 import { useDictionary } from '@/i18n/provider';
 import { fmt } from '@/i18n/dictionary';
@@ -99,6 +100,7 @@ export function Hero() {
               <a
                 href={RESUME_PDF_PATH}
                 download
+                onClick={() => trackCvDownload('hero')}
                 className={buttonClass({
                   variant: 'secondary',
                   size: 'lg',

@@ -12,6 +12,7 @@ import { buttonClass } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/layout/language-switcher';
 import { CV_DATA } from '@/lib/cv-data';
 import { NAV_LINKS, RESUME_PDF_PATH, isActivePath } from '@/lib/site';
+import { trackCvDownload } from '@/lib/analytics';
 import type { ThemePreference } from '@/lib/theme';
 import { useDictionary } from '@/i18n/provider';
 import { LOCALE_META } from '@/i18n/config';
@@ -266,6 +267,7 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
           <a
             href={RESUME_PDF_PATH}
             download
+            onClick={() => trackCvDownload('mobile_nav')}
             className={buttonClass({ className: 'w-full py-2.5' })}
           >
             <Download className="size-4" />

@@ -20,6 +20,7 @@ import { SocialIcon } from '@/components/reusable/social-icon';
 import { useCopyToClipboard } from '@/lib/use-copy-to-clipboard';
 import { CV_DATA } from '@/lib/cv-data';
 import { NAV_LINKS, RESUME_PDF_PATH } from '@/lib/site';
+import { trackCvDownload } from '@/lib/analytics';
 import { TOOLS, toolPath, toolText } from '@/lib/data/tools';
 import { DEFAULT_LOCALE, localePath, type Locale } from '@/i18n/config';
 import { useLocale } from '@/i18n/use-locale';
@@ -113,6 +114,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
               anchor.href = RESUME_PDF_PATH;
               anchor.download = '';
               anchor.click();
+              trackCvDownload('command_menu');
             },
           },
           {

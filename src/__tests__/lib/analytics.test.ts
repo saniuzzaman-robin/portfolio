@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { trackToolEvent } from '@/lib/analytics';
+import { trackCvDownload, trackToolEvent } from '@/lib/analytics';
 
 describe('trackToolEvent', () => {
   const gtag = vi.fn();
@@ -38,5 +38,18 @@ describe('trackToolEvent', () => {
     delete window.gtag;
     window.history.replaceState(null, '', '/tools/json');
     expect(() => trackToolEvent('run')).not.toThrow();
+  });
+});
+
+describe('trackCvDownload', () => {
+  afterEach(() => {
+    delete window.gtag;
+  });
+
+  it('sends the download location', () => {
+    const gtag = vi.fn();
+    window.gtag = gtag;
+    trackCvDownload('navbar');
+    expect(gtag).toHaveBeenCalledWith('event', 'cv_download', { location: 'navbar' });
   });
 });

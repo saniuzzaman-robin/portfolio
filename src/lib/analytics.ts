@@ -18,6 +18,14 @@ export function trackEvent(name: string, params?: Record<string, string>) {
   window.gtag?.('event', name, params);
 }
 
+export type CvDownloadLocation =
+  'hero' | 'navbar' | 'mobile_nav' | 'footer' | 'resume' | 'command_menu';
+
+/** `cv_download`, tagged with the control that started it. */
+export function trackCvDownload(location: CvDownloadLocation) {
+  trackEvent('cv_download', { location });
+}
+
 /** `tool_<action>` with the tool (and preset, on a preset page) read from the current URL. */
 export function trackToolEvent(action: ToolAction) {
   if (typeof window === 'undefined') return;
