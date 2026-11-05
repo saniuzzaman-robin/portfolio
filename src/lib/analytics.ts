@@ -3,23 +3,27 @@ import { TOOLS_PATH } from '@/lib/data/tools';
 
 declare global {
   interface Window {
-    /** Defined by `GoogleAnalytics` only on the production host. */
-    gtag?: {
-      (command: 'event', name: string, params?: Record<string, string>): void;
-      (command: 'consent', action: 'update', params: { analytics_storage: AnalyticsConsent }): void;
-    };
+    /** Both defined by `GoogleTagManager`, only on the production host. */
+    dataLayer?: unknown[];
+    gtag?: (
+      command: 'consent',
+      action: 'update',
+      params: { analytics_storage: AnalyticsConsent }
+    ) => void;
   }
 }
 
 export type ToolAction = 'run' | 'copy' | 'download';
 
 /**
- * Sends a GA4 event; a no-op wherever gtag isn't loaded (dev, previews, blocked). Never pass
- * user input or other personal data in `params`.
+ * Pushes a custom event to GTM's dataLayer (a GA4 Event tag in the container forwards it); a
+ * no-op wherever GTM isn't loaded (dev, previews, blocked). Never pass user input or other
+ * personal data in `params`. GTM keeps each key's last value across pushes, so pass `undefined`
+ * for keys that don't apply to this event rather than leaving them out.
  */
-export function trackEvent(name: string, params?: Record<string, string>) {
+export function trackEvent(name: string, params?: Record<string, string | undefined>) {
   if (typeof window === 'undefined') return;
-  window.gtag?.('event', name, params);
+  window.dataLayer?.push({ event: name, ...params });
 }
 
 export type CvDownloadLocation =
@@ -38,5 +42,5 @@ export function trackToolEvent(action: ToolAction) {
   if (!pathname.startsWith(prefix)) return;
   const [tool, preset] = pathname.slice(prefix.length).split('/').filter(Boolean);
   if (!tool) return;
-  trackEvent(`tool_${action}`, preset ? { tool, preset } : { tool });
+  trackEvent(`tool_${action}`, { tool, preset });
 }

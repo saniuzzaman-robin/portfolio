@@ -10,14 +10,30 @@ export const SITE_NAME = 'Saniuzzaman Robin';
 /** Static social preview image in /public (real pixel size). */
 export const OG_IMAGE = { url: '/og_image.png', width: 1200, height: 630 } as const;
 
-const GA_ID_PATTERN = /^G-[A-Z0-9]+$/;
-const rawGaId = process.env.NEXT_PUBLIC_GA_ID ?? 'G-FJ14TV7H6V';
+const GTM_ID_PATTERN = /^GTM-[A-Z0-9]+$/;
+const rawGtmId = process.env.NEXT_PUBLIC_GTM_ID ?? 'GTM-K3B4TTTM';
 
 /**
- * Google Analytics 4 measurement ID; set NEXT_PUBLIC_GA_ID to override or '' to disable.
- * Validated because it is interpolated into an inline script.
+ * Google Tag Manager container ID (GA4 is configured inside the container); set
+ * NEXT_PUBLIC_GTM_ID to override or '' to disable. Validated because it is interpolated into an
+ * inline script.
  */
-export const GA_MEASUREMENT_ID = GA_ID_PATTERN.test(rawGaId) ? rawGaId : '';
+export const GTM_CONTAINER_ID = GTM_ID_PATTERN.test(rawGtmId) ? rawGtmId : '';
+
+/**
+ * True only for real production deployments. Vercel preview deployments (staging) also run with
+ * NODE_ENV=production, so prefer VERCEL_ENV when it is available. Server-only: VERCEL_ENV isn't
+ * exposed to the client bundle.
+ */
+export function isProductionDeploy(): boolean {
+  if (process.env.VERCEL_ENV) return process.env.VERCEL_ENV === 'production';
+  return process.env.NODE_ENV === 'production';
+}
+
+/** Whether to load GTM and ask for analytics consent (server-only, see `isProductionDeploy`). */
+export function isAnalyticsEnabled(): boolean {
+  return Boolean(GTM_CONTAINER_ID) && isProductionDeploy();
+}
 
 export const RESUME_PDF_PATH = '/CV_SANIUZZAMAN_ROBIN.pdf';
 

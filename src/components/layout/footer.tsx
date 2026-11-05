@@ -5,7 +5,7 @@ import { Container } from '@/components/ui/section';
 import { Stagger, StaggerItem } from '@/components/ui/motion';
 import { SocialIcon } from '@/components/reusable/social-icon';
 import { CV_DATA } from '@/lib/cv-data';
-import { NAV_LINKS } from '@/lib/site';
+import { NAV_LINKS, isAnalyticsEnabled } from '@/lib/site';
 import { ResumeDownloadLink } from '@/components/reusable/resume-download-link';
 import { ConsentSettingsButton } from '@/components/reusable/consent-banner';
 import { cn } from '@/lib/cn';
@@ -101,7 +101,7 @@ export function Footer({ lang }: { lang: Locale }) {
             {fmt(t.footer.copyright, { year: new Date().getFullYear(), name: CV_DATA.name })}
           </p>
           <div className="flex items-center gap-4">
-            <ConsentSettingsButton label={t.consent.settings} />
+            {isAnalyticsEnabled() && <ConsentSettingsButton label={t.consent.settings} />}
             <BackToTop label={t.footer.backToTop} />
           </div>
         </Container>
