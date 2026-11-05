@@ -195,9 +195,8 @@ test.describe('Tool pages', () => {
       const errors = trackErrors(page);
       const response = await page.goto(toolPath(tool.slug));
       expect(response?.status()).toBe(200);
-      await expect(page.locator('h1')).toHaveCount(
-        tool.slug === 'markdown' ? 2 : 1 // The Markdown preview renders the sample's own <h1>.
-      );
+      // Nothing runs on load, so even the Markdown preview hasn't rendered its sample's <h1> yet.
+      await expect(page.locator('h1')).toHaveCount(1);
       await expect(page.locator('h1').first()).toHaveText(en.tools.items[tool.slug].title);
       await SMOKE[tool.slug](page);
       expect(errors).toEqual([]);
