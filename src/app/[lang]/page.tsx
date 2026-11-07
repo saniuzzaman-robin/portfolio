@@ -8,6 +8,7 @@ import { TechMarquee } from '@/components/home/tech-marquee';
 import { SelectedWork } from '@/components/home/selected-work';
 import { ExperienceTimeline } from '@/components/home/experience-timeline';
 import { Capabilities } from '@/components/home/capabilities';
+import { AndroidApp } from '@/components/home/android-app';
 import { ContactCta } from '@/components/home/contact-cta';
 import { Footer } from '@/components/layout/footer';
 import { SchemaScript } from '@/components/reusable/schema-script';
@@ -56,6 +57,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <Hero />
       <TechMarquee lang={lang} />
       <SelectedWork lang={lang} />
+      <AndroidApp />
       <ExperienceTimeline />
       <Capabilities lang={lang} />
       <ContactCta index="04" />

@@ -1,6 +1,7 @@
 /** Landing page content for the Changeloom Android app. English only. */
 export const CHANGELOOM = {
   app: 'Changeloom',
+  playStoreUrl: 'https://play.google.com/store/apps/details?id=dev.changeloom.android',
   tagline: 'The updates that matter to your work, in one short feed.',
   description:
     'Changeloom shows short summaries of the latest news and changes in the fields you care about, from software and science to health, law, trades and more. They are written from public sources, so you can keep up without reading everything yourself.',
