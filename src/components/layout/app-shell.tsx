@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { LazyMotion, MotionConfig } from 'framer-motion';
 import { Navbar } from '@/components/layout/navbar';
 import dynamic from 'next/dynamic';
+import { useUnprefixedPath } from '@/i18n/use-locale';
 
 // Only needed on ⌘K: load after hydration instead of in the critical bundle.
 const CommandMenu = dynamic(
@@ -14,7 +15,14 @@ const CommandMenu = dynamic(
 const loadMotionFeatures = () =>
   import('@/components/ui/motion-features').then((mod) => mod.default);
 
+// App pages (e.g. Changeloom) are standalone: no portfolio navigation.
+const STANDALONE_PREFIXES = ['/changeloom'];
+
 export function AppShell({ children }: { children: React.ReactNode }) {
+  const pathname = useUnprefixedPath();
+  const isStandalone = STANDALONE_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const closeCommand = useCallback(() => setIsCommandOpen(false), []);
 
@@ -33,8 +41,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <LazyMotion features={loadMotionFeatures} strict>
       <MotionConfig reducedMotion="user">
         <div className="flex min-h-dvh flex-col">
-          <Navbar onOpenCommand={() => setIsCommandOpen(true)} />
-          <CommandMenu isOpen={isCommandOpen} onClose={closeCommand} />
+          {!isStandalone && (
+            <>
+              <Navbar onOpenCommand={() => setIsCommandOpen(true)} />
+              <CommandMenu isOpen={isCommandOpen} onClose={closeCommand} />
+            </>
+          )}
           <div className="flex flex-1 flex-col">{children}</div>
         </div>
       </MotionConfig>

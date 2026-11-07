@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { localeUrl } from '@/lib/metadata';
-import { toLocale } from '@/i18n/config';
-import { Footer } from '@/components/layout/footer';
 import { PolicyDocument } from '@/components/changeloom/policy-document';
 import { CHANGELOOM_TERMS } from '@/lib/data/changeloom-terms';
 
@@ -16,8 +14,7 @@ export const metadata: Metadata = {
   alternates: { canonical: localeUrl('en', PATH) },
 };
 
-export default async function ChangeloomTerms({ params }: { params: Promise<{ lang: string }> }) {
-  const lang = toLocale((await params).lang);
+export default function ChangeloomTerms() {
   return (
     <>
       <PolicyDocument
@@ -29,7 +26,6 @@ export default async function ChangeloomTerms({ params }: { params: Promise<{ la
         sections={CHANGELOOM_TERMS.sections}
         contactText="For questions about these terms, contact"
       />
-      <Footer lang={lang} />
     </>
   );
 }
