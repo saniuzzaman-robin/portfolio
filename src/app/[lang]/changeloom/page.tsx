@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import { localeUrl } from '@/lib/metadata';
-import { toLocale } from '@/i18n/config';
+import { ArrowUpRight } from 'lucide-react';
 import { Container, PageHeader } from '@/components/ui/section';
 import { buttonClass } from '@/components/ui/button';
 import { LocaleLink } from '@/components/ui/locale-link';
-import { Footer } from '@/components/layout/footer';
 import { CHANGELOOM } from '@/lib/data/changeloom';
 
 const PATH = '/changeloom';
@@ -16,8 +15,7 @@ export const metadata: Metadata = {
   alternates: { canonical: localeUrl('en', PATH) },
 };
 
-export default async function ChangeloomHome({ params }: { params: Promise<{ lang: string }> }) {
-  const lang = toLocale((await params).lang);
+export default function ChangeloomHome() {
   return (
     <>
       <div lang="en" dir="ltr">
@@ -31,6 +29,15 @@ export default async function ChangeloomHome({ params }: { params: Promise<{ lan
           }
         >
           <div className="flex flex-wrap gap-3">
+            <a
+              href={CHANGELOOM.playStoreUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClass({ variant: 'primary' })}
+            >
+              Get it on Google Play
+              <ArrowUpRight className="size-4" aria-hidden />
+            </a>
             <LocaleLink
               href="/changeloom/privacy"
               className={buttonClass({ variant: 'secondary' })}
@@ -54,7 +61,6 @@ export default async function ChangeloomHome({ params }: { params: Promise<{ lan
           </ul>
         </Container>
       </div>
-      <Footer lang={lang} />
     </>
   );
 }

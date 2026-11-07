@@ -1,3 +1,5 @@
+import { ArrowLeft } from 'lucide-react';
+import { LocaleLink } from '@/components/ui/locale-link';
 import { Container, PageHeader } from '@/components/ui/section';
 import { CV_DATA } from '@/lib/cv-data';
 import type { PolicyBlock, PolicySection } from '@/lib/data/changeloom-privacy';
@@ -41,6 +43,15 @@ export function PolicyDocument({
   });
   return (
     <div lang="en" dir="ltr">
+      <Container className="pt-8">
+        <LocaleLink
+          href="/changeloom"
+          className="inline-flex items-center gap-2 py-2 text-sm font-medium text-fg-muted transition-colors hover:text-fg"
+        >
+          <ArrowLeft className="size-4" aria-hidden />
+          Back to {app}
+        </LocaleLink>
+      </Container>
       <PageHeader
         label={app}
         title={title}
