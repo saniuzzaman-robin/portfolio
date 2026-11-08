@@ -230,6 +230,16 @@
     overflow-x: hidden;
   }
 
+  /* Low-DPI screens (typically 1080p Windows): Chrome rounds glyph advances to whole pixels there,
+     which crowds letters. geometricPrecision enables subpixel positioning; the small tracking
+     offsets the remaining hinting-induced tightness. HiDPI (Mac Retina) is unaffected. */
+  @media (max-resolution: 1.49dppx) {
+    body {
+      text-rendering: geometricPrecision;
+      letter-spacing: 0.01em;
+    }
+  }
+
   h1,
   h2,
   h3,
@@ -287,7 +297,7 @@
   .glass,
   .glass-nav {
     background: var(--glass);
-    @apply backdrop-blur-[24px] backdrop-saturate-[180%];
+    @apply backdrop-blur-xl backdrop-saturate-180;
   }
 
   .glass-nav {

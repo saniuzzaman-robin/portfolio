@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { describe, it, expect } from 'vitest';
 import { decodeHtmlEntities, encodeHtmlEntities } from '@/lib/tools/encode/html';
 import { ENTITY_CODE_POINTS } from '@/lib/tools/encode/html-entities';
