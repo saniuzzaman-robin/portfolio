@@ -141,7 +141,7 @@ export function PageHeader({
             accent={accent}
             trigger="mount"
             delay={0.1}
-            className="text-4xl leading-[1.05] font-extrabold tracking-[-0.03em] text-fg sm:text-6xl"
+            className="text-4xl leading-[1.05] font-extrabold tracking-display text-fg sm:text-6xl"
           />
           {description && (
             <p className="max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg">

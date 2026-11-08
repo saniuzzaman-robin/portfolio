@@ -151,7 +151,9 @@ export function MobileNav({ pathname, onClose }: { pathname: string; onClose: ()
                 className="size-10 rounded-full object-cover object-top shadow-lg ring-2 shadow-primary/30 ring-primary/40"
               />
               <div className="min-w-0">
-                <p className="truncate font-heading text-sm font-bold text-fg">{CV_DATA.name}</p>
+                <p className="truncate font-heading text-sm font-bold tracking-label text-fg">
+                  {CV_DATA.name}
+                </p>
                 <p className="truncate font-mono text-[11px] text-primary-text">{cv.role}</p>
               </div>
             </div>

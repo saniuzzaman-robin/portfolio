@@ -92,7 +92,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
           <LocaleLink href="/" className="group flex items-center gap-2.5">
             <Avatar className="size-10 transition-transform group-hover:scale-105 2xl:size-11" />
             <span className="flex flex-col">
-              <span className="font-heading text-xs font-bold tracking-tight text-fg 2xl:text-base">
+              <span className="font-heading text-xs font-bold tracking-small text-fg 2xl:text-base">
                 {CV_DATA.name}
               </span>
               <span className="font-mono text-[10px] font-medium text-primary-text 2xl:text-xs">

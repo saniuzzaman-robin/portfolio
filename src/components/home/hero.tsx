@@ -79,7 +79,7 @@ export function Hero() {
             trigger="mount"
             delay={0.15}
             stagger={0.06}
-            className="mt-4 text-[2.5rem] leading-[1.05] font-extrabold tracking-[-0.035em] text-fg sm:text-6xl lg:text-[3.5rem] xl:text-[4.25rem]"
+            className="mt-4 text-[2.5rem] leading-[1.05] font-extrabold tracking-display text-fg sm:text-6xl lg:text-[3.5rem] xl:text-[4.25rem]"
           />
 
           <p className="mt-6 max-w-xl text-base leading-relaxed text-fg-muted sm:text-lg">
