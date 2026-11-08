@@ -96,12 +96,17 @@ export function Footer({ lang }: { lang: Locale }) {
       </Stagger>
 
       <div className="border-t border-line">
-        <Container className="flex items-start justify-center gap-3 py-6 font-mono text-[11px] text-fg-subtle sm:items-center sm:justify-between">
+        <Container className="flex flex-col-reverse items-center gap-2 py-6 text-center font-mono text-[11px] text-fg-subtle sm:flex-row sm:justify-between sm:text-start">
           <p className="py-2">
             {fmt(t.footer.copyright, { year: new Date().getFullYear(), name: CV_DATA.name })}
           </p>
-          <div className="flex items-center gap-4">
-            {isAnalyticsEnabled() && <ConsentSettingsButton label={t.consent.settings} />}
+          <div className="flex items-center gap-3 sm:gap-4">
+            {isAnalyticsEnabled() && (
+              <>
+                <ConsentSettingsButton label={t.consent.settings} />
+                <span aria-hidden className="size-0.5 rounded-full bg-fg-subtle/60 sm:hidden" />
+              </>
+            )}
             <BackToTop label={t.footer.backToTop} />
           </div>
         </Container>
