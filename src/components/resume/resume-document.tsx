@@ -112,7 +112,7 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
                 trigger="mount"
                 delay={0.1}
                 stagger={0.07}
-                className="text-4xl leading-[1.05] font-extrabold tracking-display text-fg sm:text-6xl rtl:text-right"
+                className="text-4xl leading-[1.05] font-extrabold tracking-display text-fg xl:text-6xl rtl:text-right"
               />
               <Enter as="p" delay={0.3} className="text-lg font-medium text-primary-text">
                 {cv.role}
@@ -168,7 +168,7 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
             <Enter direction="left" delay={0.45}>
               <Heading id="profile-heading">{t.resume.profile}</Heading>
             </Enter>
-            <p className="text-base leading-relaxed text-fg-muted sm:text-lg">{cv.summary}</p>
+            <p className="text-base leading-relaxed text-fg-muted xl:text-lg">{cv.summary}</p>
           </section>
 
           <section aria-labelledby="experience-heading">
@@ -188,7 +188,7 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
                       direction="right"
                       className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
                     >
-                      <h3 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
+                      <h3 className="text-lg font-bold tracking-tight text-fg xl:text-xl">
                         {job.title}
                         <span className="block font-semibold text-fg-muted sm:inline">
                           <span className="hidden sm:inline"> · </span>

@@ -1,11 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import {
-  Plus_Jakarta_Sans,
-  Inter,
-  JetBrains_Mono,
-  Noto_Sans_Arabic,
-  Noto_Sans_Bengali,
-} from 'next/font/google';
+import { Geist, JetBrains_Mono, Noto_Sans_Arabic, Noto_Sans_Bengali } from 'next/font/google';
 import { SkipLink } from '@/components/reusable/skip-link';
 import { ConsentBanner } from '@/components/reusable/consent-banner';
 import { SchemaScript } from '@/components/reusable/schema-script';
@@ -23,18 +17,12 @@ import { cn } from '@/lib/cn';
 import '../globals.css';
 
 // Variable fonts: one file per family covers every weight used.
-// `optional` (with the preload) keeps the size-matched fallback if a font isn't ready within
-// ~100ms, so a late font can't re-wrap the hero and shift the page.
-const jakartaSans = Plus_Jakarta_Sans({
-  variable: '--font-jakarta',
+// `swap` (with the preload and next/font's size-matched fallback) always shows the real font;
+// `optional` left bold headings on the system fallback whenever the font missed its ~100ms window.
+const geist = Geist({
+  variable: '--font-geist',
   subsets: ['latin'],
-  display: 'optional',
-});
-
-const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-  display: 'optional',
+  display: 'swap',
 });
 
 // The hero code card is mono text above the fold: preloaded so it doesn't swap in late and
@@ -138,12 +126,7 @@ export default async function RootLayout({
       dir={LOCALE_META[lang].dir}
       data-scroll-behavior="smooth"
       data-theme="dark"
-      className={cn(
-        jakartaSans.variable,
-        inter.variable,
-        jetbrainsMono.variable,
-        SCRIPT_FONT[lang]
-      )}
+      className={cn(geist.variable, jetbrainsMono.variable, SCRIPT_FONT[lang])}
       suppressHydrationWarning
     >
       <head>

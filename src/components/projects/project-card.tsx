@@ -77,7 +77,7 @@ export function ProjectCard({
       <h3
         className={cn(
           'mt-2 font-bold tracking-tight text-fg',
-          featured ? 'text-xl sm:text-2xl' : 'text-lg'
+          featured ? 'text-xl xl:text-2xl' : 'text-lg'
         )}
       >
         {isPublic ? (

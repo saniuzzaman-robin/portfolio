@@ -100,7 +100,7 @@
   --nav-h: 3.5rem;
   /* Heading tracking. Low-DPI screens (1080p Windows) get it relaxed so bold glyphs don't touch. */
   --track-tight: -0.025em;
-  --track-display: -0.035em;
+  --track-display: -0.02em;
   --track-small: -0.025em;
   --track-label: 0em;
 }
@@ -126,9 +126,9 @@
   --tracking-small: var(--track-small);
   --tracking-label: var(--track-label);
   --font-sans:
-    var(--font-inter), var(--font-script, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+    var(--font-geist), var(--font-script, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
   --font-heading:
-    var(--font-jakarta), var(--font-script, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+    var(--font-geist), var(--font-script, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
   --color-bg: var(--bg);

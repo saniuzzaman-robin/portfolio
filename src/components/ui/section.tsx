@@ -76,7 +76,7 @@ export function Section({
             {index && (
               <span
                 aria-hidden
-                className="absolute -inset-s-3 -top-10 -z-10 font-mono text-8xl font-black text-fg/5 select-none sm:text-9xl"
+                className="absolute -inset-s-3 -top-10 -z-10 font-mono text-8xl font-black text-fg/5 select-none xl:text-9xl"
               >
                 {index}
               </span>
@@ -87,10 +87,10 @@ export function Section({
               text={title}
               accent={accent}
               trigger="inherit"
-              className="text-3xl font-bold tracking-tight text-fg sm:text-4xl md:text-[2.75rem] md:leading-[1.1]"
+              className="text-3xl font-bold tracking-tight text-fg xl:text-[2.75rem] xl:leading-[1.1]"
             />
             {description && (
-              <StaggerItem as="p" className="text-base leading-relaxed text-fg-muted sm:text-lg">
+              <StaggerItem as="p" className="text-base leading-relaxed text-fg-muted xl:text-lg">
                 {description}
               </StaggerItem>
             )}
@@ -141,10 +141,10 @@ export function PageHeader({
             accent={accent}
             trigger="mount"
             delay={0.1}
-            className="text-4xl leading-[1.05] font-extrabold tracking-display text-fg sm:text-6xl"
+            className="text-4xl leading-[1.05] font-extrabold tracking-display text-fg xl:text-6xl"
           />
           {description && (
-            <p className="max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg">
+            <p className="max-w-2xl text-base leading-relaxed text-fg-muted xl:text-lg">
               {description}
             </p>
           )}

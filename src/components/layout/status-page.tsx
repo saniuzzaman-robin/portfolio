@@ -24,7 +24,7 @@ export function StatusPage({
         <div className="flex flex-col items-center text-center">
           <p
             aria-label={code}
-            className="flex font-heading text-[7rem] leading-none font-extrabold tracking-tighter sm:text-[10rem]"
+            className="flex font-heading text-[7rem] leading-none font-extrabold tracking-tighter xl:text-[10rem]"
           >
             {code.split('').map((digit, i) => (
               <Enter key={i} as="span" direction="pop" delay={i * 0.08} duration={0.8}>
@@ -39,7 +39,7 @@ export function StatusPage({
             text={title}
             trigger="mount"
             delay={0.3}
-            className="mt-4 text-3xl font-bold tracking-tight text-fg sm:text-4xl"
+            className="mt-4 text-3xl font-bold tracking-tight text-fg xl:text-4xl"
           />
           <Enter
             as="p"
