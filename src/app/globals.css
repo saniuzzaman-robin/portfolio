@@ -225,6 +225,10 @@
     /* The route enter transform otherwise makes scroll anchoring nudge scrollY on every reload. */
     overflow-anchor: none;
     -webkit-text-size-adjust: 100%;
+    /* With `body` alone, mobile browsers still widen the layout viewport to fit content that pokes
+       out (e.g. `StaggerItem direction="right"` before it enters). `clip` on both keeps them from
+       becoming scroll containers, so sticky positioning still works. */
+    overflow-x: clip;
     scrollbar-width: thin;
     scrollbar-color: var(--line-strong) transparent;
   }
@@ -245,7 +249,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   /* Low-DPI screens (typically 1080p Windows): Chrome rounds glyph advances to whole pixels there,

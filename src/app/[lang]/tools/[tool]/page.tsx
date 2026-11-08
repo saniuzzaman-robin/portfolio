@@ -62,8 +62,12 @@ export default async function ToolPage({ params }: { params: Params }) {
           inLanguage: lang,
         })}
       />
-      <ToolShell slug={tool.slug} messages={getToolPayload(tool.slug)} />
-      <ToolGuide t={t} title={text.title} guide={TOOL_GUIDES[tool.slug]} />
+      <ToolShell
+        slug={tool.slug}
+        messages={getToolPayload(tool.slug)}
+        title={text.title}
+        guide={<ToolGuide t={t} guide={TOOL_GUIDES[tool.slug]} />}
+      />
     </>
   );
 }
