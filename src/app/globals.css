@@ -98,6 +98,16 @@
 :root {
   /* Height of the docked navbar on tool workbenches. */
   --nav-h: 3.5rem;
+  /* Heading tracking. Low-DPI screens (1080p Windows) get it relaxed so bold glyphs don't touch. */
+  --track-tight: -0.025em;
+  --track-display: -0.035em;
+}
+
+@media (max-resolution: 1.49dppx) {
+  :root {
+    --track-tight: -0.005em;
+    --track-display: -0.01em;
+  }
 }
 
 @media (min-width: 96rem) {
@@ -107,6 +117,8 @@
 }
 
 @theme inline {
+  --tracking-tight: var(--track-tight);
+  --tracking-display: var(--track-display);
   --font-sans:
     var(--font-inter), var(--font-script, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
   --font-heading:
