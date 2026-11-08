@@ -297,7 +297,7 @@
   .glass,
   .glass-nav {
     background: var(--glass);
-    @apply backdrop-blur-[24px] backdrop-saturate-[180%];
+    @apply backdrop-blur-xl backdrop-saturate-180;
   }
 
   .glass-nav {
