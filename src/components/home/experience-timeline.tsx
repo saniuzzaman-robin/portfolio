@@ -65,7 +65,7 @@ export function ExperienceTimeline() {
                         </Badge>
                       )}
                     </p>
-                    <h3 className="mt-3 text-xl font-bold tracking-tight text-fg sm:text-2xl">
+                    <h3 className="mt-3 text-xl font-bold tracking-tight text-fg xl:text-2xl">
                       <bdi>{job.company}</bdi>
                     </h3>
                     <p className="mt-1 text-sm font-medium text-fg-muted">{job.title}</p>

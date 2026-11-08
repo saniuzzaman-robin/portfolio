@@ -82,7 +82,7 @@ export function Hero() {
             className="mt-4 text-[2.5rem] leading-[1.05] font-extrabold tracking-display text-fg sm:text-6xl lg:text-[3.5rem] xl:text-[4.25rem]"
           />
 
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-fg-muted sm:text-lg">
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-fg-muted xl:text-lg">
             {fmt(t.hero.intro, { years: CV_DATA.yearsOfExperience })}
           </p>
 
@@ -178,7 +178,7 @@ export function Hero() {
               <dt className="order-2 font-mono text-[11px] tracking-wider text-fg-subtle uppercase">
                 {stat.label}
               </dt>
-              <dd className="order-1 font-heading text-3xl font-extrabold tracking-tight text-fg sm:text-4xl">
+              <dd className="order-1 font-heading text-3xl font-extrabold tracking-tight text-fg xl:text-4xl">
                 <CountUp value={stat.numeric} suffix={stat.suffix} />
               </dd>
               {stat.sub && <dd className="order-3 text-xs text-fg-muted">{stat.sub}</dd>}
