@@ -40,7 +40,9 @@ export function Footer({ lang }: { lang: Locale }) {
             <span className="flex size-8 items-center justify-center rounded-xl bg-linear-to-br from-primary to-primary-strong font-mono text-xs font-black text-primary-fg">
               SR
             </span>
-            <span className="font-heading text-sm font-bold text-fg">{CV_DATA.name}</span>
+            <span className="font-heading text-sm font-bold tracking-label text-fg">
+              {CV_DATA.name}
+            </span>
           </LocaleLink>
           <p className="max-w-sm text-sm leading-relaxed text-fg-muted">{cv.shortBio}</p>
           <a

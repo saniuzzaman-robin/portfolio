@@ -65,7 +65,7 @@ export function ContactCta({ index }: { index?: string }) {
               accent={t.contact.accent}
               trigger="inherit"
               stagger={0.05}
-              className="mt-5 max-w-3xl text-4xl leading-[1.05] font-extrabold tracking-[-0.03em] text-fg sm:text-6xl"
+              className="mt-5 max-w-3xl text-4xl leading-[1.05] font-extrabold tracking-display text-fg sm:text-6xl"
             />
             <StaggerItem
               as="p"

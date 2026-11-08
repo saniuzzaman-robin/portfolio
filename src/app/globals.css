@@ -101,12 +101,16 @@
   /* Heading tracking. Low-DPI screens (1080p Windows) get it relaxed so bold glyphs don't touch. */
   --track-tight: -0.025em;
   --track-display: -0.035em;
+  --track-small: -0.025em;
+  --track-label: 0em;
 }
 
 @media (max-resolution: 1.49dppx) {
   :root {
     --track-tight: -0.005em;
     --track-display: -0.01em;
+    --track-small: 0.02em;
+    --track-label: 0.02em;
   }
 }
 
@@ -119,6 +123,8 @@
 @theme inline {
   --tracking-tight: var(--track-tight);
   --tracking-display: var(--track-display);
+  --tracking-small: var(--track-small);
+  --tracking-label: var(--track-label);
   --font-sans:
     var(--font-inter), var(--font-script, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
   --font-heading:

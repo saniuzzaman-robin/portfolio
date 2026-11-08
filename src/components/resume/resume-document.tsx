@@ -112,7 +112,7 @@ export function ResumeDocument({ lang }: { lang: Locale }) {
                 trigger="mount"
                 delay={0.1}
                 stagger={0.07}
-                className="text-4xl leading-[1.05] font-extrabold tracking-[-0.03em] text-fg sm:text-6xl rtl:text-right"
+                className="text-4xl leading-[1.05] font-extrabold tracking-display text-fg sm:text-6xl rtl:text-right"
               />
               <Enter as="p" delay={0.3} className="text-lg font-medium text-primary-text">
                 {cv.role}
