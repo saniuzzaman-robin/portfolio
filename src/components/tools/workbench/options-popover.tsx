@@ -58,7 +58,7 @@ export function OptionsPopover({
           role="group"
           aria-label={label ?? common.options}
           className={cn(
-            'absolute end-0 top-full z-40 mt-1.5 w-64 space-y-3 rounded-lg border border-line-strong bg-elevated p-3 text-xs shadow-pop',
+            'enter enter-scale absolute end-0 top-full z-40 mt-1.5 w-64 origin-top-right space-y-3 rounded-lg border border-line-strong bg-elevated p-3 text-xs shadow-pop [--enter-duration:0.18s] rtl:origin-top-left',
             className
           )}
         >

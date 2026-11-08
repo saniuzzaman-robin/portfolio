@@ -43,7 +43,11 @@ export function ToolInfo({
           // A click on the backdrop lands on the <dialog> itself, not on its content.
           if (event.target === event.currentTarget) setOpen(false);
         }}
-        className="m-auto max-h-[85dvh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto overscroll-contain rounded-xl border border-line bg-surface p-0 text-fg shadow-2xl backdrop:bg-black/50"
+        className={
+          // Fades and rises in, and back out: `display`/`overlay` are transitioned discretely so the
+          // exit plays before the dialog leaves the top layer.
+          'm-auto max-h-[85dvh] w-[calc(100%-2rem)] max-w-2xl translate-y-3 scale-[0.97] overflow-y-auto overscroll-contain rounded-xl border border-line bg-surface p-0 text-fg opacity-0 shadow-2xl transition-[opacity,translate,scale,overlay,display] transition-discrete duration-200 ease-out-expo backdrop:bg-transparent backdrop:transition-[background-color,backdrop-filter,overlay,display] backdrop:transition-discrete backdrop:duration-200 open:translate-y-0 open:scale-100 open:opacity-100 open:backdrop:bg-overlay open:backdrop:backdrop-blur-sm starting:open:translate-y-3 starting:open:scale-[0.97] starting:open:opacity-0 starting:open:backdrop:bg-transparent starting:open:backdrop:backdrop-blur-none'
+        }
       >
         <div className="sticky top-0 flex items-start justify-between gap-4 border-b border-line bg-surface px-5 py-4">
           <h2 id="tool-info-title" className="font-heading text-lg font-semibold text-fg">
