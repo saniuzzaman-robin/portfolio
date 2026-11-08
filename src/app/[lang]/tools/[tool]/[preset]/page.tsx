@@ -75,12 +75,10 @@ export default async function ToolPresetPage({ params }: { params: Params }) {
         slug={tool.slug}
         messages={getToolPayload(tool.slug)}
         preset={{ title: text.title, params: preset.params }}
-      />
-      <ToolGuide
-        t={t}
         title={text.title}
-        guide={PRESET_GUIDES[preset.key]}
-        uses={TOOL_GUIDES[tool.slug].uses}
+        guide={
+          <ToolGuide t={t} guide={PRESET_GUIDES[preset.key]} uses={TOOL_GUIDES[tool.slug].uses} />
+        }
       />
     </>
   );

@@ -14,6 +14,7 @@ import { useToolCommon } from '@/i18n/tools/provider';
 import { cn } from '@/lib/cn';
 import { usePresetTitle } from './deep-link';
 import { Select } from './select';
+import { ToolInfoButton } from './tool-info';
 import { RUN_SHORTCUT } from './use-run';
 
 /**
@@ -41,7 +42,10 @@ export function ToolHeader({
       <div className="no-scrollbar flex min-w-0 items-center gap-1 overflow-x-auto max-sm:order-last max-sm:w-full sm:flex-1">
         {children}
       </div>
-      {actions && <div className="flex shrink-0 items-center gap-0.5">{actions}</div>}
+      <div className="flex shrink-0 items-center gap-0.5">
+        {actions}
+        <ToolInfoButton />
+      </div>
     </div>
   );
 }
