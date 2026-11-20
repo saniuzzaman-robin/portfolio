@@ -330,7 +330,7 @@ export function Select<T extends string>({
           ref={popupRef}
           popover="manual"
           className={cn(
-            'fixed m-0 flex flex-col overflow-hidden rounded-lg border border-line-strong bg-elevated p-0 text-xs text-fg shadow-pop',
+            'tooltip-in fixed m-0 flex flex-col overflow-hidden rounded-lg border border-line-strong bg-elevated p-0 text-xs text-fg shadow-pop',
             searchable ? 'w-72' : 'w-max'
           )}
         >

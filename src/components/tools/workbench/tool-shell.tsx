@@ -2,6 +2,7 @@ import type { ToolSlug } from '@/lib/data/tools';
 import { ToolI18nProvider, type ToolPayload } from '@/i18n/tools/provider';
 import { TooltipLayer } from '@/components/ui/tooltip-layer';
 import { PresetTitleProvider, ToolDeepLink } from './deep-link';
+import { ToolInfo } from './tool-info';
 import { ToolRail } from './tool-rail';
 import { ToolView } from './tool-view';
 
@@ -14,21 +15,29 @@ export function ToolShell({
   slug,
   messages,
   preset,
+  title,
+  guide,
 }: {
   slug: ToolSlug;
   messages: ToolPayload;
   preset?: { title: string; params: Record<string, string> };
+  /** Name shown in the info dialog's heading. */
+  title: string;
+  /** Server-rendered guide shown in the info dialog. */
+  guide: React.ReactNode;
 }) {
   return (
     <ToolI18nProvider messages={messages}>
       <PresetTitleProvider title={preset?.title ?? null}>
         <ToolDeepLink slug={slug} preset={preset} />
-        <div className="flex h-[calc(100dvh-var(--nav-h))] min-h-0">
-          <ToolRail current={slug} />
-          <div className="flex min-w-0 flex-1 flex-col bg-bg">
-            <ToolView slug={slug} />
+        <ToolInfo title={title} guide={guide}>
+          <div className="flex h-[calc(100dvh-var(--nav-h))] min-h-0">
+            <ToolRail current={slug} />
+            <div className="flex min-w-0 flex-1 flex-col bg-bg">
+              <ToolView slug={slug} />
+            </div>
           </div>
-        </div>
+        </ToolInfo>
         <TooltipLayer />
       </PresetTitleProvider>
     </ToolI18nProvider>
